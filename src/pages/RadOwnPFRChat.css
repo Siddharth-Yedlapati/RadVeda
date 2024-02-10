@@ -1,0 +1,54 @@
+.image-14-icon3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 364px;
+  height: 613px;
+  object-fit: cover;
+}
+.rad-own-pfr-chat-child,
+.rad-own-pfr-chat-inner,
+.rad-own-pfr-chat-item {
+  position: absolute;
+  top: 9px;
+  left: 11px;
+  background-color: var(--color-gainsboro-200);
+  width: 40px;
+  height: 37px;
+  display: none;
+}
+.rad-own-pfr-chat-inner,
+.rad-own-pfr-chat-item {
+  top: 8px;
+  left: 0;
+  width: 53px;
+  height: 39px;
+}
+.rad-own-pfr-chat-inner {
+  top: 0;
+  width: 52px;
+  height: 48px;
+}
+.rad-own-pfr-chat-child1 {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 42px;
+  height: 38px;
+}
+.frame-child73,
+.rad-own-pfr-chat-inner1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 45px;
+}
+.rad-own-pfr-chat-inner1 {
+  cursor: pointer;
+}
+.rad-own-pfr-chat {
+  width: 100%;
+  position: relative;
+  height: 613px;
+}

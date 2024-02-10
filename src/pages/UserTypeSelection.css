@@ -1,0 +1,180 @@
+.vector-icon145 {
+  position: absolute;
+  height: 3.14%;
+  width: 1.91%;
+  top: 94.06%;
+  right: 21.09%;
+  bottom: 2.79%;
+  left: 77%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.user-type-selection-child {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.user-type-selection-item {
+  position: absolute;
+  top: 161px;
+  left: 731px;
+  width: 23px;
+  height: 29px;
+}
+.users-background-1-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1465px;
+  height: 859px;
+  object-fit: cover;
+}
+.loginsign-up-as {
+  position: absolute;
+  top: 97px;
+  left: 202px;
+  font-size: var(--font-size-17xl);
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #000;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  width: 380px;
+  height: 115px;
+}
+.user-type-selection-inner {
+  position: absolute;
+  top: 232px;
+  left: 33px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  width: 130px;
+  height: 131px;
+  cursor: pointer;
+}
+.patient2 {
+  position: absolute;
+  top: 276px;
+  left: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 121px;
+  height: 44px;
+}
+.user-type-selection-child1 {
+  position: absolute;
+  top: 428px;
+  left: 417px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  width: 130px;
+  height: 131px;
+  cursor: pointer;
+}
+.super-admin2 {
+  position: absolute;
+  top: 475px;
+  left: 423px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 119px;
+  height: 40px;
+}
+.user-type-selection-child2 {
+  position: absolute;
+  top: 428px;
+  left: 226px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  width: 130px;
+  height: 131px;
+  cursor: pointer;
+}
+.admin {
+  position: absolute;
+  top: 475px;
+  left: 232px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 117px;
+  height: 40px;
+}
+.user-type-selection-child3 {
+  position: absolute;
+  top: 232px;
+  left: 615px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  width: 129px;
+  height: 131px;
+  cursor: pointer;
+}
+.lab-staff4 {
+  position: absolute;
+  top: 276px;
+  left: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 44px;
+}
+.user-type-selection-child4 {
+  position: absolute;
+  top: 232px;
+  left: 417px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  width: 130px;
+  height: 131px;
+  cursor: pointer;
+}
+.radiologist {
+  position: absolute;
+  top: 276px;
+  left: 423px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 119px;
+  height: 44px;
+}
+.user-type-selection-child5 {
+  position: absolute;
+  top: 232px;
+  left: 226px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  width: 130px;
+  height: 131px;
+  cursor: pointer;
+}
+.doctor {
+  position: absolute;
+  top: 276px;
+  left: 232px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 117px;
+  height: 44px;
+}
+.user-type-selection {
+  width: 100%;
+  position: relative;
+  height: 859px;
+  overflow: hidden;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--btnbkgnormal);
+  font-family: var(--font-julius-sans-one);
+}

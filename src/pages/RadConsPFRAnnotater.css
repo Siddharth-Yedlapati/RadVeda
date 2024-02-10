@@ -1,0 +1,45 @@
+.back90,
+.image-12-icon3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.image-12-icon3 {
+  width: 1740px;
+  height: 731px;
+  object-fit: cover;
+}
+.back90 {
+  letter-spacing: 0.02em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.back-wrapper65 {
+  width: 42px;
+  position: relative;
+  height: 28px;
+}
+.rad-cons-pfr-annotater-inner {
+  position: absolute;
+  top: 669px;
+  left: 1579px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 112px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.rad-cons-pfr-annotater {
+  width: 100%;
+  position: relative;
+  height: 731px;
+  text-align: left;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}

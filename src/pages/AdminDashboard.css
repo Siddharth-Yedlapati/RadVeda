@@ -1,0 +1,487 @@
+.admin-dashboard-child {
+  position: absolute;
+  top: 47px;
+  left: -3px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 1411px;
+  height: 786px;
+}
+.review-signup-requests-container {
+  width: 202px;
+  position: relative;
+  height: 28px;
+}
+.admin-dashboard-inner {
+  position: absolute;
+  top: 354px;
+  left: 581px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.review-account-deletion-reques-container {
+  width: 289px;
+  position: relative;
+  height: 28px;
+}
+.admin-dashboard-inner1 {
+  position: absolute;
+  top: 453px;
+  left: 581px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.group-child28,
+.rectangle-wrapper2 {
+  position: absolute;
+  width: 354px;
+  height: 40px;
+}
+.group-child28 {
+  top: 0;
+  left: 0;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-khaki);
+}
+.rectangle-wrapper2 {
+  top: -20px;
+  left: -5px;
+}
+.admin-dashboard-inner2,
+.vector-icon168 {
+  position: absolute;
+  top: 144px;
+  left: 1070px;
+  width: 346px;
+  height: 41px;
+}
+.vector-icon168 {
+  height: 2.67%;
+  width: 1.67%;
+  top: 88%;
+  right: 26.46%;
+  bottom: 9.34%;
+  left: 71.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.admin-dashboard-item {
+  position: absolute;
+  top: 7px;
+  left: 1382px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.vector-icon169,
+.vector-icon170,
+.vector-icon171 {
+  position: absolute;
+  height: 70.83%;
+  width: 71.25%;
+  top: 8.33%;
+  right: 14.58%;
+  bottom: 20.83%;
+  left: 14.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vector-icon170,
+.vector-icon171 {
+  height: 8.33%;
+  width: 23.33%;
+  top: 83.33%;
+  right: 38.33%;
+  bottom: 8.33%;
+  left: 38.33%;
+}
+.vector-icon171 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+.iconnotification-bing-child35 {
+  position: absolute;
+  height: 41.67%;
+  width: 41.67%;
+  top: 0;
+  right: 0;
+  bottom: 58.33%;
+  left: 58.33%;
+  border-radius: 50%;
+  background-color: var(--red);
+}
+.div83 {
+  position: absolute;
+  width: 33.33%;
+  top: 4.17%;
+  left: 62.5%;
+  font-weight: 500;
+  display: inline-block;
+}
+.iconnotification-bing37,
+.need-help-icon37 {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+.iconnotification-bing37 {
+  left: 1338px;
+  font-size: var(--font-size-7xs);
+  color: var(--white-color);
+}
+.need-help-icon37 {
+  left: 1294px;
+  overflow: hidden;
+}
+.admin-dashboard-child1 {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.admin14 {
+  font-size: var(--font-size-14xl-4);
+  background: linear-gradient(101.5deg, #fe4575 32.81%, #5faa03 65.1%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.good-morning-admin1-container {
+  position: absolute;
+  top: -28px;
+  left: 99px;
+  font-size: var(--font-size-6xl);
+  font-family: var(--font-poppins);
+}
+.notifications-frame {
+  width: 109px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper85 {
+  position: absolute;
+  top: -118px;
+  left: 1006px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 358px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.view-doctors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  letter-spacing: 0.02em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.view-doctors-wrapper {
+  width: 113px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper86 {
+  position: absolute;
+  top: 175px;
+  left: 99px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.view-radiologists-wrapper {
+  width: 150px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper87 {
+  position: absolute;
+  top: 269px;
+  left: 99px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.good-morning-admin1-parent {
+  position: absolute;
+  top: 179px;
+  left: 51px;
+  width: 807px;
+  height: 255px;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.review-account-modification-re-container {
+  width: 324px;
+  position: relative;
+  height: 28px;
+}
+.admin-dashboard-inner3 {
+  position: absolute;
+  top: 545px;
+  left: 581px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.view-lab-staff-wrapper {
+  width: 124px;
+  position: relative;
+  height: 28px;
+}
+.admin-dashboard-inner4 {
+  position: absolute;
+  top: 542px;
+  left: 153px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.admin-dashboard-child2 {
+  position: absolute;
+  top: 371px;
+  left: 1344px;
+  background-color: var(--color-darkslategray-200);
+  width: 72px;
+  height: 23px;
+}
+.clear-all2 {
+  position: absolute;
+  top: 376px;
+  left: 1358px;
+  font-size: var(--font-size-3xs);
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--white-color);
+  display: inline-block;
+  width: 55px;
+  height: 18px;
+}
+.admin-dashboard-child3,
+.patient-john-doe {
+  position: absolute;
+  top: 190px;
+  left: 822px;
+  width: 22px;
+  height: 22px;
+}
+.patient-john-doe {
+  top: 131px;
+  left: 1078px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+}
+.admin-dashboard-inner5 {
+  position: absolute;
+  top: 165px;
+  left: 1065px;
+  width: 354px;
+  height: 40px;
+}
+.patient-abc-registered {
+  position: absolute;
+  top: 172px;
+  left: 1078px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.admin-dashboard-inner6 {
+  position: absolute;
+  top: 206px;
+  left: 1065px;
+  width: 354px;
+  height: 40px;
+}
+.patient-xyz-registered {
+  position: absolute;
+  top: 213px;
+  left: 1078px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.admin-dashboard-inner7 {
+  position: absolute;
+  top: 247px;
+  left: 1065px;
+  width: 354px;
+  height: 40px;
+}
+.patient-pqr-registered {
+  position: absolute;
+  top: 254px;
+  left: 1078px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.admin-dashboard-inner8 {
+  position: absolute;
+  top: 288px;
+  left: 1065px;
+  width: 354px;
+  height: 40px;
+}
+.patient-sty-registered {
+  position: absolute;
+  top: 295px;
+  left: 1078px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.admin-dashboard-inner9 {
+  position: absolute;
+  top: 329px;
+  left: 1065px;
+  width: 354px;
+  height: 40px;
+}
+.patient-lmn-registered {
+  position: absolute;
+  top: 336px;
+  left: 1078px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.admin-dashboard-child4 {
+  position: absolute;
+  top: 443px;
+  left: 1065px;
+  border-radius: var(--br-22xl);
+  background-color: var(--color-aquamarine);
+  width: 354px;
+  height: 373px;
+}
+.doctors-onboard-257,
+.patients-enrolled-today1,
+.patients-online-87,
+.statistics1,
+.total-patients-888 {
+  position: absolute;
+  left: 1106px;
+  font-size: var(--font-size-5xl);
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+}
+.statistics1 {
+  top: 483px;
+  color: var(--color-firebrick);
+  width: 253px;
+  height: 43px;
+}
+.doctors-onboard-257,
+.patients-enrolled-today1,
+.patients-online-87,
+.total-patients-888 {
+  top: 540px;
+  width: 270px;
+  height: 53px;
+}
+.doctors-onboard-257,
+.patients-enrolled-today1,
+.total-patients-888 {
+  top: 584px;
+}
+.doctors-onboard-257,
+.total-patients-888 {
+  top: 672px;
+}
+.doctors-onboard-257 {
+  top: 722px;
+}
+.admin-dashboard {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-gray-300);
+  height: 859px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--components-helper-text-size);
+  color: var(--btnbkgnormal);
+  font-family: var(--font-poppins);
+}

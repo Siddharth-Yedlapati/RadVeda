@@ -1,0 +1,554 @@
+.doc-own-patient-details-child {
+  position: absolute;
+  top: 47px;
+  left: 27px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 1411px;
+  height: 786px;
+}
+.vector-icon113 {
+  position: absolute;
+  height: 2.67%;
+  width: 1.67%;
+  top: 88%;
+  right: 26.46%;
+  bottom: 9.34%;
+  left: 71.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.doc-own-patient-details-item {
+  position: absolute;
+  top: 7px;
+  left: 1385px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.vector-icon114,
+.vector-icon115,
+.vector-icon116 {
+  position: absolute;
+  height: 70.83%;
+  width: 71.25%;
+  top: 8.33%;
+  right: 14.58%;
+  bottom: 20.83%;
+  left: 14.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vector-icon115,
+.vector-icon116 {
+  height: 8.33%;
+  width: 23.33%;
+  top: 83.33%;
+  right: 38.33%;
+  bottom: 8.33%;
+  left: 38.33%;
+}
+.vector-icon116 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+.iconnotification-bing-child23 {
+  position: absolute;
+  height: 41.67%;
+  width: 41.67%;
+  top: 0;
+  right: 0;
+  bottom: 58.33%;
+  left: 58.33%;
+  border-radius: 50%;
+  background-color: var(--red);
+}
+.div51 {
+  position: absolute;
+  width: 33.33%;
+  top: 4.17%;
+  left: 62.5%;
+  font-weight: 500;
+  display: inline-block;
+}
+.iconnotification-bing25,
+.need-help-icon25 {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+.iconnotification-bing25 {
+  left: 1341px;
+  font-size: var(--font-size-7xs);
+  color: var(--white-color);
+}
+.need-help-icon25 {
+  left: 1297px;
+  overflow: hidden;
+}
+.doc-own-patient-details-inner {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.doc-own-patient-details-child1 {
+  position: absolute;
+  top: 199px;
+  left: 709px;
+  width: 19px;
+  height: 25px;
+}
+.patient-details1 {
+  position: absolute;
+  top: 20px;
+  left: 17px;
+  font-size: var(--font-size-21xl);
+  text-transform: capitalize;
+  display: inline-block;
+  font-family: var(--font-poppins);
+  color: var(--white-color);
+  width: 337px;
+  height: 92px;
+}
+.frame-child218 {
+  position: absolute;
+  top: 47px;
+  left: 412px;
+  width: 91px;
+  height: 206px;
+}
+.frame-child219,
+.frame-child220 {
+  position: absolute;
+  top: 67px;
+  left: 721px;
+  width: 64px;
+  height: 206px;
+}
+.frame-child220 {
+  top: 119px;
+  left: 28px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-darkslategray-100);
+  width: 326px;
+  height: 363px;
+}
+.dob-031019901,
+.name-ayesha1 {
+  position: absolute;
+  top: 314px;
+  left: 65px;
+  white-space: pre-wrap;
+}
+.dob-031019901 {
+  top: 390px;
+}
+.frame-child222 {
+  width: 95px;
+  position: relative;
+  border-radius: 50%;
+  height: 95px;
+  object-fit: cover;
+}
+.ayesha-bazmi1 {
+  position: relative;
+  font-weight: 600;
+}
+.ayesha-bazmi-container {
+  overflow: hidden;
+  padding: 0 var(--padding-6xs);
+}
+.ayesha-bazmi-container,
+.ellipse-group,
+.frame-wrapper2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.ellipse-group {
+  gap: var(--gap-3xs);
+}
+.frame-wrapper2 {
+  position: absolute;
+  top: 144px;
+  left: 117px;
+  width: 123px;
+  height: 129px;
+  font-size: var(--font-size-5xl);
+  color: var(--color-gray-100);
+}
+.age-241 {
+  position: absolute;
+  top: 352px;
+  left: 65px;
+  white-space: pre-wrap;
+}
+.icon-mail1 {
+  position: absolute;
+  height: 1.67%;
+  width: 1.7%;
+  top: 61.13%;
+  right: 90.92%;
+  bottom: 37.19%;
+  left: 7.38%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.ayeshabazmigmailcom1 {
+  position: absolute;
+  top: 428px;
+  left: 117px;
+}
+.patient-details-group {
+  position: absolute;
+  top: 37px;
+  left: 46px;
+  width: 881px;
+  height: 705px;
+  font-size: var(--font-size-mini);
+  color: var(--color-gainsboro-200);
+  font-family: var(--font-open-sans);
+}
+.back45 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  letter-spacing: 0.02em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.back-wrapper30 {
+  width: 42px;
+  position: relative;
+  height: 28px;
+}
+.doc-own-patient-details-inner1 {
+  position: absolute;
+  top: 740px;
+  left: 74px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 112px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.hello {
+  position: relative;
+}
+.button-master,
+.variant-master,
+.variant-master1 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.button-master {
+  border-radius: var(--br-3xs);
+  background-color: var(--color-powderblue);
+  padding: var(--padding-3xs) var(--padding-6xl);
+}
+.variant-master,
+.variant-master1 {
+  position: absolute;
+  top: 375px;
+  left: 1297px;
+  text-align: center;
+  font-family: var(--btnfont);
+}
+.variant-master1 {
+  top: 264px;
+}
+.mri3,
+.tests-prescribed-by {
+  position: absolute;
+  text-transform: capitalize;
+}
+.tests-prescribed-by {
+  top: 20px;
+  left: 17px;
+  display: inline-block;
+  width: 218px;
+  height: 27px;
+}
+.mri3 {
+  top: 0;
+  left: 0;
+  font-weight: 600;
+}
+.group-wrapper69,
+.mri-wrapper1 {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  width: 30px;
+  height: 24px;
+}
+.group-wrapper69 {
+  top: 45px;
+  left: -757px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.ct-scan-wrapper1 {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  width: 67px;
+  height: 24px;
+}
+.remark23 {
+  position: absolute;
+  top: 6px;
+  left: 717px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.group-parent44 {
+  position: absolute;
+  top: 99px;
+  left: -704px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.group-parent45,
+.x-ray-wrapper1 {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 52px;
+  height: 24px;
+}
+.group-parent45 {
+  top: 160px;
+  left: -704px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.date-prescribed3,
+.div52,
+.div53,
+.div54 {
+  position: absolute;
+  top: 54px;
+  left: 30px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.date-prescribed3,
+.div53,
+.div54 {
+  top: 109px;
+  left: 27px;
+}
+.date-prescribed3,
+.div54 {
+  top: 166px;
+  left: 28px;
+}
+.date-prescribed3 {
+  top: 0;
+  left: 24px;
+  font-size: var(--components-input-text-size);
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.parent3 {
+  position: absolute;
+  top: 0;
+  left: 251px;
+  width: 91px;
+  height: 199px;
+  font-size: var(--font-size-base);
+  color: var(--color-steelblue-100);
+}
+.diagnosis-completed2,
+.pending-for-review4,
+.pending-for-review5 {
+  position: absolute;
+  top: 55px;
+  left: 15px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.diagnosis-completed2,
+.pending-for-review5 {
+  top: 111px;
+}
+.diagnosis-completed2 {
+  top: 167px;
+}
+.pending-for-review-by-radiolog-parent {
+  position: absolute;
+  top: 0;
+  left: 412px;
+  width: 64px;
+  height: 199px;
+  font-size: var(--font-size-base);
+  color: var(--color-lavender);
+}
+.status6 {
+  position: absolute;
+  top: 0;
+  left: 476px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.test-type-parent1 {
+  position: absolute;
+  top: -5px;
+  left: -704px;
+  width: 766px;
+  height: 23px;
+  font-size: var(--components-input-text-size);
+  color: var(--color-steelblue-200);
+}
+.remark13 {
+  position: absolute;
+  top: 51px;
+  left: 13px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.frame-parent30 {
+  position: absolute;
+  top: 67px;
+  left: 721px;
+  width: 64px;
+  height: 206px;
+  font-size: var(--font-size-base);
+  color: var(--color-lavender);
+}
+.tests-prescribed-by-me-parent {
+  position: absolute;
+  top: 156px;
+  left: 419px;
+  width: 682px;
+  height: 292px;
+  color: var(--white-color);
+}
+.variant-master2 {
+  position: absolute;
+  top: 317px;
+  left: 1297px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+  font-family: var(--btnfont);
+}
+.chat,
+.my-remarks {
+  position: absolute;
+  top: 209px;
+  left: 1151px;
+  font-size: var(--components-input-text-size);
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.chat {
+  left: 1326px;
+}
+.doc-own-patient-details-child2 {
+  position: absolute;
+  top: 531px;
+  left: 709px;
+  width: 19px;
+  height: 25px;
+}
+.variant-master3,
+.variant-master4 {
+  position: absolute;
+  top: 707px;
+  left: 1297px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+  font-family: var(--btnfont);
+}
+.variant-master4 {
+  top: 596px;
+}
+.tests-prescribed-by1 {
+  position: absolute;
+  top: 20px;
+  left: 17px;
+  text-transform: capitalize;
+  display: inline-block;
+  width: 327px;
+  height: 27px;
+}
+.tests-prescribed-by-other-doct-parent {
+  position: absolute;
+  top: 488px;
+  left: 419px;
+  width: 682px;
+  height: 292px;
+  color: var(--white-color);
+}
+.variant-master5 {
+  position: absolute;
+  top: 649px;
+  left: 1297px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+  font-family: var(--btnfont);
+}
+.chat1,
+.doctors-remarks2 {
+  position: absolute;
+  top: 541px;
+  left: 1151px;
+  font-size: var(--components-input-text-size);
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.chat1 {
+  left: 1326px;
+}
+.doc-own-patient-details {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-gray-300);
+  height: 859px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--btnfont-size);
+  color: var(--btnlabeldark);
+  font-family: var(--font-poppins);
+}

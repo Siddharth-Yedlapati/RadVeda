@@ -1,0 +1,60 @@
+.image-14-icon4 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 364px;
+  height: 613px;
+  object-fit: cover;
+}
+.frame-child213,
+.frame-child214,
+.frame-child215 {
+  position: absolute;
+  top: 9px;
+  left: 11px;
+  background-color: var(--color-gainsboro-200);
+  width: 40px;
+  height: 37px;
+  display: none;
+}
+.frame-child214,
+.frame-child215 {
+  top: 8px;
+  left: 0;
+  width: 53px;
+  height: 39px;
+}
+.frame-child215 {
+  top: 0;
+  width: 52px;
+  height: 48px;
+}
+.frame-child216,
+.frame-child217,
+.rectangle-frame {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 42px;
+  height: 38px;
+}
+.frame-child217,
+.rectangle-frame {
+  top: 0;
+  height: 45px;
+}
+.rectangle-frame {
+  cursor: pointer;
+}
+.image-14-parent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 364px;
+  height: 613px;
+}
+.doc-cons-chat {
+  width: 100%;
+  position: relative;
+  height: 613px;
+}

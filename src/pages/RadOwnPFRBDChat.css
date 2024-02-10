@@ -1,0 +1,54 @@
+.image-14-icon2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 364px;
+  height: 613px;
+  object-fit: cover;
+}
+.rad-own-pfrbd-chat-child,
+.rad-own-pfrbd-chat-inner,
+.rad-own-pfrbd-chat-item {
+  position: absolute;
+  top: 9px;
+  left: 11px;
+  background-color: var(--color-gainsboro-200);
+  width: 40px;
+  height: 37px;
+  display: none;
+}
+.rad-own-pfrbd-chat-inner,
+.rad-own-pfrbd-chat-item {
+  top: 8px;
+  left: 0;
+  width: 53px;
+  height: 39px;
+}
+.rad-own-pfrbd-chat-inner {
+  top: 0;
+  width: 52px;
+  height: 48px;
+}
+.rad-own-pfrbd-chat-child1 {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 42px;
+  height: 38px;
+}
+.frame-child72,
+.rad-own-pfrbd-chat-inner1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 45px;
+}
+.rad-own-pfrbd-chat-inner1 {
+  cursor: pointer;
+}
+.rad-own-pfrbd-chat {
+  width: 100%;
+  position: relative;
+  height: 613px;
+}

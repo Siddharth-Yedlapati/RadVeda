@@ -1,0 +1,438 @@
+.doc-cons-diag-complete-child {
+  position: absolute;
+  top: 47px;
+  left: 27px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 1411px;
+  height: 786px;
+}
+.vector-icon93 {
+  position: absolute;
+  height: 2.67%;
+  width: 1.67%;
+  top: 88%;
+  right: 26.46%;
+  bottom: 9.34%;
+  left: 71.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.doc-cons-diag-complete-item {
+  position: absolute;
+  top: 7px;
+  left: 1385px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.vector-icon94,
+.vector-icon95,
+.vector-icon96 {
+  position: absolute;
+  height: 70.83%;
+  width: 71.25%;
+  top: 8.33%;
+  right: 14.58%;
+  bottom: 20.83%;
+  left: 14.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vector-icon95,
+.vector-icon96 {
+  height: 8.33%;
+  width: 23.33%;
+  top: 83.33%;
+  right: 38.33%;
+  bottom: 8.33%;
+  left: 38.33%;
+}
+.vector-icon96 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+.iconnotification-bing-child18 {
+  position: absolute;
+  height: 41.67%;
+  width: 41.67%;
+  top: 0;
+  right: 0;
+  bottom: 58.33%;
+  left: 58.33%;
+  border-radius: 50%;
+  background-color: var(--red);
+}
+.div46 {
+  position: absolute;
+  width: 33.33%;
+  top: 4.17%;
+  left: 62.5%;
+  font-weight: 500;
+  display: inline-block;
+}
+.iconnotification-bing20,
+.need-help-icon20 {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+.iconnotification-bing20 {
+  left: 1341px;
+  font-size: var(--font-size-7xs);
+  font-family: var(--font-poppins);
+}
+.need-help-icon20 {
+  left: 1297px;
+  overflow: hidden;
+}
+.doc-cons-diag-complete-inner {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.doc-cons-diag-complete-child1,
+.frame-child150 {
+  position: absolute;
+  top: 199px;
+  left: 709px;
+  width: 19px;
+  height: 25px;
+}
+.frame-child150 {
+  top: 156px;
+  left: 459px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-darkslategray-100);
+  width: 326px;
+  height: 363px;
+}
+.annotated-image1 {
+  position: absolute;
+  top: 195px;
+  left: 503px;
+  text-transform: capitalize;
+  display: inline-block;
+  width: 251px;
+  height: 29px;
+}
+.frame-child151 {
+  position: absolute;
+  top: 156px;
+  left: 37px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-darkslategray-100);
+  width: 326px;
+  height: 363px;
+}
+.test-details9 {
+  position: absolute;
+  top: 47px;
+  left: 37px;
+  font-size: var(--font-size-21xl);
+  text-transform: capitalize;
+  display: inline-block;
+  width: 337px;
+  height: 92px;
+}
+.frame-child152 {
+  position: absolute;
+  top: 47px;
+  left: 412px;
+  width: 91px;
+  height: 206px;
+}
+.frame-child153,
+.original-image7 {
+  position: absolute;
+  top: 67px;
+  left: 721px;
+  width: 64px;
+  height: 206px;
+}
+.original-image7 {
+  top: 192px;
+  left: 99px;
+  text-transform: capitalize;
+  display: inline-block;
+  width: 251px;
+  height: 29px;
+}
+.annotely-image-1-icon4,
+.xray1-1-icon7 {
+  position: absolute;
+  top: 273px;
+  left: 63px;
+  width: 275px;
+  height: 183px;
+  object-fit: cover;
+}
+.annotely-image-1-icon4 {
+  left: 483px;
+  width: 279px;
+}
+.frame-child155 {
+  top: 341px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child155,
+.frame-child156,
+.frame-child157 {
+  position: absolute;
+  left: 430px;
+  width: 29px;
+}
+.frame-child156 {
+  top: 302px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child157 {
+  top: 313px;
+  height: 48px;
+}
+.frame-child158,
+.frame-child159 {
+  position: absolute;
+  top: 310px;
+  left: 432px;
+  width: 25px;
+  height: 24px;
+}
+.frame-child159 {
+  top: 341px;
+  object-fit: contain;
+}
+.frame-child160 {
+  position: absolute;
+  top: 336.5px;
+  left: 429.5px;
+  border-top: 1px solid var(--btnbkgnormal);
+  box-sizing: border-box;
+  width: 30px;
+  height: 1px;
+}
+.frame-child161 {
+  top: 344px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child161,
+.frame-child162,
+.frame-child163 {
+  position: absolute;
+  left: 8px;
+  width: 29px;
+}
+.frame-child162 {
+  top: 298px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child163 {
+  top: 313px;
+  height: 48px;
+}
+.frame-child164,
+.frame-child165 {
+  position: absolute;
+  top: 310px;
+  left: 10px;
+  width: 25px;
+  height: 24px;
+}
+.frame-child165 {
+  top: 341px;
+  object-fit: contain;
+}
+.frame-child166 {
+  position: absolute;
+  top: 336.5px;
+  left: 7.5px;
+  border-top: 1px solid var(--btnbkgnormal);
+  box-sizing: border-box;
+  width: 30px;
+  height: 1px;
+}
+.view-radiologists-details4 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  letter-spacing: 0.02em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.view-radiologists-details-wrapper2 {
+  width: 218px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper63 {
+  position: absolute;
+  top: 539px;
+  left: 442px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--btnfont-size);
+  font-family: var(--btn-l-semi-bold);
+}
+.view-radiologists-notes-wrapper2 {
+  width: 207px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper64 {
+  position: absolute;
+  top: 624px;
+  left: 442px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  font-family: var(--btn-l-semi-bold);
+}
+.rectangle-parent11 {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  width: 881px;
+  height: 705px;
+  font-size: var(--font-size-5xl);
+  font-family: var(--font-poppins);
+}
+.back-wrapper23 {
+  width: 42px;
+  position: relative;
+  height: 28px;
+}
+.doc-cons-diag-complete-inner1 {
+  position: absolute;
+  top: 740px;
+  left: 63px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 112px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.view-other-doctors-notes-container {
+  width: 226px;
+  position: relative;
+  height: 28px;
+}
+.doc-cons-diag-complete-inner2 {
+  position: absolute;
+  top: 266px;
+  left: 938px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.view-own-notes-wrapper2 {
+  width: 139px;
+  position: relative;
+  height: 28px;
+}
+.doc-cons-diag-complete-inner3 {
+  position: absolute;
+  top: 184px;
+  left: 938px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.view-personnel-info-wrapper5 {
+  width: 167px;
+  position: relative;
+  height: 28px;
+}
+.doc-cons-diag-complete-inner4 {
+  position: absolute;
+  top: 350px;
+  left: 938px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.view-report-frame {
+  width: 104px;
+  position: relative;
+  height: 28px;
+}
+.doc-cons-diag-complete-inner5 {
+  position: absolute;
+  top: 432px;
+  left: 936px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.doc-cons-diag-complete {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-gray-300);
+  height: 859px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}

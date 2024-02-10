@@ -1,0 +1,621 @@
+.rad-own-pat-details-child {
+  position: absolute;
+  top: 47px;
+  left: 27px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 1411px;
+  height: 786px;
+}
+.vector-icon37 {
+  position: absolute;
+  height: 2.67%;
+  width: 1.67%;
+  top: 88%;
+  right: 26.46%;
+  bottom: 9.34%;
+  left: 71.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.rad-own-pat-details-item {
+  position: absolute;
+  top: 7px;
+  left: 1385px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.vector-icon38,
+.vector-icon39,
+.vector-icon40 {
+  position: absolute;
+  height: 70.83%;
+  width: 71.25%;
+  top: 8.33%;
+  right: 14.58%;
+  bottom: 20.83%;
+  left: 14.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vector-icon39,
+.vector-icon40 {
+  height: 8.33%;
+  width: 23.33%;
+  top: 83.33%;
+  right: 38.33%;
+  bottom: 8.33%;
+  left: 38.33%;
+}
+.vector-icon40 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+.iconnotification-bing-child5 {
+  position: absolute;
+  height: 41.67%;
+  width: 41.67%;
+  top: 0;
+  right: 0;
+  bottom: 58.33%;
+  left: 58.33%;
+  border-radius: 50%;
+  background-color: var(--red);
+}
+.div19 {
+  position: absolute;
+  width: 33.33%;
+  top: 4.17%;
+  left: 62.5%;
+  font-weight: 500;
+  display: inline-block;
+}
+.iconnotification-bing7,
+.need-help-icon7 {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+.iconnotification-bing7 {
+  left: 1341px;
+  font-size: var(--font-size-7xs);
+  color: var(--white-color);
+}
+.need-help-icon7 {
+  left: 1297px;
+  overflow: hidden;
+}
+.rad-own-pat-details-inner {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.patient-details,
+.rad-own-pat-details-child1 {
+  position: absolute;
+  top: 199px;
+  left: 709px;
+  width: 19px;
+  height: 25px;
+}
+.patient-details {
+  top: 20px;
+  left: 17px;
+  font-size: var(--font-size-21xl);
+  text-transform: capitalize;
+  display: inline-block;
+  font-family: var(--font-poppins);
+  color: var(--white-color);
+  width: 337px;
+  height: 92px;
+}
+.frame-child29,
+.frame-child30,
+.frame-child31 {
+  position: absolute;
+  top: 47px;
+  left: 412px;
+  width: 91px;
+  height: 206px;
+}
+.frame-child30,
+.frame-child31 {
+  top: 67px;
+  left: 721px;
+  width: 64px;
+}
+.frame-child31 {
+  top: 119px;
+  left: 28px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-darkslategray-100);
+  width: 326px;
+  height: 363px;
+}
+.dob-03101990,
+.name-ayesha {
+  position: absolute;
+  top: 314px;
+  left: 65px;
+  white-space: pre-wrap;
+}
+.dob-03101990 {
+  top: 390px;
+}
+.ellipse-icon {
+  width: 95px;
+  position: relative;
+  border-radius: 50%;
+  height: 95px;
+  object-fit: cover;
+}
+.ayesha-bazmi {
+  position: relative;
+  font-weight: 600;
+}
+.ayesha-bazmi-wrapper {
+  overflow: hidden;
+  padding: 0 var(--padding-6xs);
+}
+.ayesha-bazmi-wrapper,
+.ellipse-parent,
+.frame-wrapper1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.ellipse-parent {
+  gap: var(--gap-3xs);
+}
+.frame-wrapper1 {
+  position: absolute;
+  top: 144px;
+  left: 117px;
+  width: 123px;
+  height: 129px;
+  font-size: var(--font-size-5xl);
+  color: var(--color-gray-100);
+}
+.age-24 {
+  position: absolute;
+  top: 352px;
+  left: 65px;
+  white-space: pre-wrap;
+}
+.icon-mail {
+  position: absolute;
+  height: 1.67%;
+  width: 1.7%;
+  top: 61.13%;
+  right: 90.92%;
+  bottom: 37.19%;
+  left: 7.38%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.ayeshabazmigmailcom,
+.back18 {
+  position: absolute;
+  top: 428px;
+  left: 117px;
+}
+.back18 {
+  top: 0;
+  left: 0;
+  letter-spacing: 0.02em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.back-wrapper7 {
+  width: 42px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper31 {
+  position: absolute;
+  top: 672px;
+  left: 32px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 112px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.patient-details-parent {
+  position: absolute;
+  top: 37px;
+  left: 46px;
+  width: 881px;
+  height: 705px;
+  font-size: var(--font-size-mini);
+  color: var(--color-gainsboro-200);
+  font-family: var(--font-open-sans);
+}
+.mammography,
+.remark6 {
+  position: absolute;
+  top: 430px;
+  left: 1169px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.mammography {
+  top: 0;
+  left: 0;
+  font-weight: 600;
+}
+.mammography-wrapper {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 129px;
+  height: 24px;
+}
+.div20,
+.pending-for-review {
+  position: absolute;
+  top: 2px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.div20 {
+  left: 148px;
+  color: var(--color-steelblue-100);
+}
+.pending-for-review {
+  left: 300px;
+}
+.group-parent15 {
+  position: absolute;
+  top: 441px;
+  left: 413px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.remark31,
+.remark5 {
+  position: absolute;
+  top: 388px;
+  left: 1170px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.remark31 {
+  top: 271px;
+}
+.tests-assigned-to {
+  margin-block-start: 0;
+  margin-block-end: 30px;
+}
+.tests-assigned-to-container {
+  position: absolute;
+  top: 20px;
+  left: 17px;
+  font-size: var(--btnfont-size);
+  text-transform: capitalize;
+  display: inline-block;
+  color: var(--white-color);
+  width: 214px;
+  height: 27px;
+}
+.mri-container {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  width: 30px;
+  height: 24px;
+}
+.remark11 {
+  position: absolute;
+  top: 0;
+  left: 614px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.group-parent16 {
+  position: absolute;
+  top: 45px;
+  left: -757px;
+  width: 768px;
+  height: 41px;
+}
+.ct-scan-container {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  width: 67px;
+  height: 24px;
+}
+.remark21 {
+  position: absolute;
+  top: 8px;
+  left: 562px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.group-parent17 {
+  position: absolute;
+  top: 99px;
+  left: -704px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.x-ray-container {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 52px;
+  height: 24px;
+}
+.remark32 {
+  position: absolute;
+  top: 0;
+  left: 561px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.group-parent18 {
+  position: absolute;
+  top: 160px;
+  left: -704px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.date-prescribed1,
+.div21,
+.div22,
+.div23 {
+  position: absolute;
+  top: 54px;
+  left: 30px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.date-prescribed1,
+.div22,
+.div23 {
+  top: 109px;
+  left: 27px;
+}
+.date-prescribed1,
+.div23 {
+  top: 166px;
+  left: 28px;
+}
+.date-prescribed1 {
+  top: 0;
+  left: 24px;
+  font-size: var(--components-input-text-size);
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.group {
+  position: absolute;
+  top: 0;
+  left: 118px;
+  width: 91px;
+  height: 199px;
+  font-size: var(--font-size-base);
+  color: var(--color-steelblue-100);
+}
+.doctors-remarks,
+.status1 {
+  position: absolute;
+  top: 0;
+  left: 337px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.doctors-remarks {
+  left: 526px;
+}
+.test-type-group {
+  position: absolute;
+  top: -5px;
+  left: -704px;
+  width: 766px;
+  height: 23px;
+  font-size: var(--components-input-text-size);
+  color: var(--color-steelblue-200);
+}
+.frame-parent9 {
+  position: absolute;
+  top: 70px;
+  left: 699px;
+  width: 64px;
+  height: 206px;
+}
+.diagnosis-completed,
+.pending-for-review1,
+.test-not-conducted {
+  position: absolute;
+  top: 55px;
+  left: 15px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.diagnosis-completed,
+.pending-for-review1 {
+  top: 111px;
+}
+.diagnosis-completed {
+  top: 175px;
+}
+.test-not-conducted-parent {
+  position: absolute;
+  top: 62px;
+  left: 284px;
+  width: 64px;
+  height: 199px;
+}
+.remark33 {
+  position: absolute;
+  top: 280px;
+  left: 559px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.tests-assigned-to-me-parent {
+  position: absolute;
+  top: 156px;
+  left: 419px;
+  width: 682px;
+  height: 292px;
+}
+.rad-own-pat-details-child2 {
+  position: absolute;
+  top: 550px;
+  left: 711px;
+  width: 19px;
+  height: 25px;
+}
+.remark61 {
+  position: absolute;
+  top: 781px;
+  left: 1251px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.group-parent19 {
+  position: absolute;
+  top: 792px;
+  left: 415px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.remark51 {
+  top: 739px;
+  left: 1252px;
+  font-weight: 500;
+}
+.remark34,
+.remark51,
+.tests-assigned-to1 {
+  position: absolute;
+  text-transform: capitalize;
+}
+.remark34 {
+  top: 622px;
+  left: 1252px;
+  font-weight: 500;
+}
+.tests-assigned-to1 {
+  top: 20px;
+  left: 17px;
+  font-size: var(--btnfont-size);
+  display: inline-block;
+  color: var(--white-color);
+  width: 361px;
+  height: 27px;
+}
+.doctors-remarks1,
+.remark12,
+.remark22,
+.remark35,
+.remark36 {
+  position: absolute;
+  top: 0;
+  left: 694px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.doctors-remarks1,
+.remark22,
+.remark35,
+.remark36 {
+  top: 8px;
+  left: 642px;
+}
+.doctors-remarks1,
+.remark35,
+.remark36 {
+  top: 0;
+  left: 641px;
+}
+.doctors-remarks1,
+.remark36 {
+  left: 606px;
+  font-weight: 600;
+}
+.remark36 {
+  top: 280px;
+  left: 639px;
+  font-weight: 500;
+}
+.tests-assigned-to-other-radiol-parent {
+  position: absolute;
+  top: 507px;
+  left: 421px;
+  width: 682px;
+  height: 292px;
+}
+.lab-staffs-remarks,
+.remark4 {
+  position: absolute;
+  top: 682px;
+  left: 1252px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.lab-staffs-remarks {
+  top: 572px;
+  font-size: var(--components-input-text-size);
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.lab-staffs-remarks1,
+.remark41 {
+  position: absolute;
+  top: 331px;
+  left: 1170px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.lab-staffs-remarks1 {
+  top: 221px;
+  font-size: var(--components-input-text-size);
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.rad-own-pat-details {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-gray-300);
+  height: 859px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: var(--color-lavender);
+  font-family: var(--font-poppins);
+}

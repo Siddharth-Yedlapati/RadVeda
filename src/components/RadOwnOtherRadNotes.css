@@ -1,0 +1,46 @@
+.rad-own-other-rad-notes-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 410px;
+  height: 395px;
+}
+.others-notes {
+  margin: 0;
+  font-size: var(--font-size-15xl);
+}
+.blank-line1 {
+  margin: 0;
+}
+.note-11 {
+  margin-bottom: 0;
+}
+.note-1-note-21 {
+  margin: 0;
+  font-family: inherit;
+  padding-left: var(--padding-13xl);
+}
+.others-notes-note-container {
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  letter-spacing: 0.02em;
+  line-height: 28px;
+  text-transform: capitalize;
+  display: inline-block;
+  width: 558px;
+  height: 579px;
+}
+.rad-own-other-rad-notes {
+  width: 421px;
+  height: 405px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  text-align: left;
+  font-size: var(--font-size-5xl);
+  color: var(--white-color);
+  font-family: var(--font-peralta);
+}

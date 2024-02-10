@@ -1,0 +1,617 @@
+.patient-dashboard-child {
+  position: absolute;
+  top: 47px;
+  left: 27px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 1411px;
+  height: 786px;
+}
+.vector-icon160 {
+  position: absolute;
+  height: 2.67%;
+  width: 1.67%;
+  top: 88%;
+  right: 26.46%;
+  bottom: 9.34%;
+  left: 71.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.patient-dashboard-item {
+  position: absolute;
+  top: 7px;
+  left: 1385px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.vector-icon161,
+.vector-icon162,
+.vector-icon163 {
+  position: absolute;
+  height: 70.83%;
+  width: 71.25%;
+  top: 8.33%;
+  right: 14.58%;
+  bottom: 20.83%;
+  left: 14.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vector-icon162,
+.vector-icon163 {
+  height: 8.33%;
+  width: 23.33%;
+  top: 83.33%;
+  right: 38.33%;
+  bottom: 8.33%;
+  left: 38.33%;
+}
+.vector-icon163 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+.iconnotification-bing-child34 {
+  position: absolute;
+  height: 41.67%;
+  width: 41.67%;
+  top: 0;
+  right: 0;
+  bottom: 58.33%;
+  left: 58.33%;
+  border-radius: 50%;
+  background-color: var(--red);
+}
+.div77 {
+  position: absolute;
+  width: 33.33%;
+  top: 4.17%;
+  left: 62.5%;
+  font-weight: 500;
+  display: inline-block;
+}
+.iconnotification-bing36,
+.need-help-icon36 {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+.iconnotification-bing36 {
+  left: 1341px;
+  font-size: var(--font-size-7xs);
+  color: var(--white-color);
+}
+.need-help-icon36 {
+  left: 1297px;
+  overflow: hidden;
+}
+.patient-dashboard-inner {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.patient-dashboard-child1 {
+  position: absolute;
+  top: 199px;
+  left: 709px;
+  width: 19px;
+  height: 25px;
+}
+.frame-child350,
+.frame-child351 {
+  position: absolute;
+  top: 47px;
+  left: 412px;
+  width: 91px;
+  height: 206px;
+}
+.frame-child351 {
+  top: 67px;
+  left: 721px;
+  width: 64px;
+}
+.span7 {
+  background: linear-gradient(101.5deg, #fe4575 32.81%, #5faa03 65.1%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.john-doe7 {
+  font-size: var(--font-size-14xl-4);
+  color: var(--color-deepskyblue-100);
+}
+.good-morning-john-container7 {
+  position: absolute;
+  top: 47px;
+  left: 69px;
+  font-size: var(--font-size-6xl);
+  color: var(--white-color);
+}
+.endoscopy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.endoscopy-wrapper {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 90px;
+  height: 24px;
+}
+.div78 {
+  position: absolute;
+  top: 0;
+  left: 144px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: var(--color-steelblue-100);
+}
+.group-parent54,
+.remark52 {
+  position: absolute;
+  top: 464px;
+}
+.group-parent54 {
+  left: 63px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.remark52 {
+  left: 780px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.group-parent55,
+.ultrasound-wrapper {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 91px;
+  height: 24px;
+}
+.group-parent55 {
+  top: 518px;
+  left: 63px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.remark15 {
+  position: absolute;
+  top: 297px;
+  text-transform: capitalize;
+}
+.remark15,
+.remark25,
+.remark62 {
+  left: 780px;
+  font-weight: 500;
+}
+.remark25 {
+  position: absolute;
+  top: 346px;
+  text-transform: capitalize;
+}
+.remark62 {
+  top: 518px;
+}
+.doctors-remarks3,
+.remark42,
+.remark62 {
+  position: absolute;
+  text-transform: capitalize;
+}
+.doctors-remarks3 {
+  top: 252px;
+  left: 754px;
+  font-size: var(--components-input-text-size);
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.remark42 {
+  top: 407px;
+  left: 780px;
+  font-weight: 500;
+}
+.frame-parent35 {
+  position: absolute;
+  top: 40px;
+  left: 32px;
+  width: 881px;
+  height: 705px;
+  font-size: var(--font-size-base);
+  color: var(--color-lavender);
+}
+.notifications1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  letter-spacing: 0.02em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.notifications-container {
+  width: 109px;
+  position: relative;
+  height: 28px;
+}
+.patient-dashboard-inner1 {
+  position: absolute;
+  top: 94px;
+  left: 1040px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.patient-dashboard-child2 {
+  position: absolute;
+  top: 364px;
+  left: 1326px;
+  background-color: var(--color-darkslategray-200);
+  width: 72px;
+  height: 23px;
+}
+.clear-all1 {
+  position: absolute;
+  top: 368px;
+  left: 1338px;
+  font-size: var(--font-size-3xs);
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--white-color);
+  display: inline-block;
+  width: 55px;
+  height: 18px;
+}
+.group-child23,
+.patient-dashboard-child3 {
+  position: absolute;
+  top: 184px;
+  left: 804px;
+  width: 22px;
+  height: 22px;
+}
+.group-child23 {
+  top: 0;
+  left: 0;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-khaki);
+  width: 354px;
+  height: 40px;
+}
+.patient-dashboard-inner2 {
+  position: absolute;
+  top: 159px;
+  left: 1047px;
+  width: 354px;
+  height: 40px;
+}
+.consent-request-by {
+  position: absolute;
+  top: 166px;
+  left: 1060px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.patient-dashboard-child4,
+.patient-dashboard-child5 {
+  position: absolute;
+  top: 166px;
+  left: 1337px;
+  background-color: var(--color-mediumspringgreen);
+  width: 21px;
+  height: 13px;
+}
+.patient-dashboard-child5 {
+  left: 1368px;
+  background-color: var(--color-tomato-100);
+}
+.patient-dashboard-child6 {
+  position: absolute;
+  top: 172px;
+  left: 1339px;
+  width: 4px;
+  height: 4px;
+  object-fit: contain;
+}
+.patient-dashboard-child7,
+.patient-dashboard-child8,
+.patient-dashboard-child9 {
+  position: absolute;
+  top: 168px;
+  left: 1343px;
+  width: 12px;
+  height: 8px;
+  object-fit: contain;
+}
+.patient-dashboard-child8,
+.patient-dashboard-child9 {
+  top: 169px;
+  left: 1373px;
+}
+.patient-dashboard-child9 {
+  width: 11px;
+}
+.patient-dashboard-inner3 {
+  position: absolute;
+  top: 200px;
+  left: 1047px;
+  width: 354px;
+  height: 40px;
+}
+.reminder-to-visit {
+  position: absolute;
+  top: 207px;
+  left: 1060px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.patient-dashboard-inner4 {
+  position: absolute;
+  top: 241px;
+  left: 1047px;
+  width: 354px;
+  height: 40px;
+}
+.new-chat-message {
+  position: absolute;
+  top: 248px;
+  left: 1060px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.patient-dashboard-inner5 {
+  position: absolute;
+  top: 282px;
+  left: 1047px;
+  width: 354px;
+  height: 40px;
+}
+.diagnosis-has-been {
+  position: absolute;
+  top: 289px;
+  left: 1060px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.patient-dashboard-inner6 {
+  position: absolute;
+  top: 323px;
+  left: 1047px;
+  width: 354px;
+  height: 40px;
+}
+.new-chat-message1 {
+  position: absolute;
+  top: 330px;
+  left: 1060px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  width: 320px;
+  height: 22px;
+}
+.mri-wrapper3 {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  width: 30px;
+  height: 24px;
+}
+.choose-lab-wrapper {
+  width: 99px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper82 {
+  position: absolute;
+  top: 0;
+  left: 356px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 134px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+.group-parent56 {
+  position: absolute;
+  top: 45px;
+  left: -757px;
+  width: 768px;
+  height: 41px;
+}
+.ct-scan-wrapper3,
+.group-wrapper83 {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  width: 67px;
+  height: 24px;
+}
+.group-wrapper83 {
+  top: 99px;
+  left: -704px;
+  width: 768px;
+  height: 41px;
+}
+.group-wrapper84,
+.x-ray-wrapper3 {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 52px;
+  height: 24px;
+}
+.group-wrapper84 {
+  top: 160px;
+  left: -704px;
+  width: 768px;
+  height: 41px;
+  cursor: pointer;
+}
+.div80,
+.div81,
+.div82 {
+  position: absolute;
+  top: 54px;
+  left: 30px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.div81,
+.div82 {
+  top: 109px;
+  left: 27px;
+}
+.div82 {
+  top: 166px;
+  left: 28px;
+}
+.date-prescribed5 {
+  left: 24px;
+  font-size: var(--components-input-text-size);
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--color-steelblue-200);
+}
+.date-prescribed5,
+.parent5,
+.status9 {
+  position: absolute;
+  top: 0;
+}
+.parent5 {
+  left: 118px;
+  width: 91px;
+  height: 199px;
+  font-size: var(--font-size-base);
+  color: var(--color-steelblue-100);
+}
+.status9 {
+  left: 337px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.test-type-parent3 {
+  position: absolute;
+  top: -5px;
+  left: -704px;
+  width: 766px;
+  height: 23px;
+  font-size: var(--components-input-text-size);
+  color: var(--color-steelblue-200);
+}
+.frame-parent37 {
+  position: absolute;
+  top: 70px;
+  left: 699px;
+  width: 64px;
+  height: 206px;
+}
+.test-not-conducted2 {
+  position: absolute;
+  top: 111px;
+  left: 15px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.pending-for-review8 {
+  margin-block-start: 0;
+  margin-block-end: 30px;
+}
+.diagnosis-completed4 {
+  margin: 0;
+}
+.pending-for-review-container {
+  position: absolute;
+  top: 167px;
+  left: 15px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.my-tests,
+.test-not-conducted-container {
+  position: absolute;
+  top: 62px;
+  left: 284px;
+  width: 64px;
+  height: 199px;
+}
+.my-tests {
+  top: -16px;
+  left: 4px;
+  font-size: var(--font-size-21xl);
+  text-transform: capitalize;
+  display: inline-block;
+  color: var(--white-color);
+  width: 337px;
+  height: 92px;
+}
+.frame-parent36 {
+  position: absolute;
+  top: 224px;
+  left: 101px;
+  width: 682px;
+  height: 264px;
+  font-size: var(--font-size-base);
+  color: var(--color-lavender);
+}
+.patient-dashboard {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-gray-300);
+  height: 859px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--components-helper-text-size);
+  color: var(--btnbkgnormal);
+  font-family: var(--font-poppins);
+}
