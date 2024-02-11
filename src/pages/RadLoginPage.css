@@ -142,12 +142,14 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .rad-login-page-child1,
 .sign-up4 {
   position: absolute;
   width: 5.32%;
   left: 31.47%;
+  cursor : pointer;
 }
 .rad-login-page-child1 {
   height: 2.91%;
@@ -167,6 +169,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor : pointer;
 }
 .dont-have-an4,
 .login-as-radiologist {
@@ -190,6 +193,7 @@
   top: 72.64%;
   left: 8.33%;
   color: var(--text-secondary);
+  cursor: pointer;
 }
 .rad-login-page-child2 {
   position: absolute;
@@ -215,6 +219,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor : pointer
 }
 .rad-login-page {
   width: 100%;

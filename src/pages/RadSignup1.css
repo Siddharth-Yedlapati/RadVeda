@@ -20,6 +20,7 @@
   filter: blur(70.41px);
   width: 39.4px;
   height: 46px;
+  cursor: pointer;
 }
 .rad-signup-3-item {
   position: absolute;
@@ -73,6 +74,7 @@
   color: var(--text-secondary);
   white-space: pre-wrap;
   display: inline-block;
+  cursor: pointer;
 }
 .rad-signup-3-child1 {
   position: absolute;
@@ -101,6 +103,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .rad-signup-3-child2 {
   position: absolute;
@@ -128,6 +131,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .min-height112 {
   width: 0;

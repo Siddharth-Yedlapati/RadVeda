@@ -28,12 +28,12 @@ const RadSignup1 = () => {
         src="/users-background-5@2x.png"
       />
       <div className="rad-signup-3-inner" onClick={onRectangleClick} />
-      <b className="login20">Login</b>
-      <div className="already-have-an15"> Already have an account?</div>
+      <b className="login20"onClick={onRectangleClick}>Login</b>
+      <div className="already-have-an15"onClick={onRectangleClick}> Already have an account?</div>
       <div className="rad-signup-3-child1" onClick={onRectangle1Click} />
-      <b className="submit-sign-up3">Submit sign up request</b>
+      <b className="submit-sign-up3"onClick={onRectangle1Click}>Submit sign up request</b>
       <div className="rad-signup-3-child2" onClick={onRectangle2Click} />
-      <b className="back78">Back</b>
+      <b className="back78"onClick={onRectangle2Click}>Back</b>
       <div className="text-fieldoutlined111">
         <div className="input112">
           <div className="content125">

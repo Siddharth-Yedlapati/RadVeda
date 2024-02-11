@@ -41,6 +41,7 @@
   position: absolute;
   width: 5.32%;
   left: 36.18%;
+  cursor: pointer;
 }
 .rad-signup-1-inner {
   height: 2.68%;
@@ -73,6 +74,7 @@
   color: var(--text-secondary);
   white-space: pre-wrap;
   display: inline-block;
+  cursor: pointer;
 }
 .min-height103 {
   width: 0;
@@ -311,6 +313,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;;
 }
 .rad-signup-1-child6 {
   position: absolute;
@@ -338,6 +341,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .rad-signup-1 {
   width: 100%;
