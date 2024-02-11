@@ -534,9 +534,10 @@ function App() {
   }, [pathname]);
 
   return (
-    <Routes>
-      <Route path="/" element={<LabStaffSignup />} />
-      <Route path="/labstaff-signup-3" element={<LabStaffSignup1 />} />
+    <Routes >
+      
+      <Route path="/labstaff-signup" element={<LabStaffSignup />} />
+      <Route path="/labstaff-signup-1" element={<LabStaffSignup1 />} />
       <Route path="/labstaff-signup-2" element={<LabStaffSignup2 />} />
       <Route path="/labstaff-login-page" element={<LabStaffLoginPage />} />
       <Route path="/labstaff-test-pending" element={<LabStaffTestPending />} />
@@ -623,7 +624,7 @@ function App() {
       <Route path="/doc-own-pfr-rad-hist" element={<DocOwnPfrRadHist />} />
       <Route path="/doc-own-pfr-doc-hist" element={<DocOwnPfrDocHist />} />
       <Route path="/doc-own-diag-comp-hist" element={<DocOwnDiagCompHist />} />
-      <Route path="/user-type-selection" element={<UserTypeSelection />} />
+      <Route path="/" element={<UserTypeSelection />} />
       <Route path="/patient-signup-2" element={<PatientSignup2 />} />
       <Route path="/patient-login-page" element={<PatientLoginPage />} />
       <Route

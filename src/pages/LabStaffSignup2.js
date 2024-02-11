@@ -10,7 +10,7 @@ const LabStaffSignup2 = () => {
   }, [navigate]);
 
   const onRectangle2Click = useCallback(() => {
-    navigate("/labstaff-signup-3");
+    navigate("/labstaff-signup-1");
   }, [navigate]);
 
   const onRectangle3Click = useCallback(() => {
@@ -90,3 +90,8 @@ const LabStaffSignup2 = () => {
 };
 
 export default LabStaffSignup2;
+
+
+//signup2 -> second page of signup hospital/lab name, address, upload documents
+//signup1 -> lastpage (password and confirm password)
+//signup -> firstpage

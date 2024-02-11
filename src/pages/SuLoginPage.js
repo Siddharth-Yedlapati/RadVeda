@@ -10,7 +10,7 @@ const SuLoginPage = () => {
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
-    navigate("/user-type-selection");
+    navigate("/");
   }, [navigate]);
 
   return (

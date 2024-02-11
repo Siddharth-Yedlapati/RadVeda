@@ -6,7 +6,7 @@ const PatientUserOptions = () => {
   const navigate = useNavigate();
 
   const onFrameContainer2Click = useCallback(() => {
-    navigate("/user-type-selection");
+    navigate("/");
   }, [navigate]);
 
   return (
