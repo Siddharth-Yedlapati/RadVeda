@@ -28,12 +28,12 @@ const PatientSignup1 = () => {
         src="/users-background-5@2x.png"
       />
       <div className="patient-signup-3-inner" onClick={onRectangleClick} />
-      <b className="login7">Login</b>
-      <div className="already-have-an5"> Already have an account?</div>
+      <b className="login7" onClick={onRectangleClick}>Login</b>
+      <div className="already-have-an5" onClick={onRectangleClick}> Already have an account?</div>
       <div className="patient-signup-3-child1" onClick={onRectangle1Click} />
-      <b className="submit">Submit</b>
+      <b className="submit" onClick={onRectangle1Click} >Submit</b>
       <div className="patient-signup-3-child2" onClick={onRectangle2Click} />
-      <b className="back13">Back</b>
+      <b className="back13" onClick={onRectangle2Click}>Back</b>
       <div className="text-fieldoutlined39">
         <div className="input39">
           <div className="content43">

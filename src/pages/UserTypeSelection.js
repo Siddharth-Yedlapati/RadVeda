@@ -41,17 +41,17 @@ const UserTypeSelection = () => {
       />
       <div className="loginsign-up-as">{`Login/SIGN-up AS `}</div>
       <div className="user-type-selection-inner" onClick={onEllipse1Click} />
-      <div className="patient2">Patient</div>
+      <div className="patient2" onClick={onEllipse1Click}>Patient</div>
       <div className="user-type-selection-child1" onClick={onEllipse2Click} />
-      <div className="super-admin2">Super Admin</div>
+      <div className="super-admin2" onClick={onEllipse2Click}>Super Admin</div>
       <div className="user-type-selection-child2" onClick={onEllipse3Click} />
-      <div className="admin">Admin</div>
+      <div className="admin" onClick={onEllipse3Click}>Admin</div>
       <div className="user-type-selection-child3" onClick={onEllipse4Click} />
-      <div className="lab-staff4">Lab Staff</div>
+      <div className="lab-staff4" onClick={onEllipse4Click}>Lab Staff</div>
       <div className="user-type-selection-child4" onClick={onEllipse5Click} />
-      <div className="radiologist">Radiologist</div>
+      <div className="radiologist" onClick={onEllipse5Click}>Radiologist</div>
       <div className="user-type-selection-child5" onClick={onEllipse6Click} />
-      <div className="doctor">Doctor</div>
+      <div className="doctor" onClick={onEllipse6Click}>Doctor</div>
     </div>
   );
 };

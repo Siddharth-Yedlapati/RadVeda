@@ -97,12 +97,12 @@ const PatientSignup2 = () => {
       <div className="patient-signup-2-child4" onClick={onRectangle1Click} />
       <b className="fill-up-guardian">Fill up guardian info</b>
       <div className="patient-signup-2-child5" onClick={onRectangle2Click} />
-      <b className="login13">Login</b>
-      <div className="already-have-an10"> Already have an account?</div>
+      <b className="login13" onClick={onRectangle2Click}>Login</b>
+      <div className="already-have-an10" onClick={onRectangle2Click}> Already have an account?</div>
       <div className="patient-signup-2-child6" onClick={onRectangle3Click} />
-      <b className="next7">Next</b>
+      <b className="next7" onClick={onRectangle3Click}>Next</b>
       <div className="patient-signup-2-child7" onClick={onRectangle4Click} />
-      <b className="back57">Back</b>
+      <b className="back57" onClick={onRectangle4Click}>Back</b>
       <img className="patient-signup-2-child8" alt="" />
       <div className="patient-signup-2-child9" />
       <div className="patient-signup-2-child9" />

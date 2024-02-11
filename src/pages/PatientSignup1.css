@@ -62,6 +62,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .already-have-an5 {
   position: absolute;
@@ -73,6 +74,7 @@
   color: var(--text-secondary);
   white-space: pre-wrap;
   display: inline-block;
+  cursor: pointer;
 }
 .patient-signup-3-child1 {
   position: absolute;
@@ -101,6 +103,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .patient-signup-3-child2 {
   position: absolute;
@@ -128,6 +131,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .min-height39 {
   width: 0;

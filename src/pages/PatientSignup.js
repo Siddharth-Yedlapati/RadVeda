@@ -28,8 +28,8 @@ const PatientSignup = () => {
         src="/users-background-5@2x.png"
       />
       <div className="patient-signup-1-inner" onClick={onRectangleClick} />
-      <b className="login5">Login</b>
-      <div className="already-have-an3"> Already have an account?</div>
+      <b className="login5" onClick={onRectangleClick}>Login</b>
+      <div className="already-have-an3" onClick={onRectangleClick}> Already have an account?</div>
       <div className="text-fieldoutlined21">
         <div className="input21">
           <div className="content25">
@@ -153,9 +153,9 @@ const PatientSignup = () => {
       <div className="patient-signup-1-child3" />
       <div className="patient-signup-1-child4" />
       <div className="patient-signup-1-child5" onClick={onRectangle1Click} />
-      <b className="next2">Next</b>
+      <b className="next2" onClick={onRectangle1Click} >Next</b>
       <div className="patient-signup-1-child6" onClick={onRectangle2Click} />
-      <b className="back11">Back</b>
+      <b className="back11" onClick={onRectangle2Click}>Back</b>
     </div>
   );
 };

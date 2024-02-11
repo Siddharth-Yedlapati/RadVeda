@@ -182,13 +182,14 @@
   height: 3.96%;
   width: 31.4%;
   top: 57.04%;
-  left: 10.72%;
+  left: 15.72%;
   font-size: var(--font-size-lgi);
   display: flex;
   font-family: var(--font-kanit);
   color: var(--white-color);
   white-space: pre-wrap;
-  align-items: center;
+  /* align-items: center; */
+  text-align: center;
 }
 .patient-signup-2-child1,
 .patient-signup-2-child2 {
@@ -209,8 +210,8 @@
 }
 .patient-signup-2-child3 {
   position: absolute;
-  top: 497px;
-  left: 514px;
+  top: 495px;
+  left: 507px;
   max-width: 100%;
   overflow: hidden;
   height: 21px;
@@ -240,6 +241,7 @@
   font-family: var(--font-kanit);
   color: var(--white-color);
   text-align: center;
+  cursor: pointer;
 }
 .login13,
 .patient-signup-2-child5 {
@@ -278,6 +280,7 @@
   color: var(--text-secondary);
   white-space: pre-wrap;
   display: inline-block;
+  cursor: pointer;
 }
 .patient-signup-2-child6 {
   position: absolute;
@@ -305,6 +308,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .patient-signup-2-child7 {
   position: absolute;
@@ -332,6 +336,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .patient-signup-2-child8 {
   position: absolute;

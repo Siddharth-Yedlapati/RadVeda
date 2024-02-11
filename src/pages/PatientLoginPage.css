@@ -141,6 +141,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .patient-login-page-child1 {
   position: absolute;
@@ -166,6 +167,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .login-as2 {
   margin: 0;
@@ -191,6 +193,7 @@
   left: 8.33%;
   color: var(--text-secondary);
   display: inline-block;
+  cursor: pointer;
 }
 .patient-login-page-child2 {
   position: absolute;
@@ -216,6 +219,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .patient-login-page {
   width: 100%;
