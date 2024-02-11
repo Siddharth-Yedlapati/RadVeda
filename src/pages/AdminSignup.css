@@ -73,6 +73,7 @@
   color: var(--text-secondary);
   white-space: pre-wrap;
   display: inline-block;
+  cursor:pointer;
 }
 .min-height84 {
   width: 0;
@@ -319,6 +320,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .admin-signup-1-child6 {
   position: absolute;
@@ -346,6 +348,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor:pointer;
 }
 .admin-signup-1 {
   width: 100%;

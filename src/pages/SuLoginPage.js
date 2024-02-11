@@ -47,13 +47,13 @@ const SuLoginPage = () => {
         </div>
       </div>
       <div className="su-login-page-inner" onClick={onRectangleClick} />
-      <b className="login4">Login</b>
+      <b className="login4" onClick={onRectangleClick}>Login</b>
       <div className="login-as-super-container">
         <p className="super-admin">{`Login AS `}</p>
         <p className="super-admin">super admin</p>
       </div>
       <div className="su-login-page-child1" onClick={onRectangle1Click} />
-      <b className="back6">Back</b>
+      <b className="back6" onClick={onRectangle1Click}>Back</b>
     </div>
   );
 };

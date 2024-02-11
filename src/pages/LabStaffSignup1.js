@@ -28,12 +28,12 @@ const LabStaffSignup1 = () => {
         src="/users-background-5@2x.png"
       />
       <div className="labstaff-signup-3-inner" onClick={onRectangleClick} />
-      <b className="login1">Login</b>
-      <div className="already-have-an1"> Already have an account?</div>
+      <b className="login1" onClick={onRectangleClick}>Login</b>
+      <div className="already-have-an1" onClick={onRectangleClick}> Already have an account?</div>
       <div className="labstaff-signup-3-child1" onClick={onRectangle1Click} />
-      <b className="submit-sign-up">Submit sign up request</b>
+      <b className="submit-sign-up" onClick={onRectangle1Click}>Submit sign up request</b>
       <div className="labstaff-signup-3-child2" onClick={onRectangle2Click} />
-      <b className="back1">Back</b>
+      <b className="back1" onClick={onRectangle2Click}>Back</b>
       <div className="text-fieldoutlined9">
         <div className="input9">
           <div className="content9">

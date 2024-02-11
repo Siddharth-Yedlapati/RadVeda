@@ -141,6 +141,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .admin-login-page-child1 {
   position: absolute;
@@ -191,6 +192,7 @@
   left: 8.33%;
   color: var(--text-secondary);
   display: inline-block;
+  cursor: pointer;
 }
 .admin-login-page-child2 {
   position: absolute;
@@ -216,6 +218,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor:pointer;
 }
 .admin-login-page {
   width: 100%;
