@@ -79,12 +79,12 @@ const DocSignup2 = () => {
       <div className="doc-signup-2-child6" />
       <img className="doc-signup-2-child7" alt="" src="/arrow-1.svg" />
       <div className="doc-signup-2-child8" onClick={onRectangle1Click} />
-      <b className="login11">Login</b>
-      <div className="already-have-an9"> Already have an account?</div>
+      <b className="login11" onClick={onRectangle1Click}>Login</b>
+      <div className="already-have-an9" onClick={onRectangle1Click}> Already have an account?</div>
       <div className="doc-signup-2-child9" onClick={onRectangle2Click} />
-      <b className="next6">Next</b>
+      <b className="next6" onClick={onRectangle2Click}>Next</b>
       <div className="doc-signup-2-child10" onClick={onRectangle3Click} />
-      <b className="back33">Back</b>
+      <b className="back33" onClick={onRectangle3Click}>Back</b>
     </div>
   );
 };

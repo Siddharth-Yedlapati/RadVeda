@@ -142,6 +142,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .doc-login-page-child1 {
   position: absolute;
@@ -190,6 +191,7 @@
   top: 72.64%;
   left: 8.33%;
   color: var(--text-secondary);
+  cursor: pointer;
 }
 .doc-login-page-child2 {
   position: absolute;
@@ -215,6 +217,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .doc-login-page {
   width: 100%;

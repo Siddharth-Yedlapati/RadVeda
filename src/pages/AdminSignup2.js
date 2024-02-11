@@ -82,12 +82,12 @@ const AdminSignup2 = () => {
       <div className="admin-signup-2-child6" />
       <img className="admin-signup-2-child7" alt="" src="/arrow-1.svg" />
       <div className="admin-signup-2-child8" onClick={onRectangle1Click} />
-      <b className="login17">Login</b>
-      <div className="already-have-an13"> Already have an account?</div>
+      <b className="login17" onClick={onRectangle1Click}>Login</b>
+      <div className="already-have-an13" onClick={onRectangle1Click}> Already have an account?</div>
       <div className="admin-signup-2-child9" onClick={onRectangle2Click} />
-      <b className="next9">Next</b>
+      <b className="next9" onClick={onRectangle2Click}>Next</b>
       <div className="admin-signup-2-child10" onClick={onRectangle3Click} />
-      <b className="back69">Back</b>
+      <b className="back69" onClick={onRectangle3Click}>Back</b>
     </div>
   );
 };

@@ -306,6 +306,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor:pointer;
 }
 .patient-guardian-info-1-child5 {
   position: absolute;

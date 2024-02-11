@@ -62,6 +62,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor:pointer;
 }
 .login8,
 .patient-gaurdian-info-2-child1 {

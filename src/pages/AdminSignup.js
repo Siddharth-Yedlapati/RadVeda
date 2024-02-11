@@ -28,8 +28,8 @@ const AdminSignup = () => {
         src="/users-background-5@2x.png"
       />
       <div className="admin-signup-1-inner" onClick={onRectangleClick} />
-      <b className="login15">Login</b>
-      <div className="already-have-an11"> Already have an account?</div>
+      <b className="login15" onClick={onRectangleClick}>Login</b>
+      <div className="already-have-an11" onClick={onRectangleClick}> Already have an account?</div>
       <div className="text-fieldoutlined83">
         <div className="input84">
           <div className="content90">
@@ -153,9 +153,9 @@ const AdminSignup = () => {
       <div className="admin-signup-1-child3" />
       <div className="admin-signup-1-child4" />
       <div className="admin-signup-1-child5" onClick={onRectangle1Click} />
-      <b className="next8">Next</b>
+      <b className="next8" onClick={onRectangle1Click}>Next</b>
       <div className="admin-signup-1-child6" onClick={onRectangle2Click} />
-      <b className="back67">Back</b>
+      <b className="back67" onClick={onRectangle2Click}>Back</b>
     </div>
   );
 };

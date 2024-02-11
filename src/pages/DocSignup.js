@@ -29,7 +29,7 @@ const DocSignup = () => {
       />
       <div className="doc-signup-1-inner" onClick={onRectangleClick} />
       <b className="login9">Login</b>
-      <div className="already-have-an7"> Already have an account?</div>
+      <div className="already-have-an7" onClick={onRectangleClick}> Already have an account?</div>
       <div className="text-fieldoutlined50">
         <div className="input50">
           <div className="content55">
@@ -150,9 +150,9 @@ const DocSignup = () => {
       <div className="doc-signup-1-child3" />
       <div className="doc-signup-1-child4" />
       <div className="doc-signup-1-child5" onClick={onRectangle1Click} />
-      <b className="next5">Next</b>
+      <b className="next5" onClick={onRectangle1Click}>Next</b>
       <div className="doc-signup-1-child6" onClick={onRectangle2Click} />
-      <b className="back31">Back</b>
+      <b className="back31" onClick={onRectangle2Click}>Back</b>
     </div>
   );
 };
