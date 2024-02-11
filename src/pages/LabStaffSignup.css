@@ -62,6 +62,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .already-have-an {
   position: absolute;
@@ -73,6 +74,7 @@
   color: var(--text-secondary);
   white-space: pre-wrap;
   display: inline-block;
+  cursor: pointer;
 }
 .min-height {
   width: 0;
@@ -314,6 +316,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor:pointer;
 }
 .labstaff-signup-1-child3 {
   position: absolute;
@@ -341,6 +344,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor:pointer;
 }
 .labstaff-signup-1 {
   width: 100%;

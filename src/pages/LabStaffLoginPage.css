@@ -123,6 +123,7 @@
   position: absolute;
   width: 31.4%;
   left: 11.13%;
+  cursor: pointer;
 }
 .labstaff-login-page-inner {
   height: 7.57%;
@@ -142,12 +143,14 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .labstaff-login-page-child1,
 .sign-up {
   position: absolute;
   width: 5.32%;
   left: 31.47%;
+  cursor: pointer;
 }
 .labstaff-login-page-child1 {
   height: 2.91%;
@@ -167,7 +170,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
-  /* cursor: pointer; */
+  cursor: pointer;
 }
 .login-as {
   margin: 0;
@@ -193,6 +196,7 @@
   left: 8.33%;
   color: var(--text-secondary);
   display: inline-block;
+  cursor: pointer;
 }
 .labstaff-login-page-child2 {
   position: absolute;
@@ -218,6 +222,7 @@
   font-family: var(--font-kanit);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .labstaff-login-page {
   width: 100%;

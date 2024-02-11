@@ -140,6 +140,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .super-admin {
   margin: 0;
@@ -184,6 +185,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .su-login-page {
   width: 100%;

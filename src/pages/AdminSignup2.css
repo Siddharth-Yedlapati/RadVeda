@@ -254,6 +254,7 @@
   color: var(--text-secondary);
   white-space: pre-wrap;
   display: inline-block;
+  cursor:pointer;
 }
 .admin-signup-2-child9 {
   position: absolute;
@@ -280,6 +281,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .admin-signup-2-child10 {
   position: absolute;
@@ -306,6 +308,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .admin-signup-2 {
   width: 100%;

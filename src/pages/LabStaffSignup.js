@@ -28,8 +28,8 @@ const LabStaffSignup = () => {
         src="/users-background-5@2x.png"
       />
       <div className="labstaff-signup-1-inner" onClick={onRectangleClick} />
-      <b className="login">Login</b>
-      <div className="already-have-an"> Already have an account?</div>
+      <b className="login" onClick={onRectangleClick}>Login</b>
+      <div className="already-have-an" onClick={onRectangleClick}> Already have an account?</div>
       <div className="text-fieldoutlined">
         <div className="input">
           <div className="content">
@@ -153,9 +153,9 @@ const LabStaffSignup = () => {
       <div className="labstaff-signup-1-child1" />
       <div className="labstaff-signup-1-child2" />
       <div className="rectangle-div" onClick={onRectangle1Click} />
-      <b className="next">Next</b>
+      <b className="next" onClick={onRectangle1Click}>Next</b>
       <div className="labstaff-signup-1-child3" onClick={onRectangle2Click} />
-      <b className="back">Back</b>
+      <b className="back" onClick={onRectangle2Click}>Back</b>
     </div>
   );
 };

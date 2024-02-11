@@ -51,16 +51,16 @@ const LabStaffLoginPage = () => {
         </div>
       </div>
       <div className="labstaff-login-page-inner" onClick={onRectangleClick} />
-      <b className="login3">Login</b>
+      <b className="login3" onClick={onRectangleClick}>Login</b>
       <div className="labstaff-login-page-child1" onClick={onRectangle1Click} />
-      <b className="sign-up">Sign up</b>
+      <b className="sign-up" onClick={onRectangle1Click}>Sign up</b>
       <div className="login-as-lab-container">
         <p className="login-as">{`Login AS `}</p>
         <p className="login-as">Lab staff</p>
       </div>
-      <div className="dont-have-an">Don’t have an account?</div>
+      <div className="dont-have-an"  onClick={onRectangle1Click}>Don’t have an account?</div>
       <div className="labstaff-login-page-child2" onClick={onRectangle2Click} />
-      <b className="back3">Back</b>
+      <b className="back3" onClick={onRectangle2Click}>Back</b>
     </div>
   );
 };
