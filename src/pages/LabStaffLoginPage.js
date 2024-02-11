@@ -10,11 +10,11 @@ const LabStaffLoginPage = () => {
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
-    navigate("/");
+    navigate("/labstaff-signup");
   }, [navigate]);
 
   const onRectangle2Click = useCallback(() => {
-    navigate("/user-type-selection");
+    navigate("/");
   }, [navigate]);
 
   return (
