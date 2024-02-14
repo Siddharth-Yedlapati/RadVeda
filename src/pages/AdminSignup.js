@@ -1,21 +1,48 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminSignup.css";
 
 const AdminSignup = () => {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
 
   const onRectangleClick = useCallback(() => {
     navigate("/admin-login-page");
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
+    // Check if all fields are filled
+    if (!firstName || !lastName || !emailAddress || !country || !state || !city || !addressLine1) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Check if email is valid
+    if (!validateEmail(emailAddress)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     navigate("/admin-signup-2");
-  }, [navigate]);
+  }, [navigate, firstName, lastName, emailAddress, country, state, city, addressLine1]);
 
   const onRectangle2Click = useCallback(() => {
     navigate("/");
   }, [navigate]);
+
+  // Email validation function
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
   return (
     <div className="admin-signup-1">
@@ -34,77 +61,98 @@ const AdminSignup = () => {
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">First name</div>
+            <input
+              type="text"
+              className="label84"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First name"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined84">
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">Middle name</div>
+            <input
+              type="text"
+              className="label84"
+              value={middleName}
+              onChange={(e) => setMiddleName(e.target.value)}
+              placeholder="Middle name"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined85">
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">Last name</div>
+            <input
+              type="text"
+              className="label84"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last name"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined86">
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">Address line 1</div>
+            <input
+              type="text"
+              className="label84"
+              value={addressLine1}
+              onChange={(e) => setAddressLine1(e.target.value)}
+              placeholder="Address line 1"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined87">
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">Email address</div>
+            <input
+              type="text"
+              className="label84"
+              value={emailAddress}
+              onChange={(e) => setEmailAddress(e.target.value)}
+              placeholder="Email address"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined88">
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">Address line 2</div>
+            <input
+              type="text"
+              className="label84"
+              value={addressLine2}
+              onChange={(e) => setAddressLine2(e.target.value)}
+              placeholder="Address line 2"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined89">
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">Country</div>
+            <input
+              type="text"
+              className="label84"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="Country"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <img
@@ -116,11 +164,14 @@ const AdminSignup = () => {
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">State</div>
+            <input
+              type="text"
+              className="label84"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              placeholder="State"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <img
@@ -132,11 +183,14 @@ const AdminSignup = () => {
         <div className="input84">
           <div className="content90">
             <div className="min-height84" />
-            <div className="label84">City</div>
+            <input
+              type="text"
+              className="label84"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="City"
+            />
           </div>
-        </div>
-        <div className="helpertext84">
-          <div className="helper-text84">Helper text</div>
         </div>
       </div>
       <img

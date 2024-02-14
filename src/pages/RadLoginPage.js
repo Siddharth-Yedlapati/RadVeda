@@ -1,13 +1,24 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RadLoginPage.css";
 
 const RadLoginPage = () => {
   const navigate = useNavigate();
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
 
   const onRectangleClick = useCallback(() => {
+    // Validate fields
+    if (!emailOrPhone || !password) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // You can add further validation for email or phone format if needed
+
+    // Proceed to login if all validations pass
     navigate("/rad-dashboard");
-  }, [navigate]);
+  }, [navigate, emailOrPhone, password]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/rad-signup-1");
@@ -32,7 +43,13 @@ const RadLoginPage = () => {
         <div className="input120">
           <div className="content133">
             <div className="min-height120" />
-            <div className="label120">Enter Email or Phone</div>
+            <input
+              type="text"
+              value={emailOrPhone}
+              onChange={(e) => setEmailOrPhone(e.target.value)}
+              className="label120"
+              placeholder="Enter Email or Phone"
+            />
           </div>
         </div>
         <div className="helpertext120">
@@ -43,7 +60,13 @@ const RadLoginPage = () => {
         <div className="input120">
           <div className="content133">
             <div className="min-height120" />
-            <div className="label120">Password</div>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="label120"
+              placeholder="Password"
+            />
           </div>
         </div>
         <div className="helpertext120">

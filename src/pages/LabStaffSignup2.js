@@ -1,9 +1,12 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LabStaffSignup2.css";
 
 const LabStaffSignup2 = () => {
   const navigate = useNavigate();
+  const [hospitalLab, setHospitalLab] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
 
   const onRectangle1Click = useCallback(() => {
     navigate("/labstaff-login-page");
@@ -31,7 +34,13 @@ const LabStaffSignup2 = () => {
         <div className="input14">
           <div className="content14">
             <div className="min-height14" />
-            <div className="label14">Hospital/Lab</div>
+            <input
+              type="text"
+              value={hospitalLab}
+              onChange={(e) => setHospitalLab(e.target.value)}
+              className="label14"
+              placeholder="Hospital/Lab"
+            />
           </div>
         </div>
         <div className="helpertext14">
@@ -42,7 +51,13 @@ const LabStaffSignup2 = () => {
         <div className="input14">
           <div className="content14">
             <div className="min-height14" />
-            <div className="label14">Hospital/Lab address line 1</div>
+            <input
+              type="text"
+              value={addressLine1}
+              onChange={(e) => setAddressLine1(e.target.value)}
+              className="label14"
+              placeholder="Hospital/Lab address line 1"
+            />
           </div>
         </div>
         <div className="helpertext14">
@@ -53,7 +68,13 @@ const LabStaffSignup2 = () => {
         <div className="input14">
           <div className="content14">
             <div className="min-height14" />
-            <div className="label14">Hospital/Lab address line 2</div>
+            <input
+              type="text"
+              value={addressLine2}
+              onChange={(e) => setAddressLine2(e.target.value)}
+              className="label14"
+              placeholder="Hospital/Lab address line 2"
+            />
           </div>
         </div>
         <div className="helpertext14">
@@ -90,8 +111,3 @@ const LabStaffSignup2 = () => {
 };
 
 export default LabStaffSignup2;
-
-
-//signup2 -> second page of signup hospital/lab name, address, upload documents
-//signup1 -> lastpage (password and confirm password)
-//signup -> firstpage

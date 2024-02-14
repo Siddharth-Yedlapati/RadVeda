@@ -1,13 +1,22 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LabStaffLoginPage.css";
 
 const LabStaffLoginPage = () => {
   const navigate = useNavigate();
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
 
   const onRectangleClick = useCallback(() => {
+    // Validate fields
+    if (!emailOrPhone || !password) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Proceed to login if all validations pass
     navigate("/labstaff-dashboard");
-  }, [navigate]);
+  }, [navigate, emailOrPhone, password]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/labstaff-signup");
@@ -32,7 +41,13 @@ const LabStaffLoginPage = () => {
         <div className="input17">
           <div className="content17">
             <div className="min-height17" />
-            <div className="label17">Enter Email or Phone</div>
+            <input
+              type="text"
+              value={emailOrPhone}
+              onChange={(e) => setEmailOrPhone(e.target.value)}
+              className="label17"
+              placeholder="Enter Email or Phone"
+            />
           </div>
         </div>
         <div className="helpertext17">
@@ -43,7 +58,13 @@ const LabStaffLoginPage = () => {
         <div className="input17">
           <div className="content17">
             <div className="min-height17" />
-            <div className="label17">Password</div>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="label17"
+              placeholder="Password"
+            />
           </div>
         </div>
         <div className="helpertext17">
@@ -58,7 +79,7 @@ const LabStaffLoginPage = () => {
         <p className="login-as">{`Login AS `}</p>
         <p className="login-as">Lab staff</p>
       </div>
-      <div className="dont-have-an"  onClick={onRectangle1Click}>Don’t have an account?</div>
+      <div className="dont-have-an" onClick={onRectangle1Click}>Don’t have an account?</div>
       <div className="labstaff-login-page-child2" onClick={onRectangle2Click} />
       <b className="back3" onClick={onRectangle2Click}>Back</b>
     </div>

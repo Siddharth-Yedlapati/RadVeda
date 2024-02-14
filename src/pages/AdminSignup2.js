@@ -1,15 +1,19 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminSignup2.css";
 
 const AdminSignup2 = () => {
   const navigate = useNavigate();
+  const [hospitalName, setHospitalName] = useState("");
+  const [hospitalAddressLine1, setHospitalAddressLine1] = useState("");
+  const [hospitalAddressLine2, setHospitalAddressLine2] = useState("");
 
   const onRectangle1Click = useCallback(() => {
     navigate("/admin-login-page");
   }, [navigate]);
 
   const onRectangle2Click = useCallback(() => {
+    // Here you can perform any necessary validation before navigating
     navigate("/admin-signup-3");
   }, [navigate]);
 
@@ -31,7 +35,13 @@ const AdminSignup2 = () => {
         <div className="input98">
           <div className="content104">
             <div className="min-height98" />
-            <div className="label98">Hospital/Clinic/Lab</div>
+            <input
+              type="text"
+              className="label98"
+              value={hospitalName}
+              onChange={(e) => setHospitalName(e.target.value)}
+              placeholder="Hospital/Clinic/Lab"
+            />
           </div>
         </div>
         <div className="helpertext98">
@@ -42,7 +52,13 @@ const AdminSignup2 = () => {
         <div className="input98">
           <div className="content104">
             <div className="min-height98" />
-            <div className="label98">Hospital/Clinic/Lab address line 1</div>
+            <input
+              type="text"
+              className="label98"
+              value={hospitalAddressLine1}
+              onChange={(e) => setHospitalAddressLine1(e.target.value)}
+              placeholder="Hospital/Clinic/Lab address line 1"
+            />
           </div>
         </div>
         <div className="helpertext98">
@@ -53,7 +69,13 @@ const AdminSignup2 = () => {
         <div className="input98">
           <div className="content104">
             <div className="min-height98" />
-            <div className="label98">Hospital/Clinic/Lab address line 2</div>
+            <input
+              type="text"
+              className="label98"
+              value={hospitalAddressLine2}
+              onChange={(e) => setHospitalAddressLine2(e.target.value)}
+              placeholder="Hospital/Clinic/Lab address line 2"
+            />
           </div>
         </div>
         <div className="helpertext98">

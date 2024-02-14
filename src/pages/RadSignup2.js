@@ -31,7 +31,11 @@ const RadSignup2 = () => {
         <div className="input117">
           <div className="content130">
             <div className="min-height117" />
-            <div className="label117">Hospital/Lab</div>
+            <input
+              type="text"
+              className="label117"
+              placeholder="Hospital/Lab"
+            />
           </div>
         </div>
         <div className="helpertext117">
@@ -42,7 +46,11 @@ const RadSignup2 = () => {
         <div className="input117">
           <div className="content130">
             <div className="min-height117" />
-            <div className="label117">Hospital/Lab address line 1</div>
+            <input
+              type="text"
+              className="label117"
+              placeholder="Hospital/Lab address line 1"
+            />
           </div>
         </div>
         <div className="helpertext117">
@@ -53,7 +61,11 @@ const RadSignup2 = () => {
         <div className="input117">
           <div className="content130">
             <div className="min-height117" />
-            <div className="label117">Hospital/Lab address line 2</div>
+            <input
+              type="text"
+              className="label117"
+              placeholder="Hospital/Lab address line 2"
+            />
           </div>
         </div>
         <div className="helpertext117">

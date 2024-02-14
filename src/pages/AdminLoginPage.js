@@ -1,13 +1,22 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminLoginPage.css";
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
 
   const onRectangleClick = useCallback(() => {
+    // Validate fields
+    if (!emailOrPhone || !password) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Proceed to login if all validations pass
     navigate("/admin-dashboard");
-  }, [navigate]);
+  }, [navigate, emailOrPhone, password]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/admin-signup-1");
@@ -32,7 +41,13 @@ const AdminLoginPage = () => {
         <div className="input101">
           <div className="content107">
             <div className="min-height101" />
-            <div className="label101">Enter Email or Phone</div>
+            <input
+              type="text"
+              value={emailOrPhone}
+              onChange={(e) => setEmailOrPhone(e.target.value)}
+              className="label101"
+              placeholder="Enter Email or Phone"
+            />
           </div>
         </div>
         <div className="helpertext101">
@@ -43,7 +58,13 @@ const AdminLoginPage = () => {
         <div className="input101">
           <div className="content107">
             <div className="min-height101" />
-            <div className="label101">Password</div>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="label101"
+              placeholder="Password"
+            />
           </div>
         </div>
         <div className="helpertext101">

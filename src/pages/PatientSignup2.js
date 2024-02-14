@@ -1,9 +1,14 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PatientSignup2.css";
 
 const PatientSignup2 = () => {
   const navigate = useNavigate();
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [gender, setGender] = useState("");
+  const [ethnicity, setEthnicity] = useState("");
+  const [maritalStatus, setMaritalStatus] = useState("");
+  const [race, setRace] = useState("");
 
   const onRectangle1Click = useCallback(() => {
     navigate("/patient-guardian-info-1");
@@ -21,6 +26,11 @@ const PatientSignup2 = () => {
     navigate("/patient-signup-1");
   }, [navigate]);
 
+  const onSubmit = () => {
+    // Add validation logic here
+    navigate("/patient-signup-3");
+  };
+
   return (
     <div className="patient-signup-2">
       <img className="vector-icon146" alt="" />
@@ -35,7 +45,13 @@ const PatientSignup2 = () => {
         <div className="input75">
           <div className="content80">
             <div className="min-height75" />
-            <div className="label75">Date of Birth</div>
+            <input
+              type="date"
+              className="label75"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+              placeholder="Date of Birth"
+            />
           </div>
         </div>
         <div className="helpertext75">
@@ -46,7 +62,16 @@ const PatientSignup2 = () => {
         <div className="input75">
           <div className="content80">
             <div className="min-height75" />
-            <div className="label75">Gender</div>
+            <select
+              className="label75"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
           </div>
         </div>
         <div className="helpertext75">
@@ -57,34 +82,55 @@ const PatientSignup2 = () => {
         <div className="input75">
           <div className="content80">
             <div className="min-height75" />
-            <div className="label75">Ethnicity</div>
+            <input
+              type="text"
+              className="label75"
+              value={ethnicity}
+              onChange={(e) => setEthnicity(e.target.value)}
+              placeholder="Ethnicity"
+            />
           </div>
         </div>
         <div className="helpertext75">
           <div className="helper-text75">Helper text</div>
         </div>
       </div>
-      <img
-        className="iconsregularchevron-down-s16"
-        alt=""
-        src="/iconsregularchevrondowns.svg"
-      />
       <div className="text-fieldoutlined77">
         <div className="input75">
           <div className="content80">
             <div className="min-height75" />
-            <div className="label75">Marital status</div>
+            <select
+              className="label75"
+              value={maritalStatus}
+              onChange={(e) => setMaritalStatus(e.target.value)}
+            >
+              <option value="">Select Marital Status</option>
+              <option value="married">Married</option>
+              <option value="unmarried">Unmarried</option>
+            </select>
           </div>
         </div>
         <div className="helpertext75">
           <div className="helper-text75">Helper text</div>
         </div>
       </div>
-      <img
-        className="iconsregularchevron-down-s17"
-        alt=""
-        src="/iconsregularchevrondowns.svg"
-      />
+      <div className="text-fieldoutlined78">
+        <div className="input75">
+          <div className="content80">
+            <div className="min-height75" />
+            <input
+              type="text"
+              className="label75"
+              value={race}
+              onChange={(e) => setRace(e.target.value)}
+              placeholder="Race"
+            />
+          </div>
+        </div>
+        <div className="helpertext75">
+          <div className="helper-text75">Helper text</div>
+        </div>
+      </div>
       <div className="sign-up-as-container5">
         <p className="sign-up-as8">Sign up AS</p>
         <p className="sign-up-as8">patient</p>
@@ -118,22 +164,7 @@ const PatientSignup2 = () => {
         alt=""
         src="/iconsregularchevrondowns.svg"
       />
-      <div className="text-fieldoutlined78">
-        <div className="input75">
-          <div className="content80">
-            <div className="min-height75" />
-            <div className="label75">Race</div>
-          </div>
-        </div>
-        <div className="helpertext75">
-          <div className="helper-text75">Helper text</div>
-        </div>
-      </div>
-      <img
-        className="iconsregularchevron-down-s19"
-        alt=""
-        src="/iconsregularchevrondowns.svg"
-      />
+      <div className="iconsregularchevron-down-s19" />
     </div>
   );
 };

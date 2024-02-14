@@ -1,9 +1,12 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DocSignup2.css";
 
 const DocSignup2 = () => {
   const navigate = useNavigate();
+  const [hospitalName, setHospitalName] = useState("");
+  const [hospitalAddress1, setHospitalAddress1] = useState("");
+  const [hospitalAddress2, setHospitalAddress2] = useState("");
 
   const onRectangle1Click = useCallback(() => {
     navigate("/doc-login-page");
@@ -31,7 +34,13 @@ const DocSignup2 = () => {
         <div className="input64">
           <div className="content69">
             <div className="min-height64" />
-            <div className="label64">Hospital/Clinic</div>
+            <input
+              type="text"
+              className="label64"
+              value={hospitalName}
+              onChange={(e) => setHospitalName(e.target.value)}
+              placeholder="Hospital/Clinic"
+            />
           </div>
         </div>
         <div className="helpertext64">
@@ -42,7 +51,13 @@ const DocSignup2 = () => {
         <div className="input64">
           <div className="content69">
             <div className="min-height64" />
-            <div className="label64">Hospital/Clinic address line 1</div>
+            <input
+              type="text"
+              className="label64"
+              value={hospitalAddress1}
+              onChange={(e) => setHospitalAddress1(e.target.value)}
+              placeholder="Hospital/Clinic address line 1"
+            />
           </div>
         </div>
         <div className="helpertext64">
@@ -53,7 +68,13 @@ const DocSignup2 = () => {
         <div className="input64">
           <div className="content69">
             <div className="min-height64" />
-            <div className="label64">Hospital/Clinic address line 2</div>
+            <input
+              type="text"
+              className="label64"
+              value={hospitalAddress2}
+              onChange={(e) => setHospitalAddress2(e.target.value)}
+              placeholder="Hospital/Clinic address line 2"
+            />
           </div>
         </div>
         <div className="helpertext64">

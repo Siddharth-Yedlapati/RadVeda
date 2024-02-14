@@ -1,21 +1,49 @@
-import { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RadSignup.css";
 
 const RadSignup = () => {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
 
-  const onRectangleClick = useCallback(() => {
+  const navigateToLogin = useCallback(() => {
     navigate("/rad-login-page");
   }, [navigate]);
 
-  const onRectangle1Click = useCallback(() => {
+  const navigateToNextStep = useCallback(() => {
     navigate("/rad-signup-2");
   }, [navigate]);
 
-  const onRectangle2Click = useCallback(() => {
+  const navigateToPreviousStep = useCallback(() => {
     navigate("/");
   }, [navigate]);
+
+  const handleNext = () => {
+    if (!firstName || !lastName || !email || !addressLine1 || !country || !state || !city) {
+      alert("Please fill in all the fields.");
+      return;
+    }
+
+    if (!/^[a-zA-Z\s]*$/.test(firstName) || !/^[a-zA-Z\s]*$/.test(lastName)) {
+      alert("Name fields cannot contain numeric characters.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    navigateToNextStep();
+  };
 
   return (
     <div className="rad-signup-1">
@@ -27,84 +55,98 @@ const RadSignup = () => {
         alt=""
         src="/users-background-5@2x.png"
       />
-      <div className="rad-signup-1-inner" onClick={onRectangleClick} />
-      <b className="login19"onClick={onRectangleClick}>Login</b>
-      <div className="already-have-an14"onClick={onRectangleClick}> Already have an account?</div>
+      <div className="rad-signup-1-inner" onClick={navigateToLogin} />
+      <b className="login19" onClick={navigateToLogin}>Login</b>
+      <div className="already-have-an14" onClick={navigateToLogin}> Already have an account?</div>
       <div className="text-fieldoutlined102">
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">First name</div>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First name"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined103">
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">Middle name</div>
+            <input
+              type="text"
+              value={middleName}
+              onChange={(e) => setMiddleName(e.target.value)}
+              placeholder="Middle name"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined104">
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">Last name</div>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last name"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined105">
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">Address line 1</div>
+            <input
+              type="text"
+              value={addressLine1}
+              onChange={(e) => setAddressLine1(e.target.value)}
+              placeholder="Address line 1"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined106">
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">Email address</div>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined107">
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">Address line 2</div>
+            <input
+              type="text"
+              value={addressLine2}
+              onChange={(e) => setAddressLine2(e.target.value)}
+              placeholder="Address line 2"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <div className="text-fieldoutlined108">
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">Country</div>
+            <input
+              type="text"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="Country"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <img
@@ -116,11 +158,13 @@ const RadSignup = () => {
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">State</div>
+            <input
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              placeholder="State"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <img
@@ -132,11 +176,13 @@ const RadSignup = () => {
         <div className="input103">
           <div className="content116">
             <div className="min-height103" />
-            <div className="label103">City</div>
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="City"
+            />
           </div>
-        </div>
-        <div className="helpertext103">
-          <div className="helper-text103">Helper text</div>
         </div>
       </div>
       <img
@@ -149,10 +195,10 @@ const RadSignup = () => {
       <div className="rad-signup-1-child2" />
       <div className="rad-signup-1-child3" />
       <div className="rad-signup-1-child4" />
-      <div className="rad-signup-1-child5" onClick={onRectangle1Click} />
-      <b className="next10" onClick={onRectangle1Click}>Next</b>
-      <div className="rad-signup-1-child6" onClick={onRectangle2Click} />
-      <b className="back77"onClick={onRectangle2Click}>Back</b>
+      <div className="rad-signup-1-child5" onClick={handleNext} />
+      <b className="next10" onClick={handleNext}>Next</b>
+      <div className="rad-signup-1-child6" onClick={navigateToPreviousStep} />
+      <b className="back77" onClick={navigateToPreviousStep}>Back</b>
     </div>
   );
 };

@@ -1,13 +1,28 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PatientLoginPage.css";
 
 const PatientLoginPage = () => {
   const navigate = useNavigate();
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  const validateEmail = (email) => {
+    // Regular expression for basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const onRectangleClick = useCallback(() => {
-    navigate("/patient-dashboard");
-  }, [navigate]);
+    if (!emailOrPhone.trim() || !password.trim()) {
+      alert("Please fill in all fields");
+    } else if (!validateEmail(emailOrPhone)) {
+      setEmailError("Please enter a valid email address");
+    } else {
+      navigate("/patient-dashboard");
+    }
+  }, [emailOrPhone, password, navigate, validateEmail]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/patient-signup-1");
@@ -32,9 +47,19 @@ const PatientLoginPage = () => {
         <div className="input80">
           <div className="content85">
             <div className="min-height80" />
-            <div className="label80">Enter Email or Phone</div>
+            <input
+              type="text"
+              className="label80"
+              value={emailOrPhone}
+              onChange={(e) => {
+                setEmailOrPhone(e.target.value);
+                setEmailError(""); // Reset email error on change
+              }}
+              placeholder="Enter Email or Phone"
+            />
           </div>
         </div>
+        {emailError && <div className="error-message">{emailError}</div>}
         <div className="helpertext80">
           <div className="helper-text80">Helper text</div>
         </div>
@@ -43,7 +68,13 @@ const PatientLoginPage = () => {
         <div className="input80">
           <div className="content85">
             <div className="min-height80" />
-            <div className="label80">Password</div>
+            <input
+              type="password"
+              className="label80"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+            />
           </div>
         </div>
         <div className="helpertext80">

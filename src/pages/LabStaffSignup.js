@@ -1,17 +1,40 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LabStaffSignup.css";
 
 const LabStaffSignup = () => {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
 
   const onRectangleClick = useCallback(() => {
     navigate("/labstaff-login-page");
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
+    // Validate fields
+    if (!firstName || !lastName || !email || !addressLine1 || !country || !state || !city) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Proceed to the next step if all validations pass
     navigate("/labstaff-signup-2");
-  }, [navigate]);
+  }, [navigate, firstName, lastName, email, addressLine1, country, state, city]);
 
   const onRectangle2Click = useCallback(() => {
     navigate("/");
@@ -34,7 +57,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">First name</div>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="label"
+              placeholder="First name"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -45,7 +74,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">Middle name</div>
+            <input
+              type="text"
+              value={middleName}
+              onChange={(e) => setMiddleName(e.target.value)}
+              className="label"
+              placeholder="Middle name"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -56,7 +91,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">Last name</div>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="label"
+              placeholder="Last name"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -67,7 +108,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">Address line 1</div>
+            <input
+              type="text"
+              value={addressLine1}
+              onChange={(e) => setAddressLine1(e.target.value)}
+              className="label"
+              placeholder="Address line 1"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -78,7 +125,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">Email address</div>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="label"
+              placeholder="Email address"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -89,7 +142,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">Address line 2</div>
+            <input
+              type="text"
+              value={addressLine2}
+              onChange={(e) => setAddressLine2(e.target.value)}
+              className="label"
+              placeholder="Address line 2"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -100,7 +159,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">Country</div>
+            <input
+              type="text"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className="label"
+              placeholder="Country"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -116,7 +181,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">State</div>
+            <input
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              className="label"
+              placeholder="State"
+            />
           </div>
         </div>
         <div className="helpertext">
@@ -132,7 +203,13 @@ const LabStaffSignup = () => {
         <div className="input">
           <div className="content">
             <div className="min-height" />
-            <div className="label">City</div>
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="label"
+              placeholder="City"
+            />
           </div>
         </div>
         <div className="helpertext">

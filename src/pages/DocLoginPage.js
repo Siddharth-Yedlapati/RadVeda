@@ -1,13 +1,31 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DocLoginPage.css";
 
 const DocLoginPage = () => {
   const navigate = useNavigate();
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
+
+  const validateEmail = (email) => {
+    // Basic email validation regex
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
   const onRectangleClick = useCallback(() => {
+    if (!emailOrPhone || !password) {
+      alert("Please enter both email/phone and password.");
+      return;
+    }
+
+    if (!validateEmail(emailOrPhone)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     navigate("/doc-dashboard");
-  }, [navigate]);
+  }, [navigate, emailOrPhone, password, validateEmail]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/doc-signup-1");
@@ -32,7 +50,13 @@ const DocLoginPage = () => {
         <div className="input67">
           <div className="content72">
             <div className="min-height67" />
-            <div className="label67">Enter Email or Phone</div>
+            <input
+              type="text"
+              className="label67"
+              value={emailOrPhone}
+              onChange={(e) => setEmailOrPhone(e.target.value)}
+              placeholder="Enter Email or Phone"
+            />
           </div>
         </div>
         <div className="helpertext67">
@@ -43,7 +67,13 @@ const DocLoginPage = () => {
         <div className="input67">
           <div className="content72">
             <div className="min-height67" />
-            <div className="label67">Password</div>
+            <input
+              type="password"
+              className="label67"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+            />
           </div>
         </div>
         <div className="helpertext67">
