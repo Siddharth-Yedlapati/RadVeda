@@ -1,0 +1,44 @@
+.back16,
+.image-13-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.image-13-icon {
+  width: 630px;
+  height: 292px;
+  object-fit: cover;
+}
+.back16 {
+  letter-spacing: 0em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.back-wrapper5 {
+  width: 42px;
+  position: relative;
+  height: 28px;
+}
+.rad-cons-pfrbd-editor-inner {
+  position: absolute;
+  top: 261px;
+  left: 537px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 77px;
+  height: 17px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.rad-cons-pfrbd-editor {
+  width: 100%;
+  position: relative;
+  height: 292px;
+  text-align: left;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}

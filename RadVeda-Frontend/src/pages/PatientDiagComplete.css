@@ -1,0 +1,316 @@
+.patient-diag-complete-child {
+  position: absolute;
+  top: 47px;
+  left: 27px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 1411px;
+  height: 786px;
+}
+.vector-icon156 {
+  position: absolute;
+  height: 2.67%;
+  width: 1.67%;
+  top: 88%;
+  right: 26.46%;
+  bottom: 9.34%;
+  left: 71.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.patient-diag-complete-item {
+  position: absolute;
+  top: 7px;
+  left: 1385px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.vector-icon157,
+.vector-icon158,
+.vector-icon159 {
+  position: absolute;
+  height: 70.83%;
+  width: 71.25%;
+  top: 8.33%;
+  right: 14.58%;
+  bottom: 20.83%;
+  left: 14.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vector-icon158,
+.vector-icon159 {
+  height: 8.33%;
+  width: 23.33%;
+  top: 83.33%;
+  right: 38.33%;
+  bottom: 8.33%;
+  left: 38.33%;
+}
+.vector-icon159 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+.iconnotification-bing-child33 {
+  position: absolute;
+  height: 41.67%;
+  width: 41.67%;
+  top: 0;
+  right: 0;
+  bottom: 58.33%;
+  left: 58.33%;
+  border-radius: 50%;
+  background-color: var(--red);
+}
+.div67 {
+  position: absolute;
+  width: 33.33%;
+  top: 4.17%;
+  left: 62.5%;
+  font-weight: 500;
+  display: inline-block;
+}
+.iconnotification-bing35,
+.need-help-icon35 {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+.iconnotification-bing35 {
+  left: 1341px;
+  font-size: var(--font-size-7xs);
+}
+.need-help-icon35 {
+  left: 1297px;
+  overflow: hidden;
+}
+.patient-diag-complete-inner {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.patient-diag-complete-child1,
+.test-details21 {
+  position: absolute;
+  top: 199px;
+  left: 709px;
+  width: 19px;
+  height: 25px;
+}
+.test-details21 {
+  top: 47px;
+  left: 37px;
+  font-size: var(--font-size-21xl);
+  text-transform: capitalize;
+  display: inline-block;
+  width: 337px;
+  height: 92px;
+}
+.frame-child338 {
+  position: absolute;
+  top: 47px;
+  left: 412px;
+  width: 91px;
+  height: 206px;
+}
+.frame-child339,
+.frame-child340 {
+  position: absolute;
+  top: 67px;
+  left: 721px;
+  width: 64px;
+  height: 206px;
+}
+.frame-child340 {
+  top: 125px;
+  left: 558px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-darkslategray-100);
+  width: 326px;
+  height: 363px;
+}
+.test-image2 {
+  position: absolute;
+  top: 156px;
+  left: 628px;
+  font-size: var(--font-size-5xl);
+  text-transform: capitalize;
+  display: inline-block;
+  width: 251px;
+  height: 29px;
+}
+.xray1-1-icon19 {
+  position: absolute;
+  top: 223px;
+  left: 584px;
+  width: 275px;
+  height: 183px;
+  object-fit: cover;
+}
+.download-test-report {
+  position: absolute;
+  top: 0;
+  left: 0;
+  letter-spacing: 0em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.download-test-report-wrapper {
+  width: 187px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper80 {
+  position: absolute;
+  top: 545px;
+  left: 541px;
+  border-radius: var(--br-5xs);
+  background-color: #bd6c6c;
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--btn-l-semi-bold);
+}
+.view-doctor-remarks-wrapper1 {
+  width: 183px;
+  position: relative;
+  height: 28px;
+}
+.group-wrapper81 {
+  position: absolute;
+  top: 667px;
+  left: 232px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--btn-l-semi-bold);
+}
+.frame-child341 {
+  top: 313px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child341,
+.frame-child342,
+.frame-child343 {
+  position: absolute;
+  left: 529px;
+  width: 29px;
+}
+.frame-child342 {
+  top: 267px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child343 {
+  top: 282px;
+  height: 48px;
+}
+.frame-child344,
+.frame-child345 {
+  position: absolute;
+  top: 279px;
+  left: 531px;
+  width: 25px;
+  height: 24px;
+}
+.frame-child345 {
+  top: 310px;
+  object-fit: contain;
+}
+.frame-child346 {
+  position: absolute;
+  top: 305.5px;
+  left: 528.5px;
+  border-top: 1px solid var(--btnbkgnormal);
+  box-sizing: border-box;
+  width: 30px;
+  height: 1px;
+}
+.test-details-parent4 {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  width: 881px;
+  height: 705px;
+}
+.view-personnel-info-wrapper15 {
+  width: 167px;
+  position: relative;
+  height: 28px;
+}
+.patient-diag-complete-inner1 {
+  position: absolute;
+  top: 689px;
+  left: 885px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--btn-l-semi-bold);
+}
+.back-wrapper44 {
+  width: 42px;
+  position: relative;
+  height: 28px;
+}
+.patient-diag-complete-inner2 {
+  position: absolute;
+  top: 743px;
+  left: 96px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 112px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--btn-l-semi-bold);
+}
+.patient-diag-complete {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-gray-300);
+  height: 859px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--font-poppins);
+}

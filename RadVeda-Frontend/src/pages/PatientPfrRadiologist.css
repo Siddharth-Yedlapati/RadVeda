@@ -1,0 +1,280 @@
+.patient-pfr-radiologist-child {
+  position: absolute;
+  top: 47px;
+  left: 27px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gray-200);
+  width: 1411px;
+  height: 786px;
+}
+.vector-icon148 {
+  position: absolute;
+  height: 2.67%;
+  width: 1.67%;
+  top: 88%;
+  right: 26.46%;
+  bottom: 9.34%;
+  left: 71.88%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 0;
+}
+.patient-pfr-radiologist-item {
+  position: absolute;
+  top: 7px;
+  left: 1385px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.vector-icon149,
+.vector-icon150,
+.vector-icon151 {
+  position: absolute;
+  height: 70.83%;
+  width: 71.25%;
+  top: 8.33%;
+  right: 14.58%;
+  bottom: 20.83%;
+  left: 14.17%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.vector-icon150,
+.vector-icon151 {
+  height: 8.33%;
+  width: 23.33%;
+  top: 83.33%;
+  right: 38.33%;
+  bottom: 8.33%;
+  left: 38.33%;
+}
+.vector-icon151 {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  object-fit: contain;
+  opacity: 0;
+}
+.iconnotification-bing-child31 {
+  position: absolute;
+  height: 41.67%;
+  width: 41.67%;
+  top: 0;
+  right: 0;
+  bottom: 58.33%;
+  left: 58.33%;
+  border-radius: 50%;
+  background-color: var(--red);
+}
+.div65 {
+  position: absolute;
+  width: 33.33%;
+  top: 4.17%;
+  left: 62.5%;
+  font-weight: 500;
+  display: inline-block;
+}
+.iconnotification-bing33,
+.need-help-icon33 {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+}
+.iconnotification-bing33 {
+  left: 1341px;
+  font-size: var(--font-size-7xs);
+  font-family: var(--font-poppins);
+}
+.need-help-icon33 {
+  left: 1297px;
+  overflow: hidden;
+}
+.patient-pfr-radiologist-inner {
+  position: absolute;
+  top: -160px;
+  left: 209.3px;
+  border-radius: 50%;
+  background-color: var(--color-deepskyblue-100);
+  filter: blur(70.41px);
+  width: 39.4px;
+  height: 46px;
+}
+.patient-pfr-radiologist-child1,
+.test-details19 {
+  position: absolute;
+  top: 199px;
+  left: 709px;
+  width: 19px;
+  height: 25px;
+}
+.test-details19 {
+  top: 47px;
+  left: 37px;
+  text-transform: capitalize;
+  display: inline-block;
+  width: 337px;
+  height: 92px;
+}
+.frame-child320 {
+  position: absolute;
+  top: 47px;
+  left: 412px;
+  width: 91px;
+  height: 206px;
+}
+.frame-child321,
+.frame-child322 {
+  position: absolute;
+  top: 67px;
+  left: 721px;
+  width: 64px;
+  height: 206px;
+}
+.frame-child322 {
+  top: 125px;
+  left: 558px;
+  border-radius: var(--br-3xs);
+  background-color: var(--color-darkslategray-100);
+  width: 326px;
+  height: 363px;
+}
+.test-image {
+  position: absolute;
+  top: 156px;
+  left: 657px;
+  font-size: var(--font-size-5xl);
+  text-transform: capitalize;
+  display: inline-block;
+  width: 251px;
+  height: 29px;
+}
+.xray1-1-icon17 {
+  position: absolute;
+  top: 223px;
+  left: 584px;
+  width: 275px;
+  height: 183px;
+  object-fit: cover;
+}
+.frame-child323 {
+  top: 313px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child323,
+.frame-child324,
+.frame-child325 {
+  position: absolute;
+  left: 529px;
+  width: 29px;
+}
+.frame-child324 {
+  top: 267px;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-200);
+  height: 32px;
+}
+.frame-child325 {
+  top: 282px;
+  height: 48px;
+}
+.frame-child326,
+.frame-child327 {
+  position: absolute;
+  top: 279px;
+  left: 531px;
+  width: 25px;
+  height: 24px;
+}
+.frame-child327 {
+  top: 310px;
+  object-fit: contain;
+}
+.frame-child328 {
+  position: absolute;
+  top: 305.5px;
+  left: 528.5px;
+  border-top: 1px solid var(--btnbkgnormal);
+  box-sizing: border-box;
+  width: 30px;
+  height: 1px;
+}
+.test-details-parent2 {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  width: 881px;
+  height: 705px;
+  font-size: var(--font-size-21xl);
+  font-family: var(--font-poppins);
+}
+.back-wrapper42 {
+  width: 42px;
+  position: relative;
+  height: 28px;
+}
+.patient-pfr-radiologist-inner1 {
+  position: absolute;
+  top: 743px;
+  left: 96px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 112px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.view-doctor-remarks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  letter-spacing: 0em;
+  line-height: 28px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.view-doctor-remarks-wrapper {
+  width: 183px;
+  position: relative;
+  height: 28px;
+}
+.patient-pfr-radiologist-inner2,
+.patient-pfr-radiologist-inner3 {
+  position: absolute;
+  top: 590px;
+  left: 567px;
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 361px;
+  height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.patient-pfr-radiologist-inner3 {
+  cursor: pointer;
+}
+.patient-pfr-radiologist {
+  width: 100%;
+  position: relative;
+  background-color: var(--color-gray-300);
+  height: 859px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
