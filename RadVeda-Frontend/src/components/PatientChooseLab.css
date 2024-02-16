@@ -83,7 +83,7 @@
 }
 .choose,
 .choose-lab {
-  letter-spacing: 0.02em;
+  letter-spacing: 0em;
   line-height: 28px;
 }
 .choose-lab {
@@ -234,7 +234,7 @@
 .apply-filter {
   top: 0;
   left: 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0em;
   line-height: 28px;
   font-weight: 600;
   white-space: pre-wrap;

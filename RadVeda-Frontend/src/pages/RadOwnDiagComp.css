@@ -369,14 +369,16 @@
 .view-report {
   top: 0;
   left: 0;
-  letter-spacing: 0.02em;
+  /* letter-spacing: 0em; */
   line-height: 28px;
+  align-items: center;
   font-weight: 600;
 }
 .view-report-wrapper {
-  width: 104px;
-  position: relative;
-  height: 28px;
+  width: 100%;
+  left: 38%;
+  position: absolute;
+  height: 50%;
 }
 .rad-own-diag-comp-inner3 {
   position: absolute;
