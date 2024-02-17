@@ -43,6 +43,18 @@ const RadOwnDiagComp = () => {
     navigate("/rad-own-pat-details");
   }, [navigate]);
 
+  const viewReportNav = useCallback(() => {
+    navigate("/rad-own-diag-comp");
+  }, [navigate]);
+
+  const viewPersonnelNav = useCallback(() => {
+    navigate("/rad-own-diag-comp");
+  }, [navigate]);
+
+  const viewOtherRadNav = useCallback(() => {
+    navigate("/rad-own-diag-comp");
+  }, [navigate]);
+
   const openRadOwnOtherRadNotes = useCallback(() => {
     setRadOwnOtherRadNotesOpen(true);
   }, []);
@@ -97,9 +109,9 @@ const RadOwnDiagComp = () => {
               <div className="view-report">View own notes</div>
             </div>
           </div>
-          <div className="group-wrapper44">
-            <div className="view-personnel-info-frame">
-              <div className="view-report">View Personnel Info</div>
+          <div className="group-wrapper44" onClick={viewPersonnelNav}>
+            <div className="view-personnel-info-frame" onClick={viewPersonnelNav}>
+              <div className="view-report" onClick={viewPersonnelNav}>View Personnel Info</div>
             </div>
           </div>
           <div className="frame-child66" />
@@ -138,9 +150,9 @@ const RadOwnDiagComp = () => {
         <b className="annotations-by-other2">
           Annotations by other Radiologists
         </b>
-        <div className="rad-own-diag-comp-inner3">
-          <div className="view-report-wrapper">
-            <div className="view-report">View Report</div>
+        <div className="rad-own-diag-comp-inner3" onClick={viewReportNav}>
+          <div className="view-report-wrapper" onClick={viewReportNav}>
+            <div className="view-report" onClick={viewReportNav}>View Report</div>
           </div>
         </div>
         <div className="rad-own-diag-comp-child3" />
@@ -153,9 +165,9 @@ const RadOwnDiagComp = () => {
         <img className="rad-own-diag-comp-child6" alt="" src="/polygon-5.svg" />
         <img className="rad-own-diag-comp-child7" alt="" src="/polygon-6.svg" />
         <div className="rad-own-diag-comp-child8" />
-        <div className="rad-own-diag-comp-inner4">
+        <div className="rad-own-diag-comp-inner4" onClick={viewOtherRadNav}>
           <div className="view-other-radiologists-detai-frame">
-            <div className="view-report">View Other Radiologist’s Details</div>
+            <div className="view-report" onClick={viewOtherRadNav}>View Other Radiologist’s Details</div>
           </div>
         </div>
       </div>
