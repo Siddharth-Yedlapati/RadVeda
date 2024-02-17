@@ -16,6 +16,10 @@ const DocPTVerification = () => {
     setNPUserOptionsOpen(false);
   }, []);
 
+  const sendOTP = useCallback(() => {
+    //send otp logic
+  }, []);
+
   const onFrameContainerClick = useCallback(() => {
     navigate("/doc-pt-details");
   }, [navigate]);
@@ -59,9 +63,9 @@ const DocPTVerification = () => {
             </div>
           </div>
         </div>
-        <div className="doc-pt-verification-inner1">
+        <div className="doc-pt-verification-inner1"onClick={sendOTP}>
           <div className="send-otp-wrapper">
-            <div className="enter-otp">Send OTP</div>
+            <div className="enter-otp" onClick={sendOTP}>Send OTP</div>
           </div>
         </div>
         <div className="text-fieldoutlined69">

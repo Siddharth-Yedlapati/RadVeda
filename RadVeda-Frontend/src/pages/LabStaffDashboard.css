@@ -188,11 +188,13 @@
   white-space: pre-wrap;
   display: inline-block;
   width: 140px;
+  cursor: pointer;
 }
 .notify-patient-wrapper {
   width: 140px;
   position: relative;
   height: 28px;
+  cursor: pointer;
 }
 .group-wrapper {
   position: absolute;

@@ -246,6 +246,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .frame-child66 {
   top: 344px;
@@ -373,12 +374,14 @@
   line-height: 28px;
   align-items: center;
   font-weight: 600;
+  cursor: pointer;
 }
 .view-report-wrapper {
   width: 100%;
   left: 38%;
   position: absolute;
   height: 50%;
+  cursor: pointer;
 }
 .rad-own-diag-comp-inner3 {
   position: absolute;
@@ -392,6 +395,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .rad-own-diag-comp-child3,
 .rad-own-diag-comp-child4 {
@@ -451,6 +455,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .rad-own-diag-comp {
   width: 100%;

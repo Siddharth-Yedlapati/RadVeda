@@ -20,6 +20,10 @@ const LabStaffDashboard = () => {
     navigate("/labstaff-test-pending");
   }, [navigate]);
 
+  const onNotifyPatient = useCallback(() => {
+    navigate("/labstaff-test-pending");
+  }, [navigate]);
+
   return (
     <>
       <div className="labstaff-dashboard">

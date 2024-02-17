@@ -196,6 +196,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .min-height69 {
   width: 0;
