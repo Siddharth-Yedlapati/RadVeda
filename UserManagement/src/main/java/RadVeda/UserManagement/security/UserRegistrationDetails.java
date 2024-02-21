@@ -23,6 +23,7 @@ public class UserRegistrationDetails implements UserDetails {
         this.userName = user.getEmail();
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
+
         this.authorities = Arrays.stream(user.getRole()
                 .split(","))
                 .map(SimpleGrantedAuthority::new)

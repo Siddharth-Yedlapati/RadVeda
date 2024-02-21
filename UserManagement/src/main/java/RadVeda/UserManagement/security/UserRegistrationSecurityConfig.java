@@ -23,23 +23,24 @@ public class UserRegistrationSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry
+                .authorizeHttpRequests(
+                        authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                                 .requestMatchers("/adminSignUp/**").permitAll()
-                                .requestMatchers("/admins/**").hasAnyRole("ADMIN")
+                                .requestMatchers("/admins/**").hasAnyAuthority("ADMIN")
                                 .requestMatchers("/superadminSignUp/**").permitAll()
-                                .requestMatchers("/superadmins/**").hasAnyRole("SUPERADMIN")
+                                .requestMatchers("/superadmins/**").hasAnyAuthority("SUPERADMIN")
                                 .requestMatchers("/doctorSignUp/**").permitAll()
-                                .requestMatchers("/doctors/**").hasAnyRole("DOCTOR")
+                                .requestMatchers("/doctors/**").hasAnyAuthority("DOCTOR")
                                 .requestMatchers("/patientSignUp/**").permitAll()
-                                .requestMatchers("/patients/**").hasAnyRole("PATIENT")
+                                .requestMatchers("/patients/**").hasAnyAuthority("PATIENT")
                                 .requestMatchers("/radiologistSignUp/**").permitAll()
-                                .requestMatchers("/radiologists/**").hasAnyRole("RADIOLOGIST")
+                                .requestMatchers("/radiologists/**").hasAnyAuthority("RADIOLOGIST")
                                 .requestMatchers("/labstaffSignUp/**").permitAll()
-                                .requestMatchers("/labstaffs/**").hasAnyRole("LABSTAFF")
+                                .requestMatchers("/labstaffs/**").hasAnyAuthority("LABSTAFF")
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }

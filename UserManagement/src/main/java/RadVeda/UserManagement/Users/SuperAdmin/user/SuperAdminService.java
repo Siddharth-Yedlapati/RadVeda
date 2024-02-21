@@ -1,11 +1,11 @@
 package radveda.usermanagement.Users.SuperAdmin.user;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import radveda.usermanagement.exception.UserAlreadyExistsException;
 import radveda.usermanagement.Users.SuperAdmin.signup.SuperAdminSignUpRequest;
 import radveda.usermanagement.Users.SuperAdmin.signup.token.SuperAdminVerificationToken;
 import radveda.usermanagement.Users.SuperAdmin.signup.token.SuperAdminVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import radveda.usermanagement.Users.SuperAdmin.signup.SuperAdminSignUpRequest;
 import radveda.usermanagement.Users.SuperAdmin.signup.token.SuperAdminVerificationTokenRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SuperAdminService implements SuperAdminServiceInterface {
     private final SuperAdminRepository superadminRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final SuperAdminVerificationTokenRepository superadminTokenRepository;
 
     @Override
@@ -44,7 +44,10 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         newSuperAdmin.setState(request.state());
         newSuperAdmin.setCity(request.city());
         newSuperAdmin.setEmail(request.email());
-        newSuperAdmin.setPassword(request.password());
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newSuperAdmin.setPassword(encodedPassword);
+
         newSuperAdmin.setPhoneNumber(request.phoneNumber());
         newSuperAdmin.setOrgName(request.orgName());
         newSuperAdmin.setOrgAddressL1(request.orgAddressL1());

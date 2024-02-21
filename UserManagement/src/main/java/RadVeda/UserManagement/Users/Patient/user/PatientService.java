@@ -1,11 +1,11 @@
 package radveda.usermanagement.Users.Patient.user;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import radveda.usermanagement.exception.UserAlreadyExistsException;
 import radveda.usermanagement.Users.Patient.signup.PatientSignUpRequest;
 import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationToken;
 import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import radveda.usermanagement.Users.Patient.signup.PatientSignUpRequest;
 import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PatientService implements PatientServiceInterface {
     private final PatientRepository patientRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final PatientVerificationTokenRepository patientTokenRepository;
 
     @Override
@@ -44,7 +44,10 @@ public class PatientService implements PatientServiceInterface {
         newPatient.setState(request.state());
         newPatient.setCity(request.city());
         newPatient.setEmail(request.email());
-        newPatient.setPassword(request.password());
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newPatient.setPassword(encodedPassword);
+
         newPatient.setPhoneNumber(request.phoneNumber());
         newPatient.setOrgName(request.orgName());
         newPatient.setOrgAddressL1(request.orgAddressL1());

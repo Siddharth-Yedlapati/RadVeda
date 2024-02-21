@@ -1,11 +1,11 @@
 package radveda.usermanagement.Users.LabStaff.user;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import radveda.usermanagement.exception.UserAlreadyExistsException;
 import radveda.usermanagement.Users.LabStaff.signup.LabStaffSignUpRequest;
 import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
 import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import radveda.usermanagement.Users.LabStaff.signup.LabStaffSignUpRequest;
 import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LabStaffService implements LabStaffServiceInterface {
     private final LabStaffRepository labstaffRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final LabStaffVerificationTokenRepository labstaffTokenRepository;
 
     @Override
@@ -44,7 +44,10 @@ public class LabStaffService implements LabStaffServiceInterface {
         newLabStaff.setState(request.state());
         newLabStaff.setCity(request.city());
         newLabStaff.setEmail(request.email());
-        newLabStaff.setPassword(request.password());
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newLabStaff.setPassword(encodedPassword);
+
         newLabStaff.setPhoneNumber(request.phoneNumber());
         newLabStaff.setOrgName(request.orgName());
         newLabStaff.setOrgAddressL1(request.orgAddressL1());

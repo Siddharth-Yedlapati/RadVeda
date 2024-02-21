@@ -1,11 +1,11 @@
 package radveda.usermanagement.Users.Admin.user;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import radveda.usermanagement.exception.UserAlreadyExistsException;
 import radveda.usermanagement.Users.Admin.signup.AdminSignUpRequest;
 import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationToken;
 import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import radveda.usermanagement.Users.Admin.signup.AdminSignUpRequest;
 import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService implements AdminServiceInterface {
     private final AdminRepository adminRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final AdminVerificationTokenRepository adminTokenRepository;
 
     @Override
@@ -44,7 +44,10 @@ public class AdminService implements AdminServiceInterface {
         newAdmin.setState(request.state());
         newAdmin.setCity(request.city());
         newAdmin.setEmail(request.email());
-        newAdmin.setPassword(request.password());
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newAdmin.setPassword(encodedPassword);
+
         newAdmin.setPhoneNumber(request.phoneNumber());
         newAdmin.setOrgName(request.orgName());
         newAdmin.setOrgAddressL1(request.orgAddressL1());

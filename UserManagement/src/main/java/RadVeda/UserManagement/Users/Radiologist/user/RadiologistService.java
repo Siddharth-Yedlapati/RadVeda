@@ -1,11 +1,11 @@
 package radveda.usermanagement.Users.Radiologist.user;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import radveda.usermanagement.exception.UserAlreadyExistsException;
 import radveda.usermanagement.Users.Radiologist.signup.RadiologistSignUpRequest;
 import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationToken;
 import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import radveda.usermanagement.Users.Radiologist.signup.RadiologistSignUpRequest;
 import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RadiologistService implements RadiologistServiceInterface {
     private final RadiologistRepository radiologistRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final RadiologistVerificationTokenRepository radiologistTokenRepository;
 
     @Override
@@ -44,7 +44,10 @@ public class RadiologistService implements RadiologistServiceInterface {
         newRadiologist.setState(request.state());
         newRadiologist.setCity(request.city());
         newRadiologist.setEmail(request.email());
-        newRadiologist.setPassword(request.password());
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newRadiologist.setPassword(encodedPassword);
+
         newRadiologist.setPhoneNumber(request.phoneNumber());
         newRadiologist.setOrgName(request.orgName());
         newRadiologist.setOrgAddressL1(request.orgAddressL1());
