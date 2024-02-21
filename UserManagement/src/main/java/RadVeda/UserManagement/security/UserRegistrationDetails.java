@@ -1,6 +1,6 @@
 package radveda.usermanagement.security;
 
-import com.dailycodework.sbemailverificationdemo.user.User;
+import radveda.usermanagement.Users.User.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

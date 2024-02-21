@@ -1,10 +1,10 @@
 package radveda.usermanagement.Users.Admin.signup.token;
 
-import com.dailycodework.sbemailverificationdemo.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import radveda.usermanagement.Users.Admin.user.Admin;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,13 +22,13 @@ public class AdminVerificationToken {
     private static final int EXPIRATION_TIME = 15;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 
-    public AdminVerificationToken(String token, User user) {
+    public AdminVerificationToken(String token, Admin admin) {
         super();
         this.token = token;
-        this.user = user;
+        this.admin = admin;
         this.expirationTime = this.getTokenExpirationTime();
     }
 
