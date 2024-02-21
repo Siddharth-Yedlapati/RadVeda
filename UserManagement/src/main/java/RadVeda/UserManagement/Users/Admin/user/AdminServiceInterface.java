@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AdminServiceInterface {
-    List<Admin> getUsers();
+    List<Admin> getAdmins();
 
     Admin registerAdmin(AdminSignUpRequest request);
 

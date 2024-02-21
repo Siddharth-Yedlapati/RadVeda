@@ -1,11 +1,11 @@
 package radveda.usermanagement.Users.Admin.user;
 
-import com.dailycodework.sbemailverificationdemo.exception.UserAlreadyExistsException;
-import com.dailycodework.sbemailverificationdemo.registration.RegistrationRequest;
-import com.dailycodework.sbemailverificationdemo.registration.token.VerificationToken;
-import com.dailycodework.sbemailverificationdemo.registration.token.VerificationTokenRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import radveda.usermanagement.exception.UserAlreadyExistsException;
+import radveda.usermanagement.Users.Admin.signup.AdminSignUpRequest;
+import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationToken;
+import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import radveda.usermanagement.Users.Admin.signup.AdminSignUpRequest;
 import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService implements AdminServiceInterface {
     private final AdminRepository adminRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final AdminVerificationTokenRepository adminTokenRepository;
 
     @Override
@@ -44,7 +44,10 @@ public class AdminService implements AdminServiceInterface {
         newAdmin.setState(request.state());
         newAdmin.setCity(request.city());
         newAdmin.setEmail(request.email());
-        newAdmin.setPassword(request.password());
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newAdmin.setPassword(encodedPassword);
+
         newAdmin.setPhoneNumber(request.phoneNumber());
         newAdmin.setOrgName(request.orgName());
         newAdmin.setOrgAddressL1(request.orgAddressL1());
@@ -60,24 +63,24 @@ public class AdminService implements AdminServiceInterface {
 
     @Override
     public void saveAdminVerificationToken(Admin theAdmin, String token) {
-        var verificationToken = new VerificationToken(token, theAdmin);
+        var verificationToken = new AdminVerificationToken(token, theAdmin);
         adminTokenRepository.save(verificationToken);
     }
 
     @Override
     public String validateToken(String theToken) {
-        VerificationToken token = adminTokenRepository.findByToken(theToken);
+        AdminVerificationToken token = adminTokenRepository.findByToken(theToken);
         if (token == null) {
             return "Invalid verification token";
         }
-        Admin user = token.getUser();
+        Admin admin = token.getAdmin();
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-            tokenRepository.delete(token);
+            adminTokenRepository.delete(token);
             return "Token already expired";
         }
-        user.setEnabled(true);
-        userRepository.save(user);
+        admin.setEnabled(true);
+        adminRepository.save(admin);
         return "valid";
     }
 }

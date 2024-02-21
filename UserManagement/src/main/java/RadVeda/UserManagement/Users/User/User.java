@@ -34,7 +34,7 @@ public abstract class User {
 
     private String phoneNumber;
 
-    private String role;
+    public String role;
     private boolean isEnabled = false;
 
 }
