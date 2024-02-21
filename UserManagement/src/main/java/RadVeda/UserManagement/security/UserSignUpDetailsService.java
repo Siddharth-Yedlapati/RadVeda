@@ -12,11 +12,9 @@ import radveda.usermanagement.Users.Patient.user.PatientRepository;
 import radveda.usermanagement.Users.Radiologist.user.RadiologistRepository;
 import radveda.usermanagement.Users.SuperAdmin.user.SuperAdminRepository;
 
-import javax.swing.text.html.Option;
-
 @Service
 @RequiredArgsConstructor
-public class UserRegistrationDetailsService implements UserDetailsService {
+public class UserSignUpDetailsService implements UserDetailsService {
     private final AdminRepository adminRepository;
     private final DoctorRepository doctorRepository;
     private final LabStaffRepository labStaffRepository;
@@ -29,7 +27,7 @@ public class UserRegistrationDetailsService implements UserDetailsService {
 
 
         return adminRepository.findByEmail(email)
-                .map(UserRegistrationDetails::new)
+                .map(UserSignUpDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
