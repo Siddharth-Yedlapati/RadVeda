@@ -70,7 +70,7 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         if (token == null) {
             return "Invalid verification token";
         }
-        SuperAdmin superadmin = token.getSuperAdmin();
+        SuperAdmin superadmin = token.getSuperadmin();
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             superadminTokenRepository.delete(token);

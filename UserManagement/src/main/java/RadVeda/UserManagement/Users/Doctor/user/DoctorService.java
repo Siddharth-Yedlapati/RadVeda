@@ -1,11 +1,11 @@
 package radveda.usermanagement.Users.Doctor.user;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import radveda.usermanagement.exception.UserAlreadyExistsException;
 import radveda.usermanagement.Users.Doctor.signup.DoctorSignUpRequest;
 import radveda.usermanagement.Users.Doctor.signup.token.DoctorVerificationToken;
 import radveda.usermanagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import radveda.usermanagement.Users.Doctor.signup.DoctorSignUpRequest;
 import radveda.usermanagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DoctorService implements DoctorServiceInterface {
     private final DoctorRepository doctorRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final DoctorVerificationTokenRepository doctorTokenRepository;
 
     @Override
@@ -44,7 +44,10 @@ public class DoctorService implements DoctorServiceInterface {
         newDoctor.setState(request.state());
         newDoctor.setCity(request.city());
         newDoctor.setEmail(request.email());
-        newDoctor.setPassword(request.password());
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        newDoctor.setPassword(encodedPassword);
+
         newDoctor.setPhoneNumber(request.phoneNumber());
         newDoctor.setOrgName(request.orgName());
         newDoctor.setOrgAddressL1(request.orgAddressL1());

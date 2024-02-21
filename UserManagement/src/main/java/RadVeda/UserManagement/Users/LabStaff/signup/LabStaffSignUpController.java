@@ -30,7 +30,7 @@ public class LabStaffSignUpController {
     @GetMapping("/verifyEmail")
     public String verifyEmail(@RequestParam("token") String token) {
         LabStaffVerificationToken theToken = labstaffTokenRepository.findByToken(token);
-        if (theToken.getLabStaff().isEnabled()) {
+        if (theToken.getLabstaff().isEnabled()) {
             return "This account has already been verified. Please login!";
         }
         String verificationResult = labstaffService.validateToken(token);

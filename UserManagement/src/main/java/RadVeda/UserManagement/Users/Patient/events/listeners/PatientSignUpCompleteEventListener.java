@@ -33,7 +33,7 @@ public class PatientSignUpCompleteEventListener implements ApplicationListener<P
         // 3. Save the verification token for the patient
         patientService.savePatientVerificationToken(thePatient, verificationToken);
         // 4 Build the verification url to be sent to the patient
-        String url = event.getApplicationUrl() + "/register/verifyEmail?token=" + verificationToken;
+        String url = event.getApplicationUrl() + "/patientSignUp/verifyEmail?token=" + verificationToken;
         // 5. Send the email.
         try {
             sendVerificationEmail(url);
@@ -46,11 +46,11 @@ public class PatientSignUpCompleteEventListener implements ApplicationListener<P
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {
         String subject = "Email Verification";
         String senderName = "RadVeda";
-        String mailContent = "<p> Hi, " + thePatient.getFirstName() + ", </p>" +
-                "<p>Thank you for registering with us," + "" +
-                "Please, follow the link below to complete your registration.</p>" +
+        String mailContent = "<p> Hi " + thePatient.getFirstName() + ", </p>" +
+                "<p>Thank you for registering with us." + " " +
+                "Please follow the link below to complete your registration.</p>" +
                 "<a href=\"" + url + "\">Verify your email to activate your account</a>" +
-                "<p> Thank you <br> RadVeda Support Team";
+                "<p>Thank you,<br>RadVeda Support Team";
         MimeMessage message = mailSender.createMimeMessage();
         var messageHelper = new MimeMessageHelper(message);
         messageHelper.setFrom("RadVeda.Team@gmail.com", senderName);

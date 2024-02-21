@@ -30,7 +30,7 @@ public class SuperAdminSignUpController {
     @GetMapping("/verifyEmail")
     public String verifyEmail(@RequestParam("token") String token) {
         SuperAdminVerificationToken theToken = superadminTokenRepository.findByToken(token);
-        if (theToken.getSuperAdmin().isEnabled()) {
+        if (theToken.getSuperadmin().isEnabled()) {
             return "This account has already been verified. Please login!";
         }
         String verificationResult = superadminService.validateToken(token);

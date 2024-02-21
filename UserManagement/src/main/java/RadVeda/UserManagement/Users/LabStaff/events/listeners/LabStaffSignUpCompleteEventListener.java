@@ -27,13 +27,13 @@ public class LabStaffSignUpCompleteEventListener implements ApplicationListener<
     @Override
     public void onApplicationEvent(LabStaffSignUpCompleteEvent event) {
         // 1. Get the newly registered labstaff
-        theLabStaff = event.getLabStaff();
+        theLabStaff = event.getLabstaff();
         // 2. Create a verification token for the labstaff
         String verificationToken = UUID.randomUUID().toString();
         // 3. Save the verification token for the labstaff
         labstaffService.saveLabStaffVerificationToken(theLabStaff, verificationToken);
         // 4 Build the verification url to be sent to the labstaff
-        String url = event.getApplicationUrl() + "/register/verifyEmail?token=" + verificationToken;
+        String url = event.getApplicationUrl() + "/labstaffSignUp/verifyEmail?token=" + verificationToken;
         // 5. Send the email.
         try {
             sendVerificationEmail(url);
@@ -46,11 +46,11 @@ public class LabStaffSignUpCompleteEventListener implements ApplicationListener<
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {
         String subject = "Email Verification";
         String senderName = "RadVeda";
-        String mailContent = "<p> Hi, " + theLabStaff.getFirstName() + ", </p>" +
-                "<p>Thank you for registering with us," + "" +
-                "Please, follow the link below to complete your registration.</p>" +
+        String mailContent = "<p> Hi " + theLabStaff.getFirstName() + ", </p>" +
+                "<p>Thank you for registering with us." + " " +
+                "Please follow the link below to complete your registration.</p>" +
                 "<a href=\"" + url + "\">Verify your email to activate your account</a>" +
-                "<p> Thank you <br> RadVeda Support Team";
+                "<p>Thank you,<br>RadVeda Support Team";
         MimeMessage message = mailSender.createMimeMessage();
         var messageHelper = new MimeMessageHelper(message);
         messageHelper.setFrom("RadVeda.Team@gmail.com", senderName);

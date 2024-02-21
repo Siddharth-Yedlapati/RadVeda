@@ -70,7 +70,7 @@ public class LabStaffService implements LabStaffServiceInterface {
         if (token == null) {
             return "Invalid verification token";
         }
-        LabStaff labstaff = token.getLabStaff();
+        LabStaff labstaff = token.getLabstaff();
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             labstaffTokenRepository.delete(token);
