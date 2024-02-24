@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class UserSignUpDetails implements UserDetails {
+public class UserManagementDetails implements UserDetails {
 
     private String userName;
     private String password;
     private boolean isEnabled;
     private List<GrantedAuthority> authorities;
 
-    public UserSignUpDetails(User user) {
-        this.userName = user.getEmail();
+    public UserManagementDetails(User user) {
+        this.userName = user.getRole() + UserManagementDetailsService.getDelimiter() + user.getEmail();
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
 
