@@ -10,7 +10,6 @@ import org.hibernate.annotations.NaturalId;
 @Getter
 @Setter
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +33,7 @@ public abstract class User {
 
     private String phoneNumber;
 
-    public String role;
+    private String role;
     private boolean isEnabled = false;
 
 }

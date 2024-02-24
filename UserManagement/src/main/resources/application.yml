@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
   mail:
     host: smtp.gmail.com
@@ -21,3 +21,6 @@ spring:
           auth: true
           starttls:
             enable: true
+  jwt:
+    secret: 8fafe408a14b81c3e649253fa8ebdc7c01a64a361fec74cc8903e2febdd2cac1
+    jwtExpirationInMs: 1800000
