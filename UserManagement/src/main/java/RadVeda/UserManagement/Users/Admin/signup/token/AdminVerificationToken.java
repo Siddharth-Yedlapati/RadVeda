@@ -1,10 +1,10 @@
-package radveda.usermanagement.Users.Admin.signup.token;
+package RadVeda.UserManagement.Users.Admin.signup.token;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import radveda.usermanagement.Users.Admin.user.Admin;
+import RadVeda.UserManagement.Users.Admin.user.Admin;
 
 import java.util.Calendar;
 import java.util.Date;

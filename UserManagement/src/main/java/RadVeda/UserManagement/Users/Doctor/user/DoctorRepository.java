@@ -1,4 +1,4 @@
-package radveda.usermanagement.Users.Doctor.user;
+package RadVeda.UserManagement.Users.Doctor.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

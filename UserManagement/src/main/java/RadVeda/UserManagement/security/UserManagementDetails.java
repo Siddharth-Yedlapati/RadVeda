@@ -1,6 +1,6 @@
-package radveda.usermanagement.security;
+package RadVeda.UserManagement.security;
 
-import radveda.usermanagement.Users.User.User;
+import RadVeda.UserManagement.Users.User.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

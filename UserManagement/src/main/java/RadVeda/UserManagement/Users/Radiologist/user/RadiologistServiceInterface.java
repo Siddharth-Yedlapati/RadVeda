@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.Radiologist.user;
+package RadVeda.UserManagement.Users.Radiologist.user;
 
-import radveda.usermanagement.Users.Radiologist.signup.RadiologistSignUpRequest;
+import RadVeda.UserManagement.Users.Radiologist.signup.RadiologistSignUpRequest;
 
 import java.util.List;
 import java.util.Optional;

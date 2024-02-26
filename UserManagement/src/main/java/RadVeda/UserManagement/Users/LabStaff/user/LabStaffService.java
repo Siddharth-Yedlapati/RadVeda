@@ -1,14 +1,14 @@
-package radveda.usermanagement.Users.LabStaff.user;
+package RadVeda.UserManagement.Users.LabStaff.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import radveda.usermanagement.exception.UserAlreadyExistsException;
-import radveda.usermanagement.Users.LabStaff.signup.LabStaffSignUpRequest;
-import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
-import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
+import RadVeda.UserManagement.exception.UserAlreadyExistsException;
+import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffSignUpRequest;
+import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
+import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import radveda.usermanagement.Users.LabStaff.signup.LabStaffSignUpRequest;
-import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
+import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffSignUpRequest;
+import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
 
 import java.util.Calendar;
 import java.util.List;

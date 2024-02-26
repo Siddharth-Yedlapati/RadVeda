@@ -1,15 +1,14 @@
-package radveda.usermanagement.Users.SuperAdmin.signup;
-
+package RadVeda.UserManagement.Users.SuperAdmin.signup;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
-import radveda.usermanagement.Users.SuperAdmin.events.SuperAdminSignUpCompleteEvent;
-import radveda.usermanagement.Users.SuperAdmin.signup.token.SuperAdminVerificationToken;
-import radveda.usermanagement.Users.SuperAdmin.signup.token.SuperAdminVerificationTokenRepository;
-import radveda.usermanagement.Users.SuperAdmin.user.SuperAdmin;
-import radveda.usermanagement.Users.SuperAdmin.user.SuperAdminService;
+import RadVeda.UserManagement.Users.SuperAdmin.events.SuperAdminSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.SuperAdmin.signup.token.SuperAdminVerificationToken;
+import RadVeda.UserManagement.Users.SuperAdmin.signup.token.SuperAdminVerificationTokenRepository;
+import RadVeda.UserManagement.Users.SuperAdmin.user.SuperAdmin;
+import RadVeda.UserManagement.Users.SuperAdmin.user.SuperAdminService;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +20,8 @@ public class SuperAdminSignUpController {
     private final SuperAdminVerificationTokenRepository superadminTokenRepository;
 
     @PostMapping
-    public String registerSuperAdmin(@RequestBody SuperAdminSignUpRequest signUpRequest, final HttpServletRequest request) {
+    public String registerSuperAdmin(@RequestBody SuperAdminSignUpRequest signUpRequest,
+            final HttpServletRequest request) {
         SuperAdmin superadmin = superadminService.registerSuperAdmin(signUpRequest);
         publisher.publishEvent(new SuperAdminSignUpCompleteEvent(superadmin, applicationUrl(request)));
         return "Success!! Please check your email to complete your registration";

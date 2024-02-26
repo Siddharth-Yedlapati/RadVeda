@@ -1,15 +1,14 @@
-package radveda.usermanagement.Users.LabStaff.signup;
-
+package RadVeda.UserManagement.Users.LabStaff.signup;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
-import radveda.usermanagement.Users.LabStaff.events.LabStaffSignUpCompleteEvent;
-import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
-import radveda.usermanagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
-import radveda.usermanagement.Users.LabStaff.user.LabStaff;
-import radveda.usermanagement.Users.LabStaff.user.LabStaffService;
+import RadVeda.UserManagement.Users.LabStaff.events.LabStaffSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
+import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaff;
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaffService;
 
 @RestController
 @RequiredArgsConstructor

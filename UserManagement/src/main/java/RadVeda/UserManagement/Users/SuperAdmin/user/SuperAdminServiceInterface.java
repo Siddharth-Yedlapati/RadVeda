@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.SuperAdmin.user;
+package RadVeda.UserManagement.Users.SuperAdmin.user;
 
-import radveda.usermanagement.Users.SuperAdmin.signup.SuperAdminSignUpRequest;
+import RadVeda.UserManagement.Users.SuperAdmin.signup.SuperAdminSignUpRequest;
 
 import java.util.List;
 import java.util.Optional;

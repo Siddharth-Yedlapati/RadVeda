@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.Patient.events.listeners;
+package RadVeda.UserManagement.Users.Patient.events.listeners;
 
-import radveda.usermanagement.Users.Patient.events.PatientSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Patient.events.PatientSignUpCompleteEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import radveda.usermanagement.Users.Patient.user.Patient;
-import radveda.usermanagement.Users.Patient.user.PatientService;
+import RadVeda.UserManagement.Users.Patient.user.Patient;
+import RadVeda.UserManagement.Users.Patient.user.PatientService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class PatientSignUpCompleteEventListener implements ApplicationListener<P
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        //log.info("Click the link to verify your registration :  {}", url);
+        // log.info("Click the link to verify your registration : {}", url);
     }
 
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {

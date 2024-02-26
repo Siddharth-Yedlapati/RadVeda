@@ -1,15 +1,14 @@
-package radveda.usermanagement.Users.Doctor.signup;
-
+package RadVeda.UserManagement.Users.Doctor.signup;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
-import radveda.usermanagement.Users.Doctor.events.DoctorSignUpCompleteEvent;
-import radveda.usermanagement.Users.Doctor.signup.token.DoctorVerificationToken;
-import radveda.usermanagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
-import radveda.usermanagement.Users.Doctor.user.Doctor;
-import radveda.usermanagement.Users.Doctor.user.DoctorService;
+import RadVeda.UserManagement.Users.Doctor.events.DoctorSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationToken;
+import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Doctor.user.Doctor;
+import RadVeda.UserManagement.Users.Doctor.user.DoctorService;
 
 @RestController
 @RequiredArgsConstructor

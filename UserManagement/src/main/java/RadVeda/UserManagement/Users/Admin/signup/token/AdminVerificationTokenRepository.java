@@ -1,4 +1,4 @@
-package radveda.usermanagement.Users.Admin.signup.token;
+package RadVeda.UserManagement.Users.Admin.signup.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

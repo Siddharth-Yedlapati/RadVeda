@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.Patient.user;
+package RadVeda.UserManagement.Users.Patient.user;
 
-import radveda.usermanagement.Users.Patient.signup.PatientSignUpRequest;
+import RadVeda.UserManagement.Users.Patient.signup.PatientSignUpRequest;
 
 import java.util.List;
 import java.util.Optional;

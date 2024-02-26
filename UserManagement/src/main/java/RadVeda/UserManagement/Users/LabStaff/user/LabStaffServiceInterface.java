@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.LabStaff.user;
+package RadVeda.UserManagement.Users.LabStaff.user;
 
-import radveda.usermanagement.Users.LabStaff.signup.LabStaffSignUpRequest;
+import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffSignUpRequest;
 
 import java.util.List;
 import java.util.Optional;

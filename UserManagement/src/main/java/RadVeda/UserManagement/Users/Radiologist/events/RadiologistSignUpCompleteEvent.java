@@ -1,9 +1,9 @@
-package radveda.usermanagement.Users.Radiologist.events;
+package RadVeda.UserManagement.Users.Radiologist.events;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
-import radveda.usermanagement.Users.Radiologist.user.Radiologist;
+import RadVeda.UserManagement.Users.Radiologist.user.Radiologist;
 
 @Getter
 @Setter

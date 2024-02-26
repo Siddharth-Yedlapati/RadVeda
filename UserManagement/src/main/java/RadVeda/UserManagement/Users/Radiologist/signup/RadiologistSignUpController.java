@@ -1,15 +1,14 @@
-package radveda.usermanagement.Users.Radiologist.signup;
-
+package RadVeda.UserManagement.Users.Radiologist.signup;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
-import radveda.usermanagement.Users.Radiologist.events.RadiologistSignUpCompleteEvent;
-import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationToken;
-import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
-import radveda.usermanagement.Users.Radiologist.user.Radiologist;
-import radveda.usermanagement.Users.Radiologist.user.RadiologistService;
+import RadVeda.UserManagement.Users.Radiologist.events.RadiologistSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Radiologist.signup.token.RadiologistVerificationToken;
+import RadVeda.UserManagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Radiologist.user.Radiologist;
+import RadVeda.UserManagement.Users.Radiologist.user.RadiologistService;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +20,8 @@ public class RadiologistSignUpController {
     private final RadiologistVerificationTokenRepository radiologistTokenRepository;
 
     @PostMapping
-    public String registerRadiologist(@RequestBody RadiologistSignUpRequest signUpRequest, final HttpServletRequest request) {
+    public String registerRadiologist(@RequestBody RadiologistSignUpRequest signUpRequest,
+            final HttpServletRequest request) {
         Radiologist radiologist = radiologistService.registerRadiologist(signUpRequest);
         publisher.publishEvent(new RadiologistSignUpCompleteEvent(radiologist, applicationUrl(request)));
         return "Success!! Please check your email to complete your registration";

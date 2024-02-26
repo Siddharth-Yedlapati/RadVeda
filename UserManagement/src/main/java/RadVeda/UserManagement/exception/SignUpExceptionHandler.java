@@ -1,4 +1,4 @@
-package radveda.usermanagement.exception;
+package RadVeda.UserManagement.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,7 +14,7 @@ public class SignUpExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleException(MethodArgumentNotValidException ex){
+    public Map<String, String> handleException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult()
                 .getFieldErrors()
@@ -24,7 +24,7 @@ public class SignUpExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public Map<String, String> userAlreadyExists(UserAlreadyExistsException ex){
+    public Map<String, String> userAlreadyExists(UserAlreadyExistsException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
         return error;
@@ -32,7 +32,7 @@ public class SignUpExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserNotFoundException.class)
-    public Map<String, String> userNotFound(UserNotFoundException ex){
+    public Map<String, String> userNotFound(UserNotFoundException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
         return error;
@@ -40,7 +40,7 @@ public class SignUpExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidInputFormatException.class)
-    public Map<String, String> invalidInputFormat(InvalidInputFormatException ex){
+    public Map<String, String> invalidInputFormat(InvalidInputFormatException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
         return error;

@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.Radiologist.events.listeners;
+package RadVeda.UserManagement.Users.Radiologist.events.listeners;
 
-import radveda.usermanagement.Users.Radiologist.events.RadiologistSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Radiologist.events.RadiologistSignUpCompleteEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import radveda.usermanagement.Users.Radiologist.user.Radiologist;
-import radveda.usermanagement.Users.Radiologist.user.RadiologistService;
+import RadVeda.UserManagement.Users.Radiologist.user.Radiologist;
+import RadVeda.UserManagement.Users.Radiologist.user.RadiologistService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class RadiologistSignUpCompleteEventListener implements ApplicationListen
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        //log.info("Click the link to verify your registration :  {}", url);
+        // log.info("Click the link to verify your registration : {}", url);
     }
 
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {

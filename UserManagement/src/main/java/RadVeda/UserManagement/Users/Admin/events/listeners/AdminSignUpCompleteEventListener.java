@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.Admin.events.listeners;
+package RadVeda.UserManagement.Users.Admin.events.listeners;
 
-import radveda.usermanagement.Users.Admin.events.AdminSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Admin.events.AdminSignUpCompleteEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import radveda.usermanagement.Users.Admin.user.Admin;
-import radveda.usermanagement.Users.Admin.user.AdminService;
+import RadVeda.UserManagement.Users.Admin.user.Admin;
+import RadVeda.UserManagement.Users.Admin.user.AdminService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class AdminSignUpCompleteEventListener implements ApplicationListener<Adm
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        //log.info("Click the link to verify your registration :  {}", url);
+        // log.info("Click the link to verify your registration : {}", url);
     }
 
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {

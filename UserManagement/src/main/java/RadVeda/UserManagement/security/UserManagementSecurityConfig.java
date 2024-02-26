@@ -1,4 +1,4 @@
-package radveda.usermanagement.security;
+package RadVeda.UserManagement.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import radveda.usermanagement.security.jwt.JWTAuthenticationFilter;
+import RadVeda.UserManagement.security.jwt.JWTAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +33,7 @@ public class UserManagementSecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         var authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -57,8 +57,8 @@ public class UserManagementSecurityConfig {
                                 .requestMatchers("/radiologistSignUp/**").permitAll()
                                 .requestMatchers("/radiologists/**").hasAnyAuthority("RADIOLOGIST")
                                 .requestMatchers("/labstaffSignUp/**").permitAll()
-                                .requestMatchers("/labstaffs/**").hasAnyAuthority("LABSTAFF").anyRequest().authenticated()
-                                )
+                                .requestMatchers("/labstaffs/**").hasAnyAuthority("LABSTAFF").anyRequest()
+                                .authenticated())
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -1,4 +1,4 @@
-package radveda.usermanagement.Users.LabStaff.signup.token;
+package RadVeda.UserManagement.Users.LabStaff.signup.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

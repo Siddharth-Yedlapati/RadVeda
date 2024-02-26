@@ -1,14 +1,14 @@
-package radveda.usermanagement.Users.Admin.user;
+package RadVeda.UserManagement.Users.Admin.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import radveda.usermanagement.exception.UserAlreadyExistsException;
-import radveda.usermanagement.Users.Admin.signup.AdminSignUpRequest;
-import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationToken;
-import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
+import RadVeda.UserManagement.exception.UserAlreadyExistsException;
+import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
+import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationToken;
+import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import radveda.usermanagement.Users.Admin.signup.AdminSignUpRequest;
-import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
+import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
 
 import java.util.Calendar;
 import java.util.List;
