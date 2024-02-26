@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.SuperAdmin.events.listeners;
+package RadVeda.UserManagement.Users.SuperAdmin.events.listeners;
 
-import radveda.usermanagement.Users.SuperAdmin.events.SuperAdminSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.SuperAdmin.events.SuperAdminSignUpCompleteEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import radveda.usermanagement.Users.SuperAdmin.user.SuperAdmin;
-import radveda.usermanagement.Users.SuperAdmin.user.SuperAdminService;
+import RadVeda.UserManagement.Users.SuperAdmin.user.SuperAdmin;
+import RadVeda.UserManagement.Users.SuperAdmin.user.SuperAdminService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class SuperAdminSignUpCompleteEventListener implements ApplicationListene
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        //log.info("Click the link to verify your registration :  {}", url);
+        // log.info("Click the link to verify your registration : {}", url);
     }
 
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {

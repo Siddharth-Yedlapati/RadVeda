@@ -1,6 +1,6 @@
-package radveda.usermanagement.security.jwt;
+package RadVeda.UserManagement.security.jwt;
 
-import radveda.usermanagement.exception.UserNotFoundException;
+import RadVeda.UserManagement.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import radveda.usermanagement.security.UserManagementDetailsService;
+import RadVeda.UserManagement.security.UserManagementDetailsService;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +20,8 @@ public class JWTController {
 
     @PostMapping
     public String getTokenForAuthenticatedUser(@RequestBody JWTAuthenticationRequest authRequest) {
-        String roleEmail = authRequest.getUserRole() + UserManagementDetailsService.getDelimiter() + authRequest.getUserName();
+        String roleEmail = authRequest.getUserRole() + UserManagementDetailsService.getDelimiter()
+                + authRequest.getUserName();
         Authentication authentication = authenticationManager
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(roleEmail, authRequest.getPassword()));

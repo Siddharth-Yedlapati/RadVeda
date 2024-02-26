@@ -1,14 +1,14 @@
-package radveda.usermanagement.Users.Radiologist.user;
+package RadVeda.UserManagement.Users.Radiologist.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import radveda.usermanagement.exception.UserAlreadyExistsException;
-import radveda.usermanagement.Users.Radiologist.signup.RadiologistSignUpRequest;
-import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationToken;
-import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
+import RadVeda.UserManagement.exception.UserAlreadyExistsException;
+import RadVeda.UserManagement.Users.Radiologist.signup.RadiologistSignUpRequest;
+import RadVeda.UserManagement.Users.Radiologist.signup.token.RadiologistVerificationToken;
+import RadVeda.UserManagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import radveda.usermanagement.Users.Radiologist.signup.RadiologistSignUpRequest;
-import radveda.usermanagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Radiologist.signup.RadiologistSignUpRequest;
+import RadVeda.UserManagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
 
 import java.util.Calendar;
 import java.util.List;

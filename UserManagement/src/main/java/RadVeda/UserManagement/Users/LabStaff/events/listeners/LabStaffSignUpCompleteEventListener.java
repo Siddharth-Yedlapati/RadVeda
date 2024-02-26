@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.LabStaff.events.listeners;
+package RadVeda.UserManagement.Users.LabStaff.events.listeners;
 
-import radveda.usermanagement.Users.LabStaff.events.LabStaffSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.LabStaff.events.LabStaffSignUpCompleteEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import radveda.usermanagement.Users.LabStaff.user.LabStaff;
-import radveda.usermanagement.Users.LabStaff.user.LabStaffService;
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaff;
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaffService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class LabStaffSignUpCompleteEventListener implements ApplicationListener<
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        //log.info("Click the link to verify your registration :  {}", url);
+        // log.info("Click the link to verify your registration : {}", url);
     }
 
     public void sendVerificationEmail(String url) throws MessagingException, UnsupportedEncodingException {

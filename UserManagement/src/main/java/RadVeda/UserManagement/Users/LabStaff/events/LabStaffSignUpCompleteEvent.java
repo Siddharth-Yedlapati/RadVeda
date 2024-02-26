@@ -1,9 +1,9 @@
-package radveda.usermanagement.Users.LabStaff.events;
+package RadVeda.UserManagement.Users.LabStaff.events;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
-import radveda.usermanagement.Users.LabStaff.user.LabStaff;
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaff;
 
 @Getter
 @Setter

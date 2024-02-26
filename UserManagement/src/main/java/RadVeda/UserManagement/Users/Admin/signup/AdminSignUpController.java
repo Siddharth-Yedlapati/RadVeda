@@ -1,15 +1,14 @@
-package radveda.usermanagement.Users.Admin.signup;
-
+package RadVeda.UserManagement.Users.Admin.signup;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
-import radveda.usermanagement.Users.Admin.events.AdminSignUpCompleteEvent;
-import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationToken;
-import radveda.usermanagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
-import radveda.usermanagement.Users.Admin.user.Admin;
-import radveda.usermanagement.Users.Admin.user.AdminService;
+import RadVeda.UserManagement.Users.Admin.events.AdminSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationToken;
+import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Admin.user.Admin;
+import RadVeda.UserManagement.Users.Admin.user.AdminService;
 
 @RestController
 @RequiredArgsConstructor

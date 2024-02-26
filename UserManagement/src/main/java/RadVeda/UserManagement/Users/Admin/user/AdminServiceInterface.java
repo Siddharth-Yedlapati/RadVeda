@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.Admin.user;
+package RadVeda.UserManagement.Users.Admin.user;
 
-import radveda.usermanagement.Users.Admin.signup.AdminSignUpRequest;
+import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
 
 import java.util.List;
 import java.util.Optional;

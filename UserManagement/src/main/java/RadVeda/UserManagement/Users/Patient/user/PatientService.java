@@ -1,14 +1,14 @@
-package radveda.usermanagement.Users.Patient.user;
+package RadVeda.UserManagement.Users.Patient.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import radveda.usermanagement.exception.UserAlreadyExistsException;
-import radveda.usermanagement.Users.Patient.signup.PatientSignUpRequest;
-import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationToken;
-import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
+import RadVeda.UserManagement.exception.UserAlreadyExistsException;
+import RadVeda.UserManagement.Users.Patient.signup.PatientSignUpRequest;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationToken;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import radveda.usermanagement.Users.Patient.signup.PatientSignUpRequest;
-import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Patient.signup.PatientSignUpRequest;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
 
 import java.util.Calendar;
 import java.util.List;

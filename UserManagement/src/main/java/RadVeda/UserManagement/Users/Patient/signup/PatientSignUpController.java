@@ -1,15 +1,14 @@
-package radveda.usermanagement.Users.Patient.signup;
-
+package RadVeda.UserManagement.Users.Patient.signup;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
-import radveda.usermanagement.Users.Patient.events.PatientSignUpCompleteEvent;
-import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationToken;
-import radveda.usermanagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
-import radveda.usermanagement.Users.Patient.user.Patient;
-import radveda.usermanagement.Users.Patient.user.PatientService;
+import RadVeda.UserManagement.Users.Patient.events.PatientSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationToken;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Patient.user.Patient;
+import RadVeda.UserManagement.Users.Patient.user.PatientService;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
-package radveda.usermanagement.security.jwt;
+package RadVeda.UserManagement.security.jwt;
 
-import radveda.usermanagement.security.UserManagementDetailsService;
+import RadVeda.UserManagement.security.UserManagementDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

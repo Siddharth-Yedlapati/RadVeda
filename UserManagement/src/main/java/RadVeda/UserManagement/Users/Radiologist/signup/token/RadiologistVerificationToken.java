@@ -1,10 +1,10 @@
-package radveda.usermanagement.Users.Radiologist.signup.token;
+package RadVeda.UserManagement.Users.Radiologist.signup.token;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import radveda.usermanagement.Users.Radiologist.user.Radiologist;
+import RadVeda.UserManagement.Users.Radiologist.user.Radiologist;
 
 import java.util.Calendar;
 import java.util.Date;

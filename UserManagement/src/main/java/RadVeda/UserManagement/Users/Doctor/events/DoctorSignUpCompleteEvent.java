@@ -1,9 +1,9 @@
-package radveda.usermanagement.Users.Doctor.events;
+package RadVeda.UserManagement.Users.Doctor.events;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
-import radveda.usermanagement.Users.Doctor.user.Doctor;
+import RadVeda.UserManagement.Users.Doctor.user.Doctor;
 
 @Getter
 @Setter

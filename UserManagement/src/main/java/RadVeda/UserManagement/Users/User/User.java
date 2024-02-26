@@ -1,4 +1,4 @@
-package radveda.usermanagement.Users.User;
+package RadVeda.UserManagement.Users.User;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

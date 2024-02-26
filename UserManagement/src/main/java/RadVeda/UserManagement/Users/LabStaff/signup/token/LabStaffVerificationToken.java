@@ -1,10 +1,10 @@
-package radveda.usermanagement.Users.LabStaff.signup.token;
+package RadVeda.UserManagement.Users.LabStaff.signup.token;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import radveda.usermanagement.Users.LabStaff.user.LabStaff;
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaff;
 
 import java.util.Calendar;
 import java.util.Date;

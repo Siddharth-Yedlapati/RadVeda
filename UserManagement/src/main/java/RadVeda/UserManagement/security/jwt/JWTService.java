@@ -1,4 +1,4 @@
-package radveda.usermanagement.security.jwt;
+package RadVeda.UserManagement.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

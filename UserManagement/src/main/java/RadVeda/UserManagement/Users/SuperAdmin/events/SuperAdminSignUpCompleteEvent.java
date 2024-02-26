@@ -1,9 +1,9 @@
-package radveda.usermanagement.Users.SuperAdmin.events;
+package RadVeda.UserManagement.Users.SuperAdmin.events;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
-import radveda.usermanagement.Users.SuperAdmin.user.SuperAdmin;
+import RadVeda.UserManagement.Users.SuperAdmin.user.SuperAdmin;
 
 @Getter
 @Setter

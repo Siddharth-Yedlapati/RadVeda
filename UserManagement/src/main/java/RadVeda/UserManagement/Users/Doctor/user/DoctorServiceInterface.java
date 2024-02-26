@@ -1,6 +1,6 @@
-package radveda.usermanagement.Users.Doctor.user;
+package RadVeda.UserManagement.Users.Doctor.user;
 
-import radveda.usermanagement.Users.Doctor.signup.DoctorSignUpRequest;
+import RadVeda.UserManagement.Users.Doctor.signup.DoctorSignUpRequest;
 
 import java.util.List;
 import java.util.Optional;

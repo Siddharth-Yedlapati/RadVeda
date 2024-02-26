@@ -1,4 +1,4 @@
-package radveda.usermanagement.security.jwt;
+package RadVeda.UserManagement.security.jwt;
 
 import lombok.Data;
 
