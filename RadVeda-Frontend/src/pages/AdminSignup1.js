@@ -56,9 +56,9 @@ const AdminSignup1 = () => {
         "email" : localStorage.getItem('email'),
         "password" : password,
         "phoneNumber" : phoneNumber,
-        "orgName" : "org1",
-        "orgAddressL1" : "orgaddr1",
-        "orgAddressL2" : "orgaddr2"
+        "orgName" : localStorage.getItem('hospitalName'),
+        "orgAddressL1" : localStorage.getItem('hospitalAddressLine1'),
+        "orgAddressL2" : localStorage.getItem('hospitalAddressLine2')
       }).then(
         (response) => {
           console.log(response)
