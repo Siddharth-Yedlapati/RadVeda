@@ -1,22 +1,42 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthToken} from "../axios_helper";
 import "./AdminLoginPage.css";
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
-  const [emailOrPhone, setEmailOrPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   const onRectangleClick = useCallback(() => {
     // Validate fields
-    if (!emailOrPhone || !password) {
+    if (!loginEmail || !loginPassword) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    // Proceed to login if all validations pass
-    navigate("/admin-dashboard");
-  }, [navigate, emailOrPhone, password]);
+    request(
+      "POST",
+      "/authenticate",
+      {
+          "userName" : loginEmail,
+          "password" : loginPassword,
+          "userRole" : "ADMIN"
+      }
+      ).then(
+        (response) => {
+          console.log(response)
+          //Store the JWT Auth token and proceed to the admin dashboard
+          setAuthToken(response)
+          navigate("/admin-dashboard");
+        }
+      ).catch(
+        (error) => {
+          console.log(error)
+        }
+      )
+    
+  }, [navigate, loginEmail, loginPassword]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/admin-signup-1");
@@ -43,8 +63,8 @@ const AdminLoginPage = () => {
             <div className="min-height101" />
             <input
               type="text"
-              value={emailOrPhone}
-              onChange={(e) => setEmailOrPhone(e.target.value)}
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
               className="label101"
               placeholder="Enter Email or Phone"
             />
@@ -60,8 +80,8 @@ const AdminLoginPage = () => {
             <div className="min-height101" />
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
               className="label101"
               placeholder="Password"
             />
