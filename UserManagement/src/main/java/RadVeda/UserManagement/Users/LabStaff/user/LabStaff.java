@@ -19,6 +19,7 @@ public class LabStaff extends User {
     private String orgAddressL2;
 
     public LabStaff() {
+        super();
         this.setRole("LABSTAFF");
     }
 

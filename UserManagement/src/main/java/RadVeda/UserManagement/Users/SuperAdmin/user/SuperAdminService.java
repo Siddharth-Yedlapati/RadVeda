@@ -49,9 +49,6 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         newSuperAdmin.setPassword(encodedPassword);
 
         newSuperAdmin.setPhoneNumber(request.phoneNumber());
-        newSuperAdmin.setOrgName(request.orgName());
-        newSuperAdmin.setOrgAddressL1(request.orgAddressL1());
-        newSuperAdmin.setOrgAddressL2(request.orgAddressL2());
 
         return superadminRepository.save(newSuperAdmin);
     }
