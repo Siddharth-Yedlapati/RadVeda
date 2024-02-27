@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthHeader } from '../axios_helper';
 import "./AdminSignup1.css";
 
 const AdminSignup1 = () => {
@@ -21,6 +22,10 @@ const AdminSignup1 = () => {
   }, [navigate]);
 
   const onSubmit = () => {
+    localStorage.setItem('password', password)
+    localStorage.setItem('phoneNumber', phoneNumber)
+    console.log(password)
+    console.log(confirmPassword)
     if (password !== confirmPassword) {
       alert("Password mismatch!");
       return;
@@ -36,7 +41,35 @@ const AdminSignup1 = () => {
       alert("Phone number must be 10 digits!");
       return;
     }
-    navigate("/admin-dashboard");
+    request(
+      "POST",
+      "/adminSignUp",
+      {
+        "firstName" : localStorage.getItem('firstname'),
+        "middleName" : localStorage.getItem('middlename'),
+        "lastName" : localStorage.getItem('lastname'),
+        "addressL1" : localStorage.getItem('addressLine1'),
+        "addressL2" : localStorage.getItem('addressLine2'),
+        "country" : localStorage.getItem('country'),
+        "state" : localStorage.getItem('state'),
+        "city" : localStorage.getItem('city'),
+        "email" : localStorage.getItem('email'),
+        "password" : password,
+        "phoneNumber" : phoneNumber,
+        "orgName" : "org1",
+        "orgAddressL1" : "orgaddr1",
+        "orgAddressL2" : "orgaddr2"
+      }).then(
+        (response) => {
+          console.log(response)
+          navigate("/");
+        }
+      ).catch(
+        (error) => {
+          console.log(error)
+        }
+      )
+    
   };
 
   return (

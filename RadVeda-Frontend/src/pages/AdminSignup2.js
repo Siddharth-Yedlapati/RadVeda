@@ -14,6 +14,9 @@ const AdminSignup2 = () => {
 
   const onRectangle2Click = useCallback(() => {
     // Here you can perform any necessary validation before navigating
+    localStorage.setItem('hospitalName', hospitalName)
+    localStorage.setItem('hospitalAddressLine1', hospitalAddressLine1)
+    localStorage.setItem('hospitalAddressLine2', hospitalAddressLine2)
     navigate("/admin-signup-3");
   }, [navigate]);
 
