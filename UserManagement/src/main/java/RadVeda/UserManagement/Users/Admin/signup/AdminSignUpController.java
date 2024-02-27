@@ -12,6 +12,7 @@ import RadVeda.UserManagement.Users.Admin.user.AdminService;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/adminSignUp")
 public class AdminSignUpController {
 
