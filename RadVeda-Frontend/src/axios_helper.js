@@ -11,6 +11,13 @@ export const setAuthToken = (token) => {
     localStorage.setItem("auth_token", token);
 };
 
+export const removeAuthToken = () => {
+    if(getAuthToken() !== null && getAuthToken() !== "null")
+    {
+        localStorage.removeItem("auth_token");
+    }
+};
+
 export const request = (method, url, data, authTokenNeeded) => {
     let headers = {};
     if(authTokenNeeded && getAuthToken() !== null && getAuthToken() !== "null")
