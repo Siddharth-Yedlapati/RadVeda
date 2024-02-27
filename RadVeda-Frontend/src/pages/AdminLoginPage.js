@@ -1,9 +1,24 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { request, setAuthToken} from "../axios_helper";
+import { request, setAuthToken, getAuthToken} from "../axios_helper";
 import "./AdminLoginPage.css";
 
 const AdminLoginPage = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/admins/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/admin-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
