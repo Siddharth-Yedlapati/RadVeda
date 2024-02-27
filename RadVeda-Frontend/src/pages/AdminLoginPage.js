@@ -22,12 +22,13 @@ const AdminLoginPage = () => {
           "userName" : loginEmail,
           "password" : loginPassword,
           "userRole" : "ADMIN"
-      }
+      },
+      false
       ).then(
         (response) => {
           console.log(response)
           //Store the JWT Auth token and proceed to the admin dashboard
-          setAuthToken(response)
+          setAuthToken(response.data)
           navigate("/admin-dashboard");
         }
       ).catch(
