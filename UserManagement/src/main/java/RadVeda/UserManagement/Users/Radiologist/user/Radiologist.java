@@ -19,6 +19,7 @@ public class Radiologist extends User {
     private String orgAddressL2;
 
     public Radiologist() {
+        super();
         this.setRole("RADIOLOGIST");
     }
 

@@ -19,6 +19,7 @@ public class Admin extends User {
     private String orgAddressL2;
 
     public Admin() {
+        super();
         this.setRole("ADMIN");
     }
 

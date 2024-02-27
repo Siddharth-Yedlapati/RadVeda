@@ -3,9 +3,14 @@ package RadVeda.UserManagement.Users.Patient.user;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.Patient.signup.PatientSignUpRequest;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationToken;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import RadVeda.UserManagement.Users.Patient.signup.PatientSignUpRequest;
+import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +19,7 @@ import java.util.Optional;
 public class PatientService implements PatientServiceInterface {
     private final PatientRepository patientRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PatientVerificationTokenRepository patientTokenRepository;
 
     @Override
     public List<Patient> getPatients() {
@@ -59,5 +65,28 @@ public class PatientService implements PatientServiceInterface {
     @Override
     public Optional<Patient> findByEmail(String email) {
         return patientRepository.findByEmail(email);
+    }
+
+    @Override
+    public void savePatientVerificationToken(Patient thePatient, String token) {
+        var verificationToken = new PatientVerificationToken(token, thePatient);
+        patientTokenRepository.save(verificationToken);
+    }
+
+    @Override
+    public String validateToken(String theToken) {
+        PatientVerificationToken token = patientTokenRepository.findByToken(theToken);
+        if (token == null) {
+            return "Invalid verification token";
+        }
+        Patient patient = token.getPatient();
+        Calendar calendar = Calendar.getInstance();
+        if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+            patientTokenRepository.delete(token);
+            return "Token already expired";
+        }
+        patient.setEnabled(true);
+        patientRepository.save(patient);
+        return "valid";
     }
 }

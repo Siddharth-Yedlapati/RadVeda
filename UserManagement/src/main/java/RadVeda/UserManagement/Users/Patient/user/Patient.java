@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import RadVeda.UserManagement.Users.User.User;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter
@@ -29,6 +29,7 @@ public class Patient extends User {
     private String guardianEmailAddress;
 
     public Patient() {
+        super();
         this.setRole("PATIENT");
     }
 

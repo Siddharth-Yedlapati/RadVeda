@@ -19,6 +19,7 @@ public class Doctor extends User {
     private String orgAddressL2;
 
     public Doctor() {
+        super();
         this.setRole("DOCTOR");
     }
 
