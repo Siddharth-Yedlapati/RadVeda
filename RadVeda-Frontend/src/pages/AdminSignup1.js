@@ -24,8 +24,8 @@ const AdminSignup1 = () => {
   const onSubmit = () => {
     localStorage.setItem('password', password)
     localStorage.setItem('phoneNumber', phoneNumber)
-    console.log(password)
-    console.log(confirmPassword)
+    //console.log(password)
+    //console.log(confirmPassword)
     if (password !== confirmPassword) {
       alert("Password mismatch!");
       return;
@@ -63,12 +63,12 @@ const AdminSignup1 = () => {
       false
       ).then(
         (response) => {
-          console.log(response)
+          alert(response.data);
           navigate("/");
         }
       ).catch(
         (error) => {
-          console.log(error)
+          alert(error.response.data.error);
         }
       )
     

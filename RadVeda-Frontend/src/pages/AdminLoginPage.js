@@ -26,14 +26,13 @@ const AdminLoginPage = () => {
       false
       ).then(
         (response) => {
-          console.log(response)
           //Store the JWT Auth token and proceed to the admin dashboard
-          setAuthToken(response.data)
+          setAuthToken(response.data);
           navigate("/admin-dashboard");
         }
       ).catch(
         (error) => {
-          console.log(error)
+          alert("Invalid user credentials");
         }
       )
     
