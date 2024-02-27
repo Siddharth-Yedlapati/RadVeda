@@ -11,9 +11,9 @@ export const setAuthToken = (token) => {
     localStorage.setItem("auth_token", token);
 };
 
-export const request = (method, url, data) => {
+export const request = (method, url, data, authTokenNeeded) => {
     let headers = {};
-    if(getAuthToken() !== null && getAuthToken() !== "null")
+    if(authTokenNeeded && getAuthToken() !== null && getAuthToken() !== "null")
     {
         headers = {"Authorization": `Bearer ${getAuthToken()}`};
     }

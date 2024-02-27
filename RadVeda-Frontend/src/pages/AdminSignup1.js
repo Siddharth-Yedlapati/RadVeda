@@ -24,8 +24,8 @@ const AdminSignup1 = () => {
   const onSubmit = () => {
     localStorage.setItem('password', password)
     localStorage.setItem('phoneNumber', phoneNumber)
-    console.log(password)
-    console.log(confirmPassword)
+    //console.log(password)
+    //console.log(confirmPassword)
     if (password !== confirmPassword) {
       alert("Password mismatch!");
       return;
@@ -59,14 +59,16 @@ const AdminSignup1 = () => {
         "orgName" : localStorage.getItem('hospitalName'),
         "orgAddressL1" : localStorage.getItem('hospitalAddressLine1'),
         "orgAddressL2" : localStorage.getItem('hospitalAddressLine2')
-      }).then(
+      },
+      false
+      ).then(
         (response) => {
-          console.log(response)
+          alert(response.data);
           navigate("/");
         }
       ).catch(
         (error) => {
-          console.log(error)
+          alert(error.response.data.error);
         }
       )
     
