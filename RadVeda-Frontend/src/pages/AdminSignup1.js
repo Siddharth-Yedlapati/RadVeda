@@ -73,7 +73,8 @@ const AdminSignup1 = () => {
         "phoneNumber" : phoneNumber,
         "orgName" : localStorage.getItem('hospitalName'),
         "orgAddressL1" : localStorage.getItem('hospitalAddressLine1'),
-        "orgAddressL2" : localStorage.getItem('hospitalAddressLine2')
+        "orgAddressL2" : localStorage.getItem('hospitalAddressLine2'),
+        "Documents": localStorage.getItem("Documents")
       },
       false
       ).then(
