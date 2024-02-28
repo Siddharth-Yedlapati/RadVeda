@@ -49,15 +49,11 @@ public class PatientService implements PatientServiceInterface {
         newPatient.setPassword(encodedPassword);
 
         newPatient.setPhoneNumber(request.phoneNumber());
-        newPatient.setDateOfBirth(request.dateOfBirth());
-        newPatient.setGender(request.gender());
-        newPatient.setEthnicity(request.ethnicity());
-        newPatient.setMaritalStatus(request.maritalStatus());
+        newPatient.setDOB(request.DOB());
         newPatient.setRace(request.race());
-        newPatient.setGuardianName(request.guardianName());
-        newPatient.setGuardianRelationship(request.guardianRelationship());
-        newPatient.setGuardianPhoneNumber(request.guardianPhoneNumber());
-        newPatient.setGuardianEmailAddress(request.guardianEmailAddress());
+        newPatient.setEthnicity(request.ethnicity());
+        newPatient.setGender(request.gender());
+        newPatient.setMaritalStatus(request.maritalStatus());
 
         return patientRepository.save(newPatient);
     }

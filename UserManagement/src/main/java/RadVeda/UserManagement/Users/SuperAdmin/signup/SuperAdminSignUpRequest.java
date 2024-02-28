@@ -11,5 +11,8 @@ public record SuperAdminSignUpRequest(
                 String city,
                 String email,
                 String password,
-                String phoneNumber) {
+                String phoneNumber,
+                String orgName,
+                String orgAddressL1,
+                String orgAddressL2) {
 }

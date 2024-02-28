@@ -12,6 +12,7 @@ import RadVeda.UserManagement.Users.Radiologist.user.RadiologistService;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/radiologistSignUp")
 public class RadiologistSignUpController {
 

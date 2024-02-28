@@ -12,6 +12,7 @@ import RadVeda.UserManagement.Users.Patient.user.PatientService;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/patientSignUp")
 public class PatientSignUpController {
 
