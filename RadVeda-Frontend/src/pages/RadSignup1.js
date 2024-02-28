@@ -56,7 +56,8 @@ const RadSignup1 = () => {
         "phoneNumber" : phoneNumber,
         "orgName" : localStorage.getItem('hospitalName'),
         "orgAddressL1" : localStorage.getItem('hospitalAddress1'),
-        "orgAddressL2" : localStorage.getItem('hospitalAddress2')
+        "orgAddressL2" : localStorage.getItem('hospitalAddress2'),
+        "Documents" : localStorage.getItem('Documents')
       },
       false
       ).then(

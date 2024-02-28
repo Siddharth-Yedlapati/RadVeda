@@ -1,12 +1,33 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RadSignup2.css";
+import S3 from 'react-aws-s3';
+import { string_delimiter, config } from "../config";
+
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const RadSignup2 = () => {
   const navigate = useNavigate();
   const [hospitalName, setHospitalName] = useState("");
   const [hospitalAddress1, setHospitalAddress1] = useState("");
   const [hospitalAddress2, setHospitalAddress2] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFiles, setuploadedFiles] = useState("");
+  const ref = useRef()
+
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  }
+
+  const uploadFile = async (file) => {
+    const ReactS3Client = new S3(config);
+    // the name of the file uploaded is used to upload it to S3
+    console.log(uploadedFiles)
+    ReactS3Client
+    .uploadFile(file, "RADIOLOGIST" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
+    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .catch(err => console.error(err))
+}
 
   const onRectangle1Click = useCallback(() => {
     navigate("/rad-login-page");
@@ -16,8 +37,9 @@ const RadSignup2 = () => {
     localStorage.setItem('hospitalName', hospitalName)
     localStorage.setItem('hospitalAddress1', hospitalAddress1)
     localStorage.setItem('hospitalAddress2', hospitalAddress2)
+    localStorage.setItem('Documents', uploadedFiles)
     navigate("/rad-signup-3");
-  }, [navigate, hospitalName, hospitalAddress1, hospitalAddress2]);
+  }, [navigate, hospitalName, hospitalAddress1, hospitalAddress2, uploadedFiles]);
 
   const onRectangle3Click = useCallback(() => {
     navigate("/rad-signup-1");
@@ -94,11 +116,13 @@ const RadSignup2 = () => {
         alt=""
         src="/iconsregularchevrondowns.svg"
       />
-      <div className="rad-signup-2-child4" />
-      <b className="upload-documents-for3">
-        {" "}
-        Upload documents for verification
-      </b>
+      <div className="rad-signup-2-child4" >
+        <div>React S3 File Upload</div>
+        <input type="file" onChange={handleFileInput}/>
+        <br></br>
+        <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+      </div>
+
       <div className="rad-signup-2-child5" />
       <div className="rad-signup-2-child6" />
       <img className="rad-signup-2-child7" alt="" src="/arrow-1.svg" />

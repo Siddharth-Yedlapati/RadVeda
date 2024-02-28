@@ -1,7 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import S3 from 'react-aws-s3';
 import "./AdminSignup2.css";
+import { string_delimiter, config } from "../config";
+
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const AdminSignup2 = () => {
 
@@ -23,6 +27,26 @@ const AdminSignup2 = () => {
   const [hospitalName, setHospitalName] = useState("");
   const [hospitalAddressLine1, setHospitalAddressLine1] = useState("");
   const [hospitalAddressLine2, setHospitalAddressLine2] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFiles, setuploadedFiles] = useState("");
+  const ref = useRef()
+  
+
+
+
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  }
+
+  const uploadFile = async (file) => {
+    const ReactS3Client = new S3(config);
+    // the name of the file uploaded is used to upload it to S3
+    console.log(uploadedFiles)
+    ReactS3Client
+    .uploadFile(file, "ADMIN" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
+    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .catch(err => console.error(err))
+}
 
   const onRectangle1Click = useCallback(() => {
     navigate("/admin-login-page");
@@ -33,8 +57,10 @@ const AdminSignup2 = () => {
     localStorage.setItem('hospitalName', hospitalName)
     localStorage.setItem('hospitalAddressLine1', hospitalAddressLine1)
     localStorage.setItem('hospitalAddressLine2', hospitalAddressLine2)
+    localStorage.setItem('Documents', uploadedFiles)
+
     navigate("/admin-signup-3");
-  }, [navigate]);
+  }, [navigate, hospitalName, hospitalAddressLine1, hospitalAddressLine2, uploadedFiles]);
 
   const onRectangle3Click = useCallback(() => {
     navigate("/admin-signup-1");
@@ -114,14 +140,16 @@ const AdminSignup2 = () => {
         alt=""
         src="/iconsregularchevrondowns.svg"
       />
-      <div className="admin-signup-2-child4" />
-      <b className="upload-documents-for2">
-        {" "}
-        Upload documents for verification
-      </b>
-      <div className="admin-signup-2-child5" />
-      <div className="admin-signup-2-child6" />
-      <img className="admin-signup-2-child7" alt="" src="/arrow-1.svg" />
+      {/* <div className="admin-signup-2-child4" >
+        <div>React S3 File Upload</div>
+        <input type="file" onChange={handleFileInput}/>
+        <br></br>
+        <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+      </div> */}
+      <div className="admin-signup-2-child4" onClick={onRectangle2Click} />
+      <b className="next9" onClick={onRectangle2Click}>Next</b>
+      <div className="admin-signup-2-child5" onClick={onRectangle3Click} />
+      <b className="back69" onClick={onRectangle3Click}>Back</b>
       <div className="admin-signup-2-child8" onClick={onRectangle1Click} />
       <b className="login17" onClick={onRectangle1Click}>Login</b>
       <div className="already-have-an13" onClick={onRectangle1Click}> Already have an account?</div>

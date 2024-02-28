@@ -1,6 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PatientSignup2.css";
+import S3 from 'react-aws-s3';
+import { string_delimiter, config } from "../config";
+
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const PatientSignup2 = () => {
   const navigate = useNavigate();
@@ -9,6 +13,24 @@ const PatientSignup2 = () => {
   const [ethnicity, setEthnicity] = useState("");
   const [maritalStatus, setMaritalStatus] = useState("");
   const [race, setRace] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFiles, setuploadedFiles] = useState("");
+  const ref = useRef()
+
+
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  }
+
+  const uploadFile = async (file) => {
+    const ReactS3Client = new S3(config);
+    // the name of the file uploaded is used to upload it to S3
+    console.log(uploadedFiles)
+    ReactS3Client
+    .uploadFile(file, "PATIENT" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
+    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .catch(err => console.error(err))
+}
 
   const onRectangle1Click = useCallback(() => {
     navigate("/patient-guardian-info-1");
@@ -24,8 +46,9 @@ const PatientSignup2 = () => {
     localStorage.setItem('ethnicity', ethnicity)
     localStorage.setItem('maritalStatus', maritalStatus)
     localStorage.setItem('race', race)
+    localStorage.setItem('Documents', uploadedFiles)
     navigate("/patient-signup-3");
-  }, [navigate]);
+  }, [navigate, dateOfBirth, gender, ethnicity, maritalStatus, race, uploadedFiles]);
 
   const onRectangle4Click = useCallback(() => {
     navigate("/patient-signup-1");
@@ -140,8 +163,13 @@ const PatientSignup2 = () => {
         <p className="sign-up-as8">Sign up AS</p>
         <p className="sign-up-as8">patient</p>
       </div>
-      <div className="patient-signup-2-inner" />
-      <b className="upload-government-id1"> Upload government ID</b>
+      <div className="patient-signup-2-inner">
+        <div>React S3 File Upload</div>
+        <input type="file" onChange={handleFileInput}/>
+        <br></br>
+        <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+      </div>
+  
       <div className="patient-signup-2-child1" />
       <div className="patient-signup-2-child2" />
       <img className="patient-signup-2-child3" alt="" src="/arrow-1.svg" />

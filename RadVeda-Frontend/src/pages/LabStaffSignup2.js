@@ -1,12 +1,33 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LabStaffSignup2.css";
+import S3 from 'react-aws-s3';
+import { string_delimiter, config } from "../config";
+
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const LabStaffSignup2 = () => {
   const navigate = useNavigate();
   const [hospitalLab, setHospitalLab] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFiles, setuploadedFiles] = useState("");
+  const ref = useRef()
+
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  }
+
+  const uploadFile = async (file) => {
+    const ReactS3Client = new S3(config);
+    // the name of the file uploaded is used to upload it to S3
+    console.log(uploadedFiles)
+    ReactS3Client
+    .uploadFile(file, "LABSTAFF" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
+    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .catch(err => console.error(err))
+}
 
   const onRectangle1Click = useCallback(() => {
     navigate("/labstaff-login-page");
@@ -16,8 +37,9 @@ const LabStaffSignup2 = () => {
     localStorage.setItem('hospitalLab', hospitalLab)
     localStorage.setItem('hospitalAddress1', addressLine1)
     localStorage.setItem('hospitalAddress2', addressLine2)
+    localStorage.setItem('Documents', uploadedFiles)
     navigate("/labstaff-signup-1");
-  }, [navigate]);
+  }, [navigate, hospitalLab, addressLine1, addressLine2, uploadedFiles]);
 
   const onRectangle3Click = useCallback(() => {
     navigate("/");
@@ -97,8 +119,12 @@ const LabStaffSignup2 = () => {
         alt=""
         src="/iconsregularchevrondowns.svg"
       />
-      <div className="labstaff-signup-2-child4" />
-      <b className="upload-documents-for"> Upload documents for verification</b>
+      <div className="labstaff-signup-2-child4" >
+        <div>React S3 File Upload</div>
+        <input type="file" onChange={handleFileInput}/>
+        <br></br>
+        <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+      </div>
       <div className="labstaff-signup-2-child5" />
       <div className="labstaff-signup-2-child6" />
       <img className="arrow-icon" alt="" src="/arrow-1.svg" />

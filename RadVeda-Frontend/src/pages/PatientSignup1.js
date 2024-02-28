@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import "./PatientSignup1.css";
@@ -58,8 +58,8 @@ const PatientSignup1 = () => {
         "gender": localStorage.getItem("gender"),
         "race": localStorage.getItem("race"),
         "ethnicity": localStorage.getItem("ethnicity"),
-        "maritalstatus": localStorage.getItem("maritalStatus")
-        
+        "maritalstatus": localStorage.getItem("maritalStatus"),
+        "Documents": localStorage.getItem("Documents")
         
       },
       false
