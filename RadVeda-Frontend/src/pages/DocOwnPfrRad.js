@@ -3,9 +3,25 @@ import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import DocOwnNotes from "../components/DocOwnNotes";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./DocOwnPfrRad.css";
 
 const DocOwnPfrRad = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/doctors/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/doc-login-page");
+      })
+  }
+
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);
   const navigate = useNavigate();

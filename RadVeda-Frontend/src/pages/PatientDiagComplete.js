@@ -4,9 +4,25 @@ import PortalPopup from "../components/PortalPopup";
 import PatientDocRemarks from "../components/PatientDocRemarks";
 import PatientPersonnelInfo from "../components/PatientPersonnelInfo";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./PatientDiagComplete.css";
 
 const PatientDiagComplete = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/patient-login-page");
+      })
+  }
+  
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientDocRemarksOpen, setPatientDocRemarksOpen] = useState(false);
   const [isPatientPersonnelInfoOpen, setPatientPersonnelInfoOpen] =

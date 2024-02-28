@@ -3,9 +3,25 @@ import PatientUserOptions from "../components/PatientUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import PatientChooseLab from "../components/PatientChooseLab";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./PatientDashboard.css";
 
 const PatientDashboard = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/patient-login-page");
+      })
+  }
+
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientChooseLabOpen, setPatientChooseLabOpen] = useState(false);
   const navigate = useNavigate();

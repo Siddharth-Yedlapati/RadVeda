@@ -4,9 +4,25 @@ import PortalPopup from "../components/PortalPopup";
 import DocConsRadNotes from "../components/DocConsRadNotes";
 import DocConsNotes from "../components/DocConsNotes";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./DocConsPfr.css";
 
 const DocConsPfr = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/doctors/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/doc-login-page");
+      })
+  }
+
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocConsRadNotesOpen, setDocConsRadNotesOpen] = useState(false);
   const [isDocConsNotesOpen, setDocConsNotesOpen] = useState(false);

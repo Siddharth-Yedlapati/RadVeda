@@ -1,6 +1,22 @@
+import { request, getAuthToken} from "../axios_helper";
 import "./DocConsPFREditor.css";
 
 const DocConsPFREditor = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/doctors/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/doc-login-page");
+      })
+  }
+
   return (
     <div className="doc-cons-pfr-editor">
       <img className="image-13-icon5" alt="" src="/image-13@2x.png" />
