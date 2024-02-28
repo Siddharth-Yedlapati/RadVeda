@@ -1,9 +1,11 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./RadOwnPFRChat.css";
 
 const RadOwnPFRChat = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -20,10 +22,10 @@ const RadOwnPFRChat = () => {
   }
   else
   {
-    navigate("/rad-login-page");
+    useEffect(() => {navigate("/rad-login-page");}) 
   }
 
-  const navigate = useNavigate();
+  
 
   const onFrameContainerClick = useCallback(() => {
     navigate("/rad-own-pfr");

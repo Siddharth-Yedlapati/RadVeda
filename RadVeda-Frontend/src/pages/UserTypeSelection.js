@@ -1,9 +1,11 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./UserTypeSelection.css";
 
 const UserTypeSelection = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -75,7 +77,7 @@ const UserTypeSelection = () => {
 
   }
 
-  const navigate = useNavigate();
+  
 
   const onEllipse1Click = useCallback(() => {
     navigate("/patient-login-page");

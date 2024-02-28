@@ -4,6 +4,7 @@ import { request, setAuthHeader, getAuthToken} from '../axios_helper';
 import "./AdminSignup1.css";
 
 const AdminSignup1 = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -19,7 +20,7 @@ const AdminSignup1 = () => {
       })
   }
 
-  const navigate = useNavigate();
+  
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");

@@ -3,9 +3,11 @@ import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./AdminReviewSignup.css";
 
 const AdminReviewSignup = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -22,11 +24,11 @@ const AdminReviewSignup = () => {
   }
   else
   {
-    navigate("/admin-login-page");
+    useEffect(() => {navigate("/admin-login-page");}) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
-  const navigate = useNavigate();
+  
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);

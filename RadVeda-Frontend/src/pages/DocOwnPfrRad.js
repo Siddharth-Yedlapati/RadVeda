@@ -4,9 +4,11 @@ import PortalPopup from "../components/PortalPopup";
 import DocOwnNotes from "../components/DocOwnNotes";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./DocOwnPfrRad.css";
 
 const DocOwnPfrRad = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -23,12 +25,12 @@ const DocOwnPfrRad = () => {
   }
   else
   {
-    navigate("/doc-login-page");
+    useEffect(() => {navigate("/doc-login-page");}) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);
-  const navigate = useNavigate();
+  
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);

@@ -4,9 +4,11 @@ import PortalPopup from "../components/PortalPopup";
 import PatientDocRemarks from "../components/PatientDocRemarks";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./PatientPfrRadiologist.css";
 
 const PatientPfrRadiologist = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -23,12 +25,12 @@ const PatientPfrRadiologist = () => {
   }
   else
   {
-    navigate("/patient-login-page");
+    useEffect(() => {navigate("/patient-login-page");}) 
   }
 
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientDocRemarksOpen, setPatientDocRemarksOpen] = useState(false);
-  const navigate = useNavigate();
+  
 
   const openPatientUserOptions = useCallback(() => {
     setPatientUserOptionsOpen(true);

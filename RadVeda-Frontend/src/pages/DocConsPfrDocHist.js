@@ -2,9 +2,12 @@ import { useState, useCallback } from "react";
 import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./DocConsPfrDocHist.css";
 
 const DocConsPfrDocHist = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -21,7 +24,7 @@ const DocConsPfrDocHist = () => {
   }
   else
   {
-    navigate("/doc-login-page");
+    useEffect(() => {navigate("/doc-login-page");}) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);

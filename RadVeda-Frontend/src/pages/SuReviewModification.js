@@ -3,9 +3,11 @@ import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./SuReviewModification.css";
 
 const SuReviewModification = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -22,11 +24,11 @@ const SuReviewModification = () => {
   }
   else
   {
-    navigate("/su-login-page");
+    useEffect(() => {navigate("/su-login-page");}) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
-  const navigate = useNavigate();
+  
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);

@@ -1,9 +1,11 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./AdminSignup.css";
 
 const AdminSignup = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -19,7 +21,7 @@ const AdminSignup = () => {
       })
   }
 
-  const navigate = useNavigate();
+  
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");

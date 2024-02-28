@@ -1,10 +1,26 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 
 import "./LabStaffSignup.css";
 
 const LabStaffSignup = () => {
   const navigate = useNavigate();
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/labstaffs/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/labstaff-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+  
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");

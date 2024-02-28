@@ -4,6 +4,7 @@ import "./PatientUserOptions.css";
 import { removeAuthToken } from "../axios_helper";
 const PatientUserOptions = () => {
   const navigate = useNavigate();
+  
 
   const onFrameContainer2Click = useCallback(() => {
     removeAuthToken();

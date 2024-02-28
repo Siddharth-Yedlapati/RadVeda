@@ -5,9 +5,11 @@ import PatientDocRemarks from "../components/PatientDocRemarks";
 import PatientPersonnelInfo from "../components/PatientPersonnelInfo";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./PatientDiagComplete.css";
 
 const PatientDiagComplete = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -24,14 +26,14 @@ const PatientDiagComplete = () => {
   }
   else
   {
-    navigate("/patient-login-page");
+    useEffect(() => {navigate("/patient-login-page");}) 
   }
   
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientDocRemarksOpen, setPatientDocRemarksOpen] = useState(false);
   const [isPatientPersonnelInfoOpen, setPatientPersonnelInfoOpen] =
     useState(false);
-  const navigate = useNavigate();
+  
 
   const openPatientUserOptions = useCallback(() => {
     setPatientUserOptionsOpen(true);

@@ -3,11 +3,27 @@ import { useNavigate } from "react-router-dom";
 import "./PatientSignup2.css";
 import S3 from 'react-aws-s3';
 import { string_delimiter, config } from "../config";
+import { request, getAuthToken} from "../axios_helper";
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const PatientSignup2 = () => {
   const navigate = useNavigate();
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/patient-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+  
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGender] = useState("");
   const [ethnicity, setEthnicity] = useState("");

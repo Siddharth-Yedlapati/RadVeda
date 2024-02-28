@@ -1,7 +1,10 @@
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RadConsPFREditor.css";
 
 const RadConsPFREditor = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -18,7 +21,7 @@ const RadConsPFREditor = () => {
   }
   else
   {
-    navigate("/rad-login-page");
+    useEffect(() => {navigate("/rad-login-page");}) 
   }
 
   return (

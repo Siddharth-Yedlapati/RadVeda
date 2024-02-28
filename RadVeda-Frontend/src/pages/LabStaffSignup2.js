@@ -3,11 +3,27 @@ import { useNavigate } from "react-router-dom";
 import "./LabStaffSignup2.css";
 import S3 from 'react-aws-s3';
 import { string_delimiter, config } from "../config";
+import { request, getAuthToken} from "../axios_helper";
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const LabStaffSignup2 = () => {
   const navigate = useNavigate();
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/labstaffs/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/labstaff-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+  
   const [hospitalLab, setHospitalLab] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");

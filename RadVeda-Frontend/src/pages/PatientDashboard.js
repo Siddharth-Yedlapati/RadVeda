@@ -4,9 +4,11 @@ import PortalPopup from "../components/PortalPopup";
 import PatientChooseLab from "../components/PatientChooseLab";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./PatientDashboard.css";
 
 const PatientDashboard = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -23,12 +25,12 @@ const PatientDashboard = () => {
   }
   else
   {
-    navigate("/patient-login-page");
+    useEffect(() => {navigate("/patient-login-page");}) 
   }
 
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientChooseLabOpen, setPatientChooseLabOpen] = useState(false);
-  const navigate = useNavigate();
+  
 
   const openPatientUserOptions = useCallback(() => {
     setPatientUserOptionsOpen(true);

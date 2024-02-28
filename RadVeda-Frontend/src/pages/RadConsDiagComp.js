@@ -6,9 +6,11 @@ import RadConsNotes from "../components/RadConsNotes";
 import RadConsOtherRadNotes from "../components/RadConsOtherRadNotes";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./RadConsDiagComp.css";
 
 const RadConsDiagComp = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -25,7 +27,7 @@ const RadConsDiagComp = () => {
   }
   else
   {
-    navigate("/rad-login-page");
+    useEffect(() => {navigate("/rad-login-page");}) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
@@ -33,7 +35,7 @@ const RadConsDiagComp = () => {
   const [isRadConsNotesOpen, setRadConsNotesOpen] = useState(false);
   const [isRadConsOtherRadNotesOpen, setRadConsOtherRadNotesOpen] =
     useState(false);
-  const navigate = useNavigate();
+  
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);

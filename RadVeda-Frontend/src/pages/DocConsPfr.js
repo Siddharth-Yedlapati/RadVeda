@@ -5,9 +5,11 @@ import DocConsRadNotes from "../components/DocConsRadNotes";
 import DocConsNotes from "../components/DocConsNotes";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./DocConsPfr.css";
 
 const DocConsPfr = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -24,13 +26,13 @@ const DocConsPfr = () => {
   }
   else
   {
-    navigate("/doc-login-page");
+    useEffect(() => {navigate("/doc-login-page");}) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocConsRadNotesOpen, setDocConsRadNotesOpen] = useState(false);
   const [isDocConsNotesOpen, setDocConsNotesOpen] = useState(false);
-  const navigate = useNavigate();
+  
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);

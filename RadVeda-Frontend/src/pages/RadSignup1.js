@@ -1,10 +1,25 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { request, setAuthHeader, getAuthToken} from '../axios_helper';
+import { request, getAuthToken} from '../axios_helper';
 import "./RadSignup1.css";
 
 const RadSignup1 = () => {
   const navigate = useNavigate();
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/radiologists/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/radiologist-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+  
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");

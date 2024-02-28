@@ -1,7 +1,10 @@
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./DocOwnPFREditor.css";
 
 const DocOwnPFREditor = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -18,7 +21,7 @@ const DocOwnPFREditor = () => {
   }
   else
   {
-    navigate("/doc-login-page");
+    useEffect(() => {navigate("/doc-login-page");}) 
   }
 
   return (

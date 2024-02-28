@@ -5,6 +5,7 @@ import { removeAuthToken } from "../axios_helper";
 
 const NPUserOptions = ({ onClose }) => {
   const navigate = useNavigate();
+  
 
   const onFrameContainer2Click = useCallback(() => {
     removeAuthToken();

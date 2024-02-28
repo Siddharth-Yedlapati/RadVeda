@@ -4,9 +4,12 @@ import PortalPopup from "../components/PortalPopup";
 import DocOwnRadNotes from "../components/DocOwnRadNotes";
 import DocOwnNotes from "../components/DocOwnNotes";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./DocOwnDiagComplete.css";
 
 const DocOwnDiagComplete = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -23,7 +26,7 @@ const DocOwnDiagComplete = () => {
   }
   else
   {
-    navigate("/doc-login-page");
+    useEffect(() => {navigate("/doc-login-page");}) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);

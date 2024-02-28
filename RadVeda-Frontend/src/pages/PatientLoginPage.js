@@ -4,6 +4,7 @@ import { request, setAuthToken, getAuthToken} from "../axios_helper";
 import "./PatientLoginPage.css";
 
 const PatientLoginPage = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -19,7 +20,7 @@ const PatientLoginPage = () => {
       })
   }
 
-  const navigate = useNavigate();
+  
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [emailError, setEmailError] = useState("");

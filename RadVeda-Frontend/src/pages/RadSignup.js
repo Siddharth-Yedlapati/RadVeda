@@ -1,9 +1,25 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from '../axios_helper';
 import "./RadSignup.css";
 
 const RadSignup = () => {
   const navigate = useNavigate();
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/radiologists/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/radiologist-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+  
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");

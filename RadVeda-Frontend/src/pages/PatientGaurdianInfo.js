@@ -1,9 +1,25 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./PatientGaurdianInfo.css";
 
 const PatientGaurdianInfo = () => {
   const navigate = useNavigate();
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/patient-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+  
 
   const onRectangleClick = useCallback(() => {
     navigate("/patient-signup-3");

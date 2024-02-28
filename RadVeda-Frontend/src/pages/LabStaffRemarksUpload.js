@@ -1,9 +1,11 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import "./LabStaffRemarksUpload.css";
 
 const LabStaffRemarksUpload = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -20,10 +22,10 @@ const LabStaffRemarksUpload = () => {
   }
   else
   {
-    navigate("/labstaff-login-page");
+    useEffect(() => {navigate("/labstaff-login-page");}) 
   }
 
-  const navigate = useNavigate();
+  
 
   const onFrameContainerClick = useCallback(() => {
     navigate("/labstaff-test-pending");

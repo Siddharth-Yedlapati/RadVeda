@@ -1,6 +1,7 @@
 import { useCallback, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 import S3 from 'react-aws-s3';
 import "./AdminSignup2.css";
 import { string_delimiter, config } from "../config";
@@ -8,6 +9,7 @@ import { string_delimiter, config } from "../config";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const AdminSignup2 = () => {
+  const navigate = useNavigate();
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -23,7 +25,7 @@ const AdminSignup2 = () => {
       })
   }
 
-  const navigate = useNavigate();
+  
   const [hospitalName, setHospitalName] = useState("");
   const [hospitalAddressLine1, setHospitalAddressLine1] = useState("");
   const [hospitalAddressLine2, setHospitalAddressLine2] = useState("");
