@@ -54,6 +54,7 @@ public class PatientService implements PatientServiceInterface {
         newPatient.setEthnicity(request.ethnicity());
         newPatient.setGender(request.gender());
         newPatient.setMaritalStatus(request.maritalStatus());
+        newPatient.setDocuments(request.Documents());
 
         return patientRepository.save(newPatient);
     }

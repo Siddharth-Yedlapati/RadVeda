@@ -52,6 +52,7 @@ public class LabStaffService implements LabStaffServiceInterface {
         newLabStaff.setOrgName(request.orgName());
         newLabStaff.setOrgAddressL1(request.orgAddressL1());
         newLabStaff.setOrgAddressL2(request.orgAddressL2());
+        newLabStaff.setDocuments(request.Documents());
 
         return labstaffRepository.save(newLabStaff);
     }
