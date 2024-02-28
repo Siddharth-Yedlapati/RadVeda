@@ -13,36 +13,66 @@ const UserTypeSelection = () => {
       {},
       true
       ).then(response => {
-
-        var role = response.data.role
-
-        if(role == "ADMIN")
-        {
-          navigate("/admin-dashboard");
-        }
-        else if(role == "SUPERADMIN")
-        {
-          navigate("/su-dashboard");
-        }
-        else if(role == "DOCTOR")
-        {
-          navigate("/doc-dashboard");
-        }
-        else if(role == "RADIOLOGIST")
-        {
-          navigate("/rad-dashboard");
-        }
-        else if(role == "PATIENT")
-        {
-          navigate("/patient-dashboard");
-        }
-        else if(role == "LABSTAFF")
-        {
-          navigate("/labstaff-dashboard");
-        }
+        navigate("/admin-dashboard");
       }).catch(error => {
         
       })
+
+    request(
+      "GET",
+      "/superadmins/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/su-dashboard");
+      }).catch(error => {
+        
+      })
+    
+    request(
+      "GET",
+      "/doctors/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/doc-dashboard");
+      }).catch(error => {
+        
+      })
+
+    request(
+      "GET",
+      "/radiologists/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/rad-dashboard");
+      }).catch(error => {
+        
+      })
+
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/patient-dashboard");
+      }).catch(error => {
+        
+      })
+    
+    request(
+      "GET",
+      "/labstaffs/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/labstaff-dashboard");
+      }).catch(error => {
+        
+      })
+
   }
 
   const navigate = useNavigate();

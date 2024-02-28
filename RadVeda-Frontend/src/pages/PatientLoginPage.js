@@ -1,28 +1,58 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthToken, getAuthToken} from "../axios_helper";
 import "./PatientLoginPage.css";
 
 const PatientLoginPage = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/patient-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+
   const navigate = useNavigate();
-  const [emailOrPhone, setEmailOrPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  const validateEmail = (email) => {
-    // Regular expression for basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const onRectangleClick = useCallback(() => {
-    if (!emailOrPhone.trim() || !password.trim()) {
-      alert("Please fill in all fields");
-    } else if (!validateEmail(emailOrPhone)) {
-      setEmailError("Please enter a valid email address");
-    } else {
-      navigate("/patient-dashboard");
+    // Validate fields
+    if (!loginEmail || !loginPassword) {
+      alert("Please fill in all required fields.");
+      return;
     }
-  }, [emailOrPhone, password, navigate, validateEmail]);
+
+    request(
+      "POST",
+      "/authenticate",
+      {
+          "userName" : loginEmail,
+          "password" : loginPassword,
+          "userRole" : "PATIENT"
+      },
+      false
+      ).then(
+        (response) => {
+          //Store the JWT Auth token and proceed to the doctor dashboard
+          setAuthToken(response.data);
+          navigate("/patient-dashboard");
+        }
+      ).catch(
+        (error) => {
+          alert("Invalid user credentials");
+        }
+      )
+    
+  }, [navigate, loginEmail, loginPassword]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/patient-signup-1");
@@ -50,9 +80,9 @@ const PatientLoginPage = () => {
             <input
               type="text"
               className="label80"
-              value={emailOrPhone}
+              value={loginEmail}
               onChange={(e) => {
-                setEmailOrPhone(e.target.value);
+                setLoginEmail(e.target.value);
                 setEmailError(""); // Reset email error on change
               }}
               placeholder="Enter Email or Phone"
@@ -71,8 +101,8 @@ const PatientLoginPage = () => {
             <input
               type="password"
               className="label80"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
               placeholder="Password"
             />
           </div>

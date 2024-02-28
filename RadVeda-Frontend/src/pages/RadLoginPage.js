@@ -1,24 +1,57 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthToken, getAuthToken} from "../axios_helper";
 import "./RadLoginPage.css";
 
 const RadLoginPage = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/radiologists/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/radiologist-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+
   const navigate = useNavigate();
-  const [emailOrPhone, setEmailOrPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   const onRectangleClick = useCallback(() => {
     // Validate fields
-    if (!emailOrPhone || !password) {
+    if (!loginEmail || !loginPassword) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    // You can add further validation for email or phone format if needed
+    request(
+      "POST",
+      "/authenticate",
+      {
+          "userName" : loginEmail,
+          "password" : loginPassword,
+          "userRole" : "RADIOLOGIST"
+      },
+      false
+      ).then(
+        (response) => {
+          //Store the JWT Auth token and proceed to the doctor dashboard
+          setAuthToken(response.data);
+          navigate("/radiologist-dashboard");
+        }
+      ).catch(
+        (error) => {
+          alert("Invalid user credentials");
+        }
+      )
 
-    // Proceed to login if all validations pass
-    navigate("/rad-dashboard");
-  }, [navigate, emailOrPhone, password]);
+  }, [navigate, loginEmail, loginPassword]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/rad-signup-1");
@@ -45,8 +78,8 @@ const RadLoginPage = () => {
             <div className="min-height120" />
             <input
               type="text"
-              value={emailOrPhone}
-              onChange={(e) => setEmailOrPhone(e.target.value)}
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
               className="label120"
               placeholder="Enter Email or Phone"
             />
@@ -62,8 +95,8 @@ const RadLoginPage = () => {
             <div className="min-height120" />
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
               className="label120"
               placeholder="Password"
             />
