@@ -2,9 +2,25 @@ import { useState, useCallback } from "react";
 import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./RadOwnPatDetails.css";
 
 const RadOwnPatDetails = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/radiologists/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/rad-login-page");
+      })
+  }
+
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const navigate = useNavigate();
 

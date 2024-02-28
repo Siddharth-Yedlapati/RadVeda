@@ -1,8 +1,24 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./LabStaffRemarksUpload.css";
 
 const LabStaffRemarksUpload = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/labstaffs/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/labstaff-login-page");
+      })
+  }
+
   const navigate = useNavigate();
 
   const onFrameContainerClick = useCallback(() => {

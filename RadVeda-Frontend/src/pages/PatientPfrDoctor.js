@@ -3,9 +3,25 @@ import PatientUserOptions from "../components/PatientUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import PatientDocRemarks from "../components/PatientDocRemarks";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./PatientPfrDoctor.css";
 
 const PatientPfrDoctor = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/patient-login-page");
+      })
+  }
+
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientDocRemarksOpen, setPatientDocRemarksOpen] = useState(false);
   const navigate = useNavigate();

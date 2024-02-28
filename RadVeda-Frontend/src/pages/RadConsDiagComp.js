@@ -5,9 +5,25 @@ import RadConsDocNotes from "../components/RadConsDocNotes";
 import RadConsNotes from "../components/RadConsNotes";
 import RadConsOtherRadNotes from "../components/RadConsOtherRadNotes";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./RadConsDiagComp.css";
 
 const RadConsDiagComp = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/radiologists/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/rad-login-page");
+      })
+  }
+
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isRadConsDocNotesOpen, setRadConsDocNotesOpen] = useState(false);
   const [isRadConsNotesOpen, setRadConsNotesOpen] = useState(false);

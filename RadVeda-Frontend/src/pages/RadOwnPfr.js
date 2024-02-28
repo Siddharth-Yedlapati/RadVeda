@@ -5,9 +5,25 @@ import RadOwnDocNotes from "../components/RadOwnDocNotes";
 import RadOwnNotes from "../components/RadOwnNotes";
 import RadOwnOtherRadNotes from "../components/RadOwnOtherRadNotes";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./RadOwnPfr.css";
 
 const RadOwnPfr = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/radiologists/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/rad-login-page");
+      })
+  }
+
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isRadOwnDocNotesOpen, setRadOwnDocNotesOpen] = useState(false);
   const [isRadOwnNotesOpen, setRadOwnNotesOpen] = useState(false);

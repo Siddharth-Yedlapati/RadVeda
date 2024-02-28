@@ -2,9 +2,25 @@ import { useState, useCallback } from "react";
 import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./LabStaffTestPending.css";
 
 const LabStaffTestPending = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/labstaffs/profile",
+      {},
+      true
+      ).then(response => {
+        
+      }).catch(error => {
+        navigate("/labstaff-login-page");
+      })
+  }
+
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const navigate = useNavigate();
 

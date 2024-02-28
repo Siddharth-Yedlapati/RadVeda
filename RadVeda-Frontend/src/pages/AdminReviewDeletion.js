@@ -20,6 +20,10 @@ const AdminReviewDeletion = () => {
         navigate("/admin-login-page");
       })
   }
+  else
+  {
+    navigate("/admin-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const navigate = useNavigate();
