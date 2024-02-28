@@ -12,6 +12,7 @@ import RadVeda.UserManagement.Users.LabStaff.user.LabStaffService;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/labstaffSignUp")
 public class LabStaffSignUpController {
 
