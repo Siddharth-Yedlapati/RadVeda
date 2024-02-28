@@ -1,31 +1,56 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthToken, getAuthToken} from "../axios_helper";
 import "./DocLoginPage.css";
 
 const DocLoginPage = () => {
-  const navigate = useNavigate();
-  const [emailOrPhone, setEmailOrPhone] = useState("");
-  const [password, setPassword] = useState("");
 
-  const validateEmail = (email) => {
-    // Basic email validation regex
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/doctors/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/doc-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+
+  const navigate = useNavigate();
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   const onRectangleClick = useCallback(() => {
-    if (!emailOrPhone || !password) {
-      alert("Please enter both email/phone and password.");
+    if (!loginEmail || !loginPassword) {
+      alert("Please fill in all required fields");
       return;
     }
 
-    if (!validateEmail(emailOrPhone)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
+    request(
+      "POST",
+      "/authenticate",
+      {
+          "userName" : loginEmail,
+          "password" : loginPassword,
+          "userRole" : "DOCTOR"
+      },
+      false
+      ).then(
+        (response) => {
+          //Store the JWT Auth token and proceed to the doctor dashboard
+          setAuthToken(response.data);
+          navigate("/doc-dashboard");
+        }
+      ).catch(
+        (error) => {
+          alert("Invalid user credentials");
+        }
+      )
 
-    navigate("/doc-dashboard");
-  }, [navigate, emailOrPhone, password, validateEmail]);
+  }, [navigate, loginEmail, loginPassword]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/doc-signup-1");
@@ -53,8 +78,8 @@ const DocLoginPage = () => {
             <input
               type="text"
               className="label67"
-              value={emailOrPhone}
-              onChange={(e) => setEmailOrPhone(e.target.value)}
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
               placeholder="Enter Email or Phone"
             />
           </div>
@@ -70,8 +95,8 @@ const DocLoginPage = () => {
             <input
               type="password"
               className="label67"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
               placeholder="Password"
             />
           </div>

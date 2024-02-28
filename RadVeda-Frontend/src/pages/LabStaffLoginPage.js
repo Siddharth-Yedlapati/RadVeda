@@ -1,22 +1,57 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthToken, getAuthToken} from "../axios_helper";
 import "./LabStaffLoginPage.css";
 
 const LabStaffLoginPage = () => {
+
+  if(getAuthToken() !== null && getAuthToken() !== "null")
+  {
+    request(
+      "GET",
+      "/labstaffs/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/labstaff-dashboard");
+      }).catch(error => {
+        
+      })
+  }
+
   const navigate = useNavigate();
-  const [emailOrPhone, setEmailOrPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   const onRectangleClick = useCallback(() => {
     // Validate fields
-    if (!emailOrPhone || !password) {
+    if (!loginEmail || !loginPassword) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    // Proceed to login if all validations pass
-    navigate("/labstaff-dashboard");
-  }, [navigate, emailOrPhone, password]);
+    request(
+      "POST",
+      "/authenticate",
+      {
+          "userName" : loginEmail,
+          "password" : loginPassword,
+          "userRole" : "LABSTAFF"
+      },
+      false
+      ).then(
+        (response) => {
+          //Store the JWT Auth token and proceed to the doctor dashboard
+          setAuthToken(response.data);
+          navigate("/labstaff-dashboard");
+        }
+      ).catch(
+        (error) => {
+          alert("Invalid user credentials");
+        }
+      )
+
+  }, [navigate, loginEmail, loginPassword]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/labstaff-signup");
@@ -43,8 +78,8 @@ const LabStaffLoginPage = () => {
             <div className="min-height17" />
             <input
               type="text"
-              value={emailOrPhone}
-              onChange={(e) => setEmailOrPhone(e.target.value)}
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
               className="label17"
               placeholder="Enter Email or Phone"
             />
@@ -60,8 +95,8 @@ const LabStaffLoginPage = () => {
             <div className="min-height17" />
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
               className="label17"
               placeholder="Password"
             />
