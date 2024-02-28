@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthHeader, getAuthToken} from '../axios_helper';
 import "./LabStaffSignup1.css";
 
 const LabStaffSignup1 = () => {
@@ -36,7 +37,36 @@ const LabStaffSignup1 = () => {
       alert("Phone number must be 10 digits!");
       return;
     }
-    navigate("/labstaff-dashboard");
+    request(
+      "POST",
+      "/labstaffSignUp",
+      {
+        "firstName" : localStorage.getItem('firstname'),
+        "middleName" : localStorage.getItem('middlename'),
+        "lastName" : localStorage.getItem('lastname'),
+        "addressL1" : localStorage.getItem('addressLine1'),
+        "addressL2" : localStorage.getItem('addressLine2'),
+        "country" : localStorage.getItem('country'),
+        "state" : localStorage.getItem('state'),
+        "city" : localStorage.getItem('city'),
+        "email" : localStorage.getItem('email'),
+        "password" : password,
+        "phoneNumber" : phoneNumber,
+        "orgName" : localStorage.getItem('hospitalLab'),
+        "orgAddressL1" : localStorage.getItem('hospitalAddress1'),
+        "orgAddressL2" : localStorage.getItem('hospitalAddress2')
+      },
+      false
+      ).then(
+        (response) => {
+          alert(response.data);
+          navigate("/");
+        }
+      ).catch(
+        (error) => {
+          alert(error.response.data.error);
+        }
+      )
   };
 
   return (
