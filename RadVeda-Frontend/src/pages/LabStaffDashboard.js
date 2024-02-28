@@ -20,6 +20,10 @@ const LabStaffDashboard = () => {
         navigate("/labstaff-login-page");
       })
   }
+  else
+  {
+    navigate("/labstaff-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const navigate = useNavigate();

@@ -16,6 +16,10 @@ const DocConsPFRBREditor = () => {
         navigate("/doc-login-page");
       })
   }
+  else
+  {
+    navigate("/doc-login-page");
+  }
 
   return (
     <div className="doc-cons-pfrbr-editor">

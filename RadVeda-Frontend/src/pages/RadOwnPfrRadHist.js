@@ -20,6 +20,10 @@ const RadOwnPfrRadHist = () => {
         navigate("/rad-login-page");
       })
   }
+  else
+  {
+    navigate("/rad-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const navigate = useNavigate();

@@ -16,6 +16,10 @@ const RadConsPFRBDEditor = () => {
         navigate("/rad-login-page");
       })
   }
+  else
+  {
+    navigate("/rad-login-page");
+  }
 
   return (
     <div className="rad-cons-pfrbd-editor">

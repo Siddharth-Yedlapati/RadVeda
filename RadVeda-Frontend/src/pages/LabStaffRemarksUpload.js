@@ -18,6 +18,10 @@ const LabStaffRemarksUpload = () => {
         navigate("/labstaff-login-page");
       })
   }
+  else
+  {
+    navigate("/labstaff-login-page");
+  }
 
   const navigate = useNavigate();
 

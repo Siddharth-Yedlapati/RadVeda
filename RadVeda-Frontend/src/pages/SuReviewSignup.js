@@ -20,6 +20,10 @@ const SuReviewSignup = () => {
         navigate("/su-login-page");
       })
   }
+  else
+  {
+    navigate("/su-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const navigate = useNavigate();

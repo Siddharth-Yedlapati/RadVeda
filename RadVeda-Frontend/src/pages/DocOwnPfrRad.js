@@ -21,6 +21,10 @@ const DocOwnPfrRad = () => {
         navigate("/doc-login-page");
       })
   }
+  else
+  {
+    navigate("/doc-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);

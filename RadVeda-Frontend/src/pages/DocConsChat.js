@@ -18,6 +18,10 @@ const DocConsChat = () => {
         navigate("/doc-login-page");
       })
   }
+  else
+  {
+    navigate("/doc-login-page");
+  }
 
   const navigate = useNavigate();
 

@@ -21,6 +21,10 @@ const DocConsDiagComplete = () => {
         navigate("/doc-login-page");
       })
   }
+  else
+  {
+    navigate("/doc-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocConsRadNotesOpen, setDocConsRadNotesOpen] = useState(false);
