@@ -18,5 +18,6 @@ public record PatientSignUpRequest(
                 String gender,
                 String race,
                 String ethnicity,
-                String maritalStatus) {
+                String maritalStatus,
+                String Documents) {
 }

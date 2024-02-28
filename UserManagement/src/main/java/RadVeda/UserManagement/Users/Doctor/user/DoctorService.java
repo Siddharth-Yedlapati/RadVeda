@@ -52,6 +52,7 @@ public class DoctorService implements DoctorServiceInterface {
         newDoctor.setOrgName(request.orgName());
         newDoctor.setOrgAddressL1(request.orgAddressL1());
         newDoctor.setOrgAddressL2(request.orgAddressL2());
+        newDoctor.setDocuments(request.Documents());
 
         return doctorRepository.save(newDoctor);
     }

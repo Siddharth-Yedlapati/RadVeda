@@ -14,5 +14,6 @@ public record RadiologistSignUpRequest(
                 String phoneNumber,
                 String orgName,
                 String orgAddressL1,
-                String orgAddressL2) {
+                String orgAddressL2,
+                String Documents) {
 }

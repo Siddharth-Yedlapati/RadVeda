@@ -52,6 +52,7 @@ public class RadiologistService implements RadiologistServiceInterface {
         newRadiologist.setOrgName(request.orgName());
         newRadiologist.setOrgAddressL1(request.orgAddressL1());
         newRadiologist.setOrgAddressL2(request.orgAddressL2());
+        newRadiologist.setDocuments(request.Documents());
 
         return radiologistRepository.save(newRadiologist);
     }

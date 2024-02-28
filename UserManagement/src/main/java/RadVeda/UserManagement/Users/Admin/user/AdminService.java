@@ -52,6 +52,7 @@ public class AdminService implements AdminServiceInterface {
         newAdmin.setOrgName(request.orgName());
         newAdmin.setOrgAddressL1(request.orgAddressL1());
         newAdmin.setOrgAddressL2(request.orgAddressL2());
+        newAdmin.setDocuments(request.Documents());
 
         return adminRepository.save(newAdmin);
     }
