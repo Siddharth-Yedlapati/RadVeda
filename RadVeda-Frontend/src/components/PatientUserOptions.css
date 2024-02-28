@@ -15,6 +15,7 @@
   line-height: 28px;
   text-transform: capitalize;
   font-weight: 600;
+  cursor: pointer;
 }
 .your-profile-container {
   width: 98px;
@@ -56,6 +57,7 @@
   width: 65px;
   position: relative;
   height: 28px;
+  cursor: pointer;
 }
 .patient-user-options-inner2 {
   position: absolute;

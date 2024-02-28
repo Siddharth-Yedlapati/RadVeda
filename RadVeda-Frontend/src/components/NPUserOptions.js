@@ -1,11 +1,13 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NPUserOptions.css";
+import { removeAuthToken } from "../axios_helper";
 
 const NPUserOptions = ({ onClose }) => {
   const navigate = useNavigate();
 
   const onFrameContainer2Click = useCallback(() => {
+    removeAuthToken();
     navigate("/");
   }, [navigate]);
 
@@ -23,8 +25,8 @@ const NPUserOptions = ({ onClose }) => {
         </div>
       </div>
       <div className="np-user-options-inner2" onClick={onFrameContainer2Click}>
-        <div className="signout-wrapper">
-          <div className="your-profile">Signout</div>
+        <div className="signout-wrapper" onClick={onFrameContainer2Click}>
+          <div className="your-profile" onClick={onFrameContainer2Click}>Signout</div>
         </div>
       </div>
     </div>
