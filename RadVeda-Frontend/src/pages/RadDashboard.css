@@ -1,12 +1,6 @@
-/* .rad-dashboard-child {
-  position: absolute;
-  top: 47px;
-  left: 27px;
-  border-radius: var(--br-3xs);
-  background-color: var(--color-gray-200);
-  width: 1411px;
-  height: 786px;
-} */
+.rad-dashboard-container {
+  overflow: auto; /* Make the container scrollable */
+}
 
 .rad-dashboard-child {
   position: flex;

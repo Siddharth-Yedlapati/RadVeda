@@ -26,6 +26,7 @@ const RadDashboard = () => {
 
   return (
     <>
+      <div className="rad-dashboard-container">
       <div className="rad-dashboard">
         <div className="rad-dashboard-child" />
         <img className="vector-icon196" alt="" />
@@ -171,6 +172,7 @@ const RadDashboard = () => {
           </div>
           <b className="my-patients-list1">My Patients List</b>
         </div>
+      </div>
       </div>
       {isNPUserOptionsOpen && (
         <PortalPopup

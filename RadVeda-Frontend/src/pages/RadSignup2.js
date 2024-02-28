@@ -16,9 +16,8 @@ const RadSignup2 = () => {
     localStorage.setItem('hospitalName', hospitalName)
     localStorage.setItem('hospitalAddress1', hospitalAddress1)
     localStorage.setItem('hospitalAddress2', hospitalAddress2)
-    console.log(hospitalName)
     navigate("/rad-signup-3");
-  }, [navigate]);
+  }, [navigate, hospitalName, hospitalAddress1, hospitalAddress2]);
 
   const onRectangle3Click = useCallback(() => {
     navigate("/rad-signup-1");
