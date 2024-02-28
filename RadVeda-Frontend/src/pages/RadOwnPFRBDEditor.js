@@ -16,6 +16,10 @@ const RadOwnPFRBDEditor = () => {
         navigate("/rad-login-page");
       })
   }
+  else
+  {
+    navigate("/rad-login-page");
+  }
 
   return (
     <div className="rad-own-pfrbd-editor">

@@ -19,6 +19,10 @@ const DocConsPfrDocHist = () => {
         navigate("/doc-login-page");
       })
   }
+  else
+  {
+    navigate("/doc-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
 

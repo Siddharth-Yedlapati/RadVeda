@@ -22,6 +22,10 @@ const PatientDiagComplete = () => {
         navigate("/patient-login-page");
       })
   }
+  else
+  {
+    navigate("/patient-login-page");
+  }
   
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientDocRemarksOpen, setPatientDocRemarksOpen] = useState(false);

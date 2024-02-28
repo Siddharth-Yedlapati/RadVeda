@@ -18,6 +18,10 @@ const RadConsPFRBDAnnotater = () => {
         navigate("/rad-login-page");
       })
   }
+  else
+  {
+    navigate("/rad-login-page");
+  }
 
   const navigate = useNavigate();
 

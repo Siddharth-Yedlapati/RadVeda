@@ -16,6 +16,10 @@ const DocOwnPFREditor = () => {
         navigate("/doc-login-page");
       })
   }
+  else
+  {
+    navigate("/doc-login-page");
+  }
 
   return (
     <div className="doc-own-pfr-editor">

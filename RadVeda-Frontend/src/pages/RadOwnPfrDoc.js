@@ -23,6 +23,10 @@ const RadOwnPfrDoc = () => {
         navigate("/rad-login-page");
       })
   }
+  else
+  {
+    navigate("/rad-login-page");
+  }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isRadOwnDocNotesOpen, setRadOwnDocNotesOpen] = useState(false);

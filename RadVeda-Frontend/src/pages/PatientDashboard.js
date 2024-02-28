@@ -21,6 +21,10 @@ const PatientDashboard = () => {
         navigate("/patient-login-page");
       })
   }
+  else
+  {
+    navigate("/patient-login-page");
+  }
 
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientChooseLabOpen, setPatientChooseLabOpen] = useState(false);

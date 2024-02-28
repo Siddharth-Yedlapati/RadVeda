@@ -18,6 +18,10 @@ const RadOwnPFRChat = () => {
         navigate("/rad-login-page");
       })
   }
+  else
+  {
+    navigate("/rad-login-page");
+  }
 
   const navigate = useNavigate();
 
