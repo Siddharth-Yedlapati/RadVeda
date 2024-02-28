@@ -1,15 +1,22 @@
-import { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RadSignup2.css";
 
 const RadSignup2 = () => {
   const navigate = useNavigate();
+  const [hospitalName, setHospitalName] = useState("");
+  const [hospitalAddress1, setHospitalAddress1] = useState("");
+  const [hospitalAddress2, setHospitalAddress2] = useState("");
 
   const onRectangle1Click = useCallback(() => {
     navigate("/rad-login-page");
   }, [navigate]);
 
   const onRectangle2Click = useCallback(() => {
+    localStorage.setItem('hospitalName', hospitalName)
+    localStorage.setItem('hospitalAddress1', hospitalAddress1)
+    localStorage.setItem('hospitalAddress2', hospitalAddress2)
+    console.log(hospitalName)
     navigate("/rad-signup-3");
   }, [navigate]);
 
@@ -34,6 +41,8 @@ const RadSignup2 = () => {
             <input
               type="text"
               className="label117"
+              value={hospitalName}
+              onChange={(e) => setHospitalName(e.target.value)}
               placeholder="Hospital/Lab"
             />
           </div>
@@ -49,6 +58,8 @@ const RadSignup2 = () => {
             <input
               type="text"
               className="label117"
+              value={hospitalAddress1}
+              onChange={(e) => setHospitalAddress1(e.target.value)}
               placeholder="Hospital/Lab address line 1"
             />
           </div>
@@ -64,6 +75,8 @@ const RadSignup2 = () => {
             <input
               type="text"
               className="label117"
+              value={hospitalAddress2}
+              onChange={(e) => setHospitalAddress2(e.target.value)}
               placeholder="Hospital/Lab address line 2"
             />
           </div>

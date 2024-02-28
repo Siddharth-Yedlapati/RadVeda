@@ -13,6 +13,9 @@ const DocSignup2 = () => {
   }, [navigate]);
 
   const onRectangle2Click = useCallback(() => {
+    localStorage.setItem('hospitalName', hospitalName)
+    localStorage.setItem('hospitalAddress1', hospitalAddress1)
+    localStorage.setItem('hospitalAddress2', hospitalAddress2)
     navigate("/doc-signup-3");
   }, [navigate]);
 

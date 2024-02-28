@@ -11,7 +11,8 @@ const DocSignup = () => {
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
 
   const onRectangleClick = useCallback(() => {
     navigate("/doc-login-page");
@@ -19,7 +20,7 @@ const DocSignup = () => {
 
   const onRectangle1Click = useCallback(() => {
     // Check if all fields are filled
-    if (!firstName || !lastName || !email || !country || !state || !city || !address) {
+    if (!firstName || !lastName || !email || !country || !state || !city || !addressLine1) {
       alert("Please fill in all fields.");
       return;
     }
@@ -30,8 +31,19 @@ const DocSignup = () => {
       return;
     }
 
+    localStorage.setItem('firstname', firstName)
+    localStorage.setItem('middlename', middleName)
+    localStorage.setItem('lastname', lastName)
+    localStorage.setItem('addressL1', addressLine1)
+    localStorage.setItem('addressL2', addressLine2)
+    localStorage.setItem('country', country)
+    localStorage.setItem('state', state)
+    localStorage.setItem('city', city)
+    localStorage.setItem('email', email)
+
+
     navigate("/doc-signup-2");
-  }, [navigate, firstName, lastName, email, country, state, city, address]);
+  }, [navigate, firstName, lastName, email, country, state, city, addressLine1, addressLine2]);
 
   const onRectangle2Click = useCallback(() => {
     navigate("/");
@@ -105,9 +117,9 @@ const DocSignup = () => {
             <input
               type="text"
               className="label50"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email address"
+              value={addressLine1}
+              onChange={(e) => setAddressLine1(e.target.value)}
+              placeholder="Address Line 1"
             />
           </div>
         </div>
@@ -119,14 +131,28 @@ const DocSignup = () => {
             <input
               type="text"
               className="label50"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email Address"
             />
           </div>
         </div>
       </div>
       <div className="text-fieldoutlined55">
+        <div className="input50">
+          <div className="content55">
+            <div className="min-height50" />
+            <input
+              type="text"
+              className="label50"
+              value={addressLine2}
+              onChange={(e) => setAddressLine2(e.target.value)}
+              placeholder="Address Line 2"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="text-fieldoutlined56">
         <div className="input50">
           <div className="content55">
             <div className="min-height50" />
@@ -140,7 +166,7 @@ const DocSignup = () => {
           </div>
         </div>
       </div>
-      <div className="text-fieldoutlined56">
+      <div className="text-fieldoutlined57">
         <div className="input50">
           <div className="content55">
             <div className="min-height50" />
@@ -154,7 +180,7 @@ const DocSignup = () => {
           </div>
         </div>
       </div>
-      <div className="text-fieldoutlined57">
+      <div className="text-fieldoutlined58">
         <div className="input50">
           <div className="content55">
             <div className="min-height50" />

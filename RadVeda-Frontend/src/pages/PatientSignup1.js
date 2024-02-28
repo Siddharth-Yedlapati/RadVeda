@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
 import "./PatientSignup1.css";
 
 const PatientSignup1 = () => {
@@ -21,6 +22,8 @@ const PatientSignup1 = () => {
   }, [navigate]);
 
   const onSubmit = () => {
+    localStorage.setItem('password', password)
+    localStorage.setItem('phoneNumber', phoneNumber)
     if (password !== confirmPassword) {
       alert("Password mismatch!");
       return;
@@ -36,7 +39,40 @@ const PatientSignup1 = () => {
       alert("Phone number must be 10 digits!");
       return;
     }
-    navigate("/patient-dashboard");
+    request(
+      "POST",
+      "/patientSignUp",
+      {
+        "firstName" : localStorage.getItem('firstname'),
+        "middleName" : localStorage.getItem('middlename'),
+        "lastName" : localStorage.getItem('lastname'),
+        "addressL1" : localStorage.getItem('addressLine1'),
+        "addressL2" : localStorage.getItem('addressLine2'),
+        "country" : localStorage.getItem('country'),
+        "state" : localStorage.getItem('state'),
+        "city" : localStorage.getItem('city'),
+        "email" : localStorage.getItem('email'),
+        "password" : password,
+        "phoneNumber" : phoneNumber,
+        "DOB": localStorage.getItem("DOB"),
+        "gender": localStorage.getItem("gender"),
+        "race": localStorage.getItem("race"),
+        "ethnicity": localStorage.getItem("ethnicity"),
+        "maritalstatus": localStorage.getItem("maritalStatus")
+        
+        
+      },
+      false
+      ).then(
+        (response) => {
+          alert(response.data);
+          navigate("/");
+        }
+      ).catch(
+        (error) => {
+          alert(error.response.data.error);
+        }
+      )
   };
 
   return (

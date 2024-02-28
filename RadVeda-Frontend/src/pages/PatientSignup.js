@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "./PatientSignup.css";
 
 const PatientSignup = () => {
@@ -44,6 +45,15 @@ const PatientSignup = () => {
       alert("Please enter a valid email address.");
       return;
     }
+    localStorage.setItem('firstname', firstName)
+    localStorage.setItem('middlename', middleName)
+    localStorage.setItem('lastname', lastName)
+    localStorage.setItem('addressLine1', addressLine1)
+    localStorage.setItem('addressLine2', addressLine2)
+    localStorage.setItem('country', country)
+    localStorage.setItem('state', state)
+    localStorage.setItem('city', city)
+    localStorage.setItem('email', emailAddress)
 
     // Proceed to next step
     navigate("/patient-signup-2");

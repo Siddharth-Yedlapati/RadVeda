@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { request, setAuthHeader, getAuthToken} from '../axios_helper';
 import "./DocSignup1.css";
+
 
 const DocSignup1 = () => {
   const navigate = useNavigate();
@@ -21,6 +23,8 @@ const DocSignup1 = () => {
   }, [navigate]);
 
   const onSubmit = () => {
+    localStorage.setItem('password', password)
+    localStorage.setItem('phoneNumber', phoneNumber)
     if (password !== confirmPassword) {
       alert("Password mismatch!");
       return;
@@ -36,7 +40,36 @@ const DocSignup1 = () => {
       alert("Phone number must be 10 digits!");
       return;
     }
-    navigate("/doc-dashboard");
+    request(
+      "POST",
+      "/doctorSignUp",
+      {
+        "firstName" : localStorage.getItem('firstname'),
+        "middleName" : localStorage.getItem('middlename'),
+        "lastName" : localStorage.getItem('lastname'),
+        "addressL1" : localStorage.getItem('addressL1'),
+        "addressL2" : localStorage.getItem('addressL2'),
+        "country" : localStorage.getItem('country'),
+        "state" : localStorage.getItem('state'),
+        "city" : localStorage.getItem('city'),
+        "email" : localStorage.getItem('email'),
+        "password" : password,
+        "phoneNumber" : phoneNumber,
+        "orgName" : localStorage.getItem('hospitalName'),
+        "orgAddressL1" : localStorage.getItem('hospitalAddress1'),
+        "orgAddressL2" : localStorage.getItem('hospitalAddress2')
+      },
+      false
+      ).then(
+        (response) => {
+          alert(response.data);
+          navigate("/");
+        }
+      ).catch(
+        (error) => {
+          alert(error.response.data.error);
+        }
+      )
   };
 
   return (

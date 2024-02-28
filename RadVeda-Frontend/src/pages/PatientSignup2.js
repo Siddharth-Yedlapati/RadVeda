@@ -19,6 +19,11 @@ const PatientSignup2 = () => {
   }, [navigate]);
 
   const onRectangle3Click = useCallback(() => {
+    localStorage.setItem('DOB', dateOfBirth)
+    localStorage.setItem('gender', gender)
+    localStorage.setItem('ethnicity', ethnicity)
+    localStorage.setItem('maritalStatus', maritalStatus)
+    localStorage.setItem('race', race)
     navigate("/patient-signup-3");
   }, [navigate]);
 

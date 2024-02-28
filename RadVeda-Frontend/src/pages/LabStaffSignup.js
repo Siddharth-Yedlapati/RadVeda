@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "./LabStaffSignup.css";
 
 const LabStaffSignup = () => {
@@ -31,7 +32,15 @@ const LabStaffSignup = () => {
       alert("Please enter a valid email address.");
       return;
     }
-
+    localStorage.setItem('firstname', firstName)
+    localStorage.setItem('middlename', middleName)
+    localStorage.setItem('lastname', lastName)
+    localStorage.setItem('addressLine1', addressLine1)
+    localStorage.setItem('addressLine2', addressLine2)
+    localStorage.setItem('country', country)
+    localStorage.setItem('state', state)
+    localStorage.setItem('city', city)
+    localStorage.setItem('email', email)
     // Proceed to the next step if all validations pass
     navigate("/labstaff-signup-2");
   }, [navigate, firstName, lastName, email, addressLine1, country, state, city]);
