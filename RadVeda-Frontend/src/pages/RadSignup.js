@@ -10,14 +10,70 @@ const RadSignup = () => {
   {
     request(
       "GET",
+      "/admins/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/admin-dashboard");
+      }).catch(error => {
+        
+      })
+
+    request(
+      "GET",
+      "/superadmins/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/su-dashboard");
+      }).catch(error => {
+        
+      })
+    
+    request(
+      "GET",
+      "/doctors/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/doc-dashboard");
+      }).catch(error => {
+        
+      })
+
+    request(
+      "GET",
       "/radiologists/profile",
       {},
       true
       ).then(response => {
-        navigate("/radiologist-dashboard");
+        navigate("/rad-dashboard");
       }).catch(error => {
         
       })
+
+    request(
+      "GET",
+      "/patients/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/patient-dashboard");
+      }).catch(error => {
+        
+      })
+    
+    request(
+      "GET",
+      "/labstaffs/profile",
+      {},
+      true
+      ).then(response => {
+        navigate("/labstaff-dashboard");
+      }).catch(error => {
+        
+      })
+
   }
   
   const [firstName, setFirstName] = useState("");
