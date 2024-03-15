@@ -19,12 +19,13 @@ public class DoctorSignUpController {
     private final DoctorService doctorService;
     private final ApplicationEventPublisher publisher;
     private final DoctorVerificationTokenRepository doctorTokenRepository;
-
+    
+    
     @PostMapping
     public String registerDoctor(@RequestBody DoctorSignUpRequest signUpRequest, final HttpServletRequest request) {
         Doctor doctor = doctorService.registerDoctor(signUpRequest);
         publisher.publishEvent(new DoctorSignUpCompleteEvent(doctor, applicationUrl(request)));
-        return "Success!! Please check your email to complete your registration";
+        return ("Success!! Please check your email to complete your registration");
     }
 
     @GetMapping("/verifyEmail")

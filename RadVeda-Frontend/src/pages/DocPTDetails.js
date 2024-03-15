@@ -28,6 +28,9 @@ const DocPTDetails = () => {
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
+  const [testType, settestType] = useState("");
+  const [patientRemarks, setpatientRemarks] = useState("");
+  const [radiologistRemarks, setradiologistRemarks] = useState("");
   
 
   const openNPUserOptions = useCallback(() => {
@@ -39,7 +42,45 @@ const DocPTDetails = () => {
   }, []);
 
   const onFrameContainer1Click = useCallback(() => {
-    navigate("/doc-dashboard");
+    console.log(testType);  // returns blank?
+    console.log(patientRemarks);
+    console.log(radiologistRemarks);
+    
+    // if (!testType) {
+    //   alert("Please Fill in Test Type");
+    //   return;
+    // }
+
+
+
+    request(
+      "POST",
+      "/prescribe-test",
+      {
+        "TestType": 'a',
+        "DatePrescribed": 'a',
+        "PatientStatus" : 'a',
+        "DoctorStatus" : 'a',
+        "RadiologistStatus": 'b',
+        "LabStaffStatus": 'c',
+        "DoctorsRemarksforPatient": 'c',
+        "DoctorsRemarksforRadiologist": 'b',
+        "doctorID": '3',   // patientID can be retrieved using localStorage, how to get doctorID?
+        "PatientID" : '2',
+        "DoctorNotes" : 'a',
+        "OriginalImage": 'g'    
+    },
+      true // If changed to false, axios request fails with a 403 forbidden error
+      ).then(
+        (response) => {
+          alert(response.data);
+          navigate("/doc-dashboard");
+        }
+      ).catch(
+        (error) => {
+          alert(error.response.data.error);
+        }
+      )
   }, [navigate]);
 
   const onFrameContainer12Click = useCallback(() => {
@@ -88,39 +129,57 @@ const DocPTDetails = () => {
             </div>
           </div>
           <div className="text-fieldoutlined71">
-            <div className="input71">
-              <div className="content76">
-                <div className="min-height71" />
-                <div className="label71">Remarks</div>
-              </div>
-            </div>
+          <div className="input71">
+          <div className="content76">
+            <div className="min-height71" />
+            <input
+              type="text"
+              className="label71"
+              value={radiologistRemarks}
+              onChange={(e) => setradiologistRemarks(e.target.value)}
+              placeholder="Input Remarks for Radiologist"
+            />
+          </div>
+        </div>
             <div className="helpertext71">
               <div className="helper-text71">Helper text</div>
             </div>
           </div>
         </div>
         <div className="text-fieldoutlined72">
-          <div className="input71">
-            <div className="content76">
-              <div className="min-height71" />
-              <div className="label71">Remarks</div>
-            </div>
+        <div className="input71">
+          <div className="content76">
+            <div className="min-height71" />
+            <input
+              type="text"
+              className="label71"
+              value={patientRemarks}
+              onChange={(e) => setpatientRemarks(e.target.value)}
+              placeholder="Input Remarks for Patient"
+            />
           </div>
+        </div>
           <div className="helpertext71">
             <div className="helper-text71">Helper text</div>
           </div>
         </div>
         <div className="text-fieldoutlined73">
-          <div className="input71">
-            <div className="content76">
-              <div className="min-height71" />
-              <div className="label71">X-Ray</div>
-            </div>
-          </div>
-          <div className="helpertext71">
-            <div className="helper-text71">Helper text</div>
+        <div className="input71">
+          <div className="content76">
+            <div className="min-height71" />
+            <input
+              type="text"
+              className="label71"
+              value={testType}
+              onChange={(e) => settestType(e.target.value)}
+              placeholder="Input Test"
+            />
           </div>
         </div>
+        <div className="helpertext71">
+          <div className="helper-text71">Helper text</div>
+        </div>
+      </div>
         <div
           className="doc-pt-details-inner1"
           onClick={onFrameContainer12Click}
