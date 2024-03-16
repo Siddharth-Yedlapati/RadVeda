@@ -78,7 +78,7 @@ const PatientGaurdianInfo = () => {
   
 
   const onRectangleClick = useCallback(() => {
-    navigate("/patient-signup-3");
+    navigate("/patient-signup-1");
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
@@ -103,7 +103,7 @@ const PatientGaurdianInfo = () => {
         className="patient-gaurdian-info-2-inner"
         onClick={onRectangleClick}
       />
-      <b className="next4">Next</b>
+      <b onClick={onRectangleClick} className="next4">Next</b>
       <div
         className="patient-gaurdian-info-2-child1"
         onClick={onRectangle1Click}
@@ -114,7 +114,7 @@ const PatientGaurdianInfo = () => {
         className="patient-gaurdian-info-2-child2"
         onClick={onRectangle2Click}
       />
-      <b className="back14">Back</b>
+      <b onClick={onRectangle2Click} className="back14">Back</b>
       <div className="guardian-info1">Guardian Info</div>
       <div className="text-fieldoutlined44">
         <div className="input44">

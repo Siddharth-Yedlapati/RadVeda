@@ -119,7 +119,11 @@ const PatientSignup2 = () => {
     localStorage.setItem('maritalStatus', maritalStatus)
     localStorage.setItem('race', race)
     localStorage.setItem('Documents', uploadedFiles)
-    navigate("/patient-signup-3");
+    if(17 > 18) //add logic to find age of person.
+      navigate("/patient-signup-3");
+    else 
+      navigate("/patient-guardian-info-1");
+
   }, [navigate, dateOfBirth, gender, ethnicity, maritalStatus, race, uploadedFiles]);
 
   const onRectangle4Click = useCallback(() => {

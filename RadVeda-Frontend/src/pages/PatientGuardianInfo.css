@@ -85,6 +85,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .already-have-an4 {
   position: absolute;
@@ -279,6 +280,7 @@
   display: inline-block;
   width: 380px;
   height: 115px;
+  cursor: pointer;
 }
 .patient-guardian-info-1-child4 {
   position: absolute;
@@ -334,6 +336,7 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .patient-guardian-info-1 {
   width: 100%;

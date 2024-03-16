@@ -106,7 +106,7 @@ const PatientGuardianInfo = () => {
         className="patient-guardian-info-1-child3"
         onClick={onRectangleClick}
       />
-      <b className="login6">Login</b>
+      <b onClick={onRectangleClick} className="login6">Login</b>
       <div className="already-have-an4"> Already have an account?</div>
       <div className="text-fieldoutlined30">
         <div className="input30">
@@ -227,12 +227,12 @@ const PatientGuardianInfo = () => {
         className="patient-guardian-info-1-child4"
         onClick={onRectangle1Click}
       />
-      <b className="next3">Next</b>
+      <b onClick={onRectangle1Click} className="next3">Next</b>
       <div
         className="patient-guardian-info-1-child5"
         onClick={onRectangle2Click}
       />
-      <b className="back12">Back</b>
+      <b onClick={onRectangle2Click} className="back12">Back</b>
     </div>
   );
 };

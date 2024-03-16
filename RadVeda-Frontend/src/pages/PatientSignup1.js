@@ -131,8 +131,21 @@ const PatientSignup1 = () => {
         "race": localStorage.getItem("race"),
         "ethnicity": localStorage.getItem("ethnicity"),
         "maritalstatus": localStorage.getItem("maritalStatus"),
-        "Documents": localStorage.getItem("Documents")
-        
+        "Documents": localStorage.getItem("Documents"),
+        "guardianFirstName": localStorage.getItem("guardianFirstName"),
+        "guardianMiddleName": localStorage.getItem("guardianMiddleName"),
+        "guardianLastName": localStorage.getItem("guardianLastName"),
+        "guardianAddressL1": localStorage.getItem("guardianAddressLine1"),
+        "guardianAddressL2": localStorage.getItem("guardianAddressLine2"),
+        "guardianCountry": localStorage.getItem("guardianCountry"),
+        "guardianState": localStorage.getItem("guardianState"),
+        "guardianCity": localStorage.getItem("guardianCity"),
+        "guardianEmail": localStorage.getItem("guardianEmail"),
+        "guardianDOB": localStorage.getItem("guardianDOB"),
+        "guardianGender": localStorage.getItem("guardianGender"),
+        "guardianRelationshipToPatient": localStorage.getItem("guardianRelationshipToPatient"),
+        "guardianPhoneNumber": localStorage.getItem("guardianPhoneNumber"),
+        "guardianDocuments": localStorage.getItem("guardianDocuments")
       },
       false
       ).then(

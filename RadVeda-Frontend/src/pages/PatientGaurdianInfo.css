@@ -131,6 +131,7 @@
   color: var(--white-color);
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .guardian-info1 {
   top: 97px;
