@@ -1,14 +1,12 @@
 package RadVeda.UserManagement.Users.LabStaff.user;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffSignUpRequest;
 import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
 import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
+import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffSignUpRequest;
-import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
 
 import java.util.Calendar;
 import java.util.List;
@@ -27,7 +25,24 @@ public class LabStaffService implements LabStaffServiceInterface {
     }
 
     @Override
+    public void cleanUp() {
+        List<LabStaff> allLabStaffs = getLabStaffs();
+
+        for (LabStaff labstaff : allLabStaffs) {
+            if (!labstaff.isEnabled()) {
+                LabStaffVerificationToken token = labstaffTokenRepository.findByLabstaff_id(labstaff.getId());
+                Calendar calendar = Calendar.getInstance();
+                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    labstaffTokenRepository.delete(token);
+                    labstaffRepository.delete(labstaff);
+                }
+            }
+        }
+    }
+
+    @Override
     public LabStaff registerLabStaff(LabStaffSignUpRequest request) {
+        cleanUp(); //Cleaning up the LabStaff and LabStaffVerificationToken tables before a new signup
         Optional<LabStaff> labstaff = this.findByEmail(request.email());
         if (labstaff.isPresent()) {
             throw new UserAlreadyExistsException(
@@ -78,6 +93,7 @@ public class LabStaffService implements LabStaffServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             labstaffTokenRepository.delete(token);
+            labstaffRepository.delete(labstaff);
             return "Token already expired";
         }
         labstaff.setEnabled(true);

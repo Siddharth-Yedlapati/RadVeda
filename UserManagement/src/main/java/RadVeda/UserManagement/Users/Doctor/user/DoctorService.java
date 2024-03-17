@@ -1,14 +1,12 @@
 package RadVeda.UserManagement.Users.Doctor.user;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.Doctor.signup.DoctorSignUpRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationToken;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
+import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import RadVeda.UserManagement.Users.Doctor.signup.DoctorSignUpRequest;
-import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
 
 import java.util.Calendar;
 import java.util.List;
@@ -27,7 +25,24 @@ public class DoctorService implements DoctorServiceInterface {
     }
 
     @Override
+    public void cleanUp() {
+        List<Doctor> allDoctors = getDoctors();
+
+        for (Doctor doctor : allDoctors) {
+            if (!doctor.isEnabled()) {
+                DoctorVerificationToken token = doctorTokenRepository.findByDoctor_id(doctor.getId());
+                Calendar calendar = Calendar.getInstance();
+                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    doctorTokenRepository.delete(token);
+                    doctorRepository.delete(doctor);
+                }
+            }
+        }
+    }
+
+    @Override
     public Doctor registerDoctor(DoctorSignUpRequest request) {
+        cleanUp(); //Cleaning up the Doctor and DoctorVerificationToken tables before a new signup
         Optional<Doctor> doctor = this.findByEmail(request.email());
         if (doctor.isPresent()) {
             throw new UserAlreadyExistsException(
@@ -78,6 +93,7 @@ public class DoctorService implements DoctorServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             doctorTokenRepository.delete(token);
+            doctorRepository.delete(doctor);
             return "Token already expired";
         }
         doctor.setEnabled(true);

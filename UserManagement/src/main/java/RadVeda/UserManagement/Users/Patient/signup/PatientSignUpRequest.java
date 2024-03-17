@@ -19,5 +19,19 @@ public record PatientSignUpRequest(
                 String race,
                 String ethnicity,
                 String maritalStatus,
-                String Documents) {
+                String Documents,
+                String guardianFirstName,
+                String guardianMiddleName,
+                String guardianLastName,
+                String guardianAddressL1,
+                String guardianAddressL2,
+                String guardianCountry,
+                String guardianState,
+                String guardianCity,
+                String guardianEmail,
+                Date guardianDOB,
+                String guardianGender,
+                String guardianRelationshipToPatient,
+                String guardianPhoneNumber,
+                String guardianDocuments) {
 }

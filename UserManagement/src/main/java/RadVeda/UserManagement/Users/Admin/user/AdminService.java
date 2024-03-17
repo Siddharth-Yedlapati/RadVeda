@@ -26,8 +26,24 @@ public class AdminService implements AdminServiceInterface {
         return adminRepository.findAll();
     }
 
+    public void cleanUp() {
+        List<Admin> allAdmins = getAdmins();
+
+        for (Admin admin : allAdmins) {
+            if (!admin.isEnabled()) {
+                AdminVerificationToken token = adminTokenRepository.findByAdmin_id(admin.getId());
+                Calendar calendar = Calendar.getInstance();
+                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    adminTokenRepository.delete(token);
+                    adminRepository.delete(admin);
+                }
+            }
+        }
+    }
+
     @Override
     public Admin registerAdmin(AdminSignUpRequest request) {
+        cleanUp(); // Cleaning up the Admin and AdminVerificationToken tables before a new signup
         Optional<Admin> admin = this.findByEmail(request.email());
         if (admin.isPresent()) {
             throw new UserAlreadyExistsException(
@@ -78,6 +94,7 @@ public class AdminService implements AdminServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             adminTokenRepository.delete(token);
+            adminRepository.delete(admin);
             return "Token already expired";
         }
         admin.setEnabled(true);
