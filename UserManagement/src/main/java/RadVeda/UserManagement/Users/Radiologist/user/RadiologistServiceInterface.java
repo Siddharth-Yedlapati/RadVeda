@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface RadiologistServiceInterface {
     List<Radiologist> getRadiologists();
 
+    public void cleanUp();
+
     Radiologist registerRadiologist(RadiologistSignUpRequest request);
 
     Optional<Radiologist> findByEmail(String email);

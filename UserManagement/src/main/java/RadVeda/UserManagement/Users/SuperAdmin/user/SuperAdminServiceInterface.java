@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface SuperAdminServiceInterface {
     List<SuperAdmin> getSuperAdmins();
 
+    public void cleanUp();
+
     SuperAdmin registerSuperAdmin(SuperAdminSignUpRequest request);
 
     Optional<SuperAdmin> findByEmail(String email);

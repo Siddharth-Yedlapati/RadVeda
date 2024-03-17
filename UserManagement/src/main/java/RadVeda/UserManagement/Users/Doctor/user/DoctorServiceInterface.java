@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface DoctorServiceInterface {
     List<Doctor> getDoctors();
 
+    public void cleanUp();
+
     Doctor registerDoctor(DoctorSignUpRequest request);
 
     Optional<Doctor> findByEmail(String email);

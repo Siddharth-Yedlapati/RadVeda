@@ -8,11 +8,17 @@ import java.util.Optional;
 public interface PatientServiceInterface {
     List<Patient> getPatients();
 
+    public void cleanUp();
+
     Patient registerPatient(PatientSignUpRequest request);
 
     Optional<Patient> findByEmail(String email);
 
     void savePatientVerificationToken(Patient thePatient, String verificationToken);
 
-    String validateToken(String theToken);
+    void savePatientGuardianVerificationToken(PatientGuardian thePatientGuardian, String verificationToken);
+
+    String validatePatientToken(String theToken);
+
+    String validatePatientGuardianToken(String theToken);
 }

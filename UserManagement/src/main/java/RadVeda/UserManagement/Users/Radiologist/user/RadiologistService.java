@@ -27,7 +27,24 @@ public class RadiologistService implements RadiologistServiceInterface {
     }
 
     @Override
+    public void cleanUp() {
+        List<Radiologist> allRadiologists = getRadiologists();
+
+        for (Radiologist radiologist : allRadiologists) {
+            if (!radiologist.isEnabled()) {
+                RadiologistVerificationToken token = radiologistTokenRepository.findByRadiologist_id(radiologist.getId());
+                Calendar calendar = Calendar.getInstance();
+                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    radiologistTokenRepository.delete(token);
+                    radiologistRepository.delete(radiologist);
+                }
+            }
+        }
+    }
+
+    @Override
     public Radiologist registerRadiologist(RadiologistSignUpRequest request) {
+        cleanUp(); // Cleaning up the Radiologist and RadiologistVerificationToken tables before a new signup
         Optional<Radiologist> radiologist = this.findByEmail(request.email());
         if (radiologist.isPresent()) {
             throw new UserAlreadyExistsException(
@@ -78,6 +95,7 @@ public class RadiologistService implements RadiologistServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             radiologistTokenRepository.delete(token);
+            radiologistRepository.delete(radiologist);
             return "Token already expired";
         }
         radiologist.setEnabled(true);

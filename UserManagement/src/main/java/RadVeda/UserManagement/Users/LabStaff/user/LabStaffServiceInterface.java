@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface LabStaffServiceInterface {
     List<LabStaff> getLabStaffs();
 
+    public void cleanUp();
+
     LabStaff registerLabStaff(LabStaffSignUpRequest request);
 
     Optional<LabStaff> findByEmail(String email);

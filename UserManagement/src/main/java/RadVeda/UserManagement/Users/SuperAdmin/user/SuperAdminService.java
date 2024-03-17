@@ -27,7 +27,24 @@ public class SuperAdminService implements SuperAdminServiceInterface {
     }
 
     @Override
+    public void cleanUp() {
+        List<SuperAdmin> allSuperAdmins = getSuperAdmins();
+
+        for (SuperAdmin superadmin : allSuperAdmins) {
+            if (!superadmin.isEnabled()) {
+                SuperAdminVerificationToken token = superadminTokenRepository.findBySuperadmin_id(superadmin.getId());
+                Calendar calendar = Calendar.getInstance();
+                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    superadminTokenRepository.delete(token);
+                    superadminRepository.delete(superadmin);
+                }
+            }
+        }
+    }
+
+    @Override
     public SuperAdmin registerSuperAdmin(SuperAdminSignUpRequest request) {
+        cleanUp(); // Cleaning up the SuperAdmin and SuperAdminVerificationToken tables before a new signup
         Optional<SuperAdmin> superadmin = this.findByEmail(request.email());
         if (superadmin.isPresent()) {
             throw new UserAlreadyExistsException(
@@ -77,6 +94,7 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             superadminTokenRepository.delete(token);
+            superadminRepository.delete(superadmin);
             return "Token already expired";
         }
         superadmin.setEnabled(true);
