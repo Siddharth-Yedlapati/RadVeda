@@ -112,7 +112,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">First name</div>
+            <input className="label30" placeholder="First name"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -123,7 +123,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">Middle name</div>
+            <input className="label30" placeholder="Middle name"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -134,7 +134,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">Last name</div>
+            <input className="label30" placeholder="Last name"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -145,7 +145,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">Address line 1</div>
+            <input className="label30" placeholder="Address line 1"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -156,7 +156,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">Email address</div>
+            <input type="email" className="label30" placeholder="Email address"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -167,7 +167,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">Address line 2</div>
+            <input className="label30" placeholder="Address line 2"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -178,7 +178,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">Country</div>
+            <input className="label30" placeholder="Country"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -194,7 +194,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">State</div>
+            <input className="label30" placeholder="State"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -210,7 +210,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <div className="label30">City</div>
+            <input className="label30" placeholder="City"></input>
           </div>
         </div>
         <div className="helpertext30">

@@ -156,6 +156,8 @@
   letter-spacing: 0.15px;
   line-height: 24px;
   font-weight: 500;
+  outline: none;
+  border: none;
 }
 .content48,
 .input44 {

@@ -144,7 +144,7 @@ const PatientGaurdianInfo = () => {
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <div className="label44">Phone number</div>
+            <input className="label44" placeholder="Phone number"></input>
           </div>
         </div>
         <div className="helpertext44">
@@ -155,7 +155,7 @@ const PatientGaurdianInfo = () => {
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <div className="label44">Relationship to patient</div>
+            <input className="label44" placeholder="Relationship to patient"></input>
           </div>
         </div>
         <div className="helpertext44">
@@ -169,7 +169,7 @@ const PatientGaurdianInfo = () => {
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <div className="label44">Date of Birth</div>
+            <input className="label44" placeholder="Date of Birth"></input>
           </div>
         </div>
         <div className="helpertext44">
@@ -180,7 +180,7 @@ const PatientGaurdianInfo = () => {
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <div className="label44">Gender</div>
+            <input className="label44" placeholder="Gender"></input>
           </div>
         </div>
         <div className="helpertext44">
