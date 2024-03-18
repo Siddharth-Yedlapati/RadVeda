@@ -113,13 +113,23 @@ const PatientSignup2 = () => {
   }, [navigate]);
 
   const onRectangle3Click = useCallback(() => {
+    const dob = new Date(dateOfBirth);
+    const today = new Date();
+
+    const age = today.getFullYear() - dob.getFullYear();
+
+    // Check if the birthday hasn't occurred yet this year
+    if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+        age--;
+    }
+
     localStorage.setItem('DOB', dateOfBirth)
     localStorage.setItem('gender', gender)
     localStorage.setItem('ethnicity', ethnicity)
     localStorage.setItem('maritalStatus', maritalStatus)
     localStorage.setItem('race', race)
     localStorage.setItem('Documents', uploadedFiles)
-    if(17 > 18) //add logic to find age of person.
+    if(age >= 18) 
       navigate("/patient-signup-3");
     else 
       navigate("/patient-guardian-info-1");
