@@ -1,5 +1,11 @@
 package RadVeda.UserManagement.Users.Doctor.signup;
 
+import java.util.List;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import RadVeda.UserManagement.Users.User.StringListDeserializer;
+
 public record DoctorSignUpRequest(
                 String firstName,
                 String middleName,
@@ -15,5 +21,6 @@ public record DoctorSignUpRequest(
                 String orgName,
                 String orgAddressL1,
                 String orgAddressL2,
-                String Documents) {
+                @JsonDeserialize(using = StringListDeserializer.class)
+                List<String> Documents) {
 }

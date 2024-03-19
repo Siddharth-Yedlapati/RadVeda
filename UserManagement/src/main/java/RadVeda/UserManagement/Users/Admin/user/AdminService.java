@@ -5,6 +5,7 @@ import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
 import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationToken;
 import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Doctor.user.DoctorDocuments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService implements AdminServiceInterface {
     private final AdminRepository adminRepository;
+    private final AdminDocumentsRepository admindocumentsrepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AdminVerificationTokenRepository adminTokenRepository;
 
@@ -35,6 +37,7 @@ public class AdminService implements AdminServiceInterface {
                 Calendar calendar = Calendar.getInstance();
                 if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
                     adminTokenRepository.delete(token);
+                    admindocumentsrepository.delete(admin.getId());
                     adminRepository.delete(admin);
                 }
             }
@@ -68,7 +71,12 @@ public class AdminService implements AdminServiceInterface {
         newAdmin.setOrgName(request.orgName());
         newAdmin.setOrgAddressL1(request.orgAddressL1());
         newAdmin.setOrgAddressL2(request.orgAddressL2());
-        newAdmin.setDocuments(request.Documents());
+        for (String document : request.Documents()){
+            var newDocument = new AdminDocuments();
+            newDocument.setDocuments(document);
+            newDocument.setAdmin(newAdmin); 
+            admindocumentsrepository.save(newDocument);
+        }        
 
         return adminRepository.save(newAdmin);
     }
@@ -94,6 +102,7 @@ public class AdminService implements AdminServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             adminTokenRepository.delete(token);
+            admindocumentsrepository.delete(admin.getId());
             adminRepository.delete(admin);
             return "Token already expired";
         }

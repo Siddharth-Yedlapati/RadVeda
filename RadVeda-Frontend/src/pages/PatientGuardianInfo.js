@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import "./PatientGuardianInfo.css";
@@ -75,15 +75,35 @@ const PatientGuardianInfo = () => {
       })
 
   }
-  
+
+  const [GfirstName, setFirstName] = useState("");
+  const [GmiddleName, setMiddleName] = useState("");
+  const [GlastName, setLastName] = useState("");
+  const [GaddressLine1, setAddressLine1] = useState("");
+  const [GemailAddress, setEmailAddress] = useState("");
+  const [GaddressLine2, setAddressLine2] = useState("");
+  const [Gcountry, setCountry] = useState("");
+  const [Gstate, setState] = useState("");
+  const [Gcity, setCity] = useState("");
 
   const onRectangleClick = useCallback(() => {
     navigate("/patient-login-page");
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
+
+    localStorage.setItem('GfirstName', GfirstName);
+    localStorage.setItem('GmiddleName', GmiddleName);
+    localStorage.setItem('GlastName', GlastName);
+    localStorage.setItem('GaddressLine1', GaddressLine1);
+    localStorage.setItem('Gemailaddress', GemailAddress);
+    localStorage.setItem('GaddressLine2', GaddressLine2);
+    localStorage.setItem('Gcountry', Gcountry);
+    localStorage.setItem('Gstate', Gstate);
+    localStorage.setItem('Gcity', Gcity);
+
     navigate("/patient-gaurdian-info-2");
-  }, [navigate]);
+  }, [navigate, GfirstName, GmiddleName, GlastName, GaddressLine1, GemailAddress, GaddressLine2, Gcountry, Gstate, Gcity]);
 
   const onRectangle2Click = useCallback(() => {
     navigate("/patient-signup-2");
@@ -112,7 +132,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="First name"></input>
+            <input type="text" value={GfirstName} onChange={(e) => setFirstName(e.target.value)} className="label30" placeholder="First name"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -123,7 +143,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="Middle name"></input>
+            <input type="text" value={GmiddleName} onChange={(e) => setMiddleName(e.target.value)} className="label30" placeholder="Middle name"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -134,7 +154,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="Last name"></input>
+            <input type="text" value={GlastName} onChange={(e) => setLastName(e.target.value)} className="label30" placeholder="Last name"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -145,7 +165,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="Address line 1"></input>
+            <input type="text" value={GaddressLine1} onChange={(e) => setAddressLine1(e.target.value)} className="label30" placeholder="Address line 1"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -156,7 +176,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input type="email" className="label30" placeholder="Email address"></input>
+            <input type="email" value={GemailAddress} onChange={(e) => setEmailAddress(e.target.value)} className="label30" placeholder="Email address"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -167,7 +187,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="Address line 2"></input>
+            <input type="text" value={GaddressLine2} onChange={(e) => setAddressLine2(e.target.value)} className="label30" placeholder="Address line 2"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -178,7 +198,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="Country"></input>
+            <input type="text" value={Gcountry} onChange={(e) => setCountry(e.target.value)} className="label30" placeholder="Country"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -194,7 +214,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="State"></input>
+            <input type="text" value={Gstate} onChange={(e) => setState(e.target.value)} className="label30" placeholder="State"></input>
           </div>
         </div>
         <div className="helpertext30">
@@ -210,7 +230,7 @@ const PatientGuardianInfo = () => {
         <div className="input30">
           <div className="content34">
             <div className="min-height30" />
-            <input className="label30" placeholder="City"></input>
+            <input type="text" value={Gcity} onChange={(e) => setCity(e.target.value)} className="label30" placeholder="City"></input>
           </div>
         </div>
         <div className="helpertext30">

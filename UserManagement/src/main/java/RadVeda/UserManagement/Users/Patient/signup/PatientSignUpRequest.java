@@ -1,6 +1,11 @@
 package RadVeda.UserManagement.Users.Patient.signup;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import RadVeda.UserManagement.Users.User.StringListDeserializer;
 
 public record PatientSignUpRequest(
                 String firstName,
@@ -19,7 +24,8 @@ public record PatientSignUpRequest(
                 String race,
                 String ethnicity,
                 String maritalStatus,
-                String Documents,
+                @JsonDeserialize(using = StringListDeserializer.class)
+                List<String> Documents,
                 String guardianFirstName,
                 String guardianMiddleName,
                 String guardianLastName,
@@ -33,5 +39,6 @@ public record PatientSignUpRequest(
                 String guardianGender,
                 String guardianRelationshipToPatient,
                 String guardianPhoneNumber,
-                String guardianDocuments) {
+                @JsonDeserialize(using = StringListDeserializer.class)
+                List<String> guardianDocuments) {
 }

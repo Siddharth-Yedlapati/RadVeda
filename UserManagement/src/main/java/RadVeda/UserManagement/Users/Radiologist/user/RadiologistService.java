@@ -2,6 +2,7 @@ package RadVeda.UserManagement.Users.Radiologist.user;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
+import RadVeda.UserManagement.Users.Doctor.user.DoctorDocuments;
 import RadVeda.UserManagement.Users.Radiologist.signup.RadiologistSignUpRequest;
 import RadVeda.UserManagement.Users.Radiologist.signup.token.RadiologistVerificationToken;
 import RadVeda.UserManagement.Users.Radiologist.signup.token.RadiologistVerificationTokenRepository;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RadiologistService implements RadiologistServiceInterface {
     private final RadiologistRepository radiologistRepository;
+    private final RadiologistDocumentsRepository radiologistdocumentsrepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RadiologistVerificationTokenRepository radiologistTokenRepository;
 
@@ -36,6 +38,7 @@ public class RadiologistService implements RadiologistServiceInterface {
                 Calendar calendar = Calendar.getInstance();
                 if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
                     radiologistTokenRepository.delete(token);
+                    radiologistdocumentsrepository.delete(radiologist.getId());
                     radiologistRepository.delete(radiologist);
                 }
             }
@@ -69,7 +72,12 @@ public class RadiologistService implements RadiologistServiceInterface {
         newRadiologist.setOrgName(request.orgName());
         newRadiologist.setOrgAddressL1(request.orgAddressL1());
         newRadiologist.setOrgAddressL2(request.orgAddressL2());
-        newRadiologist.setDocuments(request.Documents());
+        for (String document : request.Documents()){
+            var newDocument = new RadiologistDocuments();
+            newDocument.setDocuments(document);
+            newDocument.setRadiologist(newRadiologist); 
+            radiologistdocumentsrepository.save(newDocument);
+        }        
 
         return radiologistRepository.save(newRadiologist);
     }
@@ -95,6 +103,7 @@ public class RadiologistService implements RadiologistServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             radiologistTokenRepository.delete(token);
+            radiologistdocumentsrepository.delete(radiologist.getId());
             radiologistRepository.delete(radiologist);
             return "Token already expired";
         }

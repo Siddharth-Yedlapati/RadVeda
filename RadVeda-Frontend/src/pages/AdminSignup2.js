@@ -85,7 +85,7 @@ const AdminSignup2 = () => {
   const [hospitalAddressLine1, setHospitalAddressLine1] = useState("");
   const [hospitalAddressLine2, setHospitalAddressLine2] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadedFiles, setuploadedFiles] = useState("");
+  const [uploadedFiles, setuploadedFiles] = useState([]);
   const ref = useRef()
   
 
@@ -101,7 +101,10 @@ const AdminSignup2 = () => {
     console.log(uploadedFiles)
     ReactS3Client
     .uploadFile(file, "ADMIN" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
-    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .then(data => {
+      uploadedFiles.push(data.location);
+      setuploadedFiles(uploadedFiles)
+    })
     .catch(err => console.error(err))
 }
 
@@ -114,7 +117,7 @@ const AdminSignup2 = () => {
     localStorage.setItem('hospitalName', hospitalName)
     localStorage.setItem('hospitalAddressLine1', hospitalAddressLine1)
     localStorage.setItem('hospitalAddressLine2', hospitalAddressLine2)
-    localStorage.setItem('Documents', uploadedFiles)
+    localStorage.setItem('Documents', JSON.stringify(uploadedFiles))
 
     navigate("/admin-signup-3");
   }, [navigate, hospitalName, hospitalAddressLine1, hospitalAddressLine2, uploadedFiles]);
@@ -197,14 +200,12 @@ const AdminSignup2 = () => {
         alt=""
         src="/iconsregularchevrondowns.svg"
       />
-      {/* <div className="admin-signup-2-child4" >
+      <div className="admin-signup-2-child4" >
         <div>React S3 File Upload</div>
         <input type="file" onChange={handleFileInput}/>
         <br></br>
         <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
-      </div> */}
-      <div className="admin-signup-2-child4" onClick={onRectangle2Click} />
-      <b className="next9" onClick={onRectangle2Click}>Next</b>
+      </div>
       <div className="admin-signup-2-child5" onClick={onRectangle3Click} />
       <b className="back69" onClick={onRectangle3Click}>Back</b>
       <div className="admin-signup-2-child8" onClick={onRectangle1Click} />

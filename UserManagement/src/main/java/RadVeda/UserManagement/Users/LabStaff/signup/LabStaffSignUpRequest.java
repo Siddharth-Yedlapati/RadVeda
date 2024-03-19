@@ -1,5 +1,10 @@
 package RadVeda.UserManagement.Users.LabStaff.signup;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import RadVeda.UserManagement.Users.User.StringListDeserializer;
+import java.util.List;
+
 public record LabStaffSignUpRequest(
                 String firstName,
                 String middleName,
@@ -15,5 +20,6 @@ public record LabStaffSignUpRequest(
                 String orgName,
                 String orgAddressL1,
                 String orgAddressL2,
-                String Documents) {
+                @JsonDeserialize(using = StringListDeserializer.class)
+                List<String> Documents) {
 }
