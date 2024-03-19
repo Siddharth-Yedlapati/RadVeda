@@ -86,7 +86,7 @@ const PatientSignup2 = () => {
   const [maritalStatus, setMaritalStatus] = useState("");
   const [race, setRace] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadedFiles, setuploadedFiles] = useState("");
+  const [uploadedFiles, setuploadedFiles] = useState([]);
   const ref = useRef()
 
 
@@ -100,7 +100,10 @@ const PatientSignup2 = () => {
     console.log(uploadedFiles)
     ReactS3Client
     .uploadFile(file, "PATIENT" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
-    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .then(data => {
+      uploadedFiles.push(data.location);
+      setuploadedFiles(uploadedFiles)
+    })
     .catch(err => console.error(err))
 }
 
@@ -128,7 +131,7 @@ const PatientSignup2 = () => {
     localStorage.setItem('ethnicity', ethnicity)
     localStorage.setItem('maritalStatus', maritalStatus)
     localStorage.setItem('race', race)
-    localStorage.setItem('Documents', uploadedFiles)
+    localStorage.setItem('Documents', JSON.stringify(uploadedFiles))  // local storage stores it as a string and not as an array
     if(age >= 18) 
       navigate("/patient-signup-3");
     else 

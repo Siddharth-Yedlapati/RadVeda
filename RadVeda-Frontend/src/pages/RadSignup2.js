@@ -84,7 +84,7 @@ const RadSignup2 = () => {
   const [hospitalAddress1, setHospitalAddress1] = useState("");
   const [hospitalAddress2, setHospitalAddress2] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadedFiles, setuploadedFiles] = useState("");
+  const [uploadedFiles, setuploadedFiles] = useState([]);
   const ref = useRef()
 
   const handleFileInput = (e) => {
@@ -97,7 +97,10 @@ const RadSignup2 = () => {
     console.log(uploadedFiles)
     ReactS3Client
     .uploadFile(file, "RADIOLOGIST" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
-    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .then(data => {
+      uploadedFiles.push(data.location);
+      setuploadedFiles(uploadedFiles)
+    })
     .catch(err => console.error(err))
 }
 
@@ -109,7 +112,7 @@ const RadSignup2 = () => {
     localStorage.setItem('hospitalName', hospitalName)
     localStorage.setItem('hospitalAddress1', hospitalAddress1)
     localStorage.setItem('hospitalAddress2', hospitalAddress2)
-    localStorage.setItem('Documents', uploadedFiles)
+    localStorage.setItem('Documents', JSON.stringify(uploadedFiles))
     navigate("/rad-signup-3");
   }, [navigate, hospitalName, hospitalAddress1, hospitalAddress2, uploadedFiles]);
 

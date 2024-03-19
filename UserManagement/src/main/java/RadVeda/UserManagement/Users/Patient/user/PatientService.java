@@ -18,6 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PatientService implements PatientServiceInterface {
     private final PatientRepository patientRepository;
+    private final PatientDocumentsRepository patientdocumentsrepository;
+    private final PatientGuardianDocumentsRepository patientguardiandocumentsrepository;
     private final PatientGuardianRepository patientGuardianRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final PatientVerificationTokenRepository patientTokenRepository;
@@ -38,13 +40,19 @@ public class PatientService implements PatientServiceInterface {
                 if(patientGuardian == null) {
                     PatientVerificationToken token = patientTokenRepository.findByPatient_id(patient.getId());
                     Calendar calendar = Calendar.getInstance();
-                    if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    if(token == null){          // deleting row if patientid exists in patient table but not in the token table
+                        patientdocumentsrepository.delete(patient.getId());
+                        patientRepository.delete(patient);            
+                    }
+                    else if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
                         patientTokenRepository.delete(token);
+                        patientdocumentsrepository.delete(patient.getId()); // deleting documents uploaded
                         patientRepository.delete(patient);
                     }
                 }
                 else
                 {
+                    // TODO: delete from documents repository as well
                     PatientVerificationToken patientToken = patientTokenRepository.findByPatient_id(patient.getId());
                     PatientGuardianVerificationToken patientGuardianToken = patientGuardianTokenRepository.findByPatientguardian_id(patientGuardian.getId());
                     Calendar calendar = Calendar.getInstance();
@@ -52,6 +60,8 @@ public class PatientService implements PatientServiceInterface {
                     {
                         patientTokenRepository.delete(patientToken);
                         patientGuardianTokenRepository.delete(patientGuardianToken);
+                        patientdocumentsrepository.delete(patient.getId());
+                        patientguardiandocumentsrepository.delete(patientGuardian.getId());
                         patientRepository.delete(patient);
                         patientGuardianRepository.delete(patientGuardian);
                     }
@@ -89,10 +99,20 @@ public class PatientService implements PatientServiceInterface {
         newPatient.setEthnicity(request.ethnicity());
         newPatient.setGender(request.gender());
         newPatient.setMaritalStatus(request.maritalStatus());
-        newPatient.setDocuments(request.Documents());
+        // for( int i = 0; i < request.Documents().length; i++){
+        //     var newDocument = new PatientDocuments();
+        //     newDocument.setDocuments(request.Documents()[i]);
+        //     newDocument.setPatient(newPatient);
+        // }
+        for (String document : request.Documents()){
+            var newDocument = new PatientDocuments();
+            newDocument.setDocuments(document);
+            newDocument.setPatient(newPatient); 
+            patientdocumentsrepository.save(newDocument);
+        }
 
         var newPatientGuardian = new PatientGuardian();
-        if(request.guardianEmail().equals("")) //Patient doesn't need a guardian
+        if(request.guardianEmail() == null) //Patient doesn't need a guardian
         {
             newPatientGuardian = null;
             newPatient.setPatientguardian(newPatientGuardian);
@@ -112,7 +132,12 @@ public class PatientService implements PatientServiceInterface {
             newPatientGuardian.setGender(request.guardianGender());
             newPatientGuardian.setRelationshipToPatient(request.guardianRelationshipToPatient());
             newPatientGuardian.setPhoneNumber(request.guardianPhoneNumber());
-            newPatientGuardian.setDocuments(request.guardianDocuments());
+            for (String document : request.Documents()){
+                var newDocument = new PatientGuardianDocuments();
+                newDocument.setDocuments(document);
+                newDocument.setPatientguardian(newPatientGuardian); 
+                patientguardiandocumentsrepository.save(newDocument);
+            }
 
             newPatient.setPatientguardian(patientGuardianRepository.save(newPatientGuardian));
         }
@@ -148,10 +173,12 @@ public class PatientService implements PatientServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             patientTokenRepository.delete(token);
+            patientdocumentsrepository.delete(patient.getId());
             if(patientGuardian != null)
             {
                 PatientGuardianVerificationToken patientGuardianToken = patientGuardianTokenRepository.findByPatientguardian_id(patientGuardian.getId());
                 patientGuardianTokenRepository.delete(patientGuardianToken);
+                patientguardiandocumentsrepository.delete(patientGuardian.getId());
                 patientGuardianRepository.delete(patientGuardian);
             }
             patientRepository.delete(patient);
@@ -184,6 +211,8 @@ public class PatientService implements PatientServiceInterface {
             patientGuardianTokenRepository.delete(token);
             PatientVerificationToken patientToken = patientTokenRepository.findByPatient_id(patient.getId());
             patientTokenRepository.delete(patientToken);
+            patientdocumentsrepository.delete(patient.getId());
+            patientguardiandocumentsrepository.delete(patientGuardian.getId());
             patientGuardianRepository.delete(patientGuardian);
             patientRepository.delete(patient);
             return "Token already expired";

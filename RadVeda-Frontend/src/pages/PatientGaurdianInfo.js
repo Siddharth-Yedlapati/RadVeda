@@ -1,5 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import S3 from 'react-aws-s3';
+import { string_delimiter, config } from "../config";
 import { request, getAuthToken} from "../axios_helper";
 import "./PatientGaurdianInfo.css";
 
@@ -75,11 +77,57 @@ const PatientGaurdianInfo = () => {
       })
 
   }
+
+  const [GdateOfBirth, setDateOfBirth] = useState("");
+  const [Ggender, setGender] = useState("");
+  const [Grelationship, setRelationship] = useState("");
+  const [GphoneNumber, setPhoneNumber] = useState("");
+  const [GselectedFile, setSelectedFile] = useState(null);
+  const [GuploadedFiles, setuploadedFiles] = useState([]);
   
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  }
+
+  const uploadFile = async (file) => {
+    const ReactS3Client = new S3(config);
+    // the name of the file uploaded is used to upload it to S3
+    console.log(GuploadedFiles)
+    ReactS3Client
+    .uploadFile(file, "PATIENT" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
+    .then(data => {
+      GuploadedFiles.push(data.location);
+      setuploadedFiles(GuploadedFiles)
+    })
+    .catch(err => console.error(err))
+}
 
   const onRectangleClick = useCallback(() => {
-    navigate("/patient-signup-3");
-  }, [navigate]);
+    const dob = new Date(GdateOfBirth);
+    const today = new Date();
+
+    var age = today.getFullYear() - dob.getFullYear();
+
+    // Check if the birthday hasn't occurred yet this year
+    if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+        age--;
+    }
+
+    localStorage.setItem('GDOB', GdateOfBirth);
+    localStorage.setItem('Ggender', Ggender);
+    localStorage.setItem('Grelationship', Grelationship);
+    localStorage.setItem('GphoneNumber', GphoneNumber);
+    localStorage.setItem('GuploadedFiles', JSON.stringify(GuploadedFiles));
+
+    if(age >= 18){
+      navigate("/patient-signup-3");
+    }
+    else{
+      alert("Guardians age must be above 18");
+      navigate("/patient-login-page")
+    }
+    
+  }, [navigate, GdateOfBirth, Ggender, Grelationship, GphoneNumber, GuploadedFiles]);
 
   const onRectangle1Click = useCallback(() => {
     navigate("/patient-login-page");
@@ -127,7 +175,7 @@ const PatientGaurdianInfo = () => {
           <div className="helper-text44">Helper text</div>
         </div>
       </div>
-      <div className="phone-number-validity2">Phone number validity status</div>
+      <div className="phone-number-validity2"></div>
       <div className="text-fieldoutlined45">
         <div className="input44">
           <div className="content48">
@@ -139,12 +187,20 @@ const PatientGaurdianInfo = () => {
           <div className="helper-text44">Helper text</div>
         </div>
       </div>
-      <div className="age-verification-status">Age verification status</div>
+      <div className="age-verification-status"></div>
       <div className="text-fieldoutlined46">
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <input className="label44" placeholder="Phone number"></input>
+            <input 
+              type="tel" value={GphoneNumber}               
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/, ""); // Allow only numeric values
+                setPhoneNumber(value);
+              }} 
+              className="label44" 
+              placeholder="Phone number">
+            </input>
           </div>
         </div>
         <div className="helpertext44">
@@ -155,7 +211,7 @@ const PatientGaurdianInfo = () => {
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <input className="label44" placeholder="Relationship to patient"></input>
+            <input type="text" value={Grelationship} onChange={(e) => setRelationship(e.target.value)} className="label44" placeholder="Relationship to patient"></input>
           </div>
         </div>
         <div className="helpertext44">
@@ -169,7 +225,7 @@ const PatientGaurdianInfo = () => {
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <input className="label44" placeholder="Date of Birth"></input>
+            <input type="date" value={GdateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} className="label44" placeholder="Date of Birth"></input>
           </div>
         </div>
         <div className="helpertext44">
@@ -180,15 +236,19 @@ const PatientGaurdianInfo = () => {
         <div className="input46">
           <div className="content48">
             <div className="min-height44" />
-            <input className="label44" placeholder="Gender"></input>
+            <input type="text" value={Ggender} onChange={(e) => setGender(e.target.value)} className="label44" placeholder="Gender"></input>
           </div>
         </div>
         <div className="helpertext44">
           <div className="helper-text44">Helper text</div>
         </div>
       </div>
-      <div className="patient-gaurdian-info-2-child6" />
-      <b className="upload-government-id"> Upload government ID</b>
+      <div className="patient-gaurdian-info-2-child6">
+        <div>React S3 File Upload</div>
+        <input type="file" onChange={handleFileInput}/>
+        <br></br>
+        <button onClick={() => uploadFile(GselectedFile)}> Upload to S3</button>
+      </div>
       <div className="patient-gaurdian-info-2-child7" />
       <div className="patient-gaurdian-info-2-child8" />
       <img

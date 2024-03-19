@@ -21,7 +21,6 @@ public class Patient extends User {
     private String race;
     private String ethnicity;
     private String maritalStatus;
-    private String Documents;
     private boolean emailVerified;
 
     @OneToOne
@@ -35,7 +34,7 @@ public class Patient extends User {
 
     public Patient(String firstName, String middleName, String lastName, String addressL1, String addressL2,
                    String country, String state, String city, String email, String password, String phoneNumber, String role,
-                   boolean isEnabled, Date DOB, String gender, String race, String ethnicity, String maritalStatus, String Documents, boolean emailVerified, PatientGuardian patientguardian) {
+                   boolean isEnabled, Date DOB, String gender, String race, String ethnicity, String maritalStatus, boolean emailVerified, PatientGuardian patientguardian) {
         super(firstName, middleName, lastName, addressL1, addressL2, country, state, city, email, password, phoneNumber,
                 role, isEnabled);
         this.DOB = DOB;
@@ -43,7 +42,6 @@ public class Patient extends User {
         this.race = race;
         this.ethnicity  = ethnicity;
         this.maritalStatus = maritalStatus;
-        this.Documents = Documents;
         this.patientguardian = patientguardian;
         this.emailVerified = emailVerified;
         this.setEmailVerified(false);

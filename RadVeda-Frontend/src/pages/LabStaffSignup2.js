@@ -84,7 +84,7 @@ const LabStaffSignup2 = () => {
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadedFiles, setuploadedFiles] = useState("");
+  const [uploadedFiles, setuploadedFiles] = useState([]);
   const ref = useRef()
 
   const handleFileInput = (e) => {
@@ -97,7 +97,10 @@ const LabStaffSignup2 = () => {
     console.log(uploadedFiles)
     ReactS3Client
     .uploadFile(file, "LABSTAFF" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
-    .then(data => setuploadedFiles(uploadedFiles + data.location))
+    .then(data => {
+      uploadedFiles.push(data.location);
+      setuploadedFiles(uploadedFiles)
+    })
     .catch(err => console.error(err))
 }
 
@@ -109,7 +112,7 @@ const LabStaffSignup2 = () => {
     localStorage.setItem('hospitalLab', hospitalLab)
     localStorage.setItem('hospitalAddress1', addressLine1)
     localStorage.setItem('hospitalAddress2', addressLine2)
-    localStorage.setItem('Documents', uploadedFiles)
+    localStorage.setItem('Documents', JSON.stringify(uploadedFiles))
     navigate("/labstaff-signup-1");
   }, [navigate, hospitalLab, addressLine1, addressLine2, uploadedFiles]);
 

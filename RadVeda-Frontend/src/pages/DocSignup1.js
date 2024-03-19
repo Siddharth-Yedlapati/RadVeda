@@ -111,6 +111,7 @@ const DocSignup1 = () => {
       alert("Phone number must be 10 digits!");
       return;
     }
+    const doc_request = JSON.parse(localStorage.getItem("Documents"));
     request(
       "POST",
       "/doctorSignUp",
@@ -129,7 +130,7 @@ const DocSignup1 = () => {
         "orgName" : localStorage.getItem('hospitalName'),
         "orgAddressL1" : localStorage.getItem('hospitalAddress1'),
         "orgAddressL2" : localStorage.getItem('hospitalAddress2'),
-        "Documents" : localStorage.getItem("Documents")
+        "Documents" : doc_request
       },
       false
       ).then(

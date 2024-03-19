@@ -111,53 +111,114 @@ const PatientSignup1 = () => {
       alert("Phone number must be 10 digits!");
       return;
     }
-    request(
-      "POST",
-      "/patientSignUp",
-      {
-        "firstName" : localStorage.getItem('firstname'),
-        "middleName" : localStorage.getItem('middlename'),
-        "lastName" : localStorage.getItem('lastname'),
-        "addressL1" : localStorage.getItem('addressLine1'),
-        "addressL2" : localStorage.getItem('addressLine2'),
-        "country" : localStorage.getItem('country'),
-        "state" : localStorage.getItem('state'),
-        "city" : localStorage.getItem('city'),
-        "email" : localStorage.getItem('email'),
-        "password" : password,
-        "phoneNumber" : phoneNumber,
-        "DOB": localStorage.getItem("DOB"),
-        "gender": localStorage.getItem("gender"),
-        "race": localStorage.getItem("race"),
-        "ethnicity": localStorage.getItem("ethnicity"),
-        "maritalstatus": localStorage.getItem("maritalStatus"),
-        "Documents": localStorage.getItem("Documents"),
-        "guardianFirstName": localStorage.getItem("guardianFirstName"),
-        "guardianMiddleName": localStorage.getItem("guardianMiddleName"),
-        "guardianLastName": localStorage.getItem("guardianLastName"),
-        "guardianAddressL1": localStorage.getItem("guardianAddressLine1"),
-        "guardianAddressL2": localStorage.getItem("guardianAddressLine2"),
-        "guardianCountry": localStorage.getItem("guardianCountry"),
-        "guardianState": localStorage.getItem("guardianState"),
-        "guardianCity": localStorage.getItem("guardianCity"),
-        "guardianEmail": localStorage.getItem("guardianEmail"),
-        "guardianDOB": localStorage.getItem("guardianDOB"),
-        "guardianGender": localStorage.getItem("guardianGender"),
-        "guardianRelationshipToPatient": localStorage.getItem("guardianRelationshipToPatient"),
-        "guardianPhoneNumber": localStorage.getItem("guardianPhoneNumber"),
-        "guardianDocuments": localStorage.getItem("guardianDocuments")
-      },
-      false
-      ).then(
-        (response) => {
-          alert(response.data);
-          navigate("/");
-        }
-      ).catch(
-        (error) => {
-          alert(error.response.data.error);
-        }
-      )
+    const doc_request = JSON.parse(localStorage.getItem("Documents"));
+    const doc_guardian_request = JSON.parse(localStorage.getItem("GuploadedFiles"));
+    function isNull(str) {
+      return str === null;
+    }  
+    if(!(isNull(localStorage.getItem("GfirstName")) || isNull(localStorage.getItem("GmiddleName")) || isNull(localStorage.getItem("GlastName"))
+    || isNull(localStorage.getItem("GaddressLine1")) || isNull(localStorage.getItem("GaddressLine1")) || isNull(localStorage.getItem("GaddressLine2"))
+    || isNull(localStorage.getItem("Gcountry")) || isNull(localStorage.getItem("Gstate")) || isNull(localStorage.getItem("Gcity")) || isNull(localStorage.getItem("Gemailaddress"))
+    || isNull(localStorage.getItem("GDOB")) || isNull(localStorage.getItem("Ggender")) || isNull(localStorage.getItem("Grelationship")) || isNull(localStorage.getItem("GphoneNumber")))){
+      request(
+        "POST",
+        "/patientSignUp",
+        {
+          "firstName" : localStorage.getItem('firstname'),
+          "middleName" : localStorage.getItem('middlename'),
+          "lastName" : localStorage.getItem('lastname'),
+          "addressL1" : localStorage.getItem('addressLine1'),
+          "addressL2" : localStorage.getItem('addressLine2'),
+          "country" : localStorage.getItem('country'),
+          "state" : localStorage.getItem('state'),
+          "city" : localStorage.getItem('city'),
+          "email" : localStorage.getItem('email'),
+          "password" : password,
+          "phoneNumber" : phoneNumber,
+          "DOB": localStorage.getItem("DOB"),
+          "gender": localStorage.getItem("gender"),
+          "race": localStorage.getItem("race"),
+          "ethnicity": localStorage.getItem("ethnicity"),
+          "maritalstatus": localStorage.getItem("maritalStatus"),
+          "Documents": doc_request,
+          "guardianFirstName": localStorage.getItem("GfirstName"),
+          "guardianMiddleName": localStorage.getItem("GmiddleName"),
+          "guardianLastName": localStorage.getItem("GlastName"),
+          "guardianAddressL1": localStorage.getItem("GaddressLine1"),
+          "guardianAddressL2": localStorage.getItem("GaddressLine2"),
+          "guardianCountry": localStorage.getItem("Gcountry"),
+          "guardianState": localStorage.getItem("Gstate"),
+          "guardianCity": localStorage.getItem("Gcity"),
+          "guardianEmail": localStorage.getItem("Gemailaddress"),
+          "guardianDOB": localStorage.getItem("GDOB"),
+          "guardianGender": localStorage.getItem("Ggender"),
+          "guardianRelationshipToPatient": localStorage.getItem("Grelationship"),
+          "guardianPhoneNumber": localStorage.getItem("GphoneNumber"),
+          "guardianDocuments": doc_guardian_request // TODO: make uploading documents mandatory
+        },
+        false
+        ).then(
+          (response) => {
+            alert(response.data);
+            navigate("/");
+          }
+        ).catch(
+          (error) => {
+            alert(error.response.data.error);
+          }
+        )
+    }
+    else{
+      request(
+        "POST",
+        "/patientSignUp",
+        {
+          "firstName" : localStorage.getItem('firstname'),
+          "middleName" : localStorage.getItem('middlename'),
+          "lastName" : localStorage.getItem('lastname'),
+          "addressL1" : localStorage.getItem('addressLine1'),
+          "addressL2" : localStorage.getItem('addressLine2'),
+          "country" : localStorage.getItem('country'),
+          "state" : localStorage.getItem('state'),
+          "city" : localStorage.getItem('city'),
+          "email" : localStorage.getItem('email'),
+          "password" : password,
+          "phoneNumber" : phoneNumber,
+          "DOB": localStorage.getItem("DOB"),
+          "gender": localStorage.getItem("gender"),
+          "race": localStorage.getItem("race"),
+          "ethnicity": localStorage.getItem("ethnicity"),
+          "maritalstatus": localStorage.getItem("maritalStatus"),
+          "Documents": doc_request,
+          "guardianFirstName": localStorage.getItem("guardianFirstName"),
+          "guardianMiddleName": localStorage.getItem("guardianMiddleName"),
+          "guardianLastName": localStorage.getItem("guardianLastName"),
+          "guardianAddressL1": localStorage.getItem("guardianAddressLine1"),
+          "guardianAddressL2": localStorage.getItem("guardianAddressLine2"),
+          "guardianCountry": localStorage.getItem("guardianCountry"),
+          "guardianState": localStorage.getItem("guardianState"),
+          "guardianCity": localStorage.getItem("guardianCity"),
+          "guardianEmail": localStorage.getItem("guardianEmail"),
+          "guardianDOB": localStorage.getItem("guardianDOB"),
+          "guardianGender": localStorage.getItem("guardianGender"),
+          "guardianRelationshipToPatient": localStorage.getItem("guardianRelationshipToPatient"),
+          "guardianPhoneNumber": localStorage.getItem("guardianPhoneNumber"),
+          "guardianDocuments": localStorage.getItem("guardianDocuments")
+        },
+        false
+        ).then(
+          (response) => {
+            alert(response.data);
+            navigate("/");
+          }
+        ).catch(
+          (error) => {
+            alert(error.response.data.error);
+          }
+        )   
+    }
+
+
   };
 
   return (

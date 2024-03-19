@@ -3,6 +3,7 @@ package RadVeda.UserManagement.Users.Doctor.user;
 import RadVeda.UserManagement.Users.Doctor.signup.DoctorSignUpRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationToken;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Patient.user.PatientDocuments;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DoctorService implements DoctorServiceInterface {
     private final DoctorRepository doctorRepository;
+    private final DoctorDocumentsRepository doctordocumentsrepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final DoctorVerificationTokenRepository doctorTokenRepository;
 
@@ -34,6 +36,7 @@ public class DoctorService implements DoctorServiceInterface {
                 Calendar calendar = Calendar.getInstance();
                 if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
                     doctorTokenRepository.delete(token);
+                    doctordocumentsrepository.delete(doctor.getId());
                     doctorRepository.delete(doctor);
                 }
             }
@@ -67,7 +70,12 @@ public class DoctorService implements DoctorServiceInterface {
         newDoctor.setOrgName(request.orgName());
         newDoctor.setOrgAddressL1(request.orgAddressL1());
         newDoctor.setOrgAddressL2(request.orgAddressL2());
-        newDoctor.setDocuments(request.Documents());
+        for (String document : request.Documents()){
+            var newDocument = new DoctorDocuments();
+            newDocument.setDocuments(document);
+            newDocument.setDoctor(newDoctor); 
+            doctordocumentsrepository.save(newDocument);
+        }
 
         return doctorRepository.save(newDoctor);
     }
@@ -93,6 +101,7 @@ public class DoctorService implements DoctorServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             doctorTokenRepository.delete(token);
+            doctordocumentsrepository.delete(doctor.getId());
             doctorRepository.delete(doctor);
             return "Token already expired";
         }

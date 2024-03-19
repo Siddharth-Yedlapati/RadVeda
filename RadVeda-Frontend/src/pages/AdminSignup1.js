@@ -112,6 +112,7 @@ const AdminSignup1 = () => {
       alert("Phone number must be 10 digits!");
       return;
     }
+    const doc_request = JSON.parse(localStorage.getItem("Documents"));  // TODO: require compulsory submission of documents before signing up
     request(
       "POST",
       "/adminSignUp",
@@ -130,7 +131,7 @@ const AdminSignup1 = () => {
         "orgName" : localStorage.getItem('hospitalName'),
         "orgAddressL1" : localStorage.getItem('hospitalAddressLine1'),
         "orgAddressL2" : localStorage.getItem('hospitalAddressLine2'),
-        "Documents": localStorage.getItem("Documents")
+        "Documents": doc_request
       },
       false
       ).then(
@@ -186,10 +187,13 @@ const AdminSignup1 = () => {
       <div className="text-fieldoutlined96">
         <div className="input93">
           <input
-            type="text"
+            type="tel"
             placeholder="Phone number"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/, ""); // Allow only numeric values
+              setPhoneNumber(value);
+            }}
           />
         </div>
       </div>

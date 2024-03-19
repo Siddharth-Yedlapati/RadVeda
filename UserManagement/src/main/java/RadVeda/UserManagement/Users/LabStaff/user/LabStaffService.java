@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.LabStaff.user;
 
+import RadVeda.UserManagement.Users.Doctor.user.DoctorDocuments;
 import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffSignUpRequest;
 import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
 import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationTokenRepository;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LabStaffService implements LabStaffServiceInterface {
     private final LabStaffRepository labstaffRepository;
+    private final LabStaffDocumentsRepository labstaffdocumentsrepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final LabStaffVerificationTokenRepository labstaffTokenRepository;
 
@@ -34,6 +36,7 @@ public class LabStaffService implements LabStaffServiceInterface {
                 Calendar calendar = Calendar.getInstance();
                 if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
                     labstaffTokenRepository.delete(token);
+                    labstaffdocumentsrepository.delete(labstaff.getId());
                     labstaffRepository.delete(labstaff);
                 }
             }
@@ -67,7 +70,12 @@ public class LabStaffService implements LabStaffServiceInterface {
         newLabStaff.setOrgName(request.orgName());
         newLabStaff.setOrgAddressL1(request.orgAddressL1());
         newLabStaff.setOrgAddressL2(request.orgAddressL2());
-        newLabStaff.setDocuments(request.Documents());
+        for (String document : request.Documents()){
+            var newDocument = new LabStaffDocuments();
+            newDocument.setDocuments(document);
+            newDocument.setLabstaff(newLabStaff); 
+            labstaffdocumentsrepository.save(newDocument);
+        }        
 
         return labstaffRepository.save(newLabStaff);
     }
@@ -93,6 +101,7 @@ public class LabStaffService implements LabStaffServiceInterface {
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
             labstaffTokenRepository.delete(token);
+            labstaffdocumentsrepository.delete(labstaff.getId());
             labstaffRepository.delete(labstaff);
             return "Token already expired";
         }

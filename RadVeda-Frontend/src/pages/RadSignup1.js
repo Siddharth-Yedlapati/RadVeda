@@ -110,6 +110,7 @@ const RadSignup1 = () => {
     }
     console.log(localStorage.getItem('email'))
     console.log(localStorage.getItem('hospitalName'))
+    const doc_request = JSON.parse(localStorage.getItem("Documents"));
     request(
       "POST",
       "/radiologistSignUp",
@@ -128,7 +129,7 @@ const RadSignup1 = () => {
         "orgName" : localStorage.getItem('hospitalName'),
         "orgAddressL1" : localStorage.getItem('hospitalAddress1'),
         "orgAddressL2" : localStorage.getItem('hospitalAddress2'),
-        "Documents" : localStorage.getItem('Documents')
+        "Documents" : doc_request
       },
       false
       ).then(
