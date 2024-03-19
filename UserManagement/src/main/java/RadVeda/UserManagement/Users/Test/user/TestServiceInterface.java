@@ -13,5 +13,6 @@ public interface TestServiceInterface {
     Optional<Test> findById(Long testID);
     List<Test> findAllTests();
     List<Test> findAllTestsByUser(String userType, Long userID);
-    
+    List<Test> findAllTestsByPatientAndUser(Long patientID, String userType, Long userID);
+    List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID);   
 }

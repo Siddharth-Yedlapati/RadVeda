@@ -58,7 +58,6 @@ const DocPTDetails = () => {
       "/prescribe-test",
       {
         "TestType": 'a',
-        "DatePrescribed": 'a',
         "PatientStatus" : 'a',
         "DoctorStatus" : 'a',
         "RadiologistStatus": 'b',

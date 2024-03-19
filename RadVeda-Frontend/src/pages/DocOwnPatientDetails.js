@@ -8,6 +8,7 @@ import "./DocOwnPatientDetails.css";
 
 const DocOwnPatientDetails = () => {
   const navigate = useNavigate();
+  const [loginflag, setLoginFlag] = useState("0");
 
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
@@ -17,7 +18,7 @@ const DocOwnPatientDetails = () => {
       {},
       true
       ).then(response => {
-        
+        setLoginFlag("1");
       }).catch(error => {
         navigate("/doc-login-page");
       })
@@ -28,8 +29,9 @@ const DocOwnPatientDetails = () => {
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
+  const [tests, setTests] = useState([]);
+  const [consultTests, setConsultTests] = useState([]);
   
-
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
   }, []);
@@ -61,6 +63,102 @@ const DocOwnPatientDetails = () => {
   const onFrameContainer22Click = useCallback(() => {
     navigate("/doc-own-diag-comp-hist");
   }, [navigate]);
+
+
+
+  request(  // How to store doctor ID?
+  "GET",
+  "/tests/1312/DOCTOR/222/getTests",
+  {},
+  true
+  ).then(response => {
+    setTests(response.data)
+  }).catch(error => {
+    alert(error.response.data.error);
+  })
+
+  request(  // How to store doctor ID?
+  "GET",
+  "/tests/1312/DOCTOR/222/getConsultedTests",
+  {},
+  true
+  ).then(response => {
+    setConsultTests(response.data)
+  }).catch(error => {
+    alert(error.response.data.error);
+  })
+
+
+  const renderTestsTable = () => {
+    return (
+      <table className = "tests-table">
+        <thead>
+          <tr>
+            <th>Test Type</th>
+            <th>Date Prescribed</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody>
+          {tests.map((test) => (
+            <tr key={test.id} onClick = {() => handleRowClick(test.id)}>
+              <td>{test.testType}</td>
+              <td>{test.datePrescribed}</td>
+              <td>{test.doctorStatus}</td>
+              <td>{test.doctorsRemarksforPatient}</td>
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  const renderConsultedTestsTable = () => {
+    return (
+      <table className = "consulted-tests-table">
+        <thead>
+          <tr>
+            <th>Test Type</th>
+            <th>Date Prescribed</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody>
+          {consultTests.map((test) => (
+            <tr key={test.id}>
+              <td>{test.testType}</td>
+              <td>{test.datePrescribed}</td>
+              <td>{test.doctorStatus}</td>
+              <td>{test.doctorsRemarksforPatient}</td>
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  const handleRowClick = (testID) => {
+    const test = tests.find(test => test.id === testID);
+    const status = test.doctorStatus;
+    if(status == "Pending For Review By Radiologist"){
+      navigate("/doc-own-pfr-rad");
+    }
+    else if(status == "Pending For Review"){
+      navigate("/doc-own-pfr");
+    }
+    else if(status == "Diagnosis Complete"){
+      navigate("/doc-own-diag-complete");
+    }
+    else {
+      console.error("Doctor Status not valid:", status)  // ensure that the doctorstatus is one of the above 3
+    }      
+  }
 
   return (
     <>
@@ -108,125 +206,20 @@ const DocOwnPatientDetails = () => {
             <div className="back45">Back</div>
           </div>
         </div>
-        <div className="variant-master">
-          <div className="button-master">
-            <div className="hello">Chat</div>
-          </div>
-        </div>
-        <div className="variant-master1">
-          <div className="button-master">
-            <div className="hello">Chat</div>
-          </div>
-        </div>
         <div className="tests-prescribed-by-me-parent">
           <b className="tests-prescribed-by">Tests prescribed by me</b>
-          <div className="frame-child218" />
-          <div className="frame-parent30">
-            <div className="group-wrapper69" onClick={onFrameContainerClick}>
-              <div className="mri-wrapper1">
-                <div className="mri3">MRI</div>
-              </div>
-            </div>
-            <div className="group-parent44" onClick={onFrameContainer1Click}>
-              <div className="ct-scan-wrapper1">
-                <div className="mri3">CT Scan</div>
-              </div>
-              <div className="remark23">Remark2</div>
-            </div>
-            <div className="group-parent45" onClick={onFrameContainer2Click}>
-              <div className="x-ray-wrapper1">
-                <div className="mri3">X-Ray</div>
-              </div>
-              <div className="remark23">Remark3</div>
-            </div>
-            <div className="test-type-parent1">
-              <div className="mri3">Test Type</div>
-              <div className="parent3">
-                <div className="div52">04/10/2023</div>
-                <div className="div53">25/09/2023</div>
-                <div className="div54">21/09/2023</div>
-                <div className="date-prescribed3">Date Prescribed</div>
-              </div>
-              <div className="pending-for-review-by-radiolog-parent">
-                <div className="pending-for-review4">
-                  Pending for review by radiologist
-                </div>
-                <div className="pending-for-review5">Pending for review</div>
-                <div className="diagnosis-completed2">Diagnosis Completed</div>
-              </div>
-              <div className="status6">Status</div>
-            </div>
-            <div className="remark13">Remark1</div>
+          <div className="group-parent44">
+          {renderTestsTable()}
           </div>
-        </div>
-        <div className="variant-master2">
-          <div className="button-master">
-            <div className="hello">Chat</div>
-          </div>
-        </div>
-        <div className="my-remarks">My Remarks</div>
-        <div className="chat">Chat</div>
-        <div className="doc-own-patient-details-child2" />
-        <div className="variant-master3">
-          <div className="button-master">
-            <div className="hello">Chat</div>
-          </div>
-        </div>
-        <div className="variant-master4">
-          <div className="button-master">
-            <div className="hello">Chat</div>
-          </div>
+          
+
         </div>
         <div className="tests-prescribed-by-other-doct-parent">
-          <b className="tests-prescribed-by1">{`Tests prescribed by other doctors `}</b>
-          <div className="frame-child218" />
-          <div className="frame-parent30">
-            <div className="group-wrapper69" onClick={onFrameContainer3Click}>
-              <div className="mri-wrapper1">
-                <div className="mri3">MRI</div>
-              </div>
-            </div>
-            <div className="group-parent44" onClick={onFrameContainer12Click}>
-              <div className="ct-scan-wrapper1">
-                <div className="mri3">CT Scan</div>
-              </div>
-              <div className="remark23">Remark2</div>
-            </div>
-            <div className="group-parent45" onClick={onFrameContainer22Click}>
-              <div className="x-ray-wrapper1">
-                <div className="mri3">X-Ray</div>
-              </div>
-              <div className="remark23">Remark3</div>
-            </div>
-            <div className="test-type-parent1">
-              <div className="mri3">Test Type</div>
-              <div className="parent3">
-                <div className="div52">04/10/2023</div>
-                <div className="div53">25/09/2023</div>
-                <div className="div54">21/09/2023</div>
-                <div className="date-prescribed3">Date Prescribed</div>
-              </div>
-              <div className="pending-for-review-by-radiolog-parent">
-                <div className="pending-for-review4">
-                  Pending for review by radiologist
-                </div>
-                <div className="pending-for-review5">
-                  Pending for review by doctor
-                </div>
-                <div className="diagnosis-completed2">Diagnosis Completed</div>
-              </div>
-              <div className="status6">Status</div>
-            </div>
-            <div className="remark13">Remark1</div>
+          <b className="tests-prescribed-by1">Tests prescribed by other doctors</b>
+          <div className = "group-parent44">
+            {renderConsultedTestsTable()}
           </div>
         </div>
-        <div className="variant-master5">
-          <div className="button-master">
-            <div className="hello">Chat</div>
-          </div>
-        </div>
-        <div className="doctors-remarks2">Doctor’s Remarks</div>
-        <div className="chat1">Chat</div>
       </div>
       {isNPUserOptionsOpen && (
         <PortalPopup

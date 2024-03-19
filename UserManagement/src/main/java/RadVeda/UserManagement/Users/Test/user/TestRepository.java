@@ -23,4 +23,15 @@ public interface TestRepository extends JpaRepository<Test, Long> {
     @Query(value = "SELECT * FROM test WHERE labstaffid = :labstaffID", nativeQuery = true)
     List<Test> findByLabStaffID(Long labstaffID);     
 
+    @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND doctorid = :doctorID", nativeQuery =  true)
+    List<Test> findByPatientAndDocID(Long patientID, Long doctorID);
+
+    @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND radiologistid = :radiologistID", nativeQuery =  true)
+    List<Test> findAllTestsByPatientAndRadID(Long patientID, Long radiologistID);
+
+    @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND doctorid != :doctorID", nativeQuery =  true)
+    List<Test> findConsultedByPatientAndDocID(Long patientID, Long doctorID);
+
+    @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND radiologistid != :radiologistID", nativeQuery =  true)
+    List<Test> findConsultedTestsByPatientAndRadID(Long patientID, Long radiologistID);
 }

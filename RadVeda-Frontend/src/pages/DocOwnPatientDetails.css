@@ -331,8 +331,8 @@
 }
 .group-parent44 {
   position: absolute;
-  top: 99px;
-  left: -704px;
+  top: 69px;
+  left: 10px;
   width: 768px;
   height: 41px;
   cursor: pointer;
@@ -551,4 +551,47 @@
   font-size: var(--btnfont-size);
   color: var(--btnlabeldark);
   font-family: var(--font-poppins);
+}
+
+.tests-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tests-table th,
+.tests-table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.tests-table th {
+  background-color: #7e8f7c;
+  font-weight: bold;
+  cursor: default;
+}
+
+
+.tests-table tbody tr:hover {
+  background-color: #9fc596;
+}
+.consulted-tests-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.consulted-tests-table th,
+.consulted-tests-table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.consulted-tests-table th {
+  background-color: #7e8f7c;
+  font-weight: bold;
+  cursor: default;
+}
+
+
+.consulted-tests-table tbody tr:hover {
+  background-color: #9fc596;
 }
