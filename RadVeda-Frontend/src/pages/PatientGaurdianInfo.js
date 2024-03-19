@@ -78,7 +78,7 @@ const PatientGaurdianInfo = () => {
   
 
   const onRectangleClick = useCallback(() => {
-    navigate("/patient-signup-1");
+    navigate("/patient-signup-3");
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {

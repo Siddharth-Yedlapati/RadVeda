@@ -116,7 +116,7 @@ const PatientSignup2 = () => {
     const dob = new Date(dateOfBirth);
     const today = new Date();
 
-    const age = today.getFullYear() - dob.getFullYear();
+    var age = today.getFullYear() - dob.getFullYear();
 
     // Check if the birthday hasn't occurred yet this year
     if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
