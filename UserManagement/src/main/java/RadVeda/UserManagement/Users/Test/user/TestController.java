@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import RadVeda.UserManagement.Users.User.User;
 import RadVeda.UserManagement.exception.InvalidInputFormatException;
 import RadVeda.UserManagement.exception.UserNotFoundException;
 import RadVeda.UserManagement.security.UserManagementDetailsService;
@@ -55,6 +57,25 @@ public class TestController {
         }
         return testlist;
     }
+
+    @GetMapping("/{patientID}/{userType}/{userID}/getTests")
+    public List<Test> getTests(@PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
+            throws UserNotFoundException {
+        List<Test> testList = testService.findAllTestsByPatientAndUser(patientID, userType, userID);
+        if(testList.isEmpty()){
+            throw new UserNotFoundException("No tests found for the given Patient");
+        }
+        return testList;
+    }
     
+    @GetMapping("/{patientID}/{userType}/{userID}/getConsultedTests")
+    public List<Test> getConsultedTests(@PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
+            throws UserNotFoundException {
+        List<Test> testList = testService.findConsultedTestsByPatientAndUser(patientID, userType, userID);
+        if(testList.isEmpty()){
+            throw new UserNotFoundException("No tests found for the given Patient");
+        }
+        return testList;
+    }
     
 }

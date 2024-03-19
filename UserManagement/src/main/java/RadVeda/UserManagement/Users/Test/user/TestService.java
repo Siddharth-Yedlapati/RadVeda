@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +34,17 @@ public class TestService implements TestServiceInterface {
         int radID = random.nextInt(3) + 1;
         int labID = random.nextInt(3) + 1;
 
+        String dateString = LocalDate.now( ZoneId.of( "Asia/Kolkata" ) )
+         .toString();
+        String[] parts = dateString.split("-");
+
+         // Reorder the parts to form the output string in "dd/MM/yyyy" format
+        String outputDateString = parts[2] + "/" + parts[1] + "/" + parts[0];
+ 
+
         var newTest = new Test();
         newTest.setTestType(request.TestType());
-        newTest.setDatePrescribed(request.DatePrescribed());
+        newTest.setDatePrescribed(outputDateString);
         newTest.setPatientStatus(request.PatientStatus());
         newTest.setDoctorStatus(request.DoctorStatus());
         newTest.setRadiologistStatus(request.RadiologistStatus());
@@ -72,6 +84,28 @@ public class TestService implements TestServiceInterface {
         }
         else if("LABSTAFF".equals(userType)){
             return testRepository.findByLabStaffID(userID);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Test> findAllTestsByPatientAndUser(Long patientID, String userType, Long userID){
+        if("DOCTOR".equals(userType)){
+            return testRepository.findByPatientAndDocID(patientID, userID);
+        }
+        else if("RADIOLOGIST".equals(userType)){
+            return testRepository.findAllTestsByPatientAndRadID(patientID, userID);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID){
+        if("DOCTOR".equals(userType)){
+            return testRepository.findConsultedByPatientAndDocID(patientID, userID);
+        }
+        else if("RADIOLOGIST".equals(userType)){
+            return testRepository.findConsultedTestsByPatientAndRadID(patientID, userID);
         }
         return new ArrayList<>();
     }
