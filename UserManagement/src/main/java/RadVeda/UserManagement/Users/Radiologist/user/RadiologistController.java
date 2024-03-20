@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193"})
 @RequestMapping("/radiologists")
 public class RadiologistController {
     private final RadiologistService radiologistService;
