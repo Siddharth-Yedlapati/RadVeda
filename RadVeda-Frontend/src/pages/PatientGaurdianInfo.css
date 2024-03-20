@@ -206,7 +206,7 @@
   top: 516px;
   left: 369px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 247px;
   height: 25px;
@@ -233,7 +233,7 @@
   top: 306px;
   left: 157px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 189px;
   height: 25px;
@@ -276,7 +276,7 @@
   top: 456px;
   left: 156px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 460px;
   gap: var(--gap-10xs);
@@ -309,7 +309,7 @@
 .text-fieldoutlined48 {
   top: 246px;
   left: 156px;
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   width: 189px;
   display: flex;
   flex-direction: column;
@@ -327,7 +327,7 @@
 .text-fieldoutlined49 {
   top: 246px;
   left: 387px;
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   width: 121px;
   display: flex;
   flex-direction: column;

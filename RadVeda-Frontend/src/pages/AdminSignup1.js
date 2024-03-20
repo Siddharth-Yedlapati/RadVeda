@@ -171,6 +171,7 @@ const AdminSignup1 = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="label93"
           />
         </div>
       </div>
@@ -181,6 +182,7 @@ const AdminSignup1 = () => {
             placeholder="Confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            className="label93"
           />
         </div>
       </div>
@@ -194,6 +196,7 @@ const AdminSignup1 = () => {
               const value = e.target.value.replace(/\D/, ""); // Allow only numeric values
               setPhoneNumber(value);
             }}
+            className="label93"
           />
         </div>
       </div>

@@ -148,6 +148,7 @@ const RadSignup = () => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First name"
+              className="label103"
             />
           </div>
         </div>
@@ -161,6 +162,7 @@ const RadSignup = () => {
               value={middleName}
               onChange={(e) => setMiddleName(e.target.value)}
               placeholder="Middle name"
+              className="label103"
             />
           </div>
         </div>
@@ -174,6 +176,7 @@ const RadSignup = () => {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last name"
+              className="label103"
             />
           </div>
         </div>
@@ -187,6 +190,7 @@ const RadSignup = () => {
               value={addressLine1}
               onChange={(e) => setAddressLine1(e.target.value)}
               placeholder="Address line 1"
+              className="label103"
             />
           </div>
         </div>
@@ -200,6 +204,7 @@ const RadSignup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
+              className="label103"
             />
           </div>
         </div>
@@ -213,6 +218,7 @@ const RadSignup = () => {
               value={addressLine2}
               onChange={(e) => setAddressLine2(e.target.value)}
               placeholder="Address line 2"
+              className="label103"
             />
           </div>
         </div>
@@ -226,6 +232,7 @@ const RadSignup = () => {
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               placeholder="Country"
+              className="label103"
             />
           </div>
         </div>
@@ -244,6 +251,7 @@ const RadSignup = () => {
               value={state}
               onChange={(e) => setState(e.target.value)}
               placeholder="State"
+              className="label103"
             />
           </div>
         </div>
@@ -262,6 +270,7 @@ const RadSignup = () => {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="City"
+              className="label103"
             />
           </div>
         </div>

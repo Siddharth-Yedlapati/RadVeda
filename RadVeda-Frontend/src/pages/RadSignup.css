@@ -87,6 +87,8 @@
   letter-spacing: 0.15px;
   line-height: 24px;
   font-weight: 500;
+  border: none;
+  outline: none;
 }
 .content116,
 .input103 {
@@ -135,7 +137,7 @@
   top: 254px;
   left: 157px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 131px;
   display: flex;
@@ -198,7 +200,7 @@
   top: 535px;
   left: 292px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 119px;
   display: flex;
@@ -224,7 +226,7 @@
   top: 535px;
   left: 427px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 119px;
   display: flex;
