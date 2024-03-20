@@ -57,6 +57,8 @@
   letter-spacing: 0.15px;
   line-height: 24px;
   font-weight: 500;
+  border: none;
+  outline: none;
 }
 .content72,
 .input67 {
@@ -104,7 +106,7 @@
   top: 253px;
   left: 163px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 460px;
   height: 56px;

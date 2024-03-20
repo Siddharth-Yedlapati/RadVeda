@@ -325,7 +325,7 @@
   top: 236px;
   left: 563px;
   border-radius: var(--br-11xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 59px;
   height: 15px;

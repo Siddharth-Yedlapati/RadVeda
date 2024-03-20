@@ -144,6 +144,8 @@
   letter-spacing: 0.15px;
   line-height: 24px;
   font-weight: 500;
+  border: none;
+  outline: none;
 }
 .content43,
 .input39 {
@@ -186,7 +188,7 @@
   position: absolute;
   left: 156px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 460px;
   display: flex;
@@ -221,7 +223,7 @@
   top: 473px;
   left: 372px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 244px;
   height: 25px;
@@ -265,7 +267,7 @@
   top: 630px;
   left: 369px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 247px;
   height: 25px;
@@ -295,7 +297,7 @@
   top: 564px;
   left: 156px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 460px;
   display: flex;

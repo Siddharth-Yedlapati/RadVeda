@@ -209,6 +209,8 @@
   letter-spacing: 0.15px;
   line-height: 24px;
   font-weight: 500;
+  border: none;
+  outline: none;
 }
 .content74,
 .input69 {
@@ -257,7 +259,7 @@
   top: 431px;
   left: 665px;
   border-radius: var(--br-3xs);
-  background-color: var(--color-whitesmoke-100);
+  background-color: white;
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
   width: 400px;
   display: flex;
