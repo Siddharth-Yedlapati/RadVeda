@@ -13,7 +13,7 @@ public interface NotificationServiceInterface {
     String sendChatNotificationToRecipient(String message, String recipientType, Long recipientId, Long chatID);
     String sendConsentRequestNotificationToRecipient(String message, String recipientType, Long recipientId, Long consentRequestId);
     String sendOneWayNotificationToRecipient(String message, String recipientType, Long recipientId);
-    String deleteChatNotificationOfRecipient(Long Id);
-    String deleteConsentRequestNotificationOfRecipient(Long Id);
-    String deleteOneWayNotificationOfRecipient(Long Id);
+    String deleteChatNotificationOfRecipient(Long Id, User currentUser);
+    String deleteConsentRequestNotificationOfRecipient(Long Id, User currentUser);
+    String deleteOneWayNotificationOfRecipient(Long Id, User currentUser);
 }
