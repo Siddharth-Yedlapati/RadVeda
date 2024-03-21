@@ -55,7 +55,7 @@ const DocPTDetails = () => {
 
     request(
       "POST",
-      "/prescribe-test",
+      "http://localhost:9192/prescribe-test",
       {
         "TestType": 'a',
         "PatientStatus" : 'a',
