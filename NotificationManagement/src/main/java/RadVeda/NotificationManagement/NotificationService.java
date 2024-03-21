@@ -2,10 +2,12 @@ package RadVeda.NotificationManagement;
 
 import RadVeda.NotificationManagement.Notifications.*;
 import RadVeda.NotificationManagement.exception.NotificationNotFoundException;
+import RadVeda.NotificationManagement.exception.UnauthorisedUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -75,7 +77,7 @@ public class NotificationService implements NotificationServiceInterface{
     }
 
     @Override
-    public String deleteChatNotificationOfRecipient(Long Id)
+    public String deleteChatNotificationOfRecipient(Long Id, User currentUser)
     {
         Optional<ChatNotification> chatNotif = chatNotificationRepository.findById(Id);
         if(chatNotif.isEmpty())
@@ -83,12 +85,17 @@ public class NotificationService implements NotificationServiceInterface{
             throw new NotificationNotFoundException("Couldn't find a notification with the given ID");
         }
 
+        if(!Objects.equals(currentUser.getId(), chatNotif.get().getRecipientId()) || !Objects.equals(currentUser.getType(), chatNotif.get().getRecipientType()))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
         chatNotificationRepository.delete(chatNotif.get());
         return "Notification deleted successfully!!";
     }
 
     @Override
-    public String deleteConsentRequestNotificationOfRecipient(Long Id)
+    public String deleteConsentRequestNotificationOfRecipient(Long Id, User currentUser)
     {
         Optional<ConsentRequestNotification> consReqNotif = consentRequestNotificationRepository.findById(Id);
         if(consReqNotif.isEmpty())
@@ -96,17 +103,27 @@ public class NotificationService implements NotificationServiceInterface{
             throw new NotificationNotFoundException("Couldn't find a notification with the given ID");
         }
 
+        if(!Objects.equals(currentUser.getId(), consReqNotif.get().getRecipientId()) || !Objects.equals(currentUser.getType(), consReqNotif.get().getRecipientType()))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
         consentRequestNotificationRepository.delete(consReqNotif.get());
         return "Notification deleted successfully!!";
     }
 
     @Override
-    public String deleteOneWayNotificationOfRecipient(Long Id)
+    public String deleteOneWayNotificationOfRecipient(Long Id, User currentUser)
     {
         Optional<OneWayNotification> oneWayNotif = oneWayNotificationRepository.findById(Id);
         if(oneWayNotif.isEmpty())
         {
             throw new NotificationNotFoundException("Couldn't find a notification with the given ID");
+        }
+
+        if(!Objects.equals(currentUser.getId(), oneWayNotif.get().getRecipientId()) || !Objects.equals(currentUser.getType(), oneWayNotif.get().getRecipientType()))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
         }
 
         oneWayNotificationRepository.delete(oneWayNotif.get());

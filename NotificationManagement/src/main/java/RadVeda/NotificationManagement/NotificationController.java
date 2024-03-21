@@ -1,7 +1,6 @@
 package RadVeda.NotificationManagement;
 
 import RadVeda.NotificationManagement.Notifications.*;
-import RadVeda.NotificationManagement.exception.NotificationNotFoundException;
 import RadVeda.NotificationManagement.exception.UnauthorisedUserException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -101,7 +100,7 @@ public class NotificationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
-        return notificationService.deleteChatNotificationOfRecipient(id);
+        return notificationService.deleteChatNotificationOfRecipient(id, currentUser);
     }
 
     @DeleteMapping("/deleteConsentRequestNotification/{id}")
@@ -113,7 +112,7 @@ public class NotificationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
-        return notificationService.deleteConsentRequestNotificationOfRecipient(id);
+        return notificationService.deleteConsentRequestNotificationOfRecipient(id, currentUser);
     }
 
     @DeleteMapping("/deleteOneWayNotification/{id}")
@@ -125,7 +124,7 @@ public class NotificationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
-        return notificationService.deleteOneWayNotificationOfRecipient(id);
+        return notificationService.deleteOneWayNotificationOfRecipient(id, currentUser);
     }
 
     public User authenticate(String authorizationHeader)
