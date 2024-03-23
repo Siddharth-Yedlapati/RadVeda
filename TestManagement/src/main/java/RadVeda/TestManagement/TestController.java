@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import RadVeda.TestManagement.exception.InvalidInputFormatException;
 import RadVeda.TestManagement.exception.UserNotFoundException;
+import RadVeda.TestManagement.exception.UnauthorisedUserException;
 // import RadVeda.TestManagement.security.UserManagementDetailsService;
 
 import java.util.Optional;
@@ -24,9 +26,15 @@ public class TestController {
     private final TestService testService;
 
     @GetMapping("/{testID}/getTest")
-    public Test getTest(@PathVariable Long testID)
-            throws InvalidInputFormatException, UserNotFoundException {
+    public Test getTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID)
+            throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
+        
+        User currentuser = testService.authenticate(authorizationHeader);
 
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
         Optional<Test> test = testService.findById(testID);
         if (test.isEmpty()) {
             throw new UserNotFoundException("Unable to fetch test details");
@@ -36,7 +44,12 @@ public class TestController {
     }
 
     @GetMapping("/getTests")
-    public List<Test> getTests() throws UserNotFoundException {
+    public List<Test> getTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }     
         List<Test> testlist = testService.findAllTests();
         if(testlist.isEmpty()){
             throw new UserNotFoundException("There are no tests currently prescribed");
@@ -45,8 +58,13 @@ public class TestController {
     }
 
     @GetMapping("/{userType}/{userID}/getTests")
-    public List<Test> getTests(@PathVariable String userType, @PathVariable Long userID)
-                throws UserNotFoundException {
+    public List<Test> getTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String userType, @PathVariable Long userID)
+                throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        } 
         List<Test> testlist = testService.findAllTestsByUser(userType, userID);
         if(testlist.isEmpty()){
             throw new UserNotFoundException("No tests found for the given ID");
@@ -54,9 +72,15 @@ public class TestController {
         return testlist;
     }
 
+    // TODO: make this api accessible only to superadmins, and create a new api for users which doesnt take userID as a parameter
     @GetMapping("/{patientID}/{userType}/{userID}/getTests")
-    public List<Test> getTests(@PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
-            throws UserNotFoundException {
+    public List<Test> getTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
+            throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
         List<Test> testList = testService.findAllTestsByPatientAndUser(patientID, userType, userID);
         if(testList.isEmpty()){
             throw new UserNotFoundException("No tests found for the given Patient");
@@ -65,8 +89,13 @@ public class TestController {
     }
     
     @GetMapping("/{patientID}/{userType}/{userID}/getConsultedTests")
-    public List<Test> getConsultedTests(@PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
-            throws UserNotFoundException {
+    public List<Test> getConsultedTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
+            throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
         List<Test> testList = testService.findConsultedTestsByPatientAndUser(patientID, userType, userID);
         if(testList.isEmpty()){
             throw new UserNotFoundException("No tests found for the given Patient");

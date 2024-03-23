@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import RadVeda.TestManagement.TestService;
+import RadVeda.TestManagement.exception.UnauthorisedUserException;
+import RadVeda.TestManagement.User;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,9 +16,15 @@ public class PrescribeTestController {
     private final TestService testService;
 
     @PostMapping
-    public String prescribeTest(@RequestBody TestRequest testRequest,
-            final HttpServletRequest request) {
+    public String prescribeTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody TestRequest testRequest,
+            final HttpServletRequest request) throws UnauthorisedUserException{
         System.out.println("Request accessed..........");
+        User currentuser = testService.authenticate(authorizationHeader);
+
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
         testService.prescribeTest(testRequest);
         return "Success!! Test has been prescribed";
     }

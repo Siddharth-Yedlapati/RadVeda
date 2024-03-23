@@ -23,7 +23,7 @@ public class NotificationController {
     @GetMapping("/getChatNotifications")
     public List<ChatNotification> getChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -35,7 +35,7 @@ public class NotificationController {
     @GetMapping("/getConsentRequestNotifications")
     public List<ConsentRequestNotification> getConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -47,7 +47,7 @@ public class NotificationController {
     @GetMapping("/getOneWayNotifications")
     public List<OneWayNotification> getOneWayNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -59,7 +59,7 @@ public class NotificationController {
     @PostMapping("/sendChatNotification")
     public String sendChatNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody ChatNotificationRequest request)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -70,7 +70,7 @@ public class NotificationController {
     @PostMapping("/sendConsentRequestNotification")
     public String sendConsentRequestNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,  @RequestBody ConsentRequestNotificationRequest request)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -82,7 +82,7 @@ public class NotificationController {
     @PostMapping("/sendOneWayNotification")
     public String sendOneWayNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody OneWayNotificationRequest request)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -94,7 +94,7 @@ public class NotificationController {
     @DeleteMapping("/deleteChatNotification/{id}")
     public String deleteChatNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -106,7 +106,7 @@ public class NotificationController {
     @DeleteMapping("/deleteConsentRequestNotification/{id}")
     public String deleteConsentRequestNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -118,7 +118,7 @@ public class NotificationController {
     @DeleteMapping("/deleteOneWayNotification/{id}")
     public String deleteOneWayNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
     {
-        User currentUser = authenticate(authorizationHeader);
+        User currentUser = notificationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
         {
@@ -127,80 +127,4 @@ public class NotificationController {
         return notificationService.deleteOneWayNotificationOfRecipient(id, currentUser);
     }
 
-    public User authenticate(String authorizationHeader)
-    {
-        String jwtToken = "";
-
-        // Checking if the Authorization header is present and not empty
-        if (authorizationHeader != null && !authorizationHeader.isEmpty())
-        {
-            // Extracting JWT bearer token
-            jwtToken = authorizationHeader.replace("Bearer ", "");
-        }
-        else
-        {
-            // Handling the case where the Authorization header is missing or empty
-            return null;
-        }
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        // Setting up the request headers with the JWT token
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + jwtToken);
-
-        List<String> userTypes = new ArrayList<>();
-        userTypes.add("ADMIN");
-        userTypes.add("DOCTOR");
-        userTypes.add("LABSTAFF");
-        userTypes.add("PATIENT");
-        userTypes.add("RADIOLOGIST");
-        userTypes.add("SUPERADMIN");
-
-        List<String> authUrls = new ArrayList<>();
-        authUrls.add("http://localhost:9191/admins/profile");
-        authUrls.add("http://localhost:9191/doctors/profile");
-        authUrls.add("http://localhost:9191/labstaffs/profile");
-        authUrls.add("http://localhost:9191/patients/profile");
-        authUrls.add("http://localhost:9191/radiologists/profile");
-        authUrls.add("http://localhost:9191/superadmins/profile");
-
-        User currentUser = null;
-
-        for(int i=0;i<userTypes.size();i++)
-        {
-            // Sending a GET request to the user management service with the JWT token in the headers
-            ResponseEntity<String> responseEntity = restTemplate.exchange(authUrls.get(i), HttpMethod.GET, new HttpEntity<>(headers), String.class);
-
-            // Checking if the response status is OK (200)
-            if (responseEntity.getStatusCode() == HttpStatus.OK)
-            {
-                // Creating a new User object
-                User user = new User();
-                user.setType(userTypes.get(i));
-
-                // Extracting user profile JSON from the response body
-                String userProfileJson = responseEntity.getBody();
-
-                // Parsing JSON using Jackson ObjectMapper
-                ObjectMapper objectMapper = new ObjectMapper();
-                try {
-                    // Reading JSON as a tree
-                    JsonNode rootNode = objectMapper.readTree(userProfileJson);
-
-                    // Extracting user ID from the JSON
-                    Long userId = rootNode.path("id").asLong();
-                    user.setId(userId);
-                    currentUser = user;
-                    break;
-                } catch (JsonProcessingException e) {
-                    return null;
-                }
-
-            }
-        }
-
-        return currentUser;
-
-    }
 }

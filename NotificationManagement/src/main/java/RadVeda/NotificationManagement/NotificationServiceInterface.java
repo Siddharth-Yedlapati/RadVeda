@@ -3,6 +3,7 @@ package RadVeda.NotificationManagement;
 import RadVeda.NotificationManagement.Notifications.ChatNotification;
 import RadVeda.NotificationManagement.Notifications.ConsentRequestNotification;
 import RadVeda.NotificationManagement.Notifications.OneWayNotification;
+import RadVeda.NotificationManagement.User;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface NotificationServiceInterface {
     String deleteChatNotificationOfRecipient(Long Id, User currentUser);
     String deleteConsentRequestNotificationOfRecipient(Long Id, User currentUser);
     String deleteOneWayNotificationOfRecipient(Long Id, User currentUser);
+    User authenticate(String authorizationHeader);
 }
