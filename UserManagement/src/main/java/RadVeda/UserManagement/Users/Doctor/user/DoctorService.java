@@ -4,27 +4,18 @@ import RadVeda.UserManagement.Users.Doctor.signup.DoctorServiceRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.DoctorSignUpRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationToken;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
-import RadVeda.UserManagement.Users.Patient.user.PatientDocuments;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javax.*;
-import javax.json.Json;
-import javax.json.JsonObject;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
