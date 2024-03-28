@@ -98,7 +98,7 @@ public class TestController {
         }
         List<Test> testList = testService.findConsultedTestsByPatientAndUser(patientID, userType, userID);
         if(testList.isEmpty()){
-            throw new UserNotFoundException("No tests found for the given Patient");
+            throw new UserNotFoundException("No consulted tests found for the given Patient");
         }
         return testList;
     }
