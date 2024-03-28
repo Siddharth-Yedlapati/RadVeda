@@ -65,29 +65,41 @@ const DocOwnPatientDetails = () => {
   }, [navigate]);
 
 
+  useEffect(() => {
+  var doctorid;
+  request(
+    "GET",
+    "http://localhost:9191/doctors/profile",
+    {},
+    true 
+    ).then(response => {
+      doctorid = response.data.id
+      request(  
+      "GET",
+      "http://localhost:9192/tests/2/DOCTOR/" + doctorid + "/getTests",
+      {},
+      true
+      ).then(response => {
+        setTests(response.data)
+      }).catch(error => {
+        alert(error.response.data.error);
+      })
 
-  request(  // How to store doctor ID?
-  "GET",
-  "/tests/1312/DOCTOR/222/getTests",
-  {},
-  true
-  ).then(response => {
-    setTests(response.data)
-  }).catch(error => {
-    alert(error.response.data.error);
-  })
+      request(  
+      "GET",
+      "http://localhost:9192/tests/13123/DOCTOR/" + doctorid + "/getConsultedTests",
+      {},
+      true
+      ).then(response => {
+        setConsultTests(response.data)
+      }).catch(error => {
+        alert(error.response.data.error);
+      })
+        }).catch(error => {
+          alert(error.response.data.error);
+        })
 
-  request(  // How to store doctor ID?
-  "GET",
-  "/tests/1312/DOCTOR/222/getConsultedTests",
-  {},
-  true
-  ).then(response => {
-    setConsultTests(response.data)
-  }).catch(error => {
-    alert(error.response.data.error);
-  })
-
+  }, []);
 
   const renderTestsTable = () => {
     return (
