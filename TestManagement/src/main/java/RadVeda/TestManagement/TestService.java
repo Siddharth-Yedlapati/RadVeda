@@ -2,12 +2,9 @@ package RadVeda.TestManagement;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 
@@ -15,6 +12,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import RadVeda.TestManagement.exception.UserNotFoundException;
+import RadVeda.TestManagement.tests.DoctorTestRequest;
 import RadVeda.TestManagement.tests.TestRequest;
 import java.util.List;
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class TestService implements TestServiceInterface {
         Random random = new Random();
         int radID = random.nextInt(3) + 1;
         int labID = random.nextInt(3) + 1;
+        var flag = 1;
 
         String dateString = LocalDate.now( ZoneId.of( "Asia/Kolkata" ) )
          .toString();
@@ -64,7 +64,36 @@ public class TestService implements TestServiceInterface {
         newTest.setRadiologistID((long) radID);
         newTest.setLabStaffID((long) labID);
 
-        return testRepository.save(newTest);
+
+        Test savedTest = testRepository.save(newTest);
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<String> responseEntity;
+
+        String requestBody = "";
+
+        DoctorTestRequest req = new DoctorTestRequest(savedTest.getId(), savedTest.getPatientID(), savedTest.getDoctorID());
+
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9194/doctor/prescribe-test", HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        } catch (ResourceAccessException e) {
+            testRepository.deleteTest(savedTest.getId());
+            flag = 2;
+            throw new UserNotFoundException("Failed to prescribe test");
+        }
+        
+        if(!responseEntity.getStatusCode().is2xxSuccessful() && flag == 1){
+            testRepository.deleteTest(savedTest.getId());
+            throw new UserNotFoundException("Failed to prescribe test");
+        }
+        return savedTest;
     }
 
     @Override

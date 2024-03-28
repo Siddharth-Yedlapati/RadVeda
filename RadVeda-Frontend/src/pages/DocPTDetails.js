@@ -50,37 +50,54 @@ const DocPTDetails = () => {
     //   alert("Please Fill in Test Type");
     //   return;
     // }
-
-
-
+    var doctorid;
     request(
-      "POST",
-      "http://localhost:9192/prescribe-test",
-      {
-        "TestType": 'a',
-        "PatientStatus" : 'a',
-        "DoctorStatus" : 'a',
-        "RadiologistStatus": 'b',
-        "LabStaffStatus": 'c',
-        "DoctorsRemarksforPatient": 'c',
-        "DoctorsRemarksforRadiologist": 'b',
-        "doctorID": '3',   // patientID can be retrieved using localStorage, how to get doctorID?
-        "PatientID" : '2',
-        "DoctorNotes" : 'a',
-        "OriginalImage": 'g'    
-    },
-      true // If changed to false, axios request fails with a 403 forbidden error
+      "GET",
+      "http://localhost:9191/doctors/profile",
+      {},
+      true 
       ).then(
         (response) => {
-          alert(response.data);
-          navigate("/doc-dashboard");
+          console.log(response);
+          doctorid = response.data.id;
+          console.log("docID" + doctorid)
+  
+          request(
+            "POST",
+            "http://localhost:9192/prescribe-test",
+            {
+              "TestType": testType,
+              "PatientStatus" : 'abcd',
+              "DoctorStatus" : 'Pending For Review',
+              "RadiologistStatus": 'b',
+              "LabStaffStatus": 'c',
+              "DoctorsRemarksforPatient": patientRemarks,
+              "DoctorsRemarksforRadiologist": radiologistRemarks,
+              "doctorID" : doctorid,
+              "PatientID" : '2',
+              "DoctorNotes" : 'a',
+              "OriginalImage": 'g'    
+          },
+            true 
+            ).then(
+              (response) => {
+                alert(response.data);
+                navigate("/doc-dashboard");
+              }
+            ).catch(
+              (error) => {
+                alert(error.response.data.error);
+              }
+            )
         }
       ).catch(
         (error) => {
           alert(error.response.data.error);
         }
-      )
-  }, [navigate]);
+      )   
+
+
+  }, [navigate, testType, patientRemarks, radiologistRemarks]);
 
   const onFrameContainer12Click = useCallback(() => {
     navigate("/doc-pt-verification");

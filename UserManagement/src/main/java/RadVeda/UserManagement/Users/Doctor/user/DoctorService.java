@@ -1,17 +1,30 @@
 package RadVeda.UserManagement.Users.Doctor.user;
 
+import RadVeda.UserManagement.Users.Doctor.signup.DoctorServiceRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.DoctorSignUpRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationToken;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationTokenRepository;
 import RadVeda.UserManagement.Users.Patient.user.PatientDocuments;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.*;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +51,10 @@ public class DoctorService implements DoctorServiceInterface {
                     doctorTokenRepository.delete(token);
                     doctordocumentsrepository.delete(doctor.getId());
                     doctorRepository.delete(doctor);
+                    ResponseEntity<String> responseEntity;
+                    HttpHeaders headers = new HttpHeaders();
+                    RestTemplate restTemplate = new RestTemplate();
+                    responseEntity = restTemplate.exchange("http://localhost:9194/doctor/deleteDoctor", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
                 }
             }
         }
@@ -70,6 +87,27 @@ public class DoctorService implements DoctorServiceInterface {
         newDoctor.setOrgName(request.orgName());
         newDoctor.setOrgAddressL1(request.orgAddressL1());
         newDoctor.setOrgAddressL2(request.orgAddressL2());
+
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = "";
+        DoctorServiceRequest req = new DoctorServiceRequest(request.firstName(), request.middleName(), request.lastName(), request.addressL1(), request.addressL2(),
+                     request.country(), request.state(), request.city(), request.email(), request.phoneNumber(), request.orgName(), request.orgAddressL1(), request.orgAddressL2());
+        
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        
+        ResponseEntity<String> responseEntity;
+
+        responseEntity = restTemplate.exchange("http://localhost:9194/doctor/addDoctor", HttpMethod.POST ,new HttpEntity<>(requestBody, headers), String.class);
+
         for (String document : request.Documents()){
             var newDocument = new DoctorDocuments();
             newDocument.setDocuments(document);
@@ -103,6 +141,10 @@ public class DoctorService implements DoctorServiceInterface {
             doctorTokenRepository.delete(token);
             doctordocumentsrepository.delete(doctor.getId());
             doctorRepository.delete(doctor);
+            ResponseEntity<String> responseEntity;
+            HttpHeaders headers = new HttpHeaders();
+            RestTemplate restTemplate = new RestTemplate();
+            responseEntity = restTemplate.exchange("http://localhost:9194/doctor/deleteDoctor", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
             return "Token already expired";
         }
         doctor.setEnabled(true);

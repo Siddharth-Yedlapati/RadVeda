@@ -1,7 +1,10 @@
 package RadVeda.TestManagement;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import jakarta.transaction.Transactional;
 
 import java.util.Optional;
 import java.util.List;
@@ -34,4 +37,9 @@ public interface TestRepository extends JpaRepository<Test, Long> {
 
     @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND radiologistid != :radiologistID", nativeQuery =  true)
     List<Test> findConsultedTestsByPatientAndRadID(Long patientID, Long radiologistID);
+    
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM test WHERE id = :testID", nativeQuery = true)
+    void deleteTest(Long testID);
 }

@@ -18,13 +18,14 @@ public class PrescribeTestController {
     @PostMapping
     public String prescribeTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody TestRequest testRequest,
             final HttpServletRequest request) throws UnauthorisedUserException{
-        System.out.println("Request accessed..........");
+
         User currentuser = testService.authenticate(authorizationHeader);
 
         if(currentuser == null)
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
         testService.prescribeTest(testRequest);
         return "Success!! Test has been prescribed";
     }
