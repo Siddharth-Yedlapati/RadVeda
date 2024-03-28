@@ -17,4 +17,6 @@ public interface DoctorServiceInterface {
     void saveDoctorVerificationToken(Doctor theDoctor, String verificationToken);
 
     String validateToken(String theToken);
+
+    
 }
