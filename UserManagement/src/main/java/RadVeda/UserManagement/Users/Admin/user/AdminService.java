@@ -110,4 +110,10 @@ public class AdminService implements AdminServiceInterface {
         adminRepository.save(admin);
         return "valid";
     }
+
+    @Override
+    public Optional<Admin> findById(Long id) {
+        return adminRepository.findById(id);
+    }
+
 }

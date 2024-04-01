@@ -17,4 +17,6 @@ public interface RadiologistServiceInterface {
     void saveRadiologistVerificationToken(Radiologist theRadiologist, String verificationToken);
 
     String validateToken(String theToken);
+
+    Optional<Radiologist> findById(Long id);
 }

@@ -21,4 +21,6 @@ public interface PatientServiceInterface {
     String validatePatientToken(String theToken);
 
     String validatePatientGuardianToken(String theToken);
+
+    Optional<Patient> findById(Long id);
 }

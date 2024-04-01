@@ -1,12 +1,10 @@
 package RadVeda.UserManagement.Users.Patient.user;
 
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaff;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import RadVeda.UserManagement.exception.InvalidInputFormatException;
 import RadVeda.UserManagement.exception.UserNotFoundException;
 import RadVeda.UserManagement.security.UserManagementDetailsService;
@@ -42,5 +40,12 @@ public class PatientController {
         }
 
         return patient.get();
+    }
+
+    @GetMapping("/validatePatientId/{id}")
+    public boolean validatePatientId(@PathVariable Long id)
+    {
+        Optional<Patient> patient = patientService.findById(id);
+        return patient.isPresent();
     }
 }

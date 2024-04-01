@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.Doctor.user;
 
+import RadVeda.UserManagement.Users.Admin.user.Admin;
 import RadVeda.UserManagement.Users.Doctor.signup.DoctorServiceRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.DoctorSignUpRequest;
 import RadVeda.UserManagement.Users.Doctor.signup.token.DoctorVerificationToken;
@@ -141,5 +142,10 @@ public class DoctorService implements DoctorServiceInterface {
         doctor.setEnabled(true);
         doctorRepository.save(doctor);
         return "valid";
+    }
+
+    @Override
+    public Optional<Doctor> findById(Long id) {
+        return doctorRepository.findById(id);
     }
 }

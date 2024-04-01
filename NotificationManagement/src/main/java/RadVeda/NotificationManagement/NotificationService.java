@@ -14,10 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -219,5 +216,52 @@ public class NotificationService implements NotificationServiceInterface{
 
         return currentUser;
 
+    }
+
+    @Override
+    public boolean isRecipientValid(String recipientType, Long recipientId, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        HashMap<String, String> urlMap = new HashMap<>();
+        urlMap.put("ADMIN", "http://localhost:9191/admins/validateAdminId/{"+recipientId+"}");
+        urlMap.put("DOCTOR", "http://localhost:9191/doctors/validateDoctorId/{"+recipientId+"}");
+        urlMap.put("LABSTAFF", "http://localhost:9191/labstaffs/validateLabStaffId/{"+recipientId+"}");
+        urlMap.put("PATIENT", "http://localhost:9191/patients/validatePatientId/{"+recipientId+"}");
+        urlMap.put("RADIOLOGIST", "http://localhost:9191/radiologists/validateRadiologistId/{"+recipientId+"}");
+        urlMap.put("SUPERADMIN", "http://localhost:9191/superadmins/validateSuperAdminId/{"+recipientId+"}");
+
+        String url = urlMap.get(recipientType);
+
+        // Sending a GET request to the user management service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (HttpClientErrorException.Forbidden ex){
+            return false;
+        }
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            // Extracting response body from the response entity
+            String responseBody = responseEntity.getBody();
+            return Boolean.parseBoolean(responseBody);
+        }
+
+        return false;
     }
 }

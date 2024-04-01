@@ -18,5 +18,7 @@ public interface DoctorServiceInterface {
 
     String validateToken(String theToken);
 
+    Optional<Doctor> findById(Long id);
+
     
 }

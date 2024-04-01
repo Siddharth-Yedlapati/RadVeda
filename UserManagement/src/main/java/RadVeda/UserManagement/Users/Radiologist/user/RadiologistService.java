@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.Radiologist.user;
 
+import RadVeda.UserManagement.Users.Patient.user.Patient;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.Doctor.user.DoctorDocuments;
@@ -110,5 +111,10 @@ public class RadiologistService implements RadiologistServiceInterface {
         radiologist.setEnabled(true);
         radiologistRepository.save(radiologist);
         return "valid";
+    }
+
+    @Override
+    public Optional<Radiologist> findById(Long id) {
+        return radiologistRepository.findById(id);
     }
 }

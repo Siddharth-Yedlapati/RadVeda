@@ -1,16 +1,11 @@
 package RadVeda.NotificationManagement;
 
 import RadVeda.NotificationManagement.Notifications.*;
+import RadVeda.NotificationManagement.exception.RecipientNotFoundException;
 import RadVeda.NotificationManagement.exception.UnauthorisedUserException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,6 +60,10 @@ public class NotificationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!notificationService.isRecipientValid(request.recipientType(), request.recipientId(), authorizationHeader))
+        {
+            throw new RecipientNotFoundException("Invalid notification recipient!");
+        }
         return notificationService.sendChatNotificationToRecipient(request.message(), request.recipientType(), request.recipientId(), request.chatID());
     }
     @PostMapping("/sendConsentRequestNotification")
@@ -75,6 +74,10 @@ public class NotificationController {
         if(currentUser == null)
         {
             throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(!notificationService.isRecipientValid(request.recipientType(), request.recipientId(), authorizationHeader))
+        {
+            throw new RecipientNotFoundException("Invalid notification recipient!");
         }
         return notificationService.sendConsentRequestNotificationToRecipient(request.message(), request.recipientType(), request.recipientId(), request.consentRequestId());
     }
@@ -87,6 +90,10 @@ public class NotificationController {
         if(currentUser == null)
         {
             throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(!notificationService.isRecipientValid(request.recipientType(), request.recipientId(), authorizationHeader))
+        {
+            throw new RecipientNotFoundException("Invalid notification recipient!");
         }
         return notificationService.sendOneWayNotificationToRecipient(request.message(), request.recipientType(), request.recipientId());
     }
