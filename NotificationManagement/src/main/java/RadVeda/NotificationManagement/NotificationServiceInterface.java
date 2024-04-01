@@ -18,4 +18,5 @@ public interface NotificationServiceInterface {
     String deleteConsentRequestNotificationOfRecipient(Long Id, User currentUser);
     String deleteOneWayNotificationOfRecipient(Long Id, User currentUser);
     User authenticate(String authorizationHeader);
+    boolean isRecipientValid(String recipientType, Long recipientId, String authorizationHeader);
 }

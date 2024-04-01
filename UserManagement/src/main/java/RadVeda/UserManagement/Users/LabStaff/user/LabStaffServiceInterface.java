@@ -17,4 +17,6 @@ public interface LabStaffServiceInterface {
     void saveLabStaffVerificationToken(LabStaff theLabStaff, String verificationToken);
 
     String validateToken(String theToken);
+
+    Optional<LabStaff> findById(Long id);
 }

@@ -17,4 +17,6 @@ public interface SuperAdminServiceInterface {
     void saveSuperAdminVerificationToken(SuperAdmin theSuperAdmin, String verificationToken);
 
     String validateToken(String theToken);
+
+    Optional<SuperAdmin> findById(Long id);
 }

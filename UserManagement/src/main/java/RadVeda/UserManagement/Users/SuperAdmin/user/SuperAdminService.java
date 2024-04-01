@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.SuperAdmin.user;
 
+import RadVeda.UserManagement.Users.Radiologist.user.Radiologist;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.SuperAdmin.signup.SuperAdminSignUpRequest;
@@ -100,5 +101,10 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         superadmin.setEnabled(true);
         superadminRepository.save(superadmin);
         return "valid";
+    }
+
+    @Override
+    public Optional<SuperAdmin> findById(Long id) {
+        return superadminRepository.findById(id);
     }
 }

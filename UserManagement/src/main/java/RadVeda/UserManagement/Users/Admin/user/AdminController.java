@@ -3,10 +3,7 @@ package RadVeda.UserManagement.Users.Admin.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import RadVeda.UserManagement.exception.InvalidInputFormatException;
 import RadVeda.UserManagement.exception.UserNotFoundException;
 import RadVeda.UserManagement.security.UserManagementDetailsService;
@@ -43,4 +40,12 @@ public class AdminController {
 
         return admin.get();
     }
+
+    @GetMapping("/validateAdminId/{id}")
+    public boolean validateAdminId(@PathVariable Long id)
+    {
+        Optional<Admin> admin = adminService.findById(id);
+        return admin.isPresent();
+    }
+
 }

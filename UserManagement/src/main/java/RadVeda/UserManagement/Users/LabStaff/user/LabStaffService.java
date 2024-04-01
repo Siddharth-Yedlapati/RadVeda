@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.LabStaff.user;
 
+import RadVeda.UserManagement.Users.Doctor.user.Doctor;
 import RadVeda.UserManagement.Users.Doctor.user.DoctorDocuments;
 import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffSignUpRequest;
 import RadVeda.UserManagement.Users.LabStaff.signup.token.LabStaffVerificationToken;
@@ -108,5 +109,10 @@ public class LabStaffService implements LabStaffServiceInterface {
         labstaff.setEnabled(true);
         labstaffRepository.save(labstaff);
         return "valid";
+    }
+
+    @Override
+    public Optional<LabStaff> findById(Long id) {
+        return labstaffRepository.findById(id);
     }
 }

@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.Patient.user;
 
+import RadVeda.UserManagement.Users.LabStaff.user.LabStaff;
 import RadVeda.UserManagement.Users.Patient.signup.PatientSignUpRequest;
 import RadVeda.UserManagement.Users.Patient.signup.token.PatientGuardianVerificationTokenRepository;
 import RadVeda.UserManagement.Users.Patient.signup.token.PatientGuardianVerificationToken;
@@ -227,4 +228,8 @@ public class PatientService implements PatientServiceInterface {
         return "valid";
     }
 
+    @Override
+    public Optional<Patient> findById(Long id) {
+        return patientRepository.findById(id);
+    }
 }

@@ -1,12 +1,10 @@
 package RadVeda.UserManagement.Users.SuperAdmin.user;
 
+import RadVeda.UserManagement.Users.Radiologist.user.Radiologist;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import RadVeda.UserManagement.exception.InvalidInputFormatException;
 import RadVeda.UserManagement.exception.UserNotFoundException;
 import RadVeda.UserManagement.security.UserManagementDetailsService;
@@ -42,5 +40,12 @@ public class SuperAdminController {
         }
 
         return superadmin.get();
+    }
+
+    @GetMapping("/validateSuperAdminId/{id}")
+    public boolean validateSuperAdminId(@PathVariable Long id)
+    {
+        Optional<SuperAdmin> superAdmin = superAdminService.findById(id);
+        return superAdmin.isPresent();
     }
 }

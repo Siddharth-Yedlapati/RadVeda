@@ -15,4 +15,6 @@ public interface AdminServiceInterface {
     void saveAdminVerificationToken(Admin theAdmin, String verificationToken);
 
     String validateToken(String theToken);
+
+    Optional<Admin> findById(Long id);
 }
