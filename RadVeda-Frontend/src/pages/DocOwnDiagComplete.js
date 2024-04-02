@@ -32,6 +32,8 @@ const DocOwnDiagComplete = () => {
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocOwnRadNotesOpen, setDocOwnRadNotesOpen] = useState(false);
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);
+  const [isEditorOpen, setEditorOpen] = useState(false);
+  const [notes, setNotes] = useState("");
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -56,6 +58,21 @@ const DocOwnDiagComplete = () => {
   const closeDocOwnNotes = useCallback(() => {
     setDocOwnNotesOpen(false);
   }, []);
+
+  const openEditor = useCallback(() => {
+    setEditorOpen(true);
+  }, []);
+
+  const closeEditor = useCallback(() => {
+    setEditorOpen(false);
+  }, []);
+
+  const saveNotes = useCallback(() => {
+    // Send 'notes' to the backend
+    console.log("Saving notes:", notes);
+    // Close the editor overlay
+    closeEditor();
+  }, [notes, closeEditor]);
 
   return (
     <>
@@ -132,7 +149,7 @@ const DocOwnDiagComplete = () => {
             </div>
           </div>
         </div>
-        <div className="doc-own-diag-complete-inner3" onClick={openDocOwnNotes}>
+        <div className="doc-own-diag-complete-inner3" onClick={openEditor}>
           <div className="view-own-notes-wrapper5">
             <div className="view-radiologists-details8">View own notes</div>
           </div>
@@ -176,6 +193,20 @@ const DocOwnDiagComplete = () => {
         >
           <DocOwnNotes onClose={closeDocOwnNotes} />
         </PortalPopup>
+      )}
+      {isEditorOpen && (
+        <div className="overlay">
+          <div className="editorContainer">
+            <textarea
+              className="editorTextarea"
+              placeholder="Type your notes here..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+            <button className="saveBtn" onClick={saveNotes}>Save</button>
+            <button className="closeBtn" onClick={closeEditor}>Close</button>
+          </div>
+        </div>
       )}
     </>
   );

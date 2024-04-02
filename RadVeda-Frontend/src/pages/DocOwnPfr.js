@@ -32,6 +32,8 @@ const DocOwnPfr = () => {
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocOwnRadNotesOpen, setDocOwnRadNotesOpen] = useState(false);
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);
+  const [isEditorOpen, setEditorOpen] = useState(false);
+  const [notes, setNotes] = useState("");
   
 
   const openNPUserOptions = useCallback(() => {
@@ -74,6 +76,21 @@ const DocOwnPfr = () => {
     setDocOwnNotesOpen(false);
   }, []);
 
+  const openEditor = useCallback(() => {
+    setEditorOpen(true);
+  }, []);
+
+  const closeEditor = useCallback(() => {
+    setEditorOpen(false);
+  }, []);
+
+  const saveNotes = useCallback(() => {
+    // Send 'notes' to the backend
+    console.log("Saving notes:", notes);
+    // Close the editor overlay
+    closeEditor();
+  }, [notes, closeEditor]);
+
   return (
     <>
       <div className="doc-own-pfr">
@@ -110,7 +127,7 @@ const DocOwnPfr = () => {
             alt=""
             src="/annotely-image-1@2x.png"
           />
-          <div className="group-wrapper72" onClick={onFrameContainerClick}>
+          <div className="group-wrapper72" onClick={openEditor}>
             <div className="add-notes-wrapper2">
               <div className="upload-report">Add Notes</div>
             </div>
@@ -160,7 +177,7 @@ const DocOwnPfr = () => {
             <div className="upload-report">Consult Other Doctors</div>
           </div>
         </div>
-        <div className="doc-own-pfr-inner6" onClick={openDocOwnNotes}>
+        <div className="doc-own-pfr-inner6" onClick={openEditor}>
           <div className="view-own-notes-wrapper4">
             <div className="upload-report">View own notes</div>
           </div>
@@ -207,6 +224,20 @@ const DocOwnPfr = () => {
         >
           <DocOwnNotes onClose={closeDocOwnNotes} />
         </PortalPopup>
+      )}
+      {isEditorOpen && (
+        <div className="overlay">
+          <div className="editorContainer">
+            <textarea
+              className="editorTextarea"
+              placeholder="Type your notes here..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+            <button className="saveBtn" onClick={saveNotes}>Save</button>
+            <button className="closeBtn" onClick={closeEditor}>Close</button>
+          </div>
+        </div>
       )}
     </>
   );
