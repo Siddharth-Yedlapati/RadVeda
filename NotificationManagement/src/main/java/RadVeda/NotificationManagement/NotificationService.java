@@ -42,6 +42,57 @@ public class NotificationService implements NotificationServiceInterface{
     }
 
     @Override
+    public ChatNotification findChatNotificationById(Long Id, User currentUser)
+    {
+        Optional<ChatNotification> chatNotif = chatNotificationRepository.findById(Id);
+        if(chatNotif.isEmpty())
+        {
+            throw new NotificationNotFoundException("Couldn't find a notification with the given ID");
+        }
+
+        if(!Objects.equals(currentUser.getId(), chatNotif.get().getRecipientId()) || !Objects.equals(currentUser.getType(), chatNotif.get().getRecipientType()))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        return chatNotif.get();
+    }
+
+    @Override
+    public ConsentRequestNotification findConsentRequestNotificationById(Long Id, User currentUser)
+    {
+        Optional<ConsentRequestNotification> consentRequestNotif = consentRequestNotificationRepository.findById(Id);
+        if(consentRequestNotif.isEmpty())
+        {
+            throw new NotificationNotFoundException("Couldn't find a notification with the given ID");
+        }
+
+        if(!Objects.equals(currentUser.getId(), consentRequestNotif.get().getRecipientId()) || !Objects.equals(currentUser.getType(), consentRequestNotif.get().getRecipientType()))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        return consentRequestNotif.get();
+    }
+
+    @Override
+    public OneWayNotification findOneWayNotificationById(Long Id, User currentUser)
+    {
+        Optional<OneWayNotification> oneWayNotif = oneWayNotificationRepository.findById(Id);
+        if(oneWayNotif.isEmpty())
+        {
+            throw new NotificationNotFoundException("Couldn't find a notification with the given ID");
+        }
+
+        if(!Objects.equals(currentUser.getId(), oneWayNotif.get().getRecipientId()) || !Objects.equals(currentUser.getType(), oneWayNotif.get().getRecipientType()))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        return oneWayNotif.get();
+    }
+
+    @Override
     public String sendChatNotificationToRecipient(String message, String recipientType, Long recipientId, Long chatID)
     {
         ChatNotification chatNotif = new ChatNotification();
@@ -134,6 +185,27 @@ public class NotificationService implements NotificationServiceInterface{
 
         oneWayNotificationRepository.delete(oneWayNotif.get());
         return "Notification deleted successfully!!";
+    }
+
+    @Override
+    public String deleteAllChatNotificationsOfRecipient(String recipientType, Long recipientId)
+    {
+        chatNotificationRepository.deleteByRecipientTypeAndRecipientId(recipientType, recipientId);
+        return "Notifications deleted successfully!!";
+    }
+
+    @Override
+    public String deleteAllConsentRequestNotificationsOfRecipient(String recipientType, Long recipientId)
+    {
+        consentRequestNotificationRepository.deleteByRecipientTypeAndRecipientId(recipientType, recipientId);
+        return "Notifications deleted successfully!!";
+    }
+
+    @Override
+    public String deleteAllOneWayNotificationsOfRecipient(String recipientType, Long recipientId)
+    {
+        oneWayNotificationRepository.deleteByRecipientTypeAndRecipientId(recipientType, recipientId);
+        return "Notifications deleted successfully!!";
     }
 
     @Override
