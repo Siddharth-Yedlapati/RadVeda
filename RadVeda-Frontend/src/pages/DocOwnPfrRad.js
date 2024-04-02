@@ -30,6 +30,8 @@ const DocOwnPfrRad = () => {
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);
+  const [isEditorOpen, setEditorOpen] = useState(false);
+  const [notes, setNotes] = useState("");
   
 
   const openNPUserOptions = useCallback(() => {
@@ -47,6 +49,21 @@ const DocOwnPfrRad = () => {
   const closeDocOwnNotes = useCallback(() => {
     setDocOwnNotesOpen(false);
   }, []);
+
+  const openEditor = useCallback(() => {
+    setEditorOpen(true);
+  }, []);
+
+  const closeEditor = useCallback(() => {
+    setEditorOpen(false);
+  }, []);
+
+  const saveNotes = useCallback(() => {
+    // Send 'notes' to the backend
+    console.log("Saving notes:", notes);
+    // Close the editor overlay
+    closeEditor();
+  }, [notes, closeEditor]);
 
   const onFrameContainer2Click = useCallback(() => {
     navigate("/doc-own-pfrbr-editor");
@@ -99,7 +116,7 @@ const DocOwnPfrRad = () => {
         </div>
         <div
           className="doc-own-pfr-rad-inner2"
-          onClick={onFrameContainer2Click}
+          onClick={openEditor}
         >
           <div className="add-notes-wrapper1">
             <div className="view-own-notes5">Add Notes</div>
@@ -128,6 +145,20 @@ const DocOwnPfrRad = () => {
         >
           <DocOwnNotes onClose={closeDocOwnNotes} />
         </PortalPopup>
+      )}
+      {isEditorOpen && (
+        <div className="overlay">
+          <div className="editorContainer">
+            <textarea
+              className="editorTextarea"
+              placeholder="Type your notes here..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+            <button className="saveBtn" onClick={saveNotes}>Save</button>
+            <button className="closeBtn" onClick={closeEditor}>Close</button>
+          </div>
+        </div>
       )}
     </>
   );
