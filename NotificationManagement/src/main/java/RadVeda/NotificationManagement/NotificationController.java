@@ -15,8 +15,8 @@ import java.util.List;
 public class NotificationController {
     private final NotificationService notificationService;
 
-    @GetMapping("/getChatNotifications")
-    public List<ChatNotification> getChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
+    @GetMapping("/getAllChatNotifications")
+    public List<ChatNotification> getAllChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
 
@@ -27,8 +27,8 @@ public class NotificationController {
         return notificationService.findAllChatNotificationsByRecipient(currentUser.getType(), currentUser.getId());
     }
 
-    @GetMapping("/getConsentRequestNotifications")
-    public List<ConsentRequestNotification> getConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
+    @GetMapping("/getAllConsentRequestNotifications")
+    public List<ConsentRequestNotification> getAllConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
 
@@ -39,8 +39,8 @@ public class NotificationController {
         return notificationService.findAllConsentRequestNotificationsByRecipient(currentUser.getType(), currentUser.getId());
     }
 
-    @GetMapping("/getOneWayNotifications")
-    public List<OneWayNotification> getOneWayNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
+    @GetMapping("/getAllOneWayNotifications")
+    public List<OneWayNotification> getAllOneWayNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
 
@@ -49,6 +49,42 @@ public class NotificationController {
             throw new UnauthorisedUserException("Permission denied!");
         }
         return notificationService.findAllOneWayNotificationsByRecipient(currentUser.getType(), currentUser.getId());
+    }
+
+    @GetMapping("/getChatNotification/{id}")
+    public ChatNotification getChatNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    {
+        User currentUser = notificationService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return notificationService.findChatNotificationById(id, currentUser);
+    }
+
+    @GetMapping("/getConsentRequestNotification/{id}")
+    public ConsentRequestNotification getConsentRequestNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    {
+        User currentUser = notificationService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return notificationService.findConsentRequestNotificationById(id, currentUser);
+    }
+
+    @GetMapping("/getOneWayNotification/{id}")
+    public OneWayNotification getOneWayNotification(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    {
+        User currentUser = notificationService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return notificationService.findOneWayNotificationById(id, currentUser);
     }
 
     @PostMapping("/sendChatNotification")
@@ -132,6 +168,42 @@ public class NotificationController {
             throw new UnauthorisedUserException("Permission denied!");
         }
         return notificationService.deleteOneWayNotificationOfRecipient(id, currentUser);
+    }
+
+    @DeleteMapping("/deleteAllChatNotifications")
+    public String deleteAllChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    {
+        User currentUser = notificationService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return notificationService.deleteAllChatNotificationsOfRecipient(currentUser.getType(), currentUser.getId());
+    }
+
+    @DeleteMapping("/deleteAllConsentRequestNotifications")
+    public String deleteAllConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    {
+        User currentUser = notificationService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return notificationService.deleteAllConsentRequestNotificationsOfRecipient(currentUser.getType(), currentUser.getId());
+    }
+
+    @DeleteMapping("/deleteAllOneWayNotifications")
+    public String deleteAllOneWayNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    {
+        User currentUser = notificationService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return notificationService.deleteAllOneWayNotificationsOfRecipient(currentUser.getType(), currentUser.getId());
     }
 
 }
