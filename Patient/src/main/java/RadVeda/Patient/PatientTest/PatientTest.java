@@ -1,4 +1,4 @@
-package RadVeda.Patient.PatientDoc;
+package RadVeda.Patient.PatientTest;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @DiscriminatorValue("PatientDB")
-public class PatientDoc {
+public class PatientTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String Id;
+    private Long Id;
 
     private Long Patient_Id;
-    private Long prescribedDoc_Id;
+    private Long Test_Id;
 }

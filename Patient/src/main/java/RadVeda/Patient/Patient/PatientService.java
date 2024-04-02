@@ -1,7 +1,6 @@
-package RadVeda.Patient;
+package RadVeda.Patient.Patient;
 
-import RadVeda.Patient.Patient.Patient;
-import RadVeda.Patient.Patient.PatientRepository;
+import RadVeda.Patient.User;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -28,18 +27,21 @@ public class PatientService implements PatientServiceInterface {
         newpatient.setName(request.name());
         newpatient.setDOB(request.DOB());
         newpatient.setEmail(request.email());
-        newpatient.setLanguage(request.name());
+        newpatient.setLanguage(request.language());
 
         Patient savedPatient = patientRepo.save(newpatient);
         return savedPatient;
     }
 
     @Override
-    public Optional<Patient> findById(long Id) {
+    public Optional<Patient> findById(Long Id) {
         return patientRepo.findById(Id);
     }
 
-
+    @Override
+    public void deletePatient(Long Id) {
+        patientRepo.deletePatient(Id);
+    }
 
     @Override
     public User authenticate(String authorizationHeader)

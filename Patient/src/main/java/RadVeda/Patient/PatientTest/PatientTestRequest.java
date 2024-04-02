@@ -1,4 +1,8 @@
 package RadVeda.Patient.PatientTest;
 
-public class PatientTestRequest {
+public record PatientTestRequest (
+        Long patient_Id,
+        Long test_Id
+){
+
 }

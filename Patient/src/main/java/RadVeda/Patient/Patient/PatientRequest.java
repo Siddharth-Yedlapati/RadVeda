@@ -1,4 +1,4 @@
-package RadVeda.Patient;
+package RadVeda.Patient.Patient;
 
 public record PatientRequest(
         String name,
