@@ -35,7 +35,20 @@ const RadOwnDiagComp = () => {
   const [isRadOwnNotesOpen, setRadOwnNotesOpen] = useState(false);
   const [isRadOwnOtherRadNotesOpen, setRadOwnOtherRadNotesOpen] =
     useState(false);
-  
+
+  const arrayImgs = ["https://radveda.s3.ap-south-1.amazonaws.com/Create_a_cartoon_scene_featuring_friendly_animals_like_squirrels%2C_rabbits%2C_and_birds_playing_in_a_colorful_forest_setting.png", "https://radveda.s3.ap-south-1.amazonaws.com/porsche-g49cf45a18_1920.jpg"]
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const scrollUp = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? arrayImgs.length - 1 : prevIndex - 1));
+    var len = arrayImgs.length;
+    console.log("scroll up");
+  }
+  const scrollDown = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === arrayImgs.length - 1 ? 0 : prevIndex + 1));
+    var len = arrayImgs.length;
+    console.log("scroll down");
+  }
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -85,6 +98,7 @@ const RadOwnDiagComp = () => {
     setRadOwnOtherRadNotesOpen(false);
   }, []);
 
+
   return (
     <>
       <div className="rad-own-diag-comp">
@@ -120,7 +134,8 @@ const RadOwnDiagComp = () => {
           <div className="frame-child64" />
           <div className="frame-child62" />
           <b className="original-image2">Original Image</b>
-          <img className="xray1-1-icon2" alt="" src="/xray1-1@2x.png" />
+          <img className="xray1-1-icon2" alt="" src={arrayImgs[currentIndex]} />
+          {/* <img className="xray1-1-icon2" alt="" src="https://radveda.s3.ap-south-1.amazonaws.com/porsche-g49cf45a18_1920.jpg" /> */}
           <img
             className="annotely-image-1-icon2"
             alt=""
@@ -136,8 +151,8 @@ const RadOwnDiagComp = () => {
               <div className="view-report" onClick={viewPersonnelNav}>View Personnel Info</div>
             </div>
           </div>
-          <div className="frame-child66" />
-          <div className="frame-child67" />
+          <div className="frame-child66" onClick={scrollDown}/>
+          <div className="frame-child67" onClick={scrollUp}/>
           <img className="frame-child68" alt="" src="/rectangle-5913.svg" />
           <img className="frame-child69" alt="" src="/polygon-5.svg" />
           <img className="frame-child70" alt="" src="/polygon-6.svg" />

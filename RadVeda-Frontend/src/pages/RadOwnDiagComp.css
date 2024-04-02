@@ -253,6 +253,7 @@
   border-radius: 50%;
   background-color: var(--color-gainsboro-200);
   height: 32px;
+  cursor: pointer;
 }
 .frame-child66,
 .frame-child67,
@@ -260,16 +261,19 @@
   position: absolute;
   left: 8px;
   width: 29px;
+  cursor: pointer;
 }
 .frame-child67 {
   top: 298px;
   border-radius: 50%;
   background-color: var(--color-gainsboro-200);
   height: 32px;
+  cursor: pointer;
 }
 .frame-child68 {
   top: 313px;
   height: 48px;
+  cursor: pointer;
 }
 .frame-child69,
 .frame-child70 {
