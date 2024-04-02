@@ -1,7 +1,0 @@
-JvmtiExport can_access_local_variables 0
-JvmtiExport can_hotswap_or_post_breakpoint 1
-JvmtiExport can_post_on_exceptions 0
-# 285 ciObject found
-ciInstanceKlass java/util/concurrent/atomic/AtomicLong 1 1 174 1 7 1 7 1 100 1 1 5 0 1 1 1 1 1 1 1 1 1 1 1 12 10 12 9 1 1 1 12 9 12 9 1 7 1 1 12 10 1 1 12 10 1 1 1 1 12 10 1 1 1 1 12 10 1 1 1 1 1 12 10 1 1 1 12 10 1 5 0 1 1 1 1 1 1 12 10 1 7 1 12 11 1 12 10 1 1 1 1 100 1 12 11 1 1 1 1 100 1 12 10 1 1 1 1 1 1 1 1 1 1 12 10 1 1 12 10 1 1 12 10 1 1 12 10 1 1 12 10 1 1 1 1 12 10 1 1 12 10 1 1 12 10 1 12 10 1 1 12 10 1 1 12 10 1 12 10 12 9 1 1 12 10 8 1 1 12 10 1 1 1 1 1
-staticfield java/util/concurrent/atomic/AtomicLong VM_SUPPORTS_LONG_CAS Z 1
-staticfield java/util/concurrent/atomic/AtomicLong U Ljdk/internal/misc/Unsafe; 
