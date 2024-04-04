@@ -18,7 +18,6 @@ public class DoctorTests {
     private Doctor doctor;
 
     private Long testid;
-    private Long patientid;
     private String doctorNotes;
     private String Report;
 

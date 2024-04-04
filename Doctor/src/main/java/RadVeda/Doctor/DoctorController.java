@@ -43,9 +43,14 @@ public class DoctorController {
 
     @CrossOrigin(origins = "http://localhost:9192")
     @PostMapping("/prescribe-test")
-    public String prescribeTest(@RequestBody DoctorTestRequest request)
+    public String prescribeTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody DoctorTestRequest request)
         throws UnauthorisedUserException {
     
+        User user = doctorService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
         doctorService.prescribeTest(request);
 
         return "Success!! Test has been prescribed";
@@ -82,6 +87,18 @@ public class DoctorController {
         return "Doctor successfully deleted";
     }
     
+    @CrossOrigin(origins = "http://localhost:9192")
+    @DeleteMapping("/deleteTest/{testID}")
+    public String deleteTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID){
+
+        User user = doctorService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
+        doctorService.deleteTest(testID);
+        return "Test successfully deleted";
+    }
 
 }
 

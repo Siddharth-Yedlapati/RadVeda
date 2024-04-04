@@ -121,7 +121,6 @@ public class DoctorService implements DoctorServiceInterface {
         Doctor newDoc = doctor.orElseThrow(() -> new UserNotFoundException("Doctor not found"));
         var test = new DoctorTests();
         test.setDoctor(newDoc);
-        test.setPatientid(request.patientID());
         test.setTestid(request.testID());
         return doctortestsrepository.save(test);
          
@@ -163,4 +162,10 @@ public class DoctorService implements DoctorServiceInterface {
         test.setDoctorNotes(notes);
         return doctortestsrepository.save(test);
     } 
+
+    @Override
+    public void deleteTest(Long testID){
+        doctortestsrepository.deleteTest(testID);
+        return;
+    }
 }
