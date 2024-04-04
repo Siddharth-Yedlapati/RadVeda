@@ -3,6 +3,7 @@ package RadVeda.TestManagement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import RadVeda.TestManagement.exception.UserNotFoundException;
 import RadVeda.TestManagement.tests.DoctorTestRequest;
+import RadVeda.TestManagement.tests.PatientTestRequest;
 import RadVeda.TestManagement.tests.TestRequest;
 import java.util.List;
 import java.util.ArrayList;
@@ -34,11 +36,12 @@ public class TestService implements TestServiceInterface {
     }
 
     @Override
-    public Test prescribeTest(TestRequest request) {
+    public Test prescribeTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, TestRequest request) {
         Random random = new Random();
         int radID = random.nextInt(3) + 1;
         int labID = random.nextInt(3) + 1;
         var flag = 1;
+        var p_flag = 1;
 
         String dateString = LocalDate.now( ZoneId.of( "Asia/Kolkata" ) )
          .toString();
@@ -66,12 +69,16 @@ public class TestService implements TestServiceInterface {
 
 
         Test savedTest = testRepository.save(newTest);
+
+        String jwtToken = authorizationHeader.replace("Bearer ", "");
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<String> responseEntity;
+        headers.set("Authorization", "Bearer " + jwtToken);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         String requestBody = "";
+        String requestBody_patient = "";
 
         DoctorTestRequest req = new DoctorTestRequest(savedTest.getId(), savedTest.getPatientID(), savedTest.getDoctorID());
 
@@ -84,15 +91,54 @@ public class TestService implements TestServiceInterface {
         try {
             responseEntity = restTemplate.exchange("http://localhost:9194/doctor/prescribe-test", HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
         } catch (ResourceAccessException e) {
-            testRepository.deleteTest(savedTest.getId());
+            // testRepository.deleteTest(savedTest.getId());
             flag = 2;
-            throw new UserNotFoundException("Failed to prescribe test");
+            // throw new UserNotFoundException("Failed to prescribe test");
         }
         
-        if(!responseEntity.getStatusCode().is2xxSuccessful() && flag == 1){
-            testRepository.deleteTest(savedTest.getId());
-            throw new UserNotFoundException("Failed to prescribe test");
+        if(!responseEntity.getStatusCode().is2xxSuccessful()){
+            // testRepository.deleteTest(savedTest.getId());
+            flag = 2;
+            // throw new UserNotFoundException("Failed to prescribe test");
         }
+        
+        HttpHeaders headers1 = new HttpHeaders();
+        headers1.setContentType(MediaType.APPLICATION_JSON);
+        headers1.set("Authorization", "Bearer " + jwtToken);
+        ResponseEntity<String> responseEntity1 = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        PatientTestRequest patient_req = new PatientTestRequest(savedTest.getPatientID(), savedTest.getId());
+        try {
+            ObjectMapper objectmapper1 = new ObjectMapper();
+            requestBody_patient = objectmapper1.writeValueAsString(patient_req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            responseEntity1 = restTemplate.exchange("http://localhost:9198/patient-test/addTest", HttpMethod.POST, new HttpEntity<>(requestBody_patient, headers1), String.class);
+        } catch (ResourceAccessException e) {
+            // testRepository.deleteTest(savedTest.getId());
+            p_flag = 2;
+            // throw new UserNotFoundException("Failed to prescribe test");
+        }
+        if(!responseEntity1.getStatusCode().is2xxSuccessful()){
+            // testRepository.deleteTest(savedTest.getId());
+            p_flag = 2;
+            // throw new UserNotFoundException("Failed to prescribe test");
+        }
+
+        
+        if(flag == 2 || p_flag == 2){
+            testRepository.deleteTest(savedTest.getId());
+            HttpHeaders headers_del = new HttpHeaders();
+            headers_del.set("Authorization", "Bearer " + jwtToken);
+            String doc_url = "http://localhost:9194/doctor/deleteTest/" + savedTest.getId().toString();
+            String pat_url = "http://localhost:9198/patient-test/" + savedTest.getId().toString() + "/deletePatient";
+            ResponseEntity<String> responseEntity_doc = restTemplate.exchange(doc_url, HttpMethod.DELETE, new HttpEntity<>(headers_del), String.class);
+            ResponseEntity<String> responseEntity_patient = restTemplate.exchange(pat_url, HttpMethod.DELETE, new HttpEntity<>(headers_del), String.class);
+        }
+
         return savedTest;
     }
 

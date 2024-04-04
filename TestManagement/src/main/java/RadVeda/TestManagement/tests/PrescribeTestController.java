@@ -26,7 +26,7 @@ public class PrescribeTestController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        testService.prescribeTest(testRequest);
+        testService.prescribeTest(authorizationHeader, testRequest);
         return "Success!! Test has been prescribed";
     }
 
