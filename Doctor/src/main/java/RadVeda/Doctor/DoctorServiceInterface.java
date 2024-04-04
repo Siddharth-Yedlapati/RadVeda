@@ -13,4 +13,5 @@ public interface DoctorServiceInterface {
     Doctor addDoctor(DoctorSignUpRequest request);
     void deleteDoctor(Long doctorID);
     DoctorTests addNotes(Long id, String notes);
+    void deleteTest(Long testID);
 }

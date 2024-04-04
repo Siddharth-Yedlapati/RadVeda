@@ -1,10 +1,10 @@
 package RadVeda.Patient.Patient;
 
 public record PatientRequest(
-        String name,
-        String language,
+        String firstName,
+        String lastName,
         String email,
-        String DOB
+        String gender
 ) {
 
 }

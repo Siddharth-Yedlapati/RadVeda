@@ -24,13 +24,12 @@ public class PatientService implements PatientServiceInterface {
     @Override
     public Patient addPatient(PatientRequest request) {
         var newpatient = new Patient();
-        newpatient.setName(request.name());
-        newpatient.setDOB(request.DOB());
+        newpatient.setFirstName(request.firstName());
+        newpatient.setLastName(request.lastName());
         newpatient.setEmail(request.email());
-        newpatient.setLanguage(request.language());
+        newpatient.setGender(request.gender());
 
-        Patient savedPatient = patientRepo.save(newpatient);
-        return savedPatient;
+        return patientRepo.save(newpatient);
     }
 
     @Override

@@ -19,31 +19,33 @@ public class PatientTestServiceController {
     private final PatientTestService patientTestService;
 
     /* Call from Test Management Service after adding a new test*/
-//    @CrossOrigin(origins = "http://localhost:9192")
-    @PostMapping
-    public PatientTest addTestForPatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+   @CrossOrigin(origins = "http://localhost:9192")
+    @PostMapping("/addTest")
+    public String addTestForPatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                                      @RequestBody PatientTestRequest patientTestRequest,
                                      final HttpServletRequest request)  throws UnauthorizedUserException {
 
-//        User user = patientTestService.authenticate(authorizationHeader);
-//
-//        if(user == null) {
-//            throw new UnauthorizedUserException("Invalid User!");
-//        }
+        User user = patientTestService.authenticate(authorizationHeader);
+
+        if(user == null) {
+           throw new UnauthorizedUserException("Invalid User!");
+        }    
 
 
-        return patientTestService.addTestForPatient(patientTestRequest);
+        patientTestService.addTestForPatient(patientTestRequest);
+        return "Test successfully added";
     }
 
-    @PostMapping("/{patientTestID}/deletePatient")
+    @CrossOrigin(origins = "http://localhost:9192")
+    @DeleteMapping("/{patientTestID}/deletePatient")
     public String deletePatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                                 @PathVariable Long patientTestID) throws UnauthorizedUserException {
 
-//         User user = patientTestService.authenticate(authorizationHeader);
-//
-//         if(user == null) {
-//             throw new UnauthorizedUserException("Invalid User!");
-//         }
+        User user = patientTestService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
 
         patientTestService.deleteRecord(patientTestID);
         return "Delete Successful!";

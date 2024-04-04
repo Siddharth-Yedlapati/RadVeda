@@ -12,6 +12,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import RadVeda.Patient.Patient.PatientRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,9 @@ import java.util.Optional;
 public class PatientTestService implements PatientTestServiceInterface {
 
     private final PatientTestRepository patientTestRepository;
+    private final PatientRepository patientRepository;
     private final PatientService patientService;
+    
 
 
     @Override
@@ -34,12 +37,19 @@ public class PatientTestService implements PatientTestServiceInterface {
         }
 
         //similar check for test required?
-
+        Long patientid = request.patient_Id();
+        Optional<Patient> patient_rec = getPatient(patientid);
+        Patient newPat = patient_rec.orElseThrow(() -> new UserNotFoundException("Patient not found"));
         var newRecord = new PatientTest();
-        newRecord.setPatient_Id(request.patient_Id());
+        newRecord.setPatient(newPat);
         newRecord.setTest_Id(request.test_Id());
 
         return patientTestRepository.save(newRecord);
+    }
+
+    @Override
+    public Optional<Patient> getPatient(Long patientid){
+        return patientRepository.findById(patientid);
     }
 
     @Override

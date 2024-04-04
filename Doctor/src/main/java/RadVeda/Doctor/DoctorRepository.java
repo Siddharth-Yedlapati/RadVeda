@@ -15,7 +15,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM doctor WHERE doctorid = :doctorID", nativeQuery = true)
+    @Query(value = "DELETE FROM doctor WHERE id = :doctorID", nativeQuery = true)
     void delete(Long doctorID);
 
 }
