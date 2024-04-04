@@ -1,15 +1,24 @@
 package RadVeda.UserManagement.Users.Patient.user;
 
+import RadVeda.UserManagement.Users.Doctor.signup.DoctorServiceRequest;
 import RadVeda.UserManagement.Users.LabStaff.user.LabStaff;
+import RadVeda.UserManagement.Users.Patient.signup.PatientServiceRequest;
 import RadVeda.UserManagement.Users.Patient.signup.PatientSignUpRequest;
 import RadVeda.UserManagement.Users.Patient.signup.token.PatientGuardianVerificationTokenRepository;
 import RadVeda.UserManagement.Users.Patient.signup.token.PatientGuardianVerificationToken;
 import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationToken;
 import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
+import RadVeda.UserManagement.Users.Patient.signup.PatientServiceRequest;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Calendar;
 import java.util.List;
@@ -46,6 +55,10 @@ public class PatientService implements PatientServiceInterface {
                         patientRepository.delete(patient);            
                     }
                     else if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                        ResponseEntity<String> responseEntity;
+                        HttpHeaders headers = new HttpHeaders();
+                        RestTemplate restTemplate = new RestTemplate();
+                        responseEntity = restTemplate.exchange("http://localhost:9198/patient/" + patient.getId().toString() + "/deletePatient", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
                         patientTokenRepository.delete(token);
                         patientdocumentsrepository.delete(patient.getId()); // deleting documents uploaded
                         patientRepository.delete(patient);
@@ -59,6 +72,10 @@ public class PatientService implements PatientServiceInterface {
                     Calendar calendar = Calendar.getInstance();
                     if ((patientToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0 || (patientGuardianToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0)
                     {
+                        ResponseEntity<String> responseEntity;
+                        HttpHeaders headers = new HttpHeaders();
+                        RestTemplate restTemplate = new RestTemplate();
+                        responseEntity = restTemplate.exchange("http://localhost:9198/patient/" + patient.getId().toString() + "/deletePatient", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
                         patientTokenRepository.delete(patientToken);
                         patientGuardianTokenRepository.delete(patientGuardianToken);
                         patientdocumentsrepository.delete(patient.getId());
@@ -105,6 +122,24 @@ public class PatientService implements PatientServiceInterface {
         //     newDocument.setDocuments(request.Documents()[i]);
         //     newDocument.setPatient(newPatient);
         // }
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = "";
+        PatientServiceRequest req = new PatientServiceRequest(request.firstName(), request.lastName(), request.email(), request.gender());
+        
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        
+        ResponseEntity<String> responseEntity;
+
+        responseEntity = restTemplate.exchange("http://localhost:9198/patient/addPatient", HttpMethod.POST ,new HttpEntity<>(requestBody, headers), String.class);
         for (String document : request.Documents()){
             var newDocument = new PatientDocuments();
             newDocument.setDocuments(document);
@@ -178,6 +213,10 @@ public class PatientService implements PatientServiceInterface {
             if(patientGuardian != null)
             {
                 PatientGuardianVerificationToken patientGuardianToken = patientGuardianTokenRepository.findByPatientguardian_id(patientGuardian.getId());
+                ResponseEntity<String> responseEntity;
+                HttpHeaders headers = new HttpHeaders();
+                RestTemplate restTemplate = new RestTemplate();
+                responseEntity = restTemplate.exchange("http://localhost:9198/patient/" + patient.getId().toString() + "/deletePatient", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
                 patientGuardianTokenRepository.delete(patientGuardianToken);
                 patientguardiandocumentsrepository.delete(patientGuardian.getId());
                 patientGuardianRepository.delete(patientGuardian);
@@ -209,6 +248,10 @@ public class PatientService implements PatientServiceInterface {
         Patient patient = patientRepository.findByPatientguardian_id(patientGuardian.getId()).get();
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+            ResponseEntity<String> responseEntity;
+            HttpHeaders headers = new HttpHeaders();
+            RestTemplate restTemplate = new RestTemplate();
+            responseEntity = restTemplate.exchange("http://localhost:9198/patient/" + patient.getId().toString() + "/deletePatient", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
             patientGuardianTokenRepository.delete(token);
             PatientVerificationToken patientToken = patientTokenRepository.findByPatient_id(patient.getId());
             patientTokenRepository.delete(patientToken);

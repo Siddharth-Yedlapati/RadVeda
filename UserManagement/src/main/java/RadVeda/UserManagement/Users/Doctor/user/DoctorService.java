@@ -40,13 +40,14 @@ public class DoctorService implements DoctorServiceInterface {
                 DoctorVerificationToken token = doctorTokenRepository.findByDoctor_id(doctor.getId());
                 Calendar calendar = Calendar.getInstance();
                 if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-                    doctorTokenRepository.delete(token);
-                    doctordocumentsrepository.delete(doctor.getId());
-                    doctorRepository.delete(doctor);
                     ResponseEntity<String> responseEntity;
                     HttpHeaders headers = new HttpHeaders();
                     RestTemplate restTemplate = new RestTemplate();
-                    responseEntity = restTemplate.exchange("http://localhost:9194/doctor/deleteDoctor", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
+                    responseEntity = restTemplate.exchange("http://localhost:9194/doctor/deleteDoctor/" + doctor.getId().toString(), HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
+                    doctorTokenRepository.delete(token);
+                    doctordocumentsrepository.delete(doctor.getId());
+                    doctorRepository.delete(doctor);
+                    
                 }
             }
         }
@@ -130,13 +131,14 @@ public class DoctorService implements DoctorServiceInterface {
         Doctor doctor = token.getDoctor();
         Calendar calendar = Calendar.getInstance();
         if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-            doctorTokenRepository.delete(token);
-            doctordocumentsrepository.delete(doctor.getId());
-            doctorRepository.delete(doctor);
             ResponseEntity<String> responseEntity;
             HttpHeaders headers = new HttpHeaders();
             RestTemplate restTemplate = new RestTemplate();
-            responseEntity = restTemplate.exchange("http://localhost:9194/doctor/deleteDoctor", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
+            responseEntity = restTemplate.exchange("http://localhost:9194/doctor/deleteDoctor/" + doctor.getId().toString(), HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
+            doctorTokenRepository.delete(token);
+            doctordocumentsrepository.delete(doctor.getId());
+            doctorRepository.delete(doctor);
+            
             return "Token already expired";
         }
         doctor.setEnabled(true);
