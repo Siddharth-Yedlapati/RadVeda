@@ -16,10 +16,10 @@ public class Patient extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    private String name;
-    private String DOB;
-    private String Email;
-    private String language;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String gender;
 
     public Patient() {
 

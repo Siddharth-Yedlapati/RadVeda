@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RequestMapping("/patient")
 public class PatientServiceController {
 
     private final PatientService patientService;
-    @PostMapping
-    public Patient addPatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody PatientRequest patientRequest,
-                             final HttpServletRequest request)  throws UnauthorizedUserException{
+
+    @CrossOrigin(origins = "http://localhost:9191")
+    @PostMapping("/addPatient")
+    public String addPatient(@RequestBody PatientRequest patientRequest, final HttpServletRequest request)  throws UnauthorizedUserException{
 
 //        User user = patientService.authenticate(authorizationHeader);
 //
@@ -28,11 +29,12 @@ public class PatientServiceController {
 //        }
 
 
-        Patient patient = patientService.addPatient(patientRequest);
-        return patient;
+        patientService.addPatient(patientRequest);
+        return "Success! Patient has been added";
     }
 
-     @GetMapping("/{patientID}/patientDetails")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/{patientID}/patientDetails")
     public Patient getPatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                               @PathVariable Long patientID) throws UnauthorizedUserException {
 
@@ -49,9 +51,9 @@ public class PatientServiceController {
      }
 
 
-    @PostMapping("/{patientID}/deletePatient")
-    public String deletePatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                              @PathVariable Long patientID) throws UnauthorizedUserException {
+    @CrossOrigin(origins = "http://localhost:9191")
+    @DeleteMapping("/{patientID}/deletePatient")
+    public String deletePatient(@PathVariable Long patientID) throws UnauthorizedUserException {
 
 //         User user = patientService.authenticate(authorizationHeader);
 //
@@ -60,7 +62,7 @@ public class PatientServiceController {
 //         }
 
         patientService.deletePatient(patientID);
-        return "Delete Successful!";
+        return "Patient Successfully Deleted";
     }
 
 
