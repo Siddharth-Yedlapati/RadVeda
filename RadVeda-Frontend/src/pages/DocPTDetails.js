@@ -67,16 +67,16 @@ const DocPTDetails = () => {
             "http://localhost:9192/prescribe-test",
             {
               "TestType": testType,
-              "PatientStatus" : 'abcd',
+              "PatientStatus" : 'Pending For Review By Radiologist',
               "DoctorStatus" : 'Pending For Review',
-              "RadiologistStatus": 'b',
-              "LabStaffStatus": 'c',
+              "RadiologistStatus": '',
+              "LabStaffStatus": '',
               "DoctorsRemarksforPatient": patientRemarks,
               "DoctorsRemarksforRadiologist": radiologistRemarks,
               "doctorID" : doctorid,
-              "PatientID" : '2',
-              "DoctorNotes" : 'a',
-              "OriginalImage": 'g'    
+              "PatientID" : localStorage.getItem("patientID"),
+              "DoctorNotes" : '',
+              "OriginalImage": ''    
           },
             true 
             ).then(

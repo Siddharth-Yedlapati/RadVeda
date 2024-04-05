@@ -225,8 +225,8 @@
 .frame-child125 {
   position: absolute;
   top: 47px;
-  left: 412px;
-  width: 91px;
+  left: 12px;
+  width: 300px;
   height: 206px;
 }
 .patient-1,
@@ -459,3 +459,25 @@
   color: var(--white-color);
   font-family: var(--font-poppins);
 }
+
+.patients-table {
+  border-collapse: collapse;
+  width: 180%;
+}
+
+.patients-table th,
+.patients-table td {
+  padding: 12px; /* Increase the padding */
+  text-align: left;
+}
+
+.patients-table th {
+  background-color: #7e8f7c;
+  font-weight: bold;
+  cursor: default;
+}
+
+.patients-table tbody tr:hover {
+  background-color: #9fc596;
+}
+

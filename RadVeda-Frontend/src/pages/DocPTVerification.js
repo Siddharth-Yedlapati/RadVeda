@@ -28,6 +28,8 @@ const DocPTVerification = () => {
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
+  const [patientID, setpatientID] = useState("");
+
   
 
   const openNPUserOptions = useCallback(() => {
@@ -43,8 +45,9 @@ const DocPTVerification = () => {
   }, []);
 
   const onFrameContainerClick = useCallback(() => {
+    localStorage.setItem("patientID", patientID);
     navigate("/doc-pt-details");
-  }, [navigate]);
+  }, [navigate, patientID]);
 
   const onFrameContainer2Click = useCallback(() => {
     navigate("/doc-dashboard");
@@ -105,7 +108,13 @@ const DocPTVerification = () => {
           <div className="input69">
             <div className="content74">
               <div className="min-height69" />
-              <div className="label69">PT3f94n90f</div>
+              <input
+              type="text"
+              className="label69"
+              value={patientID}
+              onChange={(e) => setpatientID(e.target.value)}
+              placeholder="Enter PatientID"
+              />
             </div>
           </div>
           <div className="helpertext69">

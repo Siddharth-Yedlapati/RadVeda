@@ -38,6 +38,11 @@ public class PatientService implements PatientServiceInterface {
     }
 
     @Override
+    public List<Patient> getPatients(List<Long> patientIDs){
+        return patientRepo.getPatients(patientIDs);
+    }
+
+    @Override
     public void deletePatient(Long Id) {
         patientRepo.deletePatient(Id);
     }

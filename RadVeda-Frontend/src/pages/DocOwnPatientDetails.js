@@ -76,7 +76,7 @@ const DocOwnPatientDetails = () => {
       doctorid = response.data.id
       request(  
       "GET",
-      "http://localhost:9192/tests/2/DOCTOR/" + doctorid + "/getTests",
+      "http://localhost:9192/tests/" + localStorage.getItem("currentPatientID") + "/DOCTOR/" + doctorid + "/getTests",
       {},
       true
       ).then(response => {
@@ -93,9 +93,15 @@ const DocOwnPatientDetails = () => {
       ).then(response => {
         setConsultTests(response.data)
       }).catch(error => {
-        alert(error.response.data.error);
+          if(!(error.response.data.error === "No consulted tests found for the given Patient" || error.response.data.error === "No tests found for the given Patient")){
+            alert(error.response.data.error);
+          }
+        // alert(error.response.data.error);
       })
         }).catch(error => {
+          // if(!(error.response.data.error === "No consulted tests found for the given Patient" || error.response.data.error === "No tests found for the given Patient")){
+          //   alert(error.response.data.error);
+          // }
           alert(error.response.data.error);
         })
 
