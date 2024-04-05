@@ -83,7 +83,10 @@ const DocDashboard = () => {
 
       })
       .catch(error => {
-        alert(error.response.data.error);
+        var errormsg = error.response.data.error;
+        if(!(errormsg === "No tests found for the given ID")){
+          alert(error.response.data.error)
+        }
       });
   }, []);
 

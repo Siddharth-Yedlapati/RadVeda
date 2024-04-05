@@ -87,13 +87,14 @@ const DocOwnPatientDetails = () => {
 
       request(  
       "GET",
-      "http://localhost:9192/tests/13123/DOCTOR/" + doctorid + "/getConsultedTests",
+      "http://localhost:9192/tests/" +localStorage.getItem("currentPatientID") + "/DOCTOR/" + doctorid + "/getConsultedTests",
       {},
       true
       ).then(response => {
         setConsultTests(response.data)
       }).catch(error => {
-          if(!(error.response.data.error === "No consulted tests found for the given Patient" || error.response.data.error === "No tests found for the given Patient")){
+        var errorMsg = error.response.data.error;
+          if(!(errorMsg === "No consulted tests found for the given Patient" || errorMsg === "No tests found for the given Patient")){
             alert(error.response.data.error);
           }
         // alert(error.response.data.error);
@@ -148,7 +149,7 @@ const DocOwnPatientDetails = () => {
         </thead>
         <tbody>
           {consultTests.map((test) => (
-            <tr key={test.id}>
+            <tr key={test.id} onClick = {() => handleRowClickConsult(test.id)}>
               <td>{test.testType}</td>
               <td>{test.datePrescribed}</td>
               <td>{test.doctorStatus}</td>
@@ -163,6 +164,22 @@ const DocOwnPatientDetails = () => {
 
   const handleRowClick = (testID) => {
     const test = tests.find(test => test.id === testID);
+    const status = test.doctorStatus;
+    if(status == "Pending For Review By Radiologist"){
+      navigate("/doc-own-pfr-rad");
+    }
+    else if(status == "Pending For Review"){
+      navigate("/doc-own-pfr");
+    }
+    else if(status == "Diagnosis Complete"){
+      navigate("/doc-own-diag-complete");
+    }
+    else {
+      console.error("Doctor Status not valid:", status)  // ensure that the doctorstatus is one of the above 3
+    }      
+  }
+  const handleRowClickConsult = (testID) => {
+    const test = consultTests.find(test => test.id === testID);
     const status = test.doctorStatus;
     if(status == "Pending For Review By Radiologist"){
       navigate("/doc-own-pfr-rad");
