@@ -115,7 +115,7 @@ const AdminSignup1 = () => {
     const doc_request = JSON.parse(localStorage.getItem("Documents"));  // TODO: require compulsory submission of documents before signing up
     request(
       "POST",
-      "/adminSignUp",
+      "/adminSignUp", 
       {
         "firstName" : localStorage.getItem('firstname'),
         "middleName" : localStorage.getItem('middlename'),
