@@ -36,19 +36,47 @@ const RadOwnDiagComp = () => {
   const [isRadOwnOtherRadNotesOpen, setRadOwnOtherRadNotesOpen] =
     useState(false);
 
-  const arrayImgs = ["https://radveda.s3.ap-south-1.amazonaws.com/Create_a_cartoon_scene_featuring_friendly_animals_like_squirrels%2C_rabbits%2C_and_birds_playing_in_a_colorful_forest_setting.png", "https://radveda.s3.ap-south-1.amazonaws.com/porsche-g49cf45a18_1920.jpg"]
+  // const arrayImgs = ["https://radveda.s3.ap-south-1.amazonaws.com/Create_a_cartoon_scene_featuring_friendly_animals_like_squirrels%2C_rabbits%2C_and_birds_playing_in_a_colorful_forest_setting.png", "https://radveda.s3.ap-south-1.amazonaws.com/porsche-g49cf45a18_1920.jpg"]
+  // const arrayImgs = []
+  const [arrayImgs, setArrayImgs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const scrollUp = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? arrayImgs.length - 1 : prevIndex - 1));
-    var len = arrayImgs.length;
     console.log("scroll up");
   }
+  
   const scrollDown = () => {
     setCurrentIndex((prevIndex) => (prevIndex === arrayImgs.length - 1 ? 0 : prevIndex + 1));
-    var len = arrayImgs.length;
     console.log("scroll down");
   }
+
+  useEffect(() => {
+    request(
+      "GET",
+
+      "http://localhost:9200/tests/1/getImageOriginal",  //@GetMapping("/{testID}/getImageOriginal")
+      {},
+      true
+      ).then(
+        (response) => {
+      
+          setArrayImgs([]);
+          for (let i = 0; i < response.data.length; i++) {
+            
+            arrayImgs.push(response.data[i].imageURL);
+          }
+
+          setArrayImgs(arrayImgs);
+          // setCurrentIndex(0);
+        }
+      ).catch(
+        (error) => {
+          alert(error.response.data.error);
+        }
+      )
+  }, [arrayImgs])
+  
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
