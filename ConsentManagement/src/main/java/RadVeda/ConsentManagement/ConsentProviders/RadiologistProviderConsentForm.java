@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.List;
 
-//seekerType<delimiter>SeekerId<delimiter>AnnotationsAllowed<delimiter>NotesAllowed
+//consentSeekerType<delimiter>consentSeekerId<delimiter>annotationsAllowed<delimiter>notesAllowed
 public record RadiologistProviderConsentForm(
         Long consentRequestId,
         @JsonDeserialize(using = StringListDeserializer.class)

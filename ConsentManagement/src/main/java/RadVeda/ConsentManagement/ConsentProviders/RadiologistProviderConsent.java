@@ -1,0 +1,19 @@
+package RadVeda.ConsentManagement.ConsentProviders;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class RadiologistProviderConsent {
+    private String consentSeekerType;
+    private Long consentSeekerId;
+    private Long consentProviderId;
+    private Long testId;
+    private boolean annotationsAllowed;
+    private boolean notesAllowed;
+}

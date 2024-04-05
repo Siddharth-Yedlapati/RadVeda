@@ -310,12 +310,12 @@ public class NotificationService implements NotificationServiceInterface{
         headers.set("Authorization", "Bearer " + jwtToken);
 
         HashMap<String, String> urlMap = new HashMap<>();
-        urlMap.put("ADMIN", "http://localhost:9191/admins/validateAdminId/{"+recipientId+"}");
-        urlMap.put("DOCTOR", "http://localhost:9191/doctors/validateDoctorId/{"+recipientId+"}");
-        urlMap.put("LABSTAFF", "http://localhost:9191/labstaffs/validateLabStaffId/{"+recipientId+"}");
-        urlMap.put("PATIENT", "http://localhost:9191/patients/validatePatientId/{"+recipientId+"}");
-        urlMap.put("RADIOLOGIST", "http://localhost:9191/radiologists/validateRadiologistId/{"+recipientId+"}");
-        urlMap.put("SUPERADMIN", "http://localhost:9191/superadmins/validateSuperAdminId/{"+recipientId+"}");
+        urlMap.put("ADMIN", "http://localhost:9191/admins/validateAdminId/"+recipientId);
+        urlMap.put("DOCTOR", "http://localhost:9191/doctors/validateDoctorId/"+recipientId);
+        urlMap.put("LABSTAFF", "http://localhost:9191/labstaffs/validateLabStaffId/"+recipientId);
+        urlMap.put("PATIENT", "http://localhost:9191/patients/validatePatientId/"+recipientId);
+        urlMap.put("RADIOLOGIST", "http://localhost:9191/radiologists/validateRadiologistId/"+recipientId);
+        urlMap.put("SUPERADMIN", "http://localhost:9191/superadmins/validateSuperAdminId/"+recipientId);
 
         String url = urlMap.get(recipientType);
 
@@ -323,7 +323,7 @@ public class NotificationService implements NotificationServiceInterface{
         ResponseEntity<String> responseEntity;
         try{
             responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
-        } catch (HttpClientErrorException.Forbidden ex){
+        } catch (HttpClientErrorException.Forbidden ex){ //VERIFY_EXCEPTION
             return false;
         }
         // Checking if the response status is OK (200)

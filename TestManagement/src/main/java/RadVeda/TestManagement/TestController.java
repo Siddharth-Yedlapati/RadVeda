@@ -20,11 +20,11 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/tests")
 public class TestController {
     private final TestService testService;
 
+    @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:9194" })
     @GetMapping("/{testID}/getTest")
     public Test getTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID)
             throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
@@ -43,6 +43,7 @@ public class TestController {
         return test.get();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getTests")
     public List<Test> getTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws UserNotFoundException, UnauthorisedUserException {
         User currentuser = testService.authenticate(authorizationHeader);
@@ -57,6 +58,7 @@ public class TestController {
         return testlist;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{userType}/{userID}/getTests")
     public List<Test> getTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String userType, @PathVariable Long userID)
                 throws UserNotFoundException, UnauthorisedUserException {
@@ -73,6 +75,7 @@ public class TestController {
     }
 
     // TODO: make this api accessible only to superadmins, and create a new api for users which doesnt take userID as a parameter
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{patientID}/{userType}/{userID}/getTests")
     public List<Test> getTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
             throws UserNotFoundException, UnauthorisedUserException {
@@ -88,6 +91,7 @@ public class TestController {
         return testList;
     }
     
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{patientID}/{userType}/{userID}/getConsultedTests")
     public List<Test> getConsultedTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long patientID, @PathVariable String userType, @PathVariable Long userID)
             throws UserNotFoundException, UnauthorisedUserException {
