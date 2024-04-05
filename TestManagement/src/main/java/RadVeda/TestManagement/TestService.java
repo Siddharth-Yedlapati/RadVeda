@@ -94,6 +94,8 @@ public class TestService implements TestServiceInterface {
             // testRepository.deleteTest(savedTest.getId());
             flag = 2;
             // throw new UserNotFoundException("Failed to prescribe test");
+        } catch (RuntimeException e){
+            flag = 2;
         }
         
         if(!responseEntity.getStatusCode().is2xxSuccessful()){
@@ -121,6 +123,8 @@ public class TestService implements TestServiceInterface {
             // testRepository.deleteTest(savedTest.getId());
             p_flag = 2;
             // throw new UserNotFoundException("Failed to prescribe test");
+        } catch (RuntimeException e){
+            p_flag =2;
         }
         if(!responseEntity1.getStatusCode().is2xxSuccessful()){
             // testRepository.deleteTest(savedTest.getId());
@@ -137,6 +141,7 @@ public class TestService implements TestServiceInterface {
             String pat_url = "http://localhost:9198/patient-test/" + savedTest.getId().toString() + "/deletePatient";
             ResponseEntity<String> responseEntity_doc = restTemplate.exchange(doc_url, HttpMethod.DELETE, new HttpEntity<>(headers_del), String.class);
             ResponseEntity<String> responseEntity_patient = restTemplate.exchange(pat_url, HttpMethod.DELETE, new HttpEntity<>(headers_del), String.class);
+            throw new UserNotFoundException("Test creation Failed");
         }
 
         return savedTest;
