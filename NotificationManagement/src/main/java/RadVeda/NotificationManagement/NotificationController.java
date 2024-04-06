@@ -171,7 +171,7 @@ public class NotificationController {
     }
 
     @DeleteMapping("/deleteAllChatNotifications")
-    public String deleteAllChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    public String deleteAllChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
 
@@ -183,7 +183,7 @@ public class NotificationController {
     }
 
     @DeleteMapping("/deleteAllConsentRequestNotifications")
-    public String deleteAllConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    public String deleteAllConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
 
@@ -195,7 +195,7 @@ public class NotificationController {
     }
 
     @DeleteMapping("/deleteAllOneWayNotifications")
-    public String deleteAllOneWayNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    public String deleteAllOneWayNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
 
