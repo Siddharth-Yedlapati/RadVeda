@@ -24,7 +24,7 @@ import java.util.Optional;
 public class TestController {
     private final TestService testService;
 
-    @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:9194" })
+    @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:9202" })
     @GetMapping("/{testID}/getTest")
     public Test getTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID)
             throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
