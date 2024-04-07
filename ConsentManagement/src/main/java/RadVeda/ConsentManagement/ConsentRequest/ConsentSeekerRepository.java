@@ -1,4 +1,6 @@
 package RadVeda.ConsentManagement.ConsentRequest;
 
-public interface ConsentSeekerRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ConsentSeekerRepository extends JpaRepository<ConsentSeeker, Long> {
 }

@@ -1,6 +1,10 @@
 package RadVeda.ConsentManagement;
 
 import RadVeda.ConsentManagement.ConsentProviders.*;
+import RadVeda.ConsentManagement.ConsentRequest.ConsentRequest;
+import RadVeda.ConsentManagement.ConsentRequest.ConsentRequestRepository;
+import RadVeda.ConsentManagement.ConsentRequest.ConsentSeekerRepository;
+import RadVeda.ConsentManagement.exception.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,11 +17,35 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 @Service
 @RequiredArgsConstructor
 public class ConsentService implements ConsentServiceInterface{
     private static String delimiter = ":_:";
+    private final ConsentRequestRepository consentRequestRepository;
+    private final ConsentSeekerRepository consentSeekerRepository;
+    private final DoctorProviderRepository doctorProviderRepository;
+    private final PatientProviderRepository patientProviderRepository;
+    private final RadiologistProviderRepository radiologistProviderRepository;
+
+    @Override
+    public List<Long> getTestIdsWithSomeConsentedResources(String consentSeekerType, Long consentSeekerId, String consentProviderType, Long consentProviderId)
+    {
+        return switch (consentProviderType) {
+            case "DOCTOR" ->
+                    doctorProviderRepository.findTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderId);
+            case "PATIENT" ->
+                    patientProviderRepository.findTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderId);
+            case "RADIOLOGIST" ->
+                    radiologistProviderRepository.findTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderId);
+            default -> throw new InvalidConsentProviderTypeException("Invalid consent provider type!");
+        };
+    }
 
     @Override
     public User authenticate(String authorizationHeader)
@@ -210,24 +238,406 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
-    public List<DoctorProviderConsent> parseDoctorProviderConsentForm(DoctorProviderConsentForm consentForm)
-    {
+    public List<DoctorProviderConsent> parseDoctorProviderConsentForm(DoctorProviderConsentForm consentForm, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
         Long consentRequestId = consentForm.consentRequestId();
         List<String> currentTestData = consentForm.currentTest();
         List<String> otherTestsData = consentForm.otherTests();
 
+        Optional<ConsentRequest> optionalConsentRequest = consentRequestRepository.findById(consentRequestId);
+        if(optionalConsentRequest.isEmpty())
+        {
+            throw new InvalidDoctorProviderConsentFormException("Can't find a consent request for the given ID!");
+        }
+        ConsentRequest consentRequest = optionalConsentRequest.get();
+        String consentProviderType = consentRequest.getConsentProviderType();
+        if(!consentProviderType.equals("DOCTOR"))
+        {
+            throw new InvalidDoctorProviderConsentFormException("Consent provider type must be DOCTOR!");
+        }
+        Long consentProviderId = consentRequest.getConsentProviderId();
+        Long currentTestId = consentRequest.getTestId();
+
+
         // Other tests: Tests other than the current test, corresponding to the provider for which he/she hasn't given access to any resource, to the seeker.
+        //              So it's consent seeker specific...
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        String url = "http://localhost:9192/tests/"+consentProviderType+"/"+consentProviderId+"/getAllPrimaryandConsultedTests";
+
+        // Sending a GET request to the test management service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (RuntimeException e){ //VERIFY_EXCEPTION
+            throw new UnableToFetchTestDetailsException("Unable to fetch test details!");
+        }
+
+        // Creating a list to store test IDs
+        List<Long> consentProviderTestIds = new ArrayList<>();
+
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            // Extracting the response body
+            String responseBody = responseEntity.getBody();
+
+            // Parsing the response body to extract test IDs directly
+            try {
+                // Assuming the response is a JSON array of test objects
+                JSONArray jsonArray = new JSONArray(responseBody);
+
+                // Extracting IDs from each JSON object in the array
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Long id = jsonObject.getLong("id");
+                    consentProviderTestIds.add(id);
+                }
+
+            } catch (JSONException e) {
+                throw new UnableToFetchTestDetailsException("Error parsing JSON response!");
+            }
+        }
+        else
+        {
+            throw new UnableToFetchTestDetailsException("Unable to fetch test details!");
+        }
+
+        List<DoctorProviderConsent> doctorProviderConsents = new ArrayList<>();
+
+        // Operating on currentTestData:
+        for (String entry : currentTestData) {
+            String[] parts = entry.split(ConsentService.delimiter);
+
+            // Extracting parts
+            String consentSeekerType = parts[0];
+            long consentSeekerId = Long.parseLong(parts[1]);
+            boolean notesAllowed = Boolean.parseBoolean(parts[2]);
+
+            DoctorProviderConsent doctorProviderConsent = new DoctorProviderConsent();
+            doctorProviderConsent.setConsentProviderId(consentProviderId);
+            doctorProviderConsent.setConsentSeekerId(consentSeekerId);
+            doctorProviderConsent.setConsentSeekerType(consentSeekerType);
+            doctorProviderConsent.setTestId(currentTestId);
+            doctorProviderConsent.setNotesAllowed(notesAllowed);
+
+            doctorProviderConsents.add(doctorProviderConsent);
+
+        }
+
+        //Operating on otherTestsData:
+        for (String entry : otherTestsData) {
+            String[] parts = entry.split(ConsentService.delimiter);
+
+            // Extracting parts
+            String consentSeekerType = parts[0];
+            long consentSeekerId = Long.parseLong(parts[1]);
+            boolean notesAllowed = Boolean.parseBoolean(parts[2]);
+
+            List<Long> consentedConsentProviderTestIds = getTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderType, consentProviderId);
+            consentedConsentProviderTestIds.add(currentTestId);
+
+            List<Long> otherTests = new ArrayList<>(consentProviderTestIds);
+            otherTests.removeAll(consentedConsentProviderTestIds);
+            for(Long otherTest : otherTests) {
+                DoctorProviderConsent doctorProviderConsent = new DoctorProviderConsent();
+                doctorProviderConsent.setConsentProviderId(consentProviderId);
+                doctorProviderConsent.setConsentSeekerId(consentSeekerId);
+                doctorProviderConsent.setConsentSeekerType(consentSeekerType);
+                doctorProviderConsent.setTestId(otherTest);
+                doctorProviderConsent.setNotesAllowed(notesAllowed);
+
+                doctorProviderConsents.add(doctorProviderConsent);
+            }
+
+        }
+
+        return doctorProviderConsents;
+
     }
 
     @Override
-    public List<PatientProviderConsent> parsePatientProviderConsentForm(PatientProviderConsentForm consentForm)
-    {
+    public List<PatientProviderConsent> parsePatientProviderConsentForm(PatientProviderConsentForm consentForm, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+        Long consentRequestId = consentForm.consentRequestId();
+        List<String> currentTestData = consentForm.currentTest();
+        List<String> otherTestsData = consentForm.otherTests();
+
+        Optional<ConsentRequest> optionalConsentRequest = consentRequestRepository.findById(consentRequestId);
+        if(optionalConsentRequest.isEmpty())
+        {
+            throw new InvalidPatientProviderConsentFormException("Can't find a consent request for the given ID!");
+        }
+        ConsentRequest consentRequest = optionalConsentRequest.get();
+        String consentProviderType = consentRequest.getConsentProviderType();
+        if(!consentProviderType.equals("PATIENT"))
+        {
+            throw new InvalidPatientProviderConsentFormException("Consent provider type must be PATIENT!");
+        }
+        Long consentProviderId = consentRequest.getConsentProviderId();
+        Long currentTestId = consentRequest.getTestId();
+
+
+        // Other tests: Tests other than the current test, corresponding to the provider for which he/she hasn't given access to any resource, to the seeker.
+        //              So it's consent seeker specific...
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        String url = "http://localhost:9192/tests/"+consentProviderType+"/"+consentProviderId+"/getTests";
+
+        // Sending a GET request to the test management service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (RuntimeException e){ //VERIFY_EXCEPTION
+            throw new UnableToFetchTestDetailsException("Unable to fetch test details!");
+        }
+
+        // Creating a list to store test IDs
+        List<Long> consentProviderTestIds = new ArrayList<>();
+
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            // Extracting the response body
+            String responseBody = responseEntity.getBody();
+
+            // Parsing the response body to extract test IDs directly
+            try {
+                // Assuming the response is a JSON array of test objects
+                JSONArray jsonArray = new JSONArray(responseBody);
+
+                // Extracting IDs from each JSON object in the array
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Long id = jsonObject.getLong("id");
+                    consentProviderTestIds.add(id);
+                }
+
+            } catch (JSONException e) {
+                throw new UnableToFetchTestDetailsException("Error parsing JSON response!");
+            }
+        }
+        else
+        {
+            throw new UnableToFetchTestDetailsException("Unable to fetch test details!");
+        }
+
+        List<PatientProviderConsent> patientProviderConsents = new ArrayList<>();
+
+        // Operating on currentTestData:
+        for (String entry : currentTestData) {
+            String[] parts = entry.split(ConsentService.delimiter);
+
+            // Extracting parts
+            String consentSeekerType = parts[0];
+            long consentSeekerId = Long.parseLong(parts[1]);
+            boolean imagesAllowed = Boolean.parseBoolean(parts[2]);
+            boolean reportAllowed = Boolean.parseBoolean(parts[3]);
+
+            PatientProviderConsent patientProviderConsent = new PatientProviderConsent();
+            patientProviderConsent.setConsentProviderId(consentProviderId);
+            patientProviderConsent.setConsentSeekerId(consentSeekerId);
+            patientProviderConsent.setConsentSeekerType(consentSeekerType);
+            patientProviderConsent.setTestId(currentTestId);
+            patientProviderConsent.setImagesAllowed(imagesAllowed);
+            patientProviderConsent.setReportAllowed(reportAllowed);
+
+            patientProviderConsents.add(patientProviderConsent);
+
+        }
+
+        //Operating on otherTestsData:
+        for (String entry : otherTestsData) {
+            String[] parts = entry.split(ConsentService.delimiter);
+
+            // Extracting parts
+            String consentSeekerType = parts[0];
+            long consentSeekerId = Long.parseLong(parts[1]);
+            boolean imagesAllowed = Boolean.parseBoolean(parts[2]);
+            boolean reportAllowed = Boolean.parseBoolean(parts[3]);
+
+            List<Long> consentedConsentProviderTestIds = getTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderType, consentProviderId);
+            consentedConsentProviderTestIds.add(currentTestId);
+
+            List<Long> otherTests = new ArrayList<>(consentProviderTestIds);
+            otherTests.removeAll(consentedConsentProviderTestIds);
+            for(Long otherTest : otherTests) {
+                PatientProviderConsent patientProviderConsent = new PatientProviderConsent();
+                patientProviderConsent.setConsentProviderId(consentProviderId);
+                patientProviderConsent.setConsentSeekerId(consentSeekerId);
+                patientProviderConsent.setConsentSeekerType(consentSeekerType);
+                patientProviderConsent.setTestId(otherTest);
+                patientProviderConsent.setImagesAllowed(imagesAllowed);
+                patientProviderConsent.setReportAllowed(reportAllowed);
+
+                patientProviderConsents.add(patientProviderConsent);
+            }
+
+        }
+
+        return patientProviderConsents;
 
     }
 
     @Override
-    public List<RadiologistProviderConsent> parseRadiologistProviderConsentForm(RadiologistProviderConsentForm consentForm)
-    {
+    public List<RadiologistProviderConsent> parseRadiologistProviderConsentForm(RadiologistProviderConsentForm consentForm, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+        Long consentRequestId = consentForm.consentRequestId();
+        List<String> currentTestData = consentForm.currentTest();
+        List<String> otherTestsData = consentForm.otherTests();
+
+        Optional<ConsentRequest> optionalConsentRequest = consentRequestRepository.findById(consentRequestId);
+        if(optionalConsentRequest.isEmpty())
+        {
+            throw new InvalidRadiologistProviderConsentFormException("Can't find a consent request for the given ID!");
+        }
+        ConsentRequest consentRequest = optionalConsentRequest.get();
+        String consentProviderType = consentRequest.getConsentProviderType();
+        if(!consentProviderType.equals("RADIOLOGIST"))
+        {
+            throw new InvalidRadiologistProviderConsentFormException("Consent provider type must be RADIOLOGIST!");
+        }
+        Long consentProviderId = consentRequest.getConsentProviderId();
+        Long currentTestId = consentRequest.getTestId();
+
+
+        // Other tests: Tests other than the current test, corresponding to the provider for which he/she hasn't given access to any resource, to the seeker.
+        //              So it's consent seeker specific...
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        String url = "http://localhost:9192/tests/"+consentProviderType+"/"+consentProviderId+"/getAllPrimaryandConsultedTests";
+
+        // Sending a GET request to the test management service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (RuntimeException e){ //VERIFY_EXCEPTION
+            throw new UnableToFetchTestDetailsException("Unable to fetch test details!");
+        }
+
+        // Creating a list to store test IDs
+        List<Long> consentProviderTestIds = new ArrayList<>();
+
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            // Extracting the response body
+            String responseBody = responseEntity.getBody();
+
+            // Parsing the response body to extract test IDs directly
+            try {
+                // Assuming the response is a JSON array of test objects
+                JSONArray jsonArray = new JSONArray(responseBody);
+
+                // Extracting IDs from each JSON object in the array
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Long id = jsonObject.getLong("id");
+                    consentProviderTestIds.add(id);
+                }
+
+            } catch (JSONException e) {
+                throw new UnableToFetchTestDetailsException("Error parsing JSON response!");
+            }
+        }
+        else
+        {
+            throw new UnableToFetchTestDetailsException("Unable to fetch test details!");
+        }
+
+        List<RadiologistProviderConsent> radiologistProviderConsents = new ArrayList<>();
+
+        // Operating on currentTestData:
+        for (String entry : currentTestData) {
+            String[] parts = entry.split(ConsentService.delimiter);
+
+            // Extracting parts
+            String consentSeekerType = parts[0];
+            long consentSeekerId = Long.parseLong(parts[1]);
+            boolean annotationsAllowed = Boolean.parseBoolean(parts[2]);
+            boolean notesAllowed = Boolean.parseBoolean(parts[3]);
+
+            RadiologistProviderConsent radiologistProviderConsent = new RadiologistProviderConsent();
+            radiologistProviderConsent.setConsentProviderId(consentProviderId);
+            radiologistProviderConsent.setConsentSeekerId(consentSeekerId);
+            radiologistProviderConsent.setConsentSeekerType(consentSeekerType);
+            radiologistProviderConsent.setTestId(currentTestId);
+            radiologistProviderConsent.setAnnotationsAllowed(annotationsAllowed);
+            radiologistProviderConsent.setNotesAllowed(notesAllowed);
+
+            radiologistProviderConsents.add(radiologistProviderConsent);
+
+        }
+
+        //Operating on otherTestsData:
+        for (String entry : otherTestsData) {
+            String[] parts = entry.split(ConsentService.delimiter);
+
+            // Extracting parts
+            String consentSeekerType = parts[0];
+            long consentSeekerId = Long.parseLong(parts[1]);
+            boolean annotationsAllowed = Boolean.parseBoolean(parts[2]);
+            boolean notesAllowed = Boolean.parseBoolean(parts[3]);
+
+            List<Long> consentedConsentProviderTestIds = getTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderType, consentProviderId);
+            consentedConsentProviderTestIds.add(currentTestId);
+
+            List<Long> otherTests = new ArrayList<>(consentProviderTestIds);
+            otherTests.removeAll(consentedConsentProviderTestIds);
+            for(Long otherTest : otherTests) {
+                RadiologistProviderConsent radiologistProviderConsent = new RadiologistProviderConsent();
+                radiologistProviderConsent.setConsentProviderId(consentProviderId);
+                radiologistProviderConsent.setConsentSeekerId(consentSeekerId);
+                radiologistProviderConsent.setConsentSeekerType(consentSeekerType);
+                radiologistProviderConsent.setTestId(otherTest);
+                radiologistProviderConsent.setAnnotationsAllowed(annotationsAllowed);
+                radiologistProviderConsent.setNotesAllowed(notesAllowed);
+
+                radiologistProviderConsents.add(radiologistProviderConsent);
+            }
+
+        }
+
+        return radiologistProviderConsents;
 
     }
 }
