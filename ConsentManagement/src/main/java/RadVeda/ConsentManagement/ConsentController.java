@@ -2,10 +2,13 @@ package RadVeda.ConsentManagement;
 
 import RadVeda.ConsentManagement.ConsentProviders.*;
 import RadVeda.ConsentManagement.ConsentRequest.ConsentRequestForm;
+import RadVeda.ConsentManagement.exception.InvalidTestException;
 import RadVeda.ConsentManagement.exception.InvalidUserException;
 import RadVeda.ConsentManagement.exception.UnauthorisedUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +32,22 @@ public class ConsentController {
         {
             throw new InvalidUserException("Invalid consent provider!");
         }
+        if(!consentService.isTestValid(requestForm.testId(), authorizationHeader))
+        {
+            throw new InvalidTestException("Invalid test id!");
+        }
+
+        List<User> consentSeekers = consentService.parseConsentSeekersList(requestForm.consentSeekers());
+        for(User consentSeeker : consentSeekers)
+        {
+            if(!consentService.isUserValid(consentSeeker.getType(), consentSeeker.getId(), authorizationHeader))
+            {
+                throw new InvalidUserException("One or more consent seekers are invalid!");
+            }
+        }
+
+        return consentService.sendConsentRequest(requestForm.consentProviderType(), requestForm.consentProviderId(), requestForm.testId(), requestForm.message(), consentSeekers, authorizationHeader);
+
     }
 
     @PostMapping("/setDoctorProviderDetails")
@@ -40,6 +59,8 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
+        return consentService.setDoctorProviderDetails(consentForm, authorizationHeader);
     }
 
     @PostMapping("/setPatientProviderDetails")
@@ -51,6 +72,8 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
+        return consentService.setPatientProviderDetails(consentForm, authorizationHeader);
     }
 
     @PostMapping("/setRadiologistProviderDetails")
@@ -62,6 +85,8 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
+        return consentService.setRadiologistProviderDetails(consentForm, authorizationHeader);
     }
 
     @DeleteMapping("/cleanByDeletedUser/{userType}/{userId}")
@@ -73,6 +98,8 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
+        return consentService.cleanByDeletedUser(userType, userId);
     }
 
     @GetMapping("/getDoctorProviderConsent/{consentSeekerType}/{consentSeekerId}/{consentProviderId}/{testId}")
@@ -84,6 +111,8 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
+        return consentService.getDoctorProviderConsent(consentSeekerType, consentSeekerId, consentProviderId, testId);
     }
 
     @GetMapping("/getPatientProviderConsent/{consentSeekerType}/{consentSeekerId}/{consentProviderId}/{testId}")
@@ -95,6 +124,8 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
+        return consentService.getPatientProviderConsent(consentSeekerType, consentSeekerId, consentProviderId, testId);
     }
 
     @GetMapping("/getRadiologistProviderConsent/{consentSeekerType}/{consentSeekerId}/{consentProviderId}/{testId}")
@@ -106,5 +137,7 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+
+        return consentService.getRadiologistProviderConsent(consentSeekerType, consentSeekerId, consentProviderId, testId);
     }
 }
