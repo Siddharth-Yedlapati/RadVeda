@@ -56,8 +56,10 @@ public class ConsentService implements ConsentServiceInterface{
         consentRequest.setConsentProviderId(consentProviderId);
         consentRequest.setTestId(testId);
         consentRequest.setMessage(message);
+        consentRequest = consentRequestRepository.save(consentRequest);
 
         Long consentRequestId = consentRequest.getId();
+        //System.out.println("Consent request ID: "+consentRequestId);
 
         // Sending a consent request notification
         String jwtToken = "";
@@ -72,6 +74,7 @@ public class ConsentService implements ConsentServiceInterface{
         // Preparing the request object for sending to the notification management service
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
         // Constructing the request payload manually as JSON
         String requestBody = "{" +
@@ -94,6 +97,7 @@ public class ConsentService implements ConsentServiceInterface{
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
+            consentRequestRepository.delete(consentRequest); // Rolling back the previously saved consent request
             return "Failed to send consent request notification!";
         }
 
@@ -107,7 +111,6 @@ public class ConsentService implements ConsentServiceInterface{
             consentSeekerRepository.save(consentSeeker);
         }
 
-        consentRequestRepository.save(consentRequest);
         return "Consent request sent successfully!";
     }
 
