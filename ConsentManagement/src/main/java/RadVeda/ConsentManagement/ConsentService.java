@@ -3,6 +3,7 @@ package RadVeda.ConsentManagement;
 import RadVeda.ConsentManagement.ConsentProviders.*;
 import RadVeda.ConsentManagement.ConsentRequest.ConsentRequest;
 import RadVeda.ConsentManagement.ConsentRequest.ConsentRequestRepository;
+import RadVeda.ConsentManagement.ConsentRequest.ConsentSeeker;
 import RadVeda.ConsentManagement.ConsentRequest.ConsentSeekerRepository;
 import RadVeda.ConsentManagement.exception.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,6 +46,206 @@ public class ConsentService implements ConsentServiceInterface{
                     radiologistProviderRepository.findTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderId);
             default -> throw new InvalidConsentProviderTypeException("Invalid consent provider type!");
         };
+    }
+
+    @Override
+    public String sendConsentRequest(String consentProviderType, Long consentProviderId, Long testId, String message, List<User> consentSeekers, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+        ConsentRequest consentRequest = new ConsentRequest();
+        consentRequest.setConsentProviderType(consentProviderType);
+        consentRequest.setConsentProviderId(consentProviderId);
+        consentRequest.setTestId(testId);
+        consentRequest.setMessage(message);
+
+        Long consentRequestId = consentRequest.getId();
+
+        // Sending a consent request notification
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        // Preparing the request object for sending to the notification management service
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        // Constructing the request payload manually as JSON
+        String requestBody = "{" +
+                "\"message\": \"" + message + "\"," +
+                "\"recipientType\": \"" + consentProviderType + "\"," +
+                "\"recipientId\": " + consentProviderId + "," +
+                "\"consentRequestId\": " + consentRequestId +
+                "}";
+
+        // Setting up RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting the URL for the appropriate API end point of the notification management service
+        String url = "http://localhost:9193/notifications/sendConsentRequestNotification";
+
+        // Setting the request entity
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        // Sending the POST request
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        if (!responseEntity.getStatusCode().is2xxSuccessful()) {
+            return "Failed to send consent request notification!";
+        }
+
+        for(User user: consentSeekers)
+        {
+            ConsentSeeker consentSeeker = new ConsentSeeker();
+            consentSeeker.setConsentSeekerType(user.getType());
+            consentSeeker.setConsentSeekerId(user.getId());
+            consentSeeker.setConsentRequest(consentRequest);
+
+            consentSeekerRepository.save(consentSeeker);
+        }
+
+        consentRequestRepository.save(consentRequest);
+        return "Consent request sent successfully!";
+    }
+
+    @Override
+    public String setDoctorProviderDetails(DoctorProviderConsentForm consentForm, String authorizationHeader)
+    {
+        List<DoctorProviderConsent> doctorProviderConsents = parseDoctorProviderConsentForm(consentForm, authorizationHeader);
+
+        for(DoctorProviderConsent doctorProviderConsent : doctorProviderConsents)
+        {
+            DoctorProvider doctorProvider = new DoctorProvider();
+            doctorProvider.setConsentProviderId(doctorProviderConsent.getConsentProviderId());
+            doctorProvider.setConsentSeekerType(doctorProviderConsent.getConsentSeekerType());
+            doctorProvider.setConsentSeekerId(doctorProviderConsent.getConsentSeekerId());
+            doctorProvider.setTestId(doctorProviderConsent.getTestId());
+            doctorProvider.setNotesAllowed(doctorProviderConsent.isNotesAllowed());
+
+            doctorProviderRepository.save(doctorProvider);
+        }
+        return "Consent preferences for doctor saved successfully!";
+    }
+
+    @Override
+    public String setPatientProviderDetails(PatientProviderConsentForm consentForm, String authorizationHeader)
+    {
+        List<PatientProviderConsent> patientProviderConsents = parsePatientProviderConsentForm(consentForm, authorizationHeader);
+
+        for(PatientProviderConsent patientProviderConsent : patientProviderConsents)
+        {
+            PatientProvider patientProvider = new PatientProvider();
+            patientProvider.setConsentProviderId(patientProviderConsent.getConsentProviderId());
+            patientProvider.setConsentSeekerType(patientProviderConsent.getConsentSeekerType());
+            patientProvider.setConsentSeekerId(patientProviderConsent.getConsentSeekerId());
+            patientProvider.setTestId(patientProviderConsent.getTestId());
+            patientProvider.setImagesAllowed(patientProviderConsent.isImagesAllowed());
+            patientProvider.setReportAllowed(patientProviderConsent.isReportAllowed());
+
+            patientProviderRepository.save(patientProvider);
+        }
+        return "Consent preferences for patient saved successfully!";
+    }
+
+    @Override
+    public String setRadiologistProviderDetails(RadiologistProviderConsentForm consentForm, String authorizationHeader)
+    {
+        List<RadiologistProviderConsent> radiologistProviderConsents = parseRadiologistProviderConsentForm(consentForm, authorizationHeader);
+
+        for(RadiologistProviderConsent radiologistProviderConsent : radiologistProviderConsents)
+        {
+            RadiologistProvider radiologistProvider = new RadiologistProvider();
+            radiologistProvider.setConsentProviderId(radiologistProviderConsent.getConsentProviderId());
+            radiologistProvider.setConsentSeekerType(radiologistProviderConsent.getConsentSeekerType());
+            radiologistProvider.setConsentSeekerId(radiologistProviderConsent.getConsentSeekerId());
+            radiologistProvider.setTestId(radiologistProviderConsent.getTestId());
+            radiologistProvider.setAnnotationsAllowed(radiologistProviderConsent.isAnnotationsAllowed());
+            radiologistProvider.setNotesAllowed(radiologistProviderConsent.isNotesAllowed());
+
+            radiologistProviderRepository.save(radiologistProvider);
+        }
+        return "Consent preferences for radiologist saved successfully!";
+    }
+
+    @Override
+    public String cleanByDeletedUser(String userType, Long userId)
+    {
+        doctorProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(userType, userId);
+        patientProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(userType, userId);
+        radiologistProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(userType, userId);
+
+        switch (userType) {
+            case "DOCTOR" -> doctorProviderRepository.deleteByConsentProviderId(userId);
+            case "PATIENT" -> patientProviderRepository.deleteByConsentProviderId(userId);
+            case "RADIOLOGIST" -> radiologistProviderRepository.deleteByConsentProviderId(userId);
+        }
+
+        return "Successfully deleted consent information corresponding to given user!";
+    }
+
+    @Override
+    public DoctorProviderConsent getDoctorProviderConsent(String consentSeekerType, Long consentSeekerId, Long consentProviderId, Long testId)
+    {
+        Optional<DoctorProvider> optionalDoctorProvider = doctorProviderRepository.findByConsentSeekerTypeAndConsentSeekerIdAndConsentProviderIdAndTestId(consentSeekerType, consentSeekerId, consentProviderId, testId);
+        if(optionalDoctorProvider.isEmpty())
+        {
+            throw new UnableToFetchConsentException("Unable to fetch consent information!");
+        }
+        DoctorProvider doctorProvider = optionalDoctorProvider.get();
+
+        DoctorProviderConsent doctorProviderConsent = new DoctorProviderConsent();
+        doctorProviderConsent.setConsentSeekerType(doctorProvider.getConsentSeekerType());
+        doctorProviderConsent.setConsentSeekerId(doctorProvider.getConsentSeekerId());
+        doctorProviderConsent.setConsentProviderId(doctorProvider.getConsentProviderId());
+        doctorProviderConsent.setTestId(doctorProvider.getTestId());
+        doctorProviderConsent.setNotesAllowed(doctorProvider.isNotesAllowed());
+
+        return doctorProviderConsent;
+    }
+
+    @Override
+    public PatientProviderConsent getPatientProviderConsent(String consentSeekerType, Long consentSeekerId, Long consentProviderId, Long testId)
+    {
+        Optional<PatientProvider> optionalPatientProvider = patientProviderRepository.findByConsentSeekerTypeAndConsentSeekerIdAndConsentProviderIdAndTestId(consentSeekerType, consentSeekerId, consentProviderId, testId);
+        if(optionalPatientProvider.isEmpty())
+        {
+            throw new UnableToFetchConsentException("Unable to fetch consent information!");
+        }
+        PatientProvider patientProvider = optionalPatientProvider.get();
+
+        PatientProviderConsent patientProviderConsent = new PatientProviderConsent();
+        patientProviderConsent.setConsentSeekerType(patientProvider.getConsentSeekerType());
+        patientProviderConsent.setConsentSeekerId(patientProvider.getConsentSeekerId());
+        patientProviderConsent.setConsentProviderId(patientProvider.getConsentProviderId());
+        patientProviderConsent.setTestId(patientProvider.getTestId());
+        patientProviderConsent.setImagesAllowed(patientProvider.isImagesAllowed());
+        patientProviderConsent.setReportAllowed(patientProvider.isReportAllowed());
+
+        return patientProviderConsent;
+    }
+
+    @Override
+    public RadiologistProviderConsent getRadiologistProviderConsent(String consentSeekerType, Long consentSeekerId, Long consentProviderId, Long testId)
+    {
+        Optional<RadiologistProvider> optionalRadiologistProvider = radiologistProviderRepository.findByConsentSeekerTypeAndConsentSeekerIdAndConsentProviderIdAndTestId(consentSeekerType, consentSeekerId, consentProviderId, testId);
+        if(optionalRadiologistProvider.isEmpty())
+        {
+            throw new UnableToFetchConsentException("Unable to fetch consent information!");
+        }
+        RadiologistProvider radiologistProvider = optionalRadiologistProvider.get();
+
+        RadiologistProviderConsent radiologistProviderConsent = new RadiologistProviderConsent();
+        radiologistProviderConsent.setConsentSeekerType(radiologistProvider.getConsentSeekerType());
+        radiologistProviderConsent.setConsentSeekerId(radiologistProvider.getConsentSeekerId());
+        radiologistProviderConsent.setConsentProviderId(radiologistProvider.getConsentProviderId());
+        radiologistProviderConsent.setTestId(radiologistProvider.getTestId());
+        radiologistProviderConsent.setAnnotationsAllowed(radiologistProvider.isAnnotationsAllowed());
+        radiologistProviderConsent.setNotesAllowed(radiologistProvider.isNotesAllowed());
+
+        return radiologistProviderConsent;
     }
 
     @Override
