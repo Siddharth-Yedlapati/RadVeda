@@ -121,14 +121,10 @@ public class ConsentService implements ConsentServiceInterface{
 
         for(DoctorProviderConsent doctorProviderConsent : doctorProviderConsents)
         {
-            DoctorProvider doctorProvider = new DoctorProvider();
-            doctorProvider.setConsentProviderId(doctorProviderConsent.getConsentProviderId());
-            doctorProvider.setConsentSeekerType(doctorProviderConsent.getConsentSeekerType());
-            doctorProvider.setConsentSeekerId(doctorProviderConsent.getConsentSeekerId());
-            doctorProvider.setTestId(doctorProviderConsent.getTestId());
-            doctorProvider.setNotesAllowed(doctorProviderConsent.isNotesAllowed());
-
-            doctorProviderRepository.save(doctorProvider);
+            int numRowsUpdated = doctorProviderRepository.updateIfExists(doctorProviderConsent.getConsentSeekerType(), doctorProviderConsent.getConsentSeekerId(), doctorProviderConsent.getConsentProviderId(), doctorProviderConsent.getTestId(), doctorProviderConsent.isNotesAllowed());
+            if(numRowsUpdated == 0) {
+                doctorProviderRepository.insertEntry(doctorProviderConsent.getConsentSeekerType(), doctorProviderConsent.getConsentSeekerId(), doctorProviderConsent.getConsentProviderId(), doctorProviderConsent.getTestId(), doctorProviderConsent.isNotesAllowed());
+            }
         }
         return "Consent preferences for doctor saved successfully!";
     }
@@ -140,15 +136,10 @@ public class ConsentService implements ConsentServiceInterface{
 
         for(PatientProviderConsent patientProviderConsent : patientProviderConsents)
         {
-            PatientProvider patientProvider = new PatientProvider();
-            patientProvider.setConsentProviderId(patientProviderConsent.getConsentProviderId());
-            patientProvider.setConsentSeekerType(patientProviderConsent.getConsentSeekerType());
-            patientProvider.setConsentSeekerId(patientProviderConsent.getConsentSeekerId());
-            patientProvider.setTestId(patientProviderConsent.getTestId());
-            patientProvider.setImagesAllowed(patientProviderConsent.isImagesAllowed());
-            patientProvider.setReportAllowed(patientProviderConsent.isReportAllowed());
-
-            patientProviderRepository.save(patientProvider);
+            int numRowsUpdated = patientProviderRepository.updateIfExists(patientProviderConsent.getConsentSeekerType(), patientProviderConsent.getConsentSeekerId(), patientProviderConsent.getConsentProviderId(), patientProviderConsent.getTestId(), patientProviderConsent.isImagesAllowed(), patientProviderConsent.isReportAllowed());
+            if(numRowsUpdated == 0) {
+                patientProviderRepository.insertEntry(patientProviderConsent.getConsentSeekerType(), patientProviderConsent.getConsentSeekerId(), patientProviderConsent.getConsentProviderId(), patientProviderConsent.getTestId(), patientProviderConsent.isImagesAllowed(), patientProviderConsent.isReportAllowed());
+            }
         }
         return "Consent preferences for patient saved successfully!";
     }
@@ -160,15 +151,10 @@ public class ConsentService implements ConsentServiceInterface{
 
         for(RadiologistProviderConsent radiologistProviderConsent : radiologistProviderConsents)
         {
-            RadiologistProvider radiologistProvider = new RadiologistProvider();
-            radiologistProvider.setConsentProviderId(radiologistProviderConsent.getConsentProviderId());
-            radiologistProvider.setConsentSeekerType(radiologistProviderConsent.getConsentSeekerType());
-            radiologistProvider.setConsentSeekerId(radiologistProviderConsent.getConsentSeekerId());
-            radiologistProvider.setTestId(radiologistProviderConsent.getTestId());
-            radiologistProvider.setAnnotationsAllowed(radiologistProviderConsent.isAnnotationsAllowed());
-            radiologistProvider.setNotesAllowed(radiologistProviderConsent.isNotesAllowed());
-
-            radiologistProviderRepository.save(radiologistProvider);
+            int numRowsUpdated = radiologistProviderRepository.updateIfExists(radiologistProviderConsent.getConsentSeekerType(), radiologistProviderConsent.getConsentSeekerId(), radiologistProviderConsent.getConsentProviderId(), radiologistProviderConsent.getTestId(), radiologistProviderConsent.isAnnotationsAllowed(), radiologistProviderConsent.isNotesAllowed());
+            if(numRowsUpdated == 0) {
+                radiologistProviderRepository.insertEntry(radiologistProviderConsent.getConsentSeekerType(), radiologistProviderConsent.getConsentSeekerId(), radiologistProviderConsent.getConsentProviderId(), radiologistProviderConsent.getTestId(), radiologistProviderConsent.isAnnotationsAllowed(), radiologistProviderConsent.isNotesAllowed());
+            }
         }
         return "Consent preferences for radiologist saved successfully!";
     }
