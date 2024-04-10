@@ -46,6 +46,6 @@ public class LabStaffController {
     public boolean validateLabStaffId(@PathVariable Long id)
     {
         Optional<LabStaff> labstaff = labStaffService.findById(id);
-        return labstaff.isPresent();
+        return labstaff.isPresent() && labstaff.get().isEnabled();
     }
 }

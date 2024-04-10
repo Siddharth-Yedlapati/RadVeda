@@ -24,4 +24,5 @@ public class PatientProvider {
     private Long consentProviderId;
     private Long testId;
     private boolean imagesAllowed;
+    private boolean reportAllowed;
 }

@@ -46,6 +46,6 @@ public class SuperAdminController {
     public boolean validateSuperAdminId(@PathVariable Long id)
     {
         Optional<SuperAdmin> superAdmin = superAdminService.findById(id);
-        return superAdmin.isPresent();
+        return superAdmin.isPresent() && superAdmin.get().isEnabled();
     }
 }

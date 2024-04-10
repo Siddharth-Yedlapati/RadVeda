@@ -45,7 +45,7 @@ public class AdminController {
     public boolean validateAdminId(@PathVariable Long id)
     {
         Optional<Admin> admin = adminService.findById(id);
-        return admin.isPresent();
+        return admin.isPresent() && admin.get().isEnabled();
     }
 
 }
