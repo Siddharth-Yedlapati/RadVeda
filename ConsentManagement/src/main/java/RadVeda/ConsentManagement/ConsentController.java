@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,7 +61,7 @@ public class ConsentController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        return consentService.setDoctorProviderDetails(consentForm, authorizationHeader);
+        return consentService.setDoctorProviderDetails(currentUser, consentForm, authorizationHeader);
     }
 
     @PostMapping("/setPatientProviderDetails")
@@ -73,7 +74,7 @@ public class ConsentController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        return consentService.setPatientProviderDetails(consentForm, authorizationHeader);
+        return consentService.setPatientProviderDetails(currentUser, consentForm, authorizationHeader);
     }
 
     @PostMapping("/setRadiologistProviderDetails")
@@ -86,7 +87,7 @@ public class ConsentController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        return consentService.setRadiologistProviderDetails(consentForm, authorizationHeader);
+        return consentService.setRadiologistProviderDetails(currentUser, consentForm, authorizationHeader);
     }
 
     @DeleteMapping("/cleanByDeletedUser/{userType}/{userId}")
@@ -95,6 +96,10 @@ public class ConsentController {
         User currentUser = consentService.authenticate(authorizationHeader);
 
         if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(consentService.isUserValid(userType, userId, authorizationHeader))
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
@@ -111,6 +116,10 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!currentUser.getType().equals(consentSeekerType) || !Objects.equals(currentUser.getId(), consentSeekerId))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
 
         return consentService.getDoctorProviderConsent(consentSeekerType, consentSeekerId, consentProviderId, testId);
     }
@@ -124,6 +133,10 @@ public class ConsentController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!currentUser.getType().equals(consentSeekerType) || !Objects.equals(currentUser.getId(), consentSeekerId))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
 
         return consentService.getPatientProviderConsent(consentSeekerType, consentSeekerId, consentProviderId, testId);
     }
@@ -134,6 +147,10 @@ public class ConsentController {
         User currentUser = consentService.authenticate(authorizationHeader);
 
         if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(!currentUser.getType().equals(consentSeekerType) || !Objects.equals(currentUser.getId(), consentSeekerId))
         {
             throw new UnauthorisedUserException("Permission denied!");
         }

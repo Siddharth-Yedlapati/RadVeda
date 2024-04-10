@@ -46,6 +46,6 @@ public class PatientController {
     public boolean validatePatientId(@PathVariable Long id)
     {
         Optional<Patient> patient = patientService.findById(id);
-        return patient.isPresent();
+        return patient.isPresent() && patient.get().isEnabled();
     }
 }

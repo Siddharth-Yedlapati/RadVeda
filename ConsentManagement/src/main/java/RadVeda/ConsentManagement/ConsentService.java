@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -115,9 +112,9 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
-    public String setDoctorProviderDetails(DoctorProviderConsentForm consentForm, String authorizationHeader)
+    public String setDoctorProviderDetails(User currentUser, DoctorProviderConsentForm consentForm, String authorizationHeader)
     {
-        List<DoctorProviderConsent> doctorProviderConsents = parseDoctorProviderConsentForm(consentForm, authorizationHeader);
+        List<DoctorProviderConsent> doctorProviderConsents = parseDoctorProviderConsentForm(currentUser, consentForm, authorizationHeader);
 
         for(DoctorProviderConsent doctorProviderConsent : doctorProviderConsents)
         {
@@ -130,9 +127,9 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
-    public String setPatientProviderDetails(PatientProviderConsentForm consentForm, String authorizationHeader)
+    public String setPatientProviderDetails(User currentUser, PatientProviderConsentForm consentForm, String authorizationHeader)
     {
-        List<PatientProviderConsent> patientProviderConsents = parsePatientProviderConsentForm(consentForm, authorizationHeader);
+        List<PatientProviderConsent> patientProviderConsents = parsePatientProviderConsentForm(currentUser, consentForm, authorizationHeader);
 
         for(PatientProviderConsent patientProviderConsent : patientProviderConsents)
         {
@@ -145,9 +142,9 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
-    public String setRadiologistProviderDetails(RadiologistProviderConsentForm consentForm, String authorizationHeader)
+    public String setRadiologistProviderDetails(User currentUser, RadiologistProviderConsentForm consentForm, String authorizationHeader)
     {
-        List<RadiologistProviderConsent> radiologistProviderConsents = parseRadiologistProviderConsentForm(consentForm, authorizationHeader);
+        List<RadiologistProviderConsent> radiologistProviderConsents = parseRadiologistProviderConsentForm(currentUser, consentForm, authorizationHeader);
 
         for(RadiologistProviderConsent radiologistProviderConsent : radiologistProviderConsents)
         {
@@ -428,7 +425,7 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
-    public List<DoctorProviderConsent> parseDoctorProviderConsentForm(DoctorProviderConsentForm consentForm, String authorizationHeader)
+    public List<DoctorProviderConsent> parseDoctorProviderConsentForm(User currentUser, DoctorProviderConsentForm consentForm, String authorizationHeader)
     { // This function assumes that the current user is an authenticated user
         Long consentRequestId = consentForm.consentRequestId();
         List<String> currentTestData = consentForm.currentTest();
@@ -446,6 +443,10 @@ public class ConsentService implements ConsentServiceInterface{
             throw new InvalidDoctorProviderConsentFormException("Consent provider type must be DOCTOR!");
         }
         Long consentProviderId = consentRequest.getConsentProviderId();
+        if(!currentUser.getType().equals(consentProviderType) || !Objects.equals(currentUser.getId(), consentProviderId))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
         Long currentTestId = consentRequest.getTestId();
 
 
@@ -560,7 +561,7 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
-    public List<PatientProviderConsent> parsePatientProviderConsentForm(PatientProviderConsentForm consentForm, String authorizationHeader)
+    public List<PatientProviderConsent> parsePatientProviderConsentForm(User currentUser, PatientProviderConsentForm consentForm, String authorizationHeader)
     { // This function assumes that the current user is an authenticated user
         Long consentRequestId = consentForm.consentRequestId();
         List<String> currentTestData = consentForm.currentTest();
@@ -578,6 +579,10 @@ public class ConsentService implements ConsentServiceInterface{
             throw new InvalidPatientProviderConsentFormException("Consent provider type must be PATIENT!");
         }
         Long consentProviderId = consentRequest.getConsentProviderId();
+        if(!currentUser.getType().equals(consentProviderType) || !Objects.equals(currentUser.getId(), consentProviderId))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
         Long currentTestId = consentRequest.getTestId();
 
 
@@ -696,7 +701,7 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
-    public List<RadiologistProviderConsent> parseRadiologistProviderConsentForm(RadiologistProviderConsentForm consentForm, String authorizationHeader)
+    public List<RadiologistProviderConsent> parseRadiologistProviderConsentForm(User currentUser, RadiologistProviderConsentForm consentForm, String authorizationHeader)
     { // This function assumes that the current user is an authenticated user
         Long consentRequestId = consentForm.consentRequestId();
         List<String> currentTestData = consentForm.currentTest();
@@ -714,6 +719,10 @@ public class ConsentService implements ConsentServiceInterface{
             throw new InvalidRadiologistProviderConsentFormException("Consent provider type must be RADIOLOGIST!");
         }
         Long consentProviderId = consentRequest.getConsentProviderId();
+        if(!currentUser.getType().equals(consentProviderType) || !Objects.equals(currentUser.getId(), consentProviderId))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
         Long currentTestId = consentRequest.getTestId();
 
 
