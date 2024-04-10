@@ -337,4 +337,82 @@ public class NotificationService implements NotificationServiceInterface{
 
         return false;
     }
+
+    @Override
+    public boolean isChatValid(String chatType, Long chatId, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        String url = "http://localhost:9195/collaboration/validateMessage/" + chatType + "/" + chatId;
+
+        // Sending a GET request to the collaboration service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (RuntimeException e){ //VERIFY_EXCEPTION
+            return false;
+        }
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            // Extracting response body from the response entity
+            String responseBody = responseEntity.getBody();
+            return Boolean.parseBoolean(responseBody);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean isConsentRequestValid(Long consentRequestId, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        String url = "http://localhost:9202/consent/validateConsentRequestById/" + consentRequestId;
+
+        // Sending a GET request to the consent management service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (RuntimeException e){ //VERIFY_EXCEPTION
+            return false;
+        }
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            // Extracting response body from the response entity
+            String responseBody = responseEntity.getBody();
+            return Boolean.parseBoolean(responseBody);
+        }
+
+        return false;
+    }
 }

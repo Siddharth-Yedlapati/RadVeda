@@ -46,6 +46,12 @@ public class ConsentService implements ConsentServiceInterface{
     }
 
     @Override
+    public Optional<ConsentRequest> findConsentRequestById(Long consentRequestId)
+    {
+        return consentRequestRepository.findById(consentRequestId);
+    }
+
+    @Override
     public String sendConsentRequest(String consentProviderType, Long consentProviderId, Long testId, String message, List<User> consentSeekers, String authorizationHeader)
     { // This function assumes that the current user is an authenticated user
         ConsentRequest consentRequest = new ConsentRequest();
