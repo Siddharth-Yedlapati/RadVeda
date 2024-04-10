@@ -1,6 +1,8 @@
 package RadVeda.NotificationManagement;
 
 import RadVeda.NotificationManagement.Notifications.*;
+import RadVeda.NotificationManagement.exception.InvalidChatException;
+import RadVeda.NotificationManagement.exception.InvalidConsentRequestException;
 import RadVeda.NotificationManagement.exception.RecipientNotFoundException;
 import RadVeda.NotificationManagement.exception.UnauthorisedUserException;
 import lombok.RequiredArgsConstructor;
@@ -106,6 +108,10 @@ public class NotificationController {
         {
             throw new RecipientNotFoundException("Invalid notification recipient!");
         }
+        if(!notificationService.isChatValid(request.chatType(), request.chatId(), authorizationHeader))
+        {
+            throw new InvalidChatException("Invalid chat!");
+        }
         return notificationService.sendChatNotificationToRecipient(request.message(), request.recipientType(), request.recipientId(), request.chatType(), request.chatId());
     }
 
@@ -122,6 +128,10 @@ public class NotificationController {
         if(!notificationService.isRecipientValid(request.recipientType(), request.recipientId(), authorizationHeader))
         {
             throw new RecipientNotFoundException("Invalid notification recipient!");
+        }
+        if(!notificationService.isConsentRequestValid(request.consentRequestId(), authorizationHeader))
+        {
+            throw new InvalidConsentRequestException("Invalid consent request!");
         }
         return notificationService.sendConsentRequestNotificationToRecipient(request.message(), request.recipientType(), request.recipientId(), request.consentRequestId());
     }

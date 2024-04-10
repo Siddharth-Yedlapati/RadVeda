@@ -25,4 +25,6 @@ public interface NotificationServiceInterface {
     String deleteAllOneWayNotificationsOfRecipient(String recipientType, Long recipientId);
     User authenticate(String authorizationHeader);
     boolean isRecipientValid(String recipientType, Long recipientId, String authorizationHeader);
+    boolean isChatValid(String chatType, Long chatId, String authorizationHeader);
+    boolean isConsentRequestValid(Long consentRequestId, String authorizationHeader);
 }
