@@ -103,5 +103,20 @@ public class TestController {
         return testList;
     }
 
+    @GetMapping("/{userType}/{userID}/getAllPrimaryandConsultedTests")
+    public List<Test> getAllPrimaryandConsultedTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String userType, @PathVariable Long userID)
+                throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        } 
+        List<Test> testlist = testService.findAllPrimaryAndConsultedTestsByUser(authorizationHeader ,userType, userID);
+        if(testlist.isEmpty()){
+            throw new UserNotFoundException("No tests found for the given ID");
+        }
+        return testlist;
+    }
+
     
 }
