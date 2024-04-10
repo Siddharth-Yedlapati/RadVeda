@@ -14,4 +14,5 @@ public interface RadiologistServiceInterface {
     void deleteRadiologist(Long radiologistID);
     RadiologistTests addNotes(Long id, String notes);
     void deleteTest(Long testID);
+    List<ConsultedRadiologistTests> getConsultedTests(Long radiologistID);
 }

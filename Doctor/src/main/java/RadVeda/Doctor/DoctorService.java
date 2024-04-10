@@ -29,6 +29,7 @@ import java.time.ZoneId;
 public class DoctorService implements DoctorServiceInterface {
     private final DoctorRepository doctorRepository;
     private final DoctorTestsRepository doctortestsrepository;
+    private final ConsultedDoctorTestsRepository consulteddoctortestsrepository;
     // private final SuperAdminVerificationTokenRepository superadminTokenRepository;
 
     @Override
@@ -167,5 +168,10 @@ public class DoctorService implements DoctorServiceInterface {
     public void deleteTest(Long testID){
         doctortestsrepository.deleteTest(testID);
         return;
+    }
+
+    @Override
+    public List<ConsultedDoctorTests> getConsultedTests(Long doctorID){
+        return consulteddoctortestsrepository.getConsultedTests(doctorID);
     }
 }

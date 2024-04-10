@@ -12,5 +12,6 @@ import java.util.List;
 
 public interface ConsultedDoctorTestsRepository extends JpaRepository<ConsultedDoctorTests, Long> {
 
-
+    @Query(value = "SELECT * FROM consulteddoctortests WHERE doctorID = :doctorID", nativeQuery = true)
+    List<ConsultedDoctorTests> getConsultedTests(Long doctorID);
 }

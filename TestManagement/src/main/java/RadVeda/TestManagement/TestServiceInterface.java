@@ -16,6 +16,7 @@ public interface TestServiceInterface {
     List<Test> findAllTests();
     List<Test> findAllTestsByUser(String userType, Long userID);
     List<Test> findAllTestsByPatientAndUser(Long patientID, String userType, Long userID);
-    List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID);   
+    List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID);
+    List<Test> findAllPrimaryAndConsultedTestsByUser(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, String userType, Long userID);
     User authenticate(String authorizationHeader);
 }

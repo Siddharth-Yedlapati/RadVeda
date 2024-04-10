@@ -14,4 +14,5 @@ public interface DoctorServiceInterface {
     void deleteDoctor(Long doctorID);
     DoctorTests addNotes(Long id, String notes);
     void deleteTest(Long testID);
+    List<ConsultedDoctorTests> getConsultedTests(Long doctorID);
 }
