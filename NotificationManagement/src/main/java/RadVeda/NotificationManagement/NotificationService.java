@@ -93,14 +93,15 @@ public class NotificationService implements NotificationServiceInterface{
     }
 
     @Override
-    public String sendChatNotificationToRecipient(String message, String recipientType, Long recipientId, Long chatID)
+    public String sendChatNotificationToRecipient(String message, String recipientType, Long recipientId, String chatType, Long chatId)
     {
         ChatNotification chatNotif = new ChatNotification();
 
         chatNotif.setMessage(message);
         chatNotif.setRecipientType(recipientType);
         chatNotif.setRecipientId(recipientId);
-        chatNotif.setChatID(chatID);
+        chatNotif.setChatId(chatId);
+        chatNotif.setChatType(chatType);
 
         chatNotificationRepository.save(chatNotif);
         return "Notification sent successfully!!";

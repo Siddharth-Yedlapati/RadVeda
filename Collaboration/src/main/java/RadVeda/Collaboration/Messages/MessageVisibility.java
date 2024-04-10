@@ -1,4 +1,4 @@
-package RadVeda.NotificationManagement.Notifications;
+package RadVeda.Collaboration.Messages;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +14,14 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatNotification extends Notification{
+public class MessageVisibility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String chatType;
-    private Long chatId;
+    private String messageType;
+    private Long messageId;
+    private String userType;
+    private Long userId;
+    private boolean visible;
 }

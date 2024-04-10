@@ -46,6 +46,6 @@ public class RadiologistController {
     public boolean validateRadiologistId(@PathVariable Long id)
     {
         Optional<Radiologist> radiologist = radiologistService.findById(id);
-        return radiologist.isPresent();
+        return radiologist.isPresent() && radiologist.get().isEnabled();
     }
 }

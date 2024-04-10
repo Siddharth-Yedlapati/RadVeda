@@ -4,5 +4,6 @@ public record ChatNotificationRequest(
         String message,
         String recipientType,
         Long recipientId,
-        Long chatID) {
+        String chatType,
+        Long chatId) {
 }

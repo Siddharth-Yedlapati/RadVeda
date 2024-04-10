@@ -14,7 +14,7 @@ public interface NotificationServiceInterface {
     ChatNotification findChatNotificationById(Long Id, User currentUser);
     ConsentRequestNotification findConsentRequestNotificationById(Long Id, User currentUser);
     OneWayNotification findOneWayNotificationById(Long Id, User currentUser);
-    String sendChatNotificationToRecipient(String message, String recipientType, Long recipientId, Long chatID);
+    String sendChatNotificationToRecipient(String message, String recipientType, Long recipientId, String chatType, Long chatId);
     String sendConsentRequestNotificationToRecipient(String message, String recipientType, Long recipientId, Long consentRequestId);
     String sendOneWayNotificationToRecipient(String message, String recipientType, Long recipientId);
     String deleteChatNotificationOfRecipient(Long Id, User currentUser);
