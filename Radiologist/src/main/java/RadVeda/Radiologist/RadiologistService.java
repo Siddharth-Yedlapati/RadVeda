@@ -173,4 +173,9 @@ public class RadiologistService implements RadiologistServiceInterface {
     public List<ConsultedRadiologistTests> getConsultedTests(Long radiologistID){
         return consultedradiologisttestsrepository.getConsultedTests(radiologistID);
     }
+
+    @Override
+    public List<ConsultedRadiologistTests> getConsultedRadiologists(Long testID){
+        return consultedradiologisttestsrepository.getConsultedRadiologists(testID);
+    }
 }
