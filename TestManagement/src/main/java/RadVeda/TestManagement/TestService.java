@@ -40,7 +40,7 @@ public class TestService implements TestServiceInterface {
     }
 
     @Override
-    public Test prescribeTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, TestRequest request) {
+    public Test prescribeTest(String authorizationHeader, TestRequest request) {
         Random random = new Random();
         int radID = random.nextInt(3) + 1;
         int labID = random.nextInt(3) + 1;
@@ -179,7 +179,7 @@ public class TestService implements TestServiceInterface {
     }
 
     @Override
-    public List<Test> findAllPrimaryAndConsultedTestsByUser(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, String userType, Long userID){
+    public List<Test> findAllPrimaryAndConsultedTestsByUser(String authorizationHeader, String userType, Long userID){
 
 
         String jwtToken = authorizationHeader.replace("Bearer ", "");
@@ -267,6 +267,73 @@ public class TestService implements TestServiceInterface {
             return testRepository.findConsultedTestsByPatientAndRadID(patientID, userID);
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<User> getPeopleInvolvedForTest(String authorizationHeader, Long testID){
+
+        Test testdetails = testRepository.findById(testID).orElseThrow(() -> new UserNotFoundException("Test Not Found"));
+        User labstaff = new User("LABSTAFF", testdetails.getLabStaffID());
+        User patient = new User("PATIENT", testdetails.getPatientID());
+        List<User> doctors = new ArrayList<>();
+        List<User> radiologists = new ArrayList<>();
+
+        String jwtToken = authorizationHeader.replace("Bearer ", "");
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.set("Authorization", "Bearer " + jwtToken);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        try{
+            responseEntity = restTemplate.exchange("http://localhost:9194/doctor/getConsultedDoctors/" + testID, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        }
+        catch(RuntimeException e){
+            throw new UserNotFoundException("Failed to fetch test details");
+        }
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            String responseBody = responseEntity.getBody();
+            try{
+                JSONArray jsonArray = new JSONArray(responseBody);
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    Long id = jsonObject.getLong("doctorID");
+                    User doctor = new User("DOCTOR", id);
+                    doctors.add(doctor);
+                }
+            }
+            catch(JSONException e){
+                throw new UserNotFoundException("Error parsing JSON response");
+            }
+        }
+
+        try{
+            responseEntity = restTemplate.exchange("http://localhost:9201/radiologist/getConsultedRadiologists/" + testID, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        }
+        catch(RuntimeException e){
+            throw new UserNotFoundException("Failed to fetch test details");
+        }
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            String responseBody = responseEntity.getBody();
+            try{
+                JSONArray jsonArray1 = new JSONArray(responseBody);
+                for(int i = 0; i < jsonArray1.length(); i++){
+                    JSONObject jsonObject = jsonArray1.getJSONObject(i);
+                    Long id = jsonObject.getLong("radiologistID");
+                    User radiologist = new User("RADIOLOGIST", id);
+                    radiologists.add(radiologist);
+                }
+            }
+            catch(JSONException e){
+                throw new UserNotFoundException("Error parsing JSON response");
+            }
+        }
+
+        List<User> consultedpersonnellist = new ArrayList<>();
+        consultedpersonnellist.addAll(doctors);
+        consultedpersonnellist.addAll(radiologists);
+        consultedpersonnellist.add(labstaff);
+        consultedpersonnellist.add(patient);
+
+        return consultedpersonnellist;
     }
 
     @Override
