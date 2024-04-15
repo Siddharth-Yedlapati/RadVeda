@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/patients")
 public class PatientController {
     private final PatientService patientService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public Patient getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -47,5 +48,21 @@ public class PatientController {
     {
         Optional<Patient> patient = patientService.findById(id);
         return patient.isPresent() && patient.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForPatientId/{id}")
+    public String getFirstAndLastNamesForPatientId(@PathVariable Long id)
+    {
+        Optional<Patient> patient = patientService.findById(id);
+        if(patient.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid patient id!");
+        }
+        if(!patient.get().isEnabled())
+        {
+            throw new UserNotFoundException("Patient with given id is not yet enabled!");
+        }
+
+        return patient.get().getFirstName() + delimiter + patient.get().getLastName();
     }
 }

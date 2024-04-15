@@ -16,6 +16,7 @@ import java.util.Optional;
 @RequestMapping("/admins")
 public class AdminController {
     private final AdminService adminService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public Admin getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -46,6 +47,22 @@ public class AdminController {
     {
         Optional<Admin> admin = adminService.findById(id);
         return admin.isPresent() && admin.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForAdminId/{id}")
+    public String getFirstAndLastNamesForAdminId(@PathVariable Long id)
+    {
+        Optional<Admin> admin = adminService.findById(id);
+        if(admin.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid admin id!");
+        }
+        if(!admin.get().isEnabled())
+        {
+            throw new UserNotFoundException("Admin with given id is not yet enabled!");
+        }
+
+        return admin.get().getFirstName() + delimiter + admin.get().getLastName();
     }
 
 }

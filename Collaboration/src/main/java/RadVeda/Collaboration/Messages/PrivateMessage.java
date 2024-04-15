@@ -22,4 +22,6 @@ public class PrivateMessage extends Message{
 
     private String recipientType;
     private Long recipientId;
+    private String recipientFirstName;
+    private String recipientLastName;
 }

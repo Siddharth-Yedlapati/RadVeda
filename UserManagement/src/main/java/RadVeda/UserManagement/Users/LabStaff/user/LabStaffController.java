@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.LabStaff.user;
 
+import RadVeda.UserManagement.Users.Admin.user.Admin;
 import RadVeda.UserManagement.Users.Doctor.user.Doctor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequestMapping("/labstaffs")
 public class LabStaffController {
     private final LabStaffService labStaffService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public LabStaff getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -47,5 +49,21 @@ public class LabStaffController {
     {
         Optional<LabStaff> labstaff = labStaffService.findById(id);
         return labstaff.isPresent() && labstaff.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForLabStaffId/{id}")
+    public String getFirstAndLastNamesForLabStaffId(@PathVariable Long id)
+    {
+        Optional<LabStaff> labstaff = labStaffService.findById(id);
+        if(labstaff.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid labstaff id!");
+        }
+        if(!labstaff.get().isEnabled())
+        {
+            throw new UserNotFoundException("Labstaff with given id is not yet enabled!");
+        }
+
+        return labstaff.get().getFirstName() + delimiter + labstaff.get().getLastName();
     }
 }

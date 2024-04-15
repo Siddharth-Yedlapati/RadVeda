@@ -23,6 +23,8 @@ public abstract class Message {
     private String text;
     private String senderType;
     private Long senderId;
+    private String senderFirstName;
+    private String senderLastName;
     private String referenceMessageType;
     private Long referenceMessageId;
 
