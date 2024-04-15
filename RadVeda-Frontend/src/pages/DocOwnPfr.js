@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
 import "./DocOwnPfr.css";
+import ChatOverlay from "./ChatOverlay";
 
 const DocOwnPfr = () => {
   const navigate = useNavigate();
@@ -34,7 +35,12 @@ const DocOwnPfr = () => {
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);
   const [isEditorOpen, setEditorOpen] = useState(false);
   const [notes, setNotes] = useState("");
+  const [isChatOpen, setChatOpen] = useState(false); // State to manage chat overlay visibility
+
   
+  const toggleChat = useCallback(() => {
+    setChatOpen((prev) => !prev);
+  }, []);
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -165,7 +171,7 @@ const DocOwnPfr = () => {
             <div className="upload-report">Complete Diagnosis</div>
           </div>
         </div>
-        <div className="doc-own-pfr-inner4" onClick={onFrameContainer4Click}>
+        <div className="doc-own-pfr-inner4" onClick={toggleChat}>
           <div className="collaborate-with-authorized-re-wrapper1">
             <div className="upload-report">
               Collaborate with Authorized Reps
@@ -239,6 +245,7 @@ const DocOwnPfr = () => {
           </div>
         </div>
       )}
+      {isChatOpen && <ChatOverlay onClose={toggleChat} />}
     </>
   );
 };
