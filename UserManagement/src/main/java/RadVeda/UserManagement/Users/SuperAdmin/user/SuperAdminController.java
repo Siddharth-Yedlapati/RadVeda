@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/superadmins")
 public class SuperAdminController {
     private final SuperAdminService superAdminService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public SuperAdmin getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -47,5 +48,21 @@ public class SuperAdminController {
     {
         Optional<SuperAdmin> superAdmin = superAdminService.findById(id);
         return superAdmin.isPresent() && superAdmin.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForSuperAdminId/{id}")
+    public String getFirstAndLastNamesForSuperAdminId(@PathVariable Long id)
+    {
+        Optional<SuperAdmin> superAdmin = superAdminService.findById(id);
+        if(superAdmin.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid superadmin id!");
+        }
+        if(!superAdmin.get().isEnabled())
+        {
+            throw new UserNotFoundException("Superadmin with given id is not yet enabled!");
+        }
+
+        return superAdmin.get().getFirstName() + delimiter + superAdmin.get().getLastName();
     }
 }
