@@ -122,5 +122,15 @@ public class TestController {
         return testlist;
     }
 
-    
+    @CrossOrigin(origins = "http://localhost:9195")
+    @GetMapping("/{testId}/getPeopleInvolvedForTest")
+    public List<User> getPeopleInvolvedForTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testId)
+                throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return testService.getPeopleInvolvedForTest(authorizationHeader, testId);
+    }    
 }

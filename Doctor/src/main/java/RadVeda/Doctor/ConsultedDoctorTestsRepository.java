@@ -14,4 +14,7 @@ public interface ConsultedDoctorTestsRepository extends JpaRepository<ConsultedD
 
     @Query(value = "SELECT * FROM consulteddoctortests WHERE doctorID = :doctorID", nativeQuery = true)
     List<ConsultedDoctorTests> getConsultedTests(Long doctorID);
+
+    @Query(value = "SELECT * FROM consulteddoctortests WHERE consultedTestID = :testID", nativeQuery = true)
+    List<ConsultedDoctorTests> getConsultedDoctors(Long testID);
 }

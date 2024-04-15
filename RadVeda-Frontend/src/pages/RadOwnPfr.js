@@ -7,6 +7,7 @@ import RadOwnOtherRadNotes from "../components/RadOwnOtherRadNotes";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
+import { ImageEditorComponent } from '@syncfusion/ej2-react-image-editor';
 import "./RadOwnPfr.css";
 
 const RadOwnPfr = () => {
@@ -33,6 +34,7 @@ const RadOwnPfr = () => {
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isRadOwnDocNotesOpen, setRadOwnDocNotesOpen] = useState(false);
   const [isRadOwnNotesOpen, setRadOwnNotesOpen] = useState(false);
+  const [isImageEditorOpen, setImageEditorOpen] = useState(false);
   const [isRadOwnOtherRadNotesOpen, setRadOwnOtherRadNotesOpen] =
     useState(false);
   
@@ -85,6 +87,14 @@ const RadOwnPfr = () => {
     setRadOwnOtherRadNotesOpen(true);
   }, []);
 
+  const openImageEditor = useCallback(() => {
+    setImageEditorOpen(true);
+  }, []);
+
+  const closeImageEditor = useCallback(() => {
+    setImageEditorOpen(false);
+  }, []);
+
   const closeRadOwnOtherRadNotes = useCallback(() => {
     setRadOwnOtherRadNotesOpen(false);
   }, []);
@@ -134,7 +144,7 @@ const RadOwnPfr = () => {
             alt=""
             src="/annotely-image-1@2x.png"
           />
-          <div className="group-wrapper35" onClick={onFrameContainer1Click}>
+          <div className="group-wrapper35" onClick = {openImageEditor}>
             <div className="add-further-annotations-wrapper">
               <div className="view-doctors-notes">Add further annotations</div>
             </div>
@@ -213,6 +223,9 @@ const RadOwnPfr = () => {
           </div>
         </div>
       </div>
+      {isImageEditorOpen && (
+        <ImageEditorComponent/>
+      )}
       {isNPUserOptionsOpen && (
         <PortalPopup
           overlayColor="rgba(113, 113, 113, 0.3)"
