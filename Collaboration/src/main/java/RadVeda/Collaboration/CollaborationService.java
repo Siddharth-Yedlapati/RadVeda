@@ -1,20 +1,19 @@
 package RadVeda.Collaboration;
 
 import RadVeda.Collaboration.Messages.*;
-import RadVeda.Collaboration.exception.UnauthorisedUserException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -253,7 +252,7 @@ public class CollaborationService implements CollaborationServiceInterface{
     }
 
     @Override
-    public boolean performTestBasedSanityChecks(Long testId, String senderType, Long senderId, String recipientType, Long recipientId, String authorizationHeader)
+    public boolean performTestBasedSanityChecks(Long testId, String currentUserType, Long currentUserId, String otherEndUserType, Long otherEndUserId, String authorizationHeader)
     { // This function assumes that the current user is an authenticated user
 
         String jwtToken = "";
@@ -271,7 +270,7 @@ public class CollaborationService implements CollaborationServiceInterface{
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtToken);
 
-        String url = "http://localhost:9192/tests/"+ testId +"/getTest";
+        String url = "http://localhost:9192/tests/"+ testId +"/getPeopleInvolvedForTest";
 
         // Sending a GET request to the test management service with the JWT token in the headers
         ResponseEntity<String> responseEntity;
@@ -281,9 +280,116 @@ public class CollaborationService implements CollaborationServiceInterface{
             return false;
         }
 
-        // Checking if the response status is OK (200)
-        return responseEntity.getStatusCode() == HttpStatus.OK;
+        // Creating a list to store user types
+        List<String> userTypes = new ArrayList<>();
+        //Creating a list to store corresponding user ids
+        List<Long> userIds = new ArrayList<>();
 
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            // Extracting the response body
+            String responseBody = responseEntity.getBody();
+
+            // Parsing the response body
+            try {
+                JSONArray jsonArray = new JSONArray(responseBody);
+
+                // Extracting userType and userId from each JSON object in the array
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String userType = jsonObject.getString("type");
+                    Long userId = jsonObject.getLong("id");
+                    userTypes.add(userType);
+                    userIds.add(userId);
+                }
+
+            } catch (JSONException e) {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        boolean isCurrentUserInTest = false;
+        boolean isOtherEndUserInTest = false;
+
+        for(int i=0;i<userTypes.size();i++)
+        {
+            if(Objects.equals(currentUserType, userTypes.get(i)) && Objects.equals(currentUserId, userIds.get(i)))
+            {
+                isCurrentUserInTest = true;
+            }
+            if(otherEndUserType != null && otherEndUserId != null)
+            {
+                if (Objects.equals(otherEndUserType, userTypes.get(i)) && Objects.equals(otherEndUserId, userIds.get(i)))
+                {
+                    isOtherEndUserInTest = true;
+                }
+            }
+        }
+
+        return isCurrentUserInTest && ((otherEndUserType == null && otherEndUserId == null) || isOtherEndUserInTest);
+
+    }
+
+    @Override
+    public boolean isReferenceMessageValid(User currentMessageSender, User currentMessageRecipient, Long currentMessageTestId, String currentMessageType, String referenceMessageType, Long referenceMessageId)
+    {
+        //Reference message should be a valid message first of all... done
+        //Reference message type should be same as the current message type... done
+        //Reference message should be from the same test.. check test id... done
+        //If type is private message:
+            //sortByTypeAndId([rm_sender, rm_recipient]) should be same as sortByTypeAndId([m_sender, m_recipient])... done
+
+        if(!Objects.equals(referenceMessageType, "PRIVATE") && !Objects.equals(referenceMessageType, "GROUP"))
+        {
+            return false;
+        }
+        if(!referenceMessageType.equals(currentMessageType))
+        {
+            return false;
+        }
+
+        if(referenceMessageType.equals("GROUP"))
+        {
+            Optional<GroupMessage> optionalReferenceMessage = groupMessageRepository.findById(referenceMessageId);
+            if(optionalReferenceMessage.isEmpty())
+            {
+                return false;
+            }
+            GroupMessage referenceMessage = optionalReferenceMessage.get();
+            return Objects.equals(currentMessageTestId, referenceMessage.getTestId());
+        }
+        else
+        {
+            Optional<PrivateMessage> optionalReferenceMessage = privateMessageRepository.findById(referenceMessageId);
+            if(optionalReferenceMessage.isEmpty())
+            {
+                return false;
+            }
+            PrivateMessage referenceMessage = optionalReferenceMessage.get();
+            if(!Objects.equals(currentMessageTestId, referenceMessage.getTestId()))
+            {
+                return false;
+            }
+
+            User referenceMessageSender = new User();
+            User referenceMessageRecipient = new User();
+
+            referenceMessageSender.setId(referenceMessage.getSenderId());
+            referenceMessageSender.setType(referenceMessage.getSenderType());
+            referenceMessageSender.setFirstName(referenceMessage.getSenderFirstName());
+            referenceMessageSender.setLastName(referenceMessage.getSenderLastName());
+
+            referenceMessageRecipient.setId(referenceMessage.getRecipientId());
+            referenceMessageRecipient.setType(referenceMessage.getRecipientType());
+            referenceMessageRecipient.setFirstName(referenceMessage.getRecipientFirstName());
+            referenceMessageRecipient.setLastName(referenceMessage.getRecipientLastName());
+
+            return (currentMessageSender.equals(referenceMessageSender) && currentMessageRecipient.equals(referenceMessageRecipient)) || (currentMessageSender.equals(referenceMessageRecipient) && currentMessageRecipient.equals(referenceMessageSender));
+        }
     }
 
 }
