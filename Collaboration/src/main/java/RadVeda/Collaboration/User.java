@@ -23,13 +23,11 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(type, user.type) &&
-                Objects.equals(id, user.id) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName);
+                Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, id, firstName, lastName);
+        return Objects.hash(type, id);
     }
 }
