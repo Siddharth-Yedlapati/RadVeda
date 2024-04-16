@@ -15,7 +15,7 @@ import java.util.List;
 public class NotificationController {
     private final NotificationService notificationService;
 
-    @GetMapping("/getAllChatNotifications")
+    @GetMapping("/getAllChatNotifications") //reply, ignore, cross
     public List<ChatNotification> getAllChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
@@ -27,7 +27,7 @@ public class NotificationController {
         return notificationService.findAllChatNotificationsByRecipient(currentUser.getType(), currentUser.getId());
     }
 
-    @GetMapping("/getAllConsentRequestNotifications")
+    @GetMapping("/getAllConsentRequestNotifications") //fill consent form, cross
     public List<ConsentRequestNotification> getAllConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
@@ -39,7 +39,7 @@ public class NotificationController {
         return notificationService.findAllConsentRequestNotificationsByRecipient(currentUser.getType(), currentUser.getId());
     }
 
-    @GetMapping("/getAllOneWayNotifications")
+    @GetMapping("/getAllOneWayNotifications") //cross
     public List<OneWayNotification> getAllOneWayNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
