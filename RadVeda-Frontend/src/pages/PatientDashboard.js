@@ -30,7 +30,8 @@ const PatientDashboard = () => {
 
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientChooseLabOpen, setPatientChooseLabOpen] = useState(false);
-  
+  const [testDetails, setTestDetails] = useState([]);
+
 
   const openPatientUserOptions = useCallback(() => {
     setPatientUserOptionsOpen(true);
@@ -60,6 +61,62 @@ const PatientDashboard = () => {
     navigate("/patient-pfr-radiologist");
   }, [navigate]);
 
+  useEffect(() => {
+    request ("GET", "http://localhost:9191/patients/profile", {}, true).
+    then(patResponse => {
+      const patId = patResponse.data.id;
+      return request("GET", `http://localhost:9192/tests/PATIENT/${patId}/getTests`, {}, true)
+    })
+    .then(testResponse => {
+      const testDetails = testResponse.data;
+      setTestDetails(testDetails);
+    })
+  })
+
+  const renderPatientsTable = () => {
+    return (
+      <table className="tests-table">
+        <thead>
+          <tr>
+            <th>Test type</th>
+            <th>Date Prescribed</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody>
+          {testDetails.map((testDetail) => (
+            <tr key={testDetail.id} onClick={testDetail.patientStatus !== 'Choose Lab' ? () => handleRowClick(testDetail.id) : null}>
+              <td>{testDetail.testType}</td>
+              <td>{testDetail.datePrescribed}</td>
+              <td>
+                {testDetail.patientStatus !== 'Choose Lab' ? (
+                  testDetail.patientStatus
+                ) : (
+                  <button onClick={() => openPatientChooseLab()}>Choose Lab</button>
+                )}
+              </td>
+              <td>{testDetail.doctorsRemarksforPatient}</td>
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+    );
+  };
+
+  const handleRowClick = (testID) => {
+    console.log('Clicked Row');
+  }
+
+  // const handleButtonClick = (testID) => {
+
+  //   console.log('Clicked button')
+
+  // }
+
   return (
     <>
       <div className="patient-dashboard">
@@ -81,16 +138,25 @@ const PatientDashboard = () => {
         <img className="need-help-icon36" alt="" src="/need-help.svg" />
         <div className="patient-dashboard-inner" />
         <div className="patient-dashboard-child1" />
-        <div className="frame-parent35">
-          <div className="frame-child350" />
-          <div className="frame-child351" />
-          <div className="good-morning-john-container7">
+        <div className="frame-child350" />
+        <div className="frame-child351" />
+        <div className="good-morning-john-container7">
             <span>Good Morning</span>
             <b className="john-doe7">
               <span className="span7">{` `}</span>
               <span>John Doe</span>
             </b>
           </div>
+
+        <div className="my-tests-list-parent">
+          <b className="my-tests-list">My Tests</b>
+          <div className="frame-child-test-125" >
+          {renderPatientsTable()}
+          </div>
+
+        </div>
+
+        {/* <div className="frame-parent35">
           <div className="group-parent54" onClick={onFrameContainerClick}>
             <div className="endoscopy-wrapper">
               <div className="endoscopy">Endoscopy</div>
@@ -110,46 +176,6 @@ const PatientDashboard = () => {
           <div className="doctors-remarks3">doctor’s remarks</div>
           <div className="remark42">Remark4</div>
         </div>
-        <div className="patient-dashboard-inner1">
-          <div className="notifications-container">
-            <div className="notifications1">Notifications</div>
-          </div>
-        </div>
-        <div className="patient-dashboard-child2" />
-        <div className="clear-all1">clear all</div>
-        <div className="patient-dashboard-child3" />
-        <div className="patient-dashboard-inner2">
-          <div className="group-child23" />
-        </div>
-        <div className="consent-request-by">
-          Consent Request by Dr. XYZ from Hospital D
-        </div>
-        <div className="patient-dashboard-child4" />
-        <div className="patient-dashboard-child5" />
-        <img className="patient-dashboard-child6" alt="" />
-        <img className="patient-dashboard-child7" alt="" />
-        <img className="patient-dashboard-child8" alt="" />
-        <img className="patient-dashboard-child9" alt="" />
-        <div className="patient-dashboard-inner3">
-          <div className="group-child23" />
-        </div>
-        <div className="reminder-to-visit">
-          Reminder to visit XYZ Lab at 5pm 02/02/24 for CT Scan
-        </div>
-        <div className="patient-dashboard-inner4">
-          <div className="group-child23" />
-        </div>
-        <div className="new-chat-message">New Chat Message from Dr. John</div>
-        <div className="patient-dashboard-inner5">
-          <div className="group-child23" />
-        </div>
-        <div className="diagnosis-has-been">
-          Diagnosis has been completed for Ultrasound issued on 21/09/2023
-        </div>
-        <div className="patient-dashboard-inner6">
-          <div className="group-child23" />
-        </div>
-        <div className="new-chat-message1">New Chat Message from Dr. Abdul</div>
         <div className="frame-parent36">
           <div className="frame-child350" />
           <div className="frame-parent37">
@@ -197,7 +223,52 @@ const PatientDashboard = () => {
             </div>
           </div>
           <b className="my-tests">My tests</b>
+        </div> */}
+
+
+        <div className="patient-dashboard-inner1">
+          <div className="notifications-container">
+            <div className="notifications1">Notifications</div>
+          </div>
         </div>
+        <div className="patient-dashboard-child2" />
+        <div className="clear-all1">clear all</div>
+        <div className="patient-dashboard-child3" />
+        <div className="patient-dashboard-inner2">
+          <div className="group-child23" />
+        </div>
+        <div className="consent-request-by">
+          Consent Request by Dr. XYZ from Hospital D
+        </div>
+        <div className="patient-dashboard-child4" />
+        <div className="patient-dashboard-child5" />
+        <img className="patient-dashboard-child6" alt="" />
+        <img className="patient-dashboard-child7" alt="" />
+        <img className="patient-dashboard-child8" alt="" />
+        <img className="patient-dashboard-child9" alt="" />
+        <div className="patient-dashboard-inner3">
+          <div className="group-child23" />
+        </div>
+        <div className="reminder-to-visit">
+          Reminder to visit XYZ Lab at 5pm 02/02/24 for CT Scan
+        </div>
+        <div className="patient-dashboard-inner4">
+          <div className="group-child23" />
+        </div>
+        <div className="new-chat-message">New Chat Message from Dr. John</div>
+        <div className="patient-dashboard-inner5">
+          <div className="group-child23" />
+        </div>
+        <div className="diagnosis-has-been">
+          Diagnosis has been completed for Ultrasound issued on 21/09/2023
+        </div>
+        <div className="patient-dashboard-inner6">
+          <div className="group-child23" />
+        </div>
+        <div className="new-chat-message1">New Chat Message from Dr. Abdul</div>
+        
+       
+
       </div>
       {isPatientUserOptionsOpen && (
         <PortalPopup
