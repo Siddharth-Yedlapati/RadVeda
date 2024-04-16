@@ -11,7 +11,7 @@ const NPUserOptions = ({ onClose }) => {
     removeAuthToken();
     navigate("/");
   }, [navigate]);
-
+  
   return (
     <div className="np-user-options">
       <div className="np-user-options-child" />

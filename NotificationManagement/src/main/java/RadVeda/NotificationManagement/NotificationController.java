@@ -17,7 +17,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getAllChatNotifications")
+    @GetMapping("/getAllChatNotifications") //reply, ignore, cross
     public List<ChatNotification> getAllChatNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
@@ -30,7 +30,7 @@ public class NotificationController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getAllConsentRequestNotifications")
+    @GetMapping("/getAllConsentRequestNotifications") //fill consent form, cross
     public List<ConsentRequestNotification> getAllConsentRequestNotifications(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
     {
         User currentUser = notificationService.authenticate(authorizationHeader);
