@@ -20,6 +20,31 @@ import java.util.*;
 public class CollaborationService implements CollaborationServiceInterface{
     private final GroupMessageRepository groupMessageRepository;
     private final PrivateMessageRepository privateMessageRepository;
+    private final NotifiabilityRepository notifiabilityRepository;
+
+    @Override
+    public String setPrivateMessageNotifiabilityToTrueForTestAndUser(Long testId, String userType, Long userId, User currentUser)
+    {
+
+    }
+
+    @Override
+    public String setPrivateMessageNotifiabilityToFalseForTestAndUser(Long testId, String userType, Long userId, User currentUser)
+    {
+
+    }
+
+    @Override
+    public String setGroupMessageNotifiabilityToTrueForTest(Long testId, User currentUser)
+    {
+
+    }
+
+    @Override
+    public String setGroupMessageNotifiabilityToFalseForTest(Long testId, User currentUser)
+    {
+
+    }
 
     @Override
     public String sendGroupMessage(GroupMessageRequest request, User currentUser)
