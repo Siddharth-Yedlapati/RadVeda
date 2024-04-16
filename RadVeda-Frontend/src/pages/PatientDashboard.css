@@ -107,7 +107,13 @@
   width: 39.4px;
   height: 46px;
 }
-.patient-dashboard-child1 {
+.patient-dashboard-child1 {.frame-child125 {
+  position: absolute;
+  top: 47px;
+  left: 12px;
+  width: 300px;
+  height: 206px;
+}
   position: absolute;
   top: 199px;
   left: 709px;
@@ -614,4 +620,71 @@
   font-size: var(--components-helper-text-size);
   color: var(--btnbkgnormal);
   font-family: var(--font-poppins);
+}
+
+.tests-table {
+  border-collapse: collapse;
+  width: 180%;
+}
+
+.tests-table th,
+.tests-table td {
+  padding: 12px; /* Increase the padding */
+  text-align: left;
+}
+
+.tests-table th {
+  background-color: var(--color-gray-300);
+  color: var(--color-steelblue-200);
+  font-weight: bold;
+  cursor: default;
+}
+
+.tests-table tbody tr:hover {
+  cursor: pointer;
+  background-color: var(--color-gray-300);
+}
+
+.tests-table button {
+  /* position: absolute; */
+  top: 0;
+  /* left: 356px; */
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 134px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+
+
+.my-tests-list {
+  position: absolute;
+  top: 20px;
+  left: 17px;
+  text-transform: capitalize;
+}
+
+.my-tests-list-parent {
+  position: absolute;
+  top: 224px;
+  left: 101px;
+  width: 682px;
+  height: 264px;
+  font-size: var(--font-size-base);
+  color: var(--color-lavender);
+}
+
+.frame-child-test-125 {
+  position: absolute;
+  top: 47px;
+  left: 12px;
+  width: 500px;
+  height: 206px;
 }

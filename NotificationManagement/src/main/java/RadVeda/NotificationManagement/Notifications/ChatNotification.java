@@ -19,5 +19,6 @@ public class ChatNotification extends Notification{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long chatID;
+    private String chatType;
+    private Long chatId;
 }

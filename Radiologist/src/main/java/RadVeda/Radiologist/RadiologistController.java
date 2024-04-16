@@ -101,5 +101,25 @@ public class RadiologistController {
         return "Test successfully deleted";
     }
 
+    @CrossOrigin(origins = "http://localhost:9192")
+    @GetMapping("/getConsultedTests/{radiologistID}")
+    public List<ConsultedRadiologistTests> getConsultedTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long radiologistID){
+        User user = radiologistService.authenticate(authorizationHeader);
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
+        return radiologistService.getConsultedTests(radiologistID);
+    }
+
+    @CrossOrigin(origins = "http://localhost:9192")
+    @GetMapping("/getConsultedRadiologists/{testID}")
+    public List<ConsultedRadiologistTests> getConsultedRadiologists(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID){
+        User user = radiologistService.authenticate(authorizationHeader);
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
+        return radiologistService.getConsultedRadiologists(testID);
+    }
+
 }
 

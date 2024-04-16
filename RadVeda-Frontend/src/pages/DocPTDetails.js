@@ -67,7 +67,7 @@ const DocPTDetails = () => {
             "http://localhost:9192/prescribe-test",
             {
               "TestType": testType,
-              "PatientStatus" : 'Pending For Review By Radiologist',
+              "PatientStatus" : 'Pending For Review by Radiologist',
               "DoctorStatus" : 'Pending For Review',
               "RadiologistStatus": '',
               "LabStaffStatus": '',

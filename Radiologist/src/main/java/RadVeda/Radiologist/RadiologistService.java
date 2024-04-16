@@ -28,6 +28,7 @@ import java.time.ZoneId;
 public class RadiologistService implements RadiologistServiceInterface {
     private final RadiologistRepository radiologistrepository;
     private final RadiologistTestsRepository radiologisttestsrepository;
+    private final ConsultedRadiologistTestsRepository consultedradiologisttestsrepository;
     // private final SuperAdminVerificationTokenRepository superadminTokenRepository;
 
     @Override
@@ -166,5 +167,15 @@ public class RadiologistService implements RadiologistServiceInterface {
     public void deleteTest(Long testID){
         radiologisttestsrepository.deleteTest(testID);
         return;
+    }
+
+    @Override
+    public List<ConsultedRadiologistTests> getConsultedTests(Long radiologistID){
+        return consultedradiologisttestsrepository.getConsultedTests(radiologistID);
+    }
+
+    @Override
+    public List<ConsultedRadiologistTests> getConsultedRadiologists(Long testID){
+        return consultedradiologisttestsrepository.getConsultedRadiologists(testID);
     }
 }

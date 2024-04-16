@@ -13,10 +13,11 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192", "http://localhost:9194", "http://localhost:9195", "http://localhost:9196", "http://localhost:9197", "http://localhost:9198", "http://localhost:9199", "http://localhost:9200", "http://localhost:9201", "http://localhost:9202"})
 @RequestMapping("/doctors")
 public class DoctorController {
     private final DoctorService doctorService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public Doctor getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -46,6 +47,22 @@ public class DoctorController {
     public boolean validateDoctorId(@PathVariable Long id)
     {
         Optional<Doctor> doctor = doctorService.findById(id);
-        return doctor.isPresent();
+        return doctor.isPresent() && doctor.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForDoctorId/{id}")
+    public String getFirstAndLastNamesForDoctorId(@PathVariable Long id)
+    {
+        Optional<Doctor> doctor = doctorService.findById(id);
+        if(doctor.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid doctor id!");
+        }
+        if(!doctor.get().isEnabled())
+        {
+            throw new UserNotFoundException("Doctor with given id is not yet enabled!");
+        }
+
+        return doctor.get().getFirstName() + delimiter + doctor.get().getLastName();
     }
 }

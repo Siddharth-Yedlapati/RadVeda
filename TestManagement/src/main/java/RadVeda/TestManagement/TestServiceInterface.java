@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 public interface TestServiceInterface {
     List<Test> getTests();
 
-    Test prescribeTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, TestRequest request);
+    Test prescribeTest(String authorizationHeader, TestRequest request);
 
     Optional<Test> findById(Long testID);
     List<Test> findAllTests();
     List<Test> findAllTestsByUser(String userType, Long userID);
     List<Test> findAllTestsByPatientAndUser(Long patientID, String userType, Long userID);
-    List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID);   
+    List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID);
+    List<Test> findAllPrimaryAndConsultedTestsByUser(String authorizationHeader, String userType, Long userID);
     User authenticate(String authorizationHeader);
+    List<User> getPeopleInvolvedForTest(String authorizationHeader, Long testID);
 }

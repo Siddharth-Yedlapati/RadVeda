@@ -13,10 +13,11 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192", "http://localhost:9194", "http://localhost:9195", "http://localhost:9196", "http://localhost:9197", "http://localhost:9198", "http://localhost:9199", "http://localhost:9200", "http://localhost:9201", "http://localhost:9202"})
 @RequestMapping("/radiologists")
 public class RadiologistController {
     private final RadiologistService radiologistService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public Radiologist getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -46,6 +47,22 @@ public class RadiologistController {
     public boolean validateRadiologistId(@PathVariable Long id)
     {
         Optional<Radiologist> radiologist = radiologistService.findById(id);
-        return radiologist.isPresent();
+        return radiologist.isPresent() && radiologist.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForRadiologistId/{id}")
+    public String getFirstAndLastNamesForRadiologistId(@PathVariable Long id)
+    {
+        Optional<Radiologist> radiologist = radiologistService.findById(id);
+        if(radiologist.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid radiologist id!");
+        }
+        if(!radiologist.get().isEnabled())
+        {
+            throw new UserNotFoundException("Radiologist with given id is not yet enabled!");
+        }
+
+        return radiologist.get().getFirstName() + delimiter + radiologist.get().getLastName();
     }
 }

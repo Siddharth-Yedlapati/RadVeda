@@ -24,7 +24,7 @@ import java.util.Optional;
 public class TestController {
     private final TestService testService;
 
-    @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:9194" })
+    @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:9202" })
     @GetMapping("/{testID}/getTest")
     public Test getTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID)
             throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
@@ -107,5 +107,30 @@ public class TestController {
         return testList;
     }
 
-    
+    @GetMapping("/{userType}/{userID}/getAllPrimaryandConsultedTests")
+    public List<Test> getAllPrimaryandConsultedTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String userType, @PathVariable Long userID)
+                throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        } 
+        List<Test> testlist = testService.findAllPrimaryAndConsultedTestsByUser(authorizationHeader ,userType, userID);
+        if(testlist.isEmpty()){
+            throw new UserNotFoundException("No tests found for the given ID");
+        }
+        return testlist;
+    }
+
+    @CrossOrigin(origins = "http://localhost:9195")
+    @GetMapping("/{testId}/getPeopleInvolvedForTest")
+    public List<User> getPeopleInvolvedForTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testId)
+                throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return testService.getPeopleInvolvedForTest(authorizationHeader, testId);
+    }    
 }

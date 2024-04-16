@@ -4,9 +4,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import "./global.css";
+import { registerLicense } from '@syncfusion/ej2-base';
 
 const container = document.getElementById("root");
 const root = createRoot(container);
+
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NBaF5cXmpCe0x3RXxbf1x0ZFFMYllbQHZPIiBoS35RckVnWH9fdnBWQmJfVEJ+');
 
 root.render(
   <BrowserRouter>

@@ -1,0 +1,103 @@
+/* chatoverlay.css */
+
+.chat-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    max-height: 80vh; /* Adjust maximum height as needed */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensure content does not overflow */
+  }
+  
+  .chat-header {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .message-container {
+    height: 300px; /* Set a fixed height for the message container */
+    overflow-y: scroll; /* Always show scrollbar */
+    padding: 10px;
+  }
+  
+  .message {
+    margin-bottom: 8px;
+    border-radius: 15px; /* Increase the border-radius for a more rounded appearance */
+    word-wrap: break-word;
+    padding: 8px 12px; /* Add padding inside the message bubble */
+    /* max-width: 70%;  */
+    /* display: inline-block;  */
+  }
+  
+  /* Messages sent by the user */
+  .message.user {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: 0;
+    background-color: #128C7E; /* User's message background color */
+    color: #ffffff;
+  }
+  
+  /* Messages sent by others */
+  .message.other {
+    width: fit-content;
+    margin-left: 0;
+    margin-right: auto;
+    color: #ffffff;
+    background-color: #81928a; /* Other's message background color */
+  }
+  
+  
+  .input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    height: 50%;
+    border-top: 1px solid #ccc;
+  }
+  
+  .input-container textarea {
+    flex: 1;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+  }
+  
+  .send-btn {
+    height: 40px;
+    padding: 0 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .send-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .close-btn {
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover {
+    background-color: #b3b3b3;
+  }
+  

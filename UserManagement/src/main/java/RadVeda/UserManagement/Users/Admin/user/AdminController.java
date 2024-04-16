@@ -12,10 +12,11 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192", "http://localhost:9194"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192", "http://localhost:9194", "http://localhost:9195", "http://localhost:9196", "http://localhost:9197", "http://localhost:9198", "http://localhost:9199", "http://localhost:9200", "http://localhost:9201", "http://localhost:9202"})
 @RequestMapping("/admins")
 public class AdminController {
     private final AdminService adminService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public Admin getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -45,7 +46,23 @@ public class AdminController {
     public boolean validateAdminId(@PathVariable Long id)
     {
         Optional<Admin> admin = adminService.findById(id);
-        return admin.isPresent();
+        return admin.isPresent() && admin.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForAdminId/{id}")
+    public String getFirstAndLastNamesForAdminId(@PathVariable Long id)
+    {
+        Optional<Admin> admin = adminService.findById(id);
+        if(admin.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid admin id!");
+        }
+        if(!admin.get().isEnabled())
+        {
+            throw new UserNotFoundException("Admin with given id is not yet enabled!");
+        }
+
+        return admin.get().getFirstName() + delimiter + admin.get().getLastName();
     }
 
 }

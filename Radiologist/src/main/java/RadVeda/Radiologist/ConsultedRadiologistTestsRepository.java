@@ -12,5 +12,9 @@ import java.util.List;
 
 public interface ConsultedRadiologistTestsRepository extends JpaRepository<ConsultedRadiologistTests, Long> {
 
+    @Query(value = "SELECT * FROM consultedradiologisttests WHERE radiologistID = :radiologistID", nativeQuery = true)
+    List<ConsultedRadiologistTests> getConsultedTests(Long radiologistID);
 
+    @Query(value = "SELECT * FROM consultedradiologisttests WHERE consultedTestID = :testID", nativeQuery = true)
+    List<ConsultedRadiologistTests> getConsultedRadiologists(Long testID);
 }

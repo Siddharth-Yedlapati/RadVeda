@@ -100,5 +100,28 @@ public class DoctorController {
         return "Test successfully deleted";
     }
 
+    @CrossOrigin(origins = "http://localhost:9192")
+    @GetMapping("/getConsultedTests/{doctorID}")
+    public List<ConsultedDoctorTests> getConsultedTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long doctorID){
+        User user = doctorService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
+        return doctorService.getConsultedTests(doctorID);        
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:9192")
+    @GetMapping("/getConsultedDoctors/{testID}")
+    public List<ConsultedDoctorTests> getConsultedDoctors(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID){
+        User user = doctorService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
+        return doctorService.getConsultedDoctors(testID);        
+    }
+
 }
 
