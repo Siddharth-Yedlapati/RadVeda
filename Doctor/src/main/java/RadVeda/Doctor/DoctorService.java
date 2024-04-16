@@ -174,4 +174,9 @@ public class DoctorService implements DoctorServiceInterface {
     public List<ConsultedDoctorTests> getConsultedTests(Long doctorID){
         return consulteddoctortestsrepository.getConsultedTests(doctorID);
     }
+
+    @Override
+    public List<ConsultedDoctorTests> getConsultedDoctors(Long testID){
+        return consulteddoctortestsrepository.getConsultedDoctors(testID);
+    }
 }

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>RadVeda</groupId>
-    <artifactId>Collaboration</artifactId>
+    <artifactId>Analytics</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Collaboration</name>
-    <description>Collaboration</description>
+    <name>Analytics</name>
+    <description>Analytics</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -56,11 +56,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20240303</version>
         </dependency>
     </dependencies>
 

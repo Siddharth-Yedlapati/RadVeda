@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/radiologists")
 public class RadiologistController {
     private final RadiologistService radiologistService;
+    private static String delimiter = ":_:";
 
     @GetMapping("/profile")
     public Radiologist getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -47,5 +48,21 @@ public class RadiologistController {
     {
         Optional<Radiologist> radiologist = radiologistService.findById(id);
         return radiologist.isPresent() && radiologist.get().isEnabled();
+    }
+
+    @GetMapping("/getFirstAndLastNamesForRadiologistId/{id}")
+    public String getFirstAndLastNamesForRadiologistId(@PathVariable Long id)
+    {
+        Optional<Radiologist> radiologist = radiologistService.findById(id);
+        if(radiologist.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid radiologist id!");
+        }
+        if(!radiologist.get().isEnabled())
+        {
+            throw new UserNotFoundException("Radiologist with given id is not yet enabled!");
+        }
+
+        return radiologist.get().getFirstName() + delimiter + radiologist.get().getLastName();
     }
 }
