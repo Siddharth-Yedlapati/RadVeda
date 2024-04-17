@@ -437,49 +437,99 @@ public class CollaborationService implements CollaborationServiceInterface{
     }
 
     @Override
-    public List<GroupMessage> getGroupMessagesForTest(Long testId)
+    public List<GroupMessage> getGroupMessagesForTest(Long testId, User currentUser)
+    {
+        if(!Objects.equals(currentUser.getType(), "RADIOLOGIST") && !Objects.equals(currentUser.getType(), "DOCTOR"))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        List<GroupMessage> visibleGroupMessages = new ArrayList<>();
+        List<GroupMessage> groupMessages = groupMessageRepository.findByTestId(testId);
+        for (GroupMessage groupMessage : groupMessages)
+        {
+            Optional<MessageVisibility> optionalMessageVisibility = messageVisibilityRepository.findByMessageTypeAndMessageIdAndUserTypeAndUserId("GROUP", groupMessage.getId(), currentUser.getType(), currentUser.getId());
+            if (optionalMessageVisibility.isPresent() && optionalMessageVisibility.get().isVisible())
+            {
+                visibleGroupMessages.add(groupMessage);
+            }
+        }
+
+        return visibleGroupMessages;
+
+    }
+
+    @Override
+    public List<GroupMessage> getSentGroupMessagesForTest(Long testId, User currentUser)
+    {
+        if(!Objects.equals(currentUser.getType(), "RADIOLOGIST") && !Objects.equals(currentUser.getType(), "DOCTOR"))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        List<GroupMessage> visibleSentGroupMessages = new ArrayList<>();
+        List<GroupMessage> groupMessages = groupMessageRepository.findByTestId(testId);
+        for (GroupMessage groupMessage : groupMessages)
+        {
+            Optional<MessageVisibility> optionalMessageVisibility = messageVisibilityRepository.findByMessageTypeAndMessageIdAndUserTypeAndUserId("GROUP", groupMessage.getId(), currentUser.getType(), currentUser.getId());
+            if (optionalMessageVisibility.isPresent() && optionalMessageVisibility.get().isVisible() && Objects.equals(groupMessage.getSenderType(), currentUser.getType()) && Objects.equals(groupMessage.getSenderId(), currentUser.getId()))
+            {
+                visibleSentGroupMessages.add(groupMessage);
+            }
+        }
+
+        return visibleSentGroupMessages;
+
+    }
+
+    @Override
+    public List<User> getDirectlyContactedPeopleForTest(Long testId, User currentUser)
     {
 
     }
 
     @Override
-    public List<GroupMessage> getSentGroupMessagesForTest(Long testId)
+    public List<PrivateMessage> getPrivateConversationForTestAndUser(Long testId, String userType, Long userId, User currentUser)
     {
+        List<PrivateMessage> currentUserToOtherEndUserPrivateMessages = privateMessageRepository.findByTestIdAndSenderTypeAndSenderIdAndRecipientTypeAndRecipientId(testId, currentUser.getType(), currentUser.getId(), userType, userId);
+        List<PrivateMessage> otherEndUserToCurrentUserPrivateMessages = privateMessageRepository.findByTestIdAndSenderTypeAndSenderIdAndRecipientTypeAndRecipientId(testId, userType, userId, currentUser.getType(), currentUser.getId());
 
-    }
+        List<PrivateMessage> conversation = new ArrayList<>();
+        conversation.addAll(currentUserToOtherEndUserPrivateMessages);
+        conversation.addAll(otherEndUserToCurrentUserPrivateMessages);
 
-    @Override
-    public List<User> getDirectlyContactedPeopleForTest(Long testId)
-    {
-
-    }
-
-    @Override
-    public List<PrivateMessage> getPrivateConversationForTestAndUser(Long testId, String userType, Long userId)
-    {
-
+        return conversation;
     }
 
     @Override
     public boolean validateMessage(String messageType, Long messageId)
     {
-
+        if(Objects.equals(messageType, "GROUP"))
+        {
+            Optional<GroupMessage> optionalGroupMessage = groupMessageRepository.findById(messageId);
+            return optionalGroupMessage.isPresent();
+        }
+        else //PRIVATE
+        {
+            Optional<PrivateMessage> optionalPrivateMessage = privateMessageRepository.findById(messageId);
+            return optionalPrivateMessage.isPresent();
+        }
     }
 
     @Override
-    public String clearGroupMessagesForTest(Long testId)
+    public String clearGroupMessagesForTest(Long testId, User currentUser)
     {
 
     }
 
     @Override
-    public String clearPrivateMessagesForTestAndUser(Long testId, String userType, Long userId)
+    public String clearPrivateMessagesForTestAndUser(Long testId, String userType, Long userId, User currentUser)
     {
 
     }
 
     @Override
-    public String deleteMessageForCurrentUserForTest(Long testId, String messageType, Long messageId)
+    public String deleteMessageForCurrentUserForTest(Long testId, String messageType, Long messageId, User currentUser)
     {
 
     }
