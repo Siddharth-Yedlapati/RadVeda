@@ -110,7 +110,7 @@ public class CollaborationController {
             throw new InvalidReferenceMessageException("Invalid reference message!");
         }
 
-        return collaborationService.sendGroupMessage(request, currentUser);
+        return collaborationService.sendGroupMessage(request, currentUser, authorizationHeader);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -138,7 +138,7 @@ public class CollaborationController {
             throw new InvalidReferenceMessageException("Invalid reference message!");
         }
 
-        return collaborationService.sendPrivateMessage(request, currentUser);
+        return collaborationService.sendPrivateMessage(request, currentUser, authorizationHeader);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
