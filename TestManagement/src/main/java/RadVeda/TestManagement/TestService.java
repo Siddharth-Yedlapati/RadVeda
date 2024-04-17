@@ -40,6 +40,22 @@ public class TestService implements TestServiceInterface {
     }
 
     @Override
+    public Test assignLab(Long testId, Long labStaff) {
+        Optional<Test> testRec = findById(testId);
+        Test test = testRec.orElseThrow(() -> new UserNotFoundException("Test Assignment Failed"));
+        testRepository.addLabforTest(testId, labStaff);
+        return test;
+    }
+    @Override
+    public Test assignRad(Long testId, Long labStaff) {
+        Optional<Test> testRec = findById(testId);
+        Test test = testRec.orElseThrow(() -> new UserNotFoundException("Test Assignment Failed"));
+        test.setRadiologistID(labStaff);
+        return test;
+    }
+
+
+    @Override
     public Test prescribeTest(String authorizationHeader, TestRequest request) {
         Random random = new Random();
         int radID = random.nextInt(3) + 1;

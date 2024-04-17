@@ -17,35 +17,36 @@ public class LabStaffTestController {
 
     private final LabStaffTestService labStaffTestService;
 
+    private final String frontend = "http://localhost:3000";
     private final String umService = "http://localhost:9191";
     private final String testMngmentService = "http://localhost:9192";
 
-    @CrossOrigin(origins = testMngmentService)
-    @PostMapping("/addTest")
-    public String addTestForPatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                                    @RequestBody LabStaffTestRequest labStaffTestRequest,
+    @CrossOrigin(origins = frontend)
+    @PostMapping("{labID}/addTest/{testID}")
+    public Boolean addTestForPatient(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                                    @PathVariable Long testID, @PathVariable Long labID,
                                     final HttpServletRequest request)  throws UnauthorizedUserException {
 
-//        User user = patientTestService.authenticate(authorizationHeader);
-//
-//        if(user == null) {
-//            throw new UnauthorizedUserException("Invalid User!");
-//        }
+        User user = labStaffTestService.authenticate(authorizationHeader);
 
-        labStaffTestService.addTestForPatient(labStaffTestRequest);
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
 
-        return "Test Added Successfully !";
+        labStaffTestService.addTestForPatient(labID, testID);
+
+        return Boolean.TRUE;
     }
 
     @DeleteMapping("{labstaffID}/deleteTest")
     public String deleteTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                              @PathVariable Long labstaffID)  throws UnauthorizedUserException {
 
-//                User user = patientTestService.authenticate(authorizationHeader);
-//
-//                if(user == null) {
-//                    throw new UnauthorizedUserException("Invalid User!");
-//                }
+        User user = labStaffTestService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
 
         labStaffTestService.deleteTestsOfLabStaff(labstaffID);
         return "Test Deleted Successfully !";
@@ -54,11 +55,11 @@ public class LabStaffTestController {
     @GetMapping("/{labstaffID}/getTests")
     public List<Long> getTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                                @PathVariable Long labstaffID)  throws UnauthorizedUserException {
-//        User user = patientTestService.authenticate(authorizationHeader);
-//
-//        if(user == null) {
-//            throw new UnauthorizedUserException("Invalid User!");
-//        }
+        User user = labStaffTestService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
 
         return labStaffTestService.getTestsOfLabStaff(labstaffID);
     }

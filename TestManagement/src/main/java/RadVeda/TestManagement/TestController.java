@@ -2,12 +2,7 @@ package RadVeda.TestManagement;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import RadVeda.TestManagement.exception.InvalidInputFormatException;
@@ -23,6 +18,37 @@ import java.util.Optional;
 @RequestMapping("/tests")
 public class TestController {
     private final TestService testService;
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/{testID}/assignLab/{labID}")
+    public Boolean addLabforTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                              @PathVariable Long testID, @PathVariable Long labID)
+            throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        testService.assignLab(testID, labID);
+        return Boolean.TRUE;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/{testID}/assignRad/{radID}")
+    public Test addRadForTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                              @PathVariable Long testID, @PathVariable Long radID)
+            throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        return testService.assignRad(testID, radID);
+    }
 
     @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:9202" })
     @GetMapping("/{testID}/getTest")

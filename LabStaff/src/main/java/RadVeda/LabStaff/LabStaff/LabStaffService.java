@@ -53,7 +53,7 @@ public class LabStaffService implements LabStaffServiceInterface{
 
 
     @Override
-    public List<Long> availableLabStaff() {
+    public List<LabStaff> availableLabStaff() {
         return labStaffRepository.availableLabStaff();
     }
 

@@ -1,11 +1,106 @@
 import "./PatientChooseLab.css";
+import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { request, getAuthToken} from "../axios_helper";
+import { useEffect } from "react";
 
-const PatientChooseLab = () => {
+
+const PatientChooseLab = ({testID, onClose}) => {
+  const navigate = useNavigate();
+
+  const [labStaffs, setlabStafffs] = useState([]);
+  const [flag1, setflag1] = useState(false);
+  const [flag2, setflag2] = useState(false);
+
+
+  useEffect(() => {
+    request ("GET", "http://localhost:9199/labstaff/availableLabStaff", {}, true)
+    .then(labStaffResponse => {
+      const labStaffs = labStaffResponse.data;
+      setlabStafffs(labStaffs);
+    })
+  })
+
+  const selectLab = (labId, testId) => {
+    console.log(labId, testID);
+    request("POST", `http://localhost:9192/tests/${testId}/assignLab/${labId}`, {}, true)
+    .then(response => {
+      setflag1(response.data);
+    })
+    .catch(
+    (error) => {
+      alert(error.response.data.error);
+    })
+
+    request("POST", `http://localhost:9199/labstaff-test/${labId}/addTest/${testID}`, {}, true)
+    .then(response => {
+      setflag2(response.data);
+    })
+    .catch(
+    (error) => {
+      alert(error.response.data.error);
+    })
+
+    if(flag1 && flag2) {
+      alert("Lab Chosen Successfully !");
+      navigate('/patient-dashboard');
+    }
+    else {
+      alert("Lab Selection failed !");
+      navigate('/patient-dashboard');
+    }
+
+  }
+
+  const renderLabStaffTable = () => {
+    return (
+      <table className="labstaff-table">
+        <thead>
+          <tr>
+            <th>Lab Staff Name</th>
+            <th></th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody>
+          {labStaffs.map((labStaff) => (
+            <tr key={labStaff.id}>
+              <td>{labStaff.firstName}</td>
+              <td>
+                  <button onClick={() => selectLab(labStaff.id, testID)}>Choose</button>
+              </td>
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+    );
+  };
+
   return (
     <div className="patient-choose-lab">
       <div className="patient-choose-lab-child" />
       <div className="patient-choose-lab-item" />
-      <div className="lab1-wrapper">
+      <div className="content87">
+        <div className="magnifyingglass10">
+          <div className="magnifyingglass11">􀊫</div>
+        </div>
+        <div className="placeholder-label5">Search</div>
+        <img className="mic-icon6" alt="" src="/-mic.svg" />
+      </div>
+      <div className="patient-choose-lab-inner2">
+        <div className="auto-select-wrapper">
+          <div className="choose">Auto Select</div>
+        </div>
+      </div>
+      <div className="frame-child-labstaff-125" >
+          {renderLabStaffTable()}
+      </div>
+
+
+      
+      {/* <div className="lab1-wrapper">
         <div className="lab13">Lab1</div>
       </div>
       <div className="lab2-wrapper">
@@ -30,23 +125,13 @@ const PatientChooseLab = () => {
           <div className="choose">Choose</div>
         </div>
       </div>
-      <div className="patient-choose-lab-inner2">
-        <div className="auto-select-wrapper">
-          <div className="choose">Auto Select</div>
-        </div>
-      </div>
+      
       <div className="patient-choose-lab-inner3">
         <div className="choose-wrapper">
           <div className="choose">Choose</div>
         </div>
       </div>
-      <div className="content87">
-        <div className="magnifyingglass10">
-          <div className="magnifyingglass11">􀊫</div>
-        </div>
-        <div className="placeholder-label5">Search</div>
-        <img className="mic-icon6" alt="" src="/-mic.svg" />
-      </div>
+      
       <div className="type">{`Type `}</div>
       <div className="location">location</div>
       <div className="patient-choose-lab-inner4">
@@ -81,7 +166,7 @@ const PatientChooseLab = () => {
           <div className="choose">Filter By:</div>
         </div>
       </div>
-      <div className="patient-choose-lab-child1" />
+      <div className="patient-choose-lab-child1" /> */}
     </div>
   );
 };

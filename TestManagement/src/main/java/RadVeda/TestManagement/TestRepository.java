@@ -37,7 +37,12 @@ public interface TestRepository extends JpaRepository<Test, Long> {
 
     @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND radiologistid != :radiologistID", nativeQuery =  true)
     List<Test> findConsultedTestsByPatientAndRadID(Long patientID, Long radiologistID);
-    
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE test SET lab_staffid = :labID WHERE id = :testID", nativeQuery = true)
+    void addLabforTest(Long testID, Long labID);
+
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM test WHERE id = :testID", nativeQuery = true)

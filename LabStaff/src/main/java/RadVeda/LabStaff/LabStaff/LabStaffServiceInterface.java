@@ -12,7 +12,7 @@ public interface LabStaffServiceInterface {
     Optional<LabStaff> findLabStaff(Long Id);
 
     void deleteLabStaff(Long Id);
-    List<Long> availableLabStaff();
+    List<LabStaff> availableLabStaff();
 
     User authenticate(String AuthorizationHeader);
 }
