@@ -4,6 +4,7 @@ import RadVeda.Collaboration.Messages.GroupMessage;
 import RadVeda.Collaboration.Messages.GroupMessageRequest;
 import RadVeda.Collaboration.Messages.PrivateMessage;
 import RadVeda.Collaboration.Messages.PrivateMessageRequest;
+import RadVeda.Collaboration.exception.InvalidMessageException;
 import RadVeda.Collaboration.exception.InvalidReferenceMessageException;
 import RadVeda.Collaboration.exception.SanityChecksException;
 import RadVeda.Collaboration.exception.UnauthorisedUserException;
@@ -150,6 +151,10 @@ public class CollaborationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), null, null, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
+        }
 
         return collaborationService.getGroupMessagesForTest(testId);
     }
@@ -163,6 +168,10 @@ public class CollaborationController {
         if(currentUser == null)
         {
             throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), null, null, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
         }
 
         return collaborationService.getSentGroupMessagesForTest(testId);
@@ -178,6 +187,10 @@ public class CollaborationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), null, null, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
+        }
 
         return collaborationService.getDirectlyContactedPeopleForTest(testId);
     }
@@ -191,6 +204,10 @@ public class CollaborationController {
         if(currentUser == null)
         {
             throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), userType, userId, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
         }
 
         return collaborationService.getPrivateConversationForTestAndUser(testId, userType, userId);
@@ -220,6 +237,10 @@ public class CollaborationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), null, null, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
+        }
 
         return collaborationService.clearGroupMessagesForTest(testId);
     }
@@ -233,6 +254,10 @@ public class CollaborationController {
         if(currentUser == null)
         {
             throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), userType, userId, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
         }
 
         return collaborationService.clearPrivateMessagesForTestAndUser(testId, userType, userId);
@@ -248,6 +273,14 @@ public class CollaborationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!collaborationService.validateMessage(messageType, messageId))
+        {
+            throw new InvalidMessageException("Invalid message!");
+        }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), null, null, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
+        }
 
         return collaborationService.deleteMessageForCurrentUserForTest(testId, messageType, messageId);
     }
@@ -262,8 +295,16 @@ public class CollaborationController {
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
+        if(!collaborationService.validateMessage(messageType, messageId))
+        {
+            throw new InvalidMessageException("Invalid message!");
+        }
+        if(!collaborationService.performTestBasedSanityChecks(testId, currentUser.getType(), currentUser.getId(), null, null, authorizationHeader))
+        {
+            throw new SanityChecksException("Test based sanity checks failure!");
+        }
 
-        return collaborationService.deleteMessageForEveryoneForTest(testId, messageType, messageId);
+        return collaborationService.deleteMessageForEveryoneForTest(testId, messageType, messageId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -273,6 +314,10 @@ public class CollaborationController {
         User currentUser = collaborationService.authenticate(authorizationHeader);
 
         if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        if(collaborationService.isUserValid(userType, userId, authorizationHeader))
         {
             throw new UnauthorisedUserException("Permission denied!");
         }
