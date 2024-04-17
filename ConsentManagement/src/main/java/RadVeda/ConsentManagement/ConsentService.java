@@ -97,7 +97,14 @@ public class ConsentService implements ConsentServiceInterface{
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         // Sending the POST request
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<String> responseEntity;
+
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        } catch (RuntimeException e){ //VERIFY_EXCEPTION
+            consentRequestRepository.delete(consentRequest); // Rolling back the previously saved consent request
+            return "Failed to send consent request notification!";
+        }
 
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
             consentRequestRepository.delete(consentRequest); // Rolling back the previously saved consent request
