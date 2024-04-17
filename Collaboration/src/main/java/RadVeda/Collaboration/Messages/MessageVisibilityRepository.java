@@ -5,7 +5,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public interface MessageVisibilityRepository extends JpaRepository<MessageVisibility, Long> {
+
+    Optional<MessageVisibility> findByMessageTypeAndMessageIdAndUserTypeAndUserId(String messageType,  Long messageId,  String userType,  Long userId);
 
     @Transactional
     @Modifying
