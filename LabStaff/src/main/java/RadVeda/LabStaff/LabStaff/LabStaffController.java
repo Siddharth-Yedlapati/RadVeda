@@ -18,6 +18,7 @@ public class LabStaffController {
 
     private final LabStaffService labStaffService;
 
+    private final String frontend = "http://localhost:3000";
     private final String umService = "http://localhost:9191";
     private final String testMngmentService = "http://localhost:9192";
     private final String adminService = "http://localhost:9197";
@@ -45,11 +46,11 @@ public class LabStaffController {
     public LabStaff getLabStaff(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                                 @PathVariable Long labStaffID) throws UnauthorizedUserException {
 
-//        User user = labStaffService.authenticate(authorizationHeader);
-//
-//        if(user == null) {
-//            throw new UnauthorizedUserException("Invalid User!");
-//        }
+        User user = labStaffService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
 
         Optional<LabStaff> labStaff = labStaffService.findLabStaff(labStaffID);
         if(labStaff.isEmpty()){
@@ -63,11 +64,11 @@ public class LabStaffController {
     @DeleteMapping("/{labStaffID}/deleteLabStaff")
     public String deleteLabStaff(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                                @PathVariable Long labStaffID) throws UnauthorizedUserException  {
-//        User user = labStaffService.authenticate(authorizationHeader);
-//
-//        if(user == null) {
-//            throw new UnauthorizedUserException("Invalid User!");
-//        }
+        User user = labStaffService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
 
         Optional<LabStaff> labStaff = labStaffService.findLabStaff(labStaffID);
         if(labStaff.isEmpty()){
@@ -80,16 +81,16 @@ public class LabStaffController {
     }
 
     /*Returning list of IDs of lab staff. Subject to change*/
-    @CrossOrigin(origins = umService)
+    @CrossOrigin(origins = frontend)
     @GetMapping("/availableLabStaff")
-    public List<Long> availableLabStaff(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
+    public List<LabStaff> availableLabStaff(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
                                         throws UnauthorizedUserException {
 
-//        User user = labStaffService.authenticate(authorizationHeader);
-//
-//        if(user == null) {
-//            throw new UnauthorizedUserException("Invalid User!");
-//        }
+        User user = labStaffService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
 
         return labStaffService.availableLabStaff();
 

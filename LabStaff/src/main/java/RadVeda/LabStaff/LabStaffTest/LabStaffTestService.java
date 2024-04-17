@@ -28,9 +28,8 @@ public class LabStaffTestService implements LabStaffTestServiceInterface {
     private final LabStaffTestRepository labStaffTestRepository;
 
     @Override
-    public LabStaffTest addTestForPatient(LabStaffTestRequest request) {
+    public LabStaffTest addTestForPatient(Long LabStaff_Id, Long test_id) {
 
-        Long LabStaff_Id = request.lab_staff_id();
         Optional<LabStaff> record = labStaffRepository.findById(LabStaff_Id);
         LabStaff labStaff = record.orElseThrow(() -> new UserNotFoundException("LabStaff not registered"));
         if(!labStaff.getAvailable()) {
@@ -39,7 +38,7 @@ public class LabStaffTestService implements LabStaffTestServiceInterface {
 
         var newRec = new LabStaffTest();
         newRec.setLabStaff(labStaff);
-        newRec.setTest_Id(request.test_id());
+        newRec.setTest_Id(test_id);
 
         return labStaffTestRepository.save(newRec);
     }

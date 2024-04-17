@@ -20,7 +20,7 @@ public interface LabStaffRepository extends JpaRepository<LabStaff, Long> {
     @Query(value = "DELETE FROM lab_staff WHERE Id = :Id", nativeQuery = true)
     void deleteLabStaff(Long Id);
 
-    @Query(value = "SELECT id FROM lab_staff WHERE available=true", nativeQuery = true)
-    List<Long> availableLabStaff();
+    @Query(value = "SELECT * FROM lab_staff WHERE available=true", nativeQuery = true)
+    List<LabStaff> availableLabStaff();
 
 }

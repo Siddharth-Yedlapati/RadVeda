@@ -12,6 +12,9 @@ public interface TestServiceInterface {
 
     Test prescribeTest(String authorizationHeader, TestRequest request);
 
+    Test assignLab(Long testID, Long labStaff);
+    Test assignRad(Long testID, Long radID);
+
     Optional<Test> findById(Long testID);
     List<Test> findAllTests();
     List<Test> findAllTestsByUser(String userType, Long userID);

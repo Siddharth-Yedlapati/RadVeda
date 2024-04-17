@@ -31,6 +31,7 @@ const PatientDashboard = () => {
   const [isPatientUserOptionsOpen, setPatientUserOptionsOpen] = useState(false);
   const [isPatientChooseLabOpen, setPatientChooseLabOpen] = useState(false);
   const [testDetails, setTestDetails] = useState([]);
+  const [chooseLabTest, setChooseLabTest] = useState(0);
 
 
   const openPatientUserOptions = useCallback(() => {
@@ -49,7 +50,8 @@ const PatientDashboard = () => {
     navigate("/patient-diag-complete");
   }, [navigate]);
 
-  const openPatientChooseLab = useCallback(() => {
+  const openPatientChooseLab = useCallback((testID) => {
+    setChooseLabTest(testID)
     setPatientChooseLabOpen(true);
   }, []);
 
@@ -94,7 +96,7 @@ const PatientDashboard = () => {
                 {testDetail.patientStatus !== 'Choose Lab' ? (
                   testDetail.patientStatus
                 ) : (
-                  <button onClick={() => openPatientChooseLab()}>Choose Lab</button>
+                  <button onClick={() => openPatientChooseLab(testDetail.id)}>Choose Lab</button>
                 )}
               </td>
               <td>{testDetail.doctorsRemarksforPatient}</td>
@@ -285,7 +287,7 @@ const PatientDashboard = () => {
           placement="Centered"
           onOutsideClick={closePatientChooseLab}
         >
-          <PatientChooseLab onClose={closePatientChooseLab} />
+          <PatientChooseLab testID={chooseLabTest} onClose={closePatientChooseLab} />
         </PortalPopup>
       )}
     </>
