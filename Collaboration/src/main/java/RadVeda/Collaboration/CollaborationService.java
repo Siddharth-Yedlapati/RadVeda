@@ -129,7 +129,7 @@ public class CollaborationService implements CollaborationServiceInterface{
     }
 
     @Override
-    public String deleteMessageForEveryoneForTest(Long testId, String messageType, Long messageId)
+    public String deleteMessageForEveryoneForTest(Long testId, String messageType, Long messageId, User currentUser)
     {
 
     }
