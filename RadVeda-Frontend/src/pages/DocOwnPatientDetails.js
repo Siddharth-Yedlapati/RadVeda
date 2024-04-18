@@ -164,7 +164,9 @@ const DocOwnPatientDetails = () => {
   };
 
   const handleRowClick = (testID) => {
+    
     const test = tests.find(test => test.id === testID);
+    localStorage.setItem("testID", test.id);
     const status = test.doctorStatus;
     if(status == "Pending For Review By Radiologist"){
       navigate("/doc-own-pfr-rad");
@@ -181,6 +183,7 @@ const DocOwnPatientDetails = () => {
   }
   const handleRowClickConsult = (testID) => {
     const test = consultTests.find(test => test.id === testID);
+    localStorage.setItem("testID", test.id);
     const status = test.doctorStatus;
     if(status == "Pending For Review By Radiologist"){
       navigate("/doc-own-pfr-rad");
