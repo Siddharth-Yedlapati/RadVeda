@@ -485,7 +485,8 @@ public class CollaborationService implements CollaborationServiceInterface{
     @Override
     public List<User> getDirectlyContactedPeopleForTest(Long testId, User currentUser)
     {
-
+        //TODO
+        return null;
     }
 
     @Override
@@ -519,31 +520,36 @@ public class CollaborationService implements CollaborationServiceInterface{
     @Override
     public String clearGroupMessagesForTest(Long testId, User currentUser)
     {
-
+        //TODO
+        return null;
     }
 
     @Override
     public String clearPrivateMessagesForTestAndUser(Long testId, String userType, Long userId, User currentUser)
     {
-
+        //TODO
+        return null;
     }
 
     @Override
     public String deleteMessageForCurrentUserForTest(Long testId, String messageType, Long messageId, User currentUser)
     {
-
+        //TODO
+        return null;
     }
 
     @Override
     public String deleteMessageForEveryoneForTest(Long testId, String messageType, Long messageId, User currentUser)
     {
-
+        //TODO
+        return null;
     }
 
     @Override
     public String cleanByDeletedUser(String userType, Long userId)
     {
-
+        //TODO
+        return null;
     }
 
     @Override
