@@ -773,12 +773,17 @@ public class CollaborationService implements CollaborationServiceInterface{
 
     @Override
     public boolean isReferenceMessageValid(User currentMessageSender, User currentMessageRecipient, Long currentMessageTestId, String currentMessageType, String referenceMessageType, Long referenceMessageId)
-    {
+    {   // If there is no reference message then pass referenceMessageType as "NONE"... that's a valid case
         //Reference message should be a valid message first of all... done
         //Reference message type should be same as the current message type... done
         //Reference message should be from the same test.. check test id... done
         //If type is private message:
             //sortByTypeAndId([rm_sender, rm_recipient]) should be same as sortByTypeAndId([m_sender, m_recipient])... done
+
+        if(Objects.equals(referenceMessageType, "NONE"))
+        {
+            return true;
+        }
 
         if(!Objects.equals(referenceMessageType, "PRIVATE") && !Objects.equals(referenceMessageType, "GROUP"))
         {
