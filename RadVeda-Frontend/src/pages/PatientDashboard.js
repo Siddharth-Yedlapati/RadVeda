@@ -87,7 +87,7 @@ const PatientDashboard = () => {
             {/* Add more table headers as needed */}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tableBody">
           {testDetails.map((testDetail) => (
             <tr key={testDetail.id} onClick={testDetail.patientStatus !== 'Choose Lab' ? () => handleRowClick(testDetail.id) : null}>
               <td>{testDetail.testType}</td>

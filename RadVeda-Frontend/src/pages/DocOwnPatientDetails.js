@@ -120,7 +120,7 @@ const DocOwnPatientDetails = () => {
             {/* Add more table headers as needed */}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tableBody">
           {tests.map((test) => (
             <tr key={test.id} onClick = {() => handleRowClick(test.id)}>
               <td>{test.testType}</td>
@@ -132,6 +132,7 @@ const DocOwnPatientDetails = () => {
           ))}
         </tbody>
       </table>
+      
     );
   };
 
@@ -241,11 +242,17 @@ const DocOwnPatientDetails = () => {
             <div className="back45">Back</div>
           </div>
         </div>
-        <div className="tests-prescribed-by-me-parent">
+        {/* <div className="tests-prescribed-by-me-parent">
           <b className="tests-prescribed-by">Tests prescribed by me</b>
           <div className="group-parent44">
           {renderTestsTable()}
-          </div>
+          </div> */}
+          
+        <div className="my-tests-list-parent" >
+          <b className="my-tests-list">Tests prescribed by me</b>
+          <div className="frame-child-test-125" >
+          {renderTestsTable()}
+        </div>
           
 
         </div>
