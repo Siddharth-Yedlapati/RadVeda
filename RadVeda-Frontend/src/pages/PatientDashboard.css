@@ -625,11 +625,20 @@
 .tests-table {
   border-collapse: collapse;
   width: 180%;
+  border-spacing: 50px 50px;
+  display: block;
+  max-height: 460px;
+  overflow-y: scroll;
+}
+.tests-table::-webkit-scrollbar {
+  display: none;
 }
 
 .tests-table th,
 .tests-table td {
-  padding: 12px; /* Increase the padding */
+  padding-left: 40px; 
+  padding-right: 40px; 
+  
   text-align: left;
 }
 
@@ -646,9 +655,9 @@
 }
 
 .tests-table button {
-  /* position: absolute; */
+  
   top: 0;
-  /* left: 356px; */
+
   border-radius: var(--br-5xs);
   background: linear-gradient(265.41deg, #46aa72, #2da0a4);
   width: 134px;
