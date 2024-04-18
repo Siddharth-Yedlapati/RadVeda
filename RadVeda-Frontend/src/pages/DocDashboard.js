@@ -101,7 +101,7 @@ const DocDashboard = () => {
             {/* Add more table headers as needed */}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tableBody">
         {patDetails.map((patDetail) => (
             <tr key={patDetail.id} onClick = {() => handleRowClick(patDetail.id)}>
               <td>{patDetail.firstName}</td>
@@ -164,12 +164,12 @@ const DocDashboard = () => {
         <div className="doc-dashboard-child1" />
         <div className="my-patients-list-parent">
           <b className="my-patients-list">My Patients list</b>
-          <div className="frame-child125" >
+          <div className="frame-child-125" >
           {renderPatientsTable()}
           </div>
         </div>
         <div className="consultations-requested-by-oth-parent">
-          <b className="my-patients-list">
+          <b className="my-patients-lists">
             Consultations requested by other doctors
           </b>
           <div className="frame-child125" />

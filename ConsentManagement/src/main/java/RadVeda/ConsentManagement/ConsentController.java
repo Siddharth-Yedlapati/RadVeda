@@ -3,8 +3,10 @@ package RadVeda.ConsentManagement;
 import RadVeda.ConsentManagement.ConsentProviders.*;
 import RadVeda.ConsentManagement.ConsentRequest.ConsentRequest;
 import RadVeda.ConsentManagement.ConsentRequest.ConsentRequestForm;
+import RadVeda.ConsentManagement.ConsentRequest.ConsentSeeker;
 import RadVeda.ConsentManagement.exception.InvalidTestException;
 import RadVeda.ConsentManagement.exception.InvalidUserException;
+import RadVeda.ConsentManagement.exception.UnableToFetchConsentRequestException;
 import RadVeda.ConsentManagement.exception.UnauthorisedUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -165,6 +167,58 @@ public class ConsentController {
         }
 
         return consentService.getRadiologistProviderConsent(consentSeekerType, consentSeekerId, consentProviderId, testId);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getConsentRequestById/{id}")
+    public ConsentRequest getConsentRequestById(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id)
+    {
+        User currentUser = consentService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        Optional<ConsentRequest> optionalConsentRequest = consentService.findConsentRequestById(id);
+        if(optionalConsentRequest.isEmpty())
+        {
+            throw new UnableToFetchConsentRequestException("Unable to fetch consent request!");
+        }
+
+        ConsentRequest consentRequest = optionalConsentRequest.get();
+        if(!Objects.equals(consentRequest.getConsentProviderId(), currentUser.getId()) || !Objects.equals(consentRequest.getConsentProviderType(), currentUser.getType()))
+        {
+            throw new UnauthorisedUserException("Permission denied");
+        }
+
+        return consentRequest;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getConsentSeekersByConsentRequestId/{consentRequestId}")
+    public List<ConsentSeeker> getConsentSeekersByConsentRequestId(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long consentRequestId)
+    {
+        User currentUser = consentService.authenticate(authorizationHeader);
+
+        if(currentUser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        Optional<ConsentRequest> optionalConsentRequest = consentService.findConsentRequestById(consentRequestId);
+        if(optionalConsentRequest.isEmpty())
+        {
+            throw new UnableToFetchConsentRequestException("Unable to fetch consent request!");
+        }
+
+        ConsentRequest consentRequest = optionalConsentRequest.get();
+        if(!Objects.equals(consentRequest.getConsentProviderId(), currentUser.getId()) || !Objects.equals(consentRequest.getConsentProviderType(), currentUser.getType()))
+        {
+            throw new UnauthorisedUserException("Permission denied");
+        }
+
+        return consentService.getConsentSeekersByConsentRequestId(consentRequestId);
     }
 
     @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193"})

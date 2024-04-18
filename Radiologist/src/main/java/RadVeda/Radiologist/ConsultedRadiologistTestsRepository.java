@@ -15,6 +15,6 @@ public interface ConsultedRadiologistTestsRepository extends JpaRepository<Consu
     @Query(value = "SELECT * FROM consultedradiologisttests WHERE radiologistID = :radiologistID", nativeQuery = true)
     List<ConsultedRadiologistTests> getConsultedTests(Long radiologistID);
 
-    @Query(value = "SELECT * FROM consultedradiologisttests WHERE consultedTestID = :testID", nativeQuery = true)
+    @Query(value = "SELECT * FROM consultedradiologisttests WHERE consulted_testid = :testID", nativeQuery = true)
     List<ConsultedRadiologistTests> getConsultedRadiologists(Long testID);
 }

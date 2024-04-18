@@ -67,9 +67,6 @@ public class TestService implements TestServiceInterface {
 
     @Override
     public Test prescribeTest(String authorizationHeader, TestRequest request) {
-        Random random = new Random();
-        int radID = random.nextInt(3) + 1;
-        int labID = random.nextInt(3) + 1;
         var flag = 1;
         var p_flag = 1;
 
@@ -94,12 +91,12 @@ public class TestService implements TestServiceInterface {
         newTest.setPatientID(request.PatientID());
         newTest.setDoctorNotes(request.DoctorNotes());
         newTest.setOriginalImage(request.OriginalImage());
-        newTest.setRadiologistID((long) radID);
-        newTest.setLabStaffID((long) labID);
+        newTest.setRadiologistID(null);
+        newTest.setLabStaffID(null);
 
 
         Test savedTest = testRepository.save(newTest);
-
+        
         String jwtToken = authorizationHeader.replace("Bearer ", "");
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
@@ -352,12 +349,17 @@ public class TestService implements TestServiceInterface {
                 throw new UserNotFoundException("Error parsing JSON response");
             }
         }
+        
+        User primary_doc = new User("DOCTOR", testdetails.getDoctorID());
+        User primary_rad = new User("RADIOLOGIST", testdetails.getRadiologistID());
 
         List<User> consultedpersonnellist = new ArrayList<>();
         consultedpersonnellist.addAll(doctors);
         consultedpersonnellist.addAll(radiologists);
         consultedpersonnellist.add(labstaff);
         consultedpersonnellist.add(patient);
+        consultedpersonnellist.add(primary_doc);
+        consultedpersonnellist.add(primary_rad);
 
         return consultedpersonnellist;
     }
