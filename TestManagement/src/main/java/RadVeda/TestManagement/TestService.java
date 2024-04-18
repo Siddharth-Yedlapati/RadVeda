@@ -44,13 +44,23 @@ public class TestService implements TestServiceInterface {
         Optional<Test> testRec = findById(testId);
         Test test = testRec.orElseThrow(() -> new UserNotFoundException("Test Assignment Failed"));
         testRepository.addLabforTest(testId, labStaff);
+        testRepository.updateTestStatus(testId,
+                "Test Not Conducted",
+                "Pending For Review by Radiologist",
+                test.getRadiologistStatus(),
+                "Test Not Conducted");
         return test;
     }
     @Override
-    public Test assignRad(Long testId, Long labStaff) {
+    public Test assignRad(Long testId, Long rad) {
         Optional<Test> testRec = findById(testId);
         Test test = testRec.orElseThrow(() -> new UserNotFoundException("Test Assignment Failed"));
-        test.setRadiologistID(labStaff);
+        testRepository.addRadForTest(testId, rad);
+        testRepository.updateTestStatus(testId,
+                test.getPatientStatus(),
+                test.getDoctorStatus(),
+                "Pending for Review",
+                test.getLabStaffStatus());
         return test;
     }
 

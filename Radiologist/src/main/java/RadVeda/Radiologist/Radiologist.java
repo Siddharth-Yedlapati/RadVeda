@@ -28,8 +28,11 @@ public class Radiologist extends User {
     private String email;
     private String phonenumber;
 
+    private Boolean available;
+
 
     public Radiologist() {
+        this.available = true;
     }
 
     public Radiologist(String firstName, String middleName, String lastName, String addressL1, String addressL2,

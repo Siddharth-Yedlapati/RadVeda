@@ -25,30 +25,24 @@ const PatientChooseLab = ({testID, onClose}) => {
     console.log(labId, testID);
     request("POST", `http://localhost:9192/tests/${testId}/assignLab/${labId}`, {}, true)
     .then(response => {
-      setflag1(response.data);
+      request("POST", `http://localhost:9199/labstaff-test/${labId}/addTest/${testID}`, {}, true)
+      .then(response => {
+        alert("Lab Chosen Successfully !")
+        onClose();
+        navigate('/patient-dashboard')
+    })
+    .catch(
+      (error) => {
+        alert(error.response.data.error)
+        navigate('/patient-dashboard')
+      }
+    )
     })
     .catch(
     (error) => {
       alert(error.response.data.error);
+      navigate('/patient-dashboard')
     })
-
-    request("POST", `http://localhost:9199/labstaff-test/${labId}/addTest/${testID}`, {}, true)
-    .then(response => {
-      setflag2(response.data);
-    })
-    .catch(
-    (error) => {
-      alert(error.response.data.error);
-    })
-
-    if(flag1 && flag2) {
-      alert("Lab Chosen Successfully !");
-      navigate('/patient-dashboard');
-    }
-    else {
-      alert("Lab Selection failed !");
-      navigate('/patient-dashboard');
-    }
 
   }
 

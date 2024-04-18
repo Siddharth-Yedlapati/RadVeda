@@ -132,6 +132,11 @@ public class RadiologistService implements RadiologistServiceInterface {
     }
 
     @Override
+    public List<Long> availableRadiologists() {
+        return radiologistrepository.availableLabStaff();
+    }
+
+    @Override
     public Radiologist addRadiologist(RadiologistSignUpRequest request){
         var newRad = new Radiologist();
         newRad.setFirstName(request.firstName());
@@ -177,5 +182,58 @@ public class RadiologistService implements RadiologistServiceInterface {
     @Override
     public List<ConsultedRadiologistTests> getConsultedRadiologists(Long testID){
         return consultedradiologisttestsrepository.getConsultedRadiologists(testID);
+    }
+
+    @Override
+    public void assignRadiologist(String authHeader, Long patId, Long testId) {
+        List<Long> availableRads = radiologistrepository.availableLabStaff();
+
+        Random random = new Random();
+        int index = random.nextInt(availableRads.size());
+        Long chosenRad = availableRads.get(index);
+
+        List<String> consentSeekers = new ArrayList<>();
+        consentSeekers.add("RADIOLOGIST:_:"+chosenRad);
+
+        StringBuilder message = new StringBuilder();
+        message.append("Radiologist ");
+
+        Optional<Radiologist> radRec = getRadiologist(chosenRad);
+        Radiologist rad = radRec.orElseThrow();
+
+        message.append(rad.getFirstName()).append(" is requesting consent for Test ");
+        message.append(testId);
+
+        ConsentRequestForm form = new ConsentRequestForm(
+                "PATIENT",
+                patId, testId,
+                message.toString(),
+                consentSeekers
+        );
+
+        String requestBody = "";
+
+        String jwtToken = authHeader.replace("Bearer ", "");
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + jwtToken);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(form);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9202/consent/sendConsentRequest",
+                    HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
