@@ -83,6 +83,24 @@ const PatientDashboard = () => {
     })
     .then(testResponse => {
       const testDetails = testResponse.data;
+      testDetails.sort((a, b) => {
+        // Splitting the date strings into components
+        const partsA = a.datePrescribed.split('/');
+        const partsB = b.datePrescribed.split('/');
+      
+        // Constructing sortable date strings in "yyyy/mm/dd" format
+        const dateA = `${partsA[2]}/${partsA[1].padStart(2, '0')}/${partsA[0].padStart(2, '0')}`;
+        const dateB = `${partsB[2]}/${partsB[1].padStart(2, '0')}/${partsB[0].padStart(2, '0')}`;
+      
+        // Compare the dates as strings
+        if (dateA < dateB) {
+          return 1;
+        }
+        if (dateA > dateB) {
+          return -1;
+        }
+        return 0;
+      });
       setTestDetails(testDetails);
     })
     .catch(error => {
@@ -94,6 +112,48 @@ const PatientDashboard = () => {
     });
   })
 
+  const acceptRad = (radId, testId) => {
+    request("POST", `http://localhost:9192/tests/${testId}/assignRad/${radId}`, {}, true)
+    .then(response => {
+      request(
+        "POST",
+        "http://localhost:9201/radiologist/prescribe-test",
+        {
+          "testID": testId,
+          "radiologistID": radId    
+      },
+        true 
+        ).then(
+          (response) => {
+            alert("Radiologist Assigned Successfully !");
+          }
+        ).catch(
+          (error) => {
+            alert(error.response.data.error);
+          }
+        )
+    })
+    .catch(
+      (error) => {
+        alert(error.response.data.error)
+        navigate('/patient-dashboard')
+      }
+    )
+
+  }
+
+  const requestRad = (patId, testId) => {
+    request("POST", `http://localhost:9201/radiologist/assignRadiologist/${patId}/${testId}`, {}, true)
+    .catch(
+      (error) => {
+        alert(error.response.data.error)
+        // requestRad(patId, testId)
+      }
+    )
+
+
+  }
+  
   const [consentForm, setConsentForm] = useState({
     currentTest: [],
     otherTests: []

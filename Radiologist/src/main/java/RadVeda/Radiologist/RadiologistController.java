@@ -121,5 +121,35 @@ public class RadiologistController {
         return radiologistService.getConsultedRadiologists(testID);
     }
 
+    @CrossOrigin(origins = "http://localhost:9199")
+    @GetMapping("/availableRadiologists")
+    public List<Long> availableRads(@RequestHeader(value = "Authorization", required = false) String authorizationHeader)
+            throws UnauthorisedUserException {
+
+        User user = radiologistService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
+
+        return radiologistService.availableRadiologists();
+
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/assignRadiologist/{patId}/{testId}")
+    public void assignRad(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                          @PathVariable Long patId, @PathVariable Long testId)
+            throws UnauthorisedUserException {
+        User user = radiologistService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorisedUserException("Invalid User!");
+        }
+
+        radiologistService.assignRadiologist(authorizationHeader, patId, testId);
+
+    }
+
 }
 

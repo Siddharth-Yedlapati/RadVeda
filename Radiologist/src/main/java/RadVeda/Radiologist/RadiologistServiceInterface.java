@@ -16,4 +16,8 @@ public interface RadiologistServiceInterface {
     void deleteTest(Long testID);
     List<ConsultedRadiologistTests> getConsultedTests(Long radiologistID);
     List<ConsultedRadiologistTests> getConsultedRadiologists(Long testID);
+
+    List<Long> availableRadiologists();
+
+    void assignRadiologist(String authHeader, Long patId, Long testId);
 }
