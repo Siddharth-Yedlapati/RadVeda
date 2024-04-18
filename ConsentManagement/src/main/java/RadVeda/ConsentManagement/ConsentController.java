@@ -37,7 +37,7 @@ public class ConsentController {
         }
         if(!consentService.isTestValid(requestForm.testId(), authorizationHeader))
         {
-            throw new InvalidTestException("Invalid test id!" + requestForm.testId());
+            throw new InvalidTestException("Invalid test id!");
         }
 
         List<User> consentSeekers = consentService.parseConsentSeekersList(requestForm.consentSeekers());
