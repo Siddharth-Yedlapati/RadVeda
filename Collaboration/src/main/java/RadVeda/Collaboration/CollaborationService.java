@@ -218,12 +218,12 @@ public class CollaborationService implements CollaborationServiceInterface{
                     // Constructing the request payload manually as JSON
                     String message = senderType + delimiter + senderId + delimiter + text; //Format: senderType<delimiter>senderId<delimiter>text
                     String requestBody = "{" +
-                            "\"message\": \"" + message + "\"," +
-                            "\"recipientType\": \"" + notificationRecipientType + "\"," +
-                            "\"recipientId\": " + notificationRecipientId + "," +
-                            "\"chatType\": " + "GROUP" +
-                            "\"chatId\": " + groupMessage.getId() +
-                            "}";
+                    "\"message\": \"" + message + "\"," +
+                    "\"recipientType\": \"" + notificationRecipientType + "\"," +
+                    "\"recipientId\": " + notificationRecipientId + "," +
+                    "\"chatType\": \"" + "GROUP" + "\"," +
+                    "\"chatId\": " + groupMessage.getId() +
+                    "}";
 
                     // Setting up RestTemplate
                     restTemplate = new RestTemplate();

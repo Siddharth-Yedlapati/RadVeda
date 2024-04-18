@@ -342,12 +342,17 @@ public class TestService implements TestServiceInterface {
                 throw new UserNotFoundException("Error parsing JSON response");
             }
         }
+        
+        User primary_doc = new User("DOCTOR", testdetails.getDoctorID());
+        User primary_rad = new User("RADIOLOGIST", testdetails.getRadiologistID());
 
         List<User> consultedpersonnellist = new ArrayList<>();
         consultedpersonnellist.addAll(doctors);
         consultedpersonnellist.addAll(radiologists);
         consultedpersonnellist.add(labstaff);
         consultedpersonnellist.add(patient);
+        consultedpersonnellist.add(primary_doc);
+        consultedpersonnellist.add(primary_rad);
 
         return consultedpersonnellist;
     }
