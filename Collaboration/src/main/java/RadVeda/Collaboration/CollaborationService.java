@@ -714,7 +714,6 @@ public class CollaborationService implements CollaborationServiceInterface{
         try{
             responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
         } catch (RuntimeException e){ //VERIFY_EXCEPTION
-            System.out.println("One");
             return false;
         }
 
@@ -742,13 +741,11 @@ public class CollaborationService implements CollaborationServiceInterface{
                 }
 
             } catch (JSONException e) {
-                System.out.println("Two");
                 return false;
             }
         }
         else
         {
-            System.out.println("Three");
             return false;
         }
 
