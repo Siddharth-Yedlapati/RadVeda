@@ -5,6 +5,7 @@ import PatientChooseLab from "../components/PatientChooseLab";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
+import ConsentForm from "./ConsentForm";
 import "./PatientDashboard.css";
 
 const PatientDashboard = () => {
@@ -45,6 +46,20 @@ const PatientDashboard = () => {
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
 
+  const[testType, settestType] = useState("");
+  const [docfirstname, setDocFirstname] = useState("");
+  const [doclastname, setDocLastname] = useState("");
+  const [consentForm, setConsentForm] = useState({
+    currentTest: [],
+    otherTests: []
+  });
+
+  const [isPatientConsentFormOpen, setPatientConsentFormOpen] = useState(false);
+  const [currentconsentrequestID, setcurrentconsentrequestID] = useState(-1);
+  const [primaryradiologistid, setprimaryradiologistid] = useState(-1);
+  const [patId, setPatId] = useState(-1);
+  const [testID, setTestID] = useState(-1);
+
 
   const openPatientUserOptions = useCallback(() => {
     setPatientUserOptionsOpen(true);
@@ -76,9 +91,29 @@ const PatientDashboard = () => {
   }, [navigate]);
 
   useEffect(() => {
+    // Add event listener to close overlay when clicking outside the form
+    const handleOutsideClick = (event) => {
+      if (!event.target.closest(".consent-form")) {
+        setPatientConsentFormOpen(false);
+      }
+    };
+
+    // Attach the event listener when the overlay is open
+    if (isPatientConsentFormOpen) {
+      document.addEventListener("click", handleOutsideClick);
+    }
+
+    // Cleanup: remove event listener when component unmounts or overlay is closed
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [isPatientConsentFormOpen]);
+
+  useEffect(() => {
     request ("GET", "http://localhost:9191/patients/profile", {}, true).
     then(patResponse => {
       const patId = patResponse.data.id;
+      setPatId(patId);
       return request("GET", `http://localhost:9192/tests/PATIENT/${patId}/getTests`, {}, true)
     })
     .then(testResponse => {
@@ -113,7 +148,7 @@ const PatientDashboard = () => {
   })
 
   const acceptRad = (radId, testId) => {
-    request("POST", `http://localhost:9192/tests/${testId}/assignRad/${radId}`, {}, true)
+    request("POST", `http://localhost:9192/tests/${testId}/assignRad/${radId}`, {}, true) // not rolling back in case of failure
     .then(response => {
       request(
         "POST",
@@ -154,12 +189,7 @@ const PatientDashboard = () => {
 
   }
   
-  const [consentForm, setConsentForm] = useState({
-    currentTest: [],
-    otherTests: []
-  });
 
-  const [isPatientConsentFormOpen, setPatientConsentFormOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -236,10 +266,50 @@ const PatientDashboard = () => {
 
   const [curIndex, setCurIndex] = useState(0)
   
-  const fillConsentForm = (index) => {
-    console.log("consent form fill", index)
-    setCurIndex(index);
-    setPatientConsentFormOpen(true);
+  const fillConsentForm = (consentrequestId) => {
+    console.log("consent form fill", consentrequestId)
+    setCurIndex(consentrequestId);
+    setcurrentconsentrequestID(consentrequestId);
+    request(
+      "GET",
+      "http://localhost:9202/consent/getConsentRequestById/" + consentrequestId,
+      {},
+      true
+    ).then(
+      (response) => {
+        var testID = response.data.testId;
+        setTestID(testID);
+        request(
+          "GET",
+          "http://localhost:9192/tests/" + testID + "/getTest",
+          {},
+          true
+        ).then(
+          (response) => {
+            var testType = response.data.testType;
+            settestType(testType);
+            var primary_rad_id = response.data.RadiologistID;
+            setprimaryradiologistid(primary_rad_id);
+            var docid = response.data.doctorID;
+            request(
+              "GET",
+              "http://localhost:9194/doctor/" + docid + "/getDoctor",
+              {},
+              true
+            ).then(
+              (response) => {
+                var docfirstname = response.data.firstName;
+                setDocFirstname(docfirstname);
+                var doclastname = response.data.lastName;
+                setDocLastname(doclastname);
+                setPatientConsentFormOpen(true);
+              }
+            )
+          }
+        )
+      }
+    )
+    
   }
 
   const deleteChatID = (index) => {
@@ -611,7 +681,11 @@ const PatientDashboard = () => {
           placement="Centered"
           onOutsideClick={closePatientChooseLab}
         >
-          <PatientChooseLab testID={chooseLabTest} onClose={closePatientChooseLab} />
+          <PatientChooseLab 
+          testID={chooseLabTest} 
+          onClose={closePatientChooseLab}
+          patientID={patId}
+          />
         </PortalPopup>
       )}
       {isNotificationsOpen && (
@@ -639,7 +713,7 @@ const PatientDashboard = () => {
                     <div className="message" key={index}>
                         <div className="message-content">{message}</div>
                         <div className="buttons-container">
-                            <button className="reply-button" onClick={() => fillConsentForm(index)}>Fill Consent Form</button>
+                        <button className="reply-button" onClick={() => fillConsentForm(allConsentRequestNotificationsConsentID[index])}>Fill Consent Form</button>
                             <button className="clear-button">Clear</button>
                         </div>
                     </div>
@@ -660,7 +734,17 @@ const PatientDashboard = () => {
           
         </PortalPopup>
       )}
-      {isPatientConsentFormOpen && renderConsentForm()}
+      {isPatientConsentFormOpen && (
+        <ConsentForm
+          testType={testType}
+          docfirstname={docfirstname}
+          doclastname={doclastname}
+          consentrequestid={currentconsentrequestID}
+          primaryradid={primaryradiologistid}
+          patientid={patId}
+          testid = {testID}
+        />
+      )}
     </>
   );
 };

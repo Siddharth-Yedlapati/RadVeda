@@ -5,7 +5,7 @@ import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
 
 
-const PatientChooseLab = ({testID, onClose}) => {
+const PatientChooseLab = ({testID, onClose, patientID}) => {
   const navigate = useNavigate();
 
   const [labStaffs, setlabStafffs] = useState([]);
@@ -23,22 +23,22 @@ const PatientChooseLab = ({testID, onClose}) => {
 
   const selectLab = (labId, testId) => {
     console.log(labId, testID);
-    request("POST", `http://localhost:9192/tests/${testId}/assignLab/${labId}`, {}, true)
-    .then(response => {
-      request("POST", `http://localhost:9199/labstaff-test/${labId}/addTest/${testID}`, {}, true)
+    request("POST", `http://localhost:9192/tests/${testId}/assignLab/${labId}`, {}, true) // TODO: ROLLBACK CHANGES
       .then(response => {
         alert("Lab Chosen Successfully !")
         onClose();
-        navigate('/patient-dashboard')
-    })
-    .catch(
-      (error) => {
-        alert(error.response.data.error)
-        navigate('/patient-dashboard')
-      }
-    )
-    })
-    .catch(
+        request("POST", `http://localhost:9201/radiologist/assignRadiologist/${patientID}/${testId}`, {}, true).then(
+          (response) => {
+            console.log(response.data)
+            navigate('/patient-dashboard')
+          }
+        ).catch(
+          (error) => {
+            alert(error.response.data.error);
+          }
+        )
+
+    }).catch(
     (error) => {
       alert(error.response.data.error);
       navigate('/patient-dashboard')
