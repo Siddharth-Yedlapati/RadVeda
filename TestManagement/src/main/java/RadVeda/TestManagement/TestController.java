@@ -31,7 +31,7 @@ public class TestController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        testService.assignLab(testID, labID);
+        testService.assignLab(authorizationHeader, testID, labID);
         return Boolean.TRUE;
     }
 
@@ -47,7 +47,7 @@ public class TestController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        return testService.assignRad(testID, radID);
+        return testService.assignRad(authorizationHeader, testID, radID);
     }
 
     @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:9202" })

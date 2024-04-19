@@ -40,9 +40,29 @@ public class TestService implements TestServiceInterface {
     }
 
     @Override
-    public Test assignLab(Long testId, Long labStaff) {
+    public Test assignLab(String authorizationHeader, Long testId, Long labStaff) {
         Optional<Test> testRec = findById(testId);
         Test test = testRec.orElseThrow(() -> new UserNotFoundException("Test Assignment Failed"));
+        String jwtToken = authorizationHeader.replace("Bearer ", "");
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + jwtToken);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        String requestBody = "";
+
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9199/labstaff-test/"+ labStaff +"/addTest/" + testId, HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        } catch (RuntimeException e){
+            throw new UserNotFoundException("Error in assigning a lab");
+        }
+        
+        if(!responseEntity.getStatusCode().is2xxSuccessful()){
+            // testRepository.deleteTest(savedTest.getId());
+            throw new UserNotFoundException("Error in assigning a lab");
+            // throw new UserNotFoundException("Failed to prescribe test");
+        }
         testRepository.addLabforTest(testId, labStaff);
         testRepository.updateTestStatus(testId,
                 "Test Not Conducted",
@@ -52,9 +72,32 @@ public class TestService implements TestServiceInterface {
         return test;
     }
     @Override
-    public Test assignRad(Long testId, Long rad) {
+    public Test assignRad(String authorizationHeader, Long testId, Long rad) {
         Optional<Test> testRec = findById(testId);
         Test test = testRec.orElseThrow(() -> new UserNotFoundException("Test Assignment Failed"));
+        String jwtToken = authorizationHeader.replace("Bearer ", "");
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + jwtToken);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        String requestBody = "{" +
+        "\"testID\": \"" + testId + "\"," +
+        "\"radiologistID\": \"" + rad + "\"" +
+        "}";
+
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9201/radiologist/prescribe-test", HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        } catch (RuntimeException e){
+            throw new UserNotFoundException("Error in assigning a radiologist");
+        }
+        
+        if(!responseEntity.getStatusCode().is2xxSuccessful()){
+            // testRepository.deleteTest(savedTest.getId());
+            throw new UserNotFoundException("Error in assigning a radiologist");
+            // throw new UserNotFoundException("Failed to prescribe test");
+        }
         testRepository.addRadForTest(testId, rad);
         testRepository.updateTestStatus(testId,
                 test.getPatientStatus(),
