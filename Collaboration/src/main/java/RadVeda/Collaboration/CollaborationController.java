@@ -110,7 +110,7 @@ public class CollaborationController {
             throw new InvalidReferenceMessageException("Invalid reference message!");
         }
 
-        return collaborationService.sendGroupMessage(request, currentUser);
+        return collaborationService.sendGroupMessage(request, currentUser, authorizationHeader);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -138,7 +138,7 @@ public class CollaborationController {
             throw new InvalidReferenceMessageException("Invalid reference message!");
         }
 
-        return collaborationService.sendPrivateMessage(request, currentUser);
+        return collaborationService.sendPrivateMessage(request, currentUser, authorizationHeader);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -156,7 +156,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.getGroupMessagesForTest(testId);
+        return collaborationService.getGroupMessagesForTest(testId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -174,7 +174,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.getSentGroupMessagesForTest(testId);
+        return collaborationService.getSentGroupMessagesForTest(testId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -192,7 +192,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.getDirectlyContactedPeopleForTest(testId);
+        return collaborationService.getDirectlyContactedPeopleForTest(testId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -210,7 +210,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.getPrivateConversationForTestAndUser(testId, userType, userId);
+        return collaborationService.getPrivateConversationForTestAndUser(testId, userType, userId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -242,7 +242,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.clearGroupMessagesForTest(testId);
+        return collaborationService.clearGroupMessagesForTest(testId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -260,7 +260,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.clearPrivateMessagesForTestAndUser(testId, userType, userId);
+        return collaborationService.clearPrivateMessagesForTestAndUser(testId, userType, userId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -282,7 +282,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.deleteMessageForCurrentUserForTest(testId, messageType, messageId);
+        return collaborationService.deleteMessageForCurrentUserForTest(testId, messageType, messageId, currentUser);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

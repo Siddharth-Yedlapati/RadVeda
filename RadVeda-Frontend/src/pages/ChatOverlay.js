@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { request, getAuthToken} from "../axios_helper";
 import "./ChatOverlay.css"; // CSS for styling the chat overlay
 
 const ChatOverlay = ({ onClose }) => {
@@ -8,18 +9,39 @@ const ChatOverlay = ({ onClose }) => {
 
   // Function to send a new message
   const sendMessage = () => {
-    // Call your backend API to send the message
-    // Make sure to include authentication token or any necessary data
-    // After successful sending, you may want to update the message list
     if(newMessage != ""){
+    request(
+      "POST",
+      "http://localhost:9195/collaboration/sendGroupMessage",
+      {
+        "testId": localStorage.getItem("testID"),
+        "text": newMessage
+      },
+      true
+    )
+
     setMessages([...messages, { text: newMessage, sender: "user" }]);
     setNewMessage("");
-    }
-  };
+
+
+  }};
 
   // Function to fetch message history
   const fetchMessageHistory = () => {
-    setMessages([{text: "message1", sender: "user1"}, {text: "message2", sender: "user2"}])
+
+    request(
+      "GET",
+      "http://localhost:9195/collaboration/getGroupMessagesForTest/" + localStorage.getItem("testID"),
+      {},
+      true
+    ).then(
+      (response) => {
+        console.log(response.data);
+        setMessages(response.data);
+      }
+    )
+
+    // setMessages([{text: "message1", sender: "user1"}, {text: "message2", sender: "user2"}])
     // Call your backend API to fetch message history
     // Update the messages state with the fetched messages
     // Example:
@@ -59,26 +81,15 @@ const ChatOverlay = ({ onClose }) => {
           <div
             key={index}
             className={`message ${message.sender === "user" ? "user" : "other"}`}>
-            {/* Display the reference message if it exists */}
-            {message.reference && (
-              <div className="reference-message">
-                <span style={{ color: 'gray' }}>{message.reference.sender}: </span>
-                <span>{message.reference.text}</span>
-              </div>
-            )}
             {message.sender === "user" ? (
                 // If the sender is the user, display only the message text
                 <span>{message.text}</span>
             ) : (
                 // If the sender is someone else, display the sender's name and message text
                 <div>
-                <span style={{ color: 'blue' }}>{message.sender}: </span>
+                <span style={{ color: 'blue' }}>{message.senderFirstName}: </span>
                 <span>{message.text}</span>
                 </div>
-            )}
-            {/* Display the reply button */}
-            {!message.isReference && (
-            <button onClick={() => handleSelectReference(message)}>Reply</button>
             )}
           </div>
         ))}

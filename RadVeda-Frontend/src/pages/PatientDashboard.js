@@ -33,6 +33,18 @@ const PatientDashboard = () => {
   const [testDetails, setTestDetails] = useState([]);
   const [chooseLabTest, setChooseLabTest] = useState(0);
 
+  const [isNotificationsOpen, setNotificationsOpen] = useState(false);
+
+  const [allChatNotifs, setAllChatNotifs] = useState([]);
+  const [allChatNotifsID, setAllChatNotifsID] = useState([]);
+
+  const [allConsentRequestNotifications, setAllConsentRequestNotifications] = useState([]);
+  const [allConsentRequestNotificationsID, setAllConsentRequestNotificationsID] = useState([]);
+  const [allConsentRequestNotificationsConsentID, setAllConsentRequestNotificationsConsentID] = useState([]);
+
+  const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
+  const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
+
 
   const openPatientUserOptions = useCallback(() => {
     setPatientUserOptionsOpen(true);
@@ -91,6 +103,13 @@ const PatientDashboard = () => {
       });
       setTestDetails(testDetails);
     })
+    .catch(error => {
+      console.log(error)
+      var errormsg = error.response.data.error;
+      if(!(errormsg === "No tests found for the given ID")){
+        alert(error.response.data.error)
+      }
+    });
   })
 
   const acceptRad = (radId, testId) => {
@@ -135,6 +154,249 @@ const PatientDashboard = () => {
 
   }
   
+  const [consentForm, setConsentForm] = useState({
+    currentTest: [],
+    otherTests: []
+  });
+
+  const [isPatientConsentFormOpen, setPatientConsentFormOpen] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setConsentForm(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const submitConsentForm = () => {
+    // You can perform form submission logic here
+    console.log("Submitted Consent Form:", consentForm);
+    // request(
+    //   "POST",
+    //   "http://localhost:9202/setPatientProviderDetails", 
+    //   {
+    //     "consentRequestId" : allConsentRequestNotificationsConsentID[curIndex],
+    //     ""
+    //   },
+    //   true
+    //   ).then(
+    //     (response) => {
+          
+    //       console.log(response.data[0].message);
+          
+          
+    //     }
+    //   ).catch(
+    //     (error) => {
+    //       // alert(error.response.data.error);
+    //       console.log("ERROR3")
+    //     }
+    //   )
+    // // Clear the form after submission if needed
+    // setConsentForm({
+    //   currentTest: [],
+    //   otherTests: []
+    // });
+  };
+
+  const renderConsentForm = () => (
+    <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Centered"
+          onOutsideClick={closePatientUserOptions}
+        >
+          {/* <PatientUserOptions onClose={closePatientUserOptions} /> */}
+    <div className="consent-form">
+      <h2>Consent Form</h2>
+      <div>
+        <label htmlFor="currentTest">Current Test:</label>
+        <input
+          type="text"
+          id="currentTest"
+          name="currentTest"
+          value={consentForm.currentTest}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="otherTests">Other Tests:</label>
+        <input
+          type="text"
+          id="otherTests"
+          name="otherTests"
+          value={consentForm.otherTests}
+          onChange={handleInputChange}
+          />
+      </div>
+      <button onClick={submitConsentForm}>Submit</button>
+    </div>
+  </PortalPopup>
+  );
+
+  const [curIndex, setCurIndex] = useState(0)
+  
+  const fillConsentForm = (index) => {
+    console.log("consent form fill", index)
+    setCurIndex(index);
+    setPatientConsentFormOpen(true);
+  }
+
+  const deleteChatID = (index) => {
+    // console.log(res);
+    console.log("index is", index);
+    console.log("Chat ID is", allChatNotifsID[index]);
+    let idToDelete = allChatNotifsID[index];
+    request(
+      "DELETE",
+      "http://localhost:9193/notifications/deleteChatNotification/" + String(idToDelete), 
+      {
+        
+      },
+      true
+      ).then(
+        () => {
+          
+          console.log("SUCCESS");
+          alert("Chat Notification deleted successfully");
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR in deleting")
+        }
+      )
+  }
+
+  const deleteAllChatNotifs = () => {
+    request(
+      "DELETE",
+      "http://localhost:9193/notifications/deleteAllChatNotifications", 
+      {
+
+      },
+      true
+      ).then(
+        () => {
+          
+          console.log("SUCCESS");
+          alert("Chat Notifications deleted successfully");
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR in deleting")
+        }
+      )
+  }
+
+  const openNotifications = useCallback(() => {
+    console.log("CLICKED NOTIFICATIONS")
+    request(
+      "GET",
+      "http://localhost:9193/notifications/getAllChatNotifications", 
+      {
+
+      },
+      true
+      ).then(
+        (response) => {
+          
+          console.log(response.data);
+          
+          setAllChatNotifs([]);
+          let arr = []
+          let arrID = []
+          for (let i = 0; i < response.data.length; i++) {
+
+            arr.push(response.data[i].message);
+            arrID.push(response.data[i].id);
+          }
+          console.log("data is", arr);
+          setAllChatNotifs(arr);
+          setAllChatNotifsID(arrID);
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR1")
+        }
+      )
+
+      request(
+        "GET",
+        "http://localhost:9193/notifications/getAllConsentRequestNotifications", 
+        {
+  
+        },
+        true
+        ).then(
+          (response) => {
+            
+            console.log(response.data[0].message);
+            
+            setAllConsentRequestNotifications([]);
+            let arr = []
+            let arrID = []
+            let arrConsentID = []
+            for (let i = 0; i < response.data.length; i++) {
+  
+              arr.push(response.data[i].message);
+              arrID.push(response.data[i].id);
+              arrConsentID.push(response.data[i].consentRequestId);
+            }
+  
+            setAllConsentRequestNotifications(arr);
+            setAllConsentRequestNotificationsID(arrID);
+            setAllConsentRequestNotificationsConsentID(arrConsentID);
+            
+          }
+        ).catch(
+          (error) => {
+            // alert(error.response.data.error);
+            console.log("ERROR2")
+          }
+        )
+
+        request(
+          "GET",
+          "http://localhost:9193/notifications/getAllOneWayNotifications", 
+          {
+    
+          },
+          true
+          ).then(
+            (response) => {
+              
+              console.log(response.data[0].message);
+              
+              setAllOneWayNotifications([]);
+              let arr = []
+              let arrID = []
+              for (let i = 0; i < response.data.length; i++) {
+    
+                arr.push(response.data[i].message);
+                arrID.push(response.data[i].id);
+              }
+    
+              setAllOneWayNotifications(arr);
+              setAllOneWayNotificationsID(arrID);
+              
+            }
+          ).catch(
+            (error) => {
+              // alert(error.response.data.error);
+              console.log("ERROR3")
+            }
+          )
+
+
+    setNotificationsOpen(true);
+  }, []);
+
+  const closeNotifications = useCallback(() => {
+    setNotificationsOpen(false);
+  }, []);
 
   const renderPatientsTable = () => {
     return (
@@ -148,7 +410,7 @@ const PatientDashboard = () => {
             {/* Add more table headers as needed */}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tableBody">
           {testDetails.map((testDetail) => (
             <tr key={testDetail.id} onClick={testDetail.patientStatus !== 'Choose Lab' ? () => handleRowClick(testDetail.id) : null}>
               <td>{testDetail.testType}</td>
@@ -192,12 +454,13 @@ const PatientDashboard = () => {
           onClick={openPatientUserOptions}
         />
         <div className="iconnotification-bing36">
-          <img className="vector-icon161" alt="" src="/vector.svg" />
-          <img className="vector-icon162" alt="" src="/vector.svg" />
-          <img className="vector-icon163" alt="" />
-          <div className="iconnotification-bing-child34" />
+          <img className="vector-icon161" alt="" src="/vector.svg" onClick={openNotifications}/>
+          <img className="vector-icon162" alt="" src="/vector.svg" onClick={openNotifications}/>
+          <img className="vector-icon163" alt="" onClick={openNotifications}/>
+          <div className="iconnotification-bing-child34" onClick={openNotifications}/>
           <div className="div77">03</div>
         </div>
+       
         <img className="need-help-icon36" alt="" src="/need-help.svg" />
         <div className="patient-dashboard-inner" />
         <div className="patient-dashboard-child1" />
@@ -289,7 +552,7 @@ const PatientDashboard = () => {
         </div> */}
 
 
-        <div className="patient-dashboard-inner1">
+        {/* <div className="patient-dashboard-inner1">
           <div className="notifications-container">
             <div className="notifications1">Notifications</div>
           </div>
@@ -330,7 +593,7 @@ const PatientDashboard = () => {
         </div>
         <div className="new-chat-message1">New Chat Message from Dr. Abdul</div>
         
-       
+        */}
 
       </div>
       {isPatientUserOptionsOpen && (
@@ -351,6 +614,53 @@ const PatientDashboard = () => {
           <PatientChooseLab testID={chooseLabTest} onClose={closePatientChooseLab} />
         </PortalPopup>
       )}
+      {isNotificationsOpen && (
+        <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Top right"
+          onOutsideClick={closeNotifications}
+        >
+          <div className="notification-container">
+            <h2 className="notification-heading">Notifications</h2>
+            <div className="message-container">
+                {allChatNotifs.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="reply-button">Reply</button>
+                            <button className="ignore-button">Ignore</button>
+                            <button className="clear-button" onClick={() => deleteChatID(index)}>Clear</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className="message-container">
+                {allConsentRequestNotifications.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="reply-button" onClick={() => fillConsentForm(index)}>Fill Consent Form</button>
+                            <button className="clear-button">Clear</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className="message-container">
+                {allOneWayNotifications.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="clear-button">Clear</button>
+                        </div>
+                    </div>
+                ))}
+                <button className="clear-button"onClick={deleteAllChatNotifs}>Clear All Chats</button>
+            </div>
+        </div>
+          
+        </PortalPopup>
+      )}
+      {isPatientConsentFormOpen && renderConsentForm()}
     </>
   );
 };
