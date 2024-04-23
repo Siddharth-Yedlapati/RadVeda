@@ -1,8 +1,8 @@
 server:
-  port: 9198
+  port: 9196
 spring:
   datasource:
-    url: jdbc:mysql://localhost:4000/LabStaffDB
+    url: jdbc:mysql://localhost:4000/SuperAdminDB
     username: root
     password: mqpass
     driver-class-name: com.mysql.cj.jdbc.Driver
