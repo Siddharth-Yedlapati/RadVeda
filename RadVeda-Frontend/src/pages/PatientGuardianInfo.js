@@ -91,6 +91,10 @@ const PatientGuardianInfo = () => {
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
+    if (!GfirstName || !GlastName || !GaddressLine1 || !GemailAddress || !GaddressLine2 || !Gcountry || !Gstate || !Gcity) {
+      navigate("/patient-signup-2"); 
+      window.alert("Didnt fill in all the guardian details, moving to Patient Details.");
+    } else {
 
     localStorage.setItem('GfirstName', GfirstName);
     localStorage.setItem('GmiddleName', GmiddleName);
@@ -103,6 +107,7 @@ const PatientGuardianInfo = () => {
     localStorage.setItem('Gcity', Gcity);
 
     navigate("/patient-gaurdian-info-2");
+    }
   }, [navigate, GfirstName, GmiddleName, GlastName, GaddressLine1, GemailAddress, GaddressLine2, Gcountry, Gstate, Gcity]);
 
   const onRectangle2Click = useCallback(() => {
