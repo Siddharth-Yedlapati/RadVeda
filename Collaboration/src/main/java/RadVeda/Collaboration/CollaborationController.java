@@ -304,7 +304,7 @@ public class CollaborationController {
             throw new SanityChecksException("Test based sanity checks failure!");
         }
 
-        return collaborationService.deleteMessageForEveryoneForTest(testId, messageType, messageId, currentUser);
+        return collaborationService.deleteMessageForEveryoneForTest(testId, messageType, messageId, currentUser, authorizationHeader);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

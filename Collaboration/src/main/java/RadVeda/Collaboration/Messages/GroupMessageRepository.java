@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface GroupMessageRepository extends JpaRepository<GroupMessage, Long> {
     @NonNull Optional<GroupMessage> findById(@NonNull Long id);
     List<GroupMessage> findByTestId(Long testId);
+    List<GroupMessage> findBySenderTypeAndSenderId(String senderType, Long senderId);
 }
