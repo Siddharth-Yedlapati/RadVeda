@@ -321,6 +321,9 @@ public class TestService implements TestServiceInterface {
         else if("RADIOLOGIST".equals(userType)){
             return testRepository.findAllTestsByPatientAndRadID(patientID, userID);
         }
+        else if("LABSTAFF".equals(userType)){
+            return testRepository.findAllTestsByPatientAndLabStaffID(patientID, userID);
+        }
         return new ArrayList<>();
     }
 

@@ -58,7 +58,7 @@ const DocDashboard = () => {
         const doctorId = doctorResponse.data.id;
         return request("GET", `http://localhost:9192/tests/DOCTOR/${doctorId}/getTests`, {}, true);
       })
-      .then(testsResponse => {
+      .then(testsResponse => { 
         const patients = testsResponse.data;
         console.log(patients);
         if (patients.length !== 0) {

@@ -24,7 +24,7 @@ public interface TestRepository extends JpaRepository<Test, Long> {
     @Query(value = "SELECT * FROM test WHERE radiologistid = :radiologistID", nativeQuery = true)
     List<Test> findByRadiologistID(Long radiologistID); 
 
-    @Query(value = "SELECT * FROM test WHERE labstaffid = :labstaffID", nativeQuery = true)
+    @Query(value = "SELECT * FROM test WHERE lab_staffid = :labstaffID", nativeQuery = true)
     List<Test> findByLabStaffID(Long labstaffID);     
 
     @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND doctorid = :doctorID", nativeQuery =  true)
@@ -33,11 +33,17 @@ public interface TestRepository extends JpaRepository<Test, Long> {
     @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND radiologistid = :radiologistID", nativeQuery =  true)
     List<Test> findAllTestsByPatientAndRadID(Long patientID, Long radiologistID);
 
+    @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND lab_staffid = :labstaffID", nativeQuery =  true)
+    List<Test> findAllTestsByPatientAndLabStaffID(Long patientID, Long labstaffID);
+
     @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND doctorid != :doctorID", nativeQuery =  true)
     List<Test> findConsultedByPatientAndDocID(Long patientID, Long doctorID);
 
     @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND radiologistid != :radiologistID", nativeQuery =  true)
     List<Test> findConsultedTestsByPatientAndRadID(Long patientID, Long radiologistID);
+
+    @Query(value = "SELECT * FROM test WHERE patientid = :patientID AND lab_staffid != :labstaffID", nativeQuery =  true)
+    List<Test> findConsultedTestsByPatientAndLabStaffID(Long patientID, Long labstaffID);
 
     @Modifying
     @Transactional

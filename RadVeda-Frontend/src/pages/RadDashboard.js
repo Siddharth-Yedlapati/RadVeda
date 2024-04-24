@@ -46,6 +46,76 @@ const RadDashboard = () => {
     navigate("/rad-own-pat-details");
   }, [navigate]);
 
+  const [patDetails, setpatDetails] = useState([]);
+
+  useEffect(() => {
+    request("GET", "http://localhost:9191/radiologists/profile", {}, true)
+      .then(radResponse => {
+        const radId = radResponse.data.id;
+        return request("GET", `http://localhost:9192/tests/RADIOLOGIST/${radId}/getTests`, {}, true);
+      })
+      .then(testsResponse => {
+        const patients = testsResponse.data;
+        console.log(patients);
+        if (patients.length !== 0) {
+          const uniquePatientIDs = [...new Set(patients.map(patient => patient.patientID))];
+          const sortedUniquePatientIDs = uniquePatientIDs.sort((id1, id2) => {
+            // Find the latest datePrescribed for each patient ID
+            const latestDatePrescribed1 = Math.max(...patients.filter(patient => patient.patientID === id1).map(patient => new Date(patient.datePrescribed).getTime()));
+            const latestDatePrescribed2 = Math.max(...patients.filter(patient => patient.patientID === id2).map(patient => new Date(patient.datePrescribed).getTime()));
+        
+            // Compare the latest datePrescribed values
+            return latestDatePrescribed1 - latestDatePrescribed2;
+        });
+          const reqString = sortedUniquePatientIDs.join(',');
+          console.log("reqString: " + reqString);
+          return request("GET", `http://localhost:9198/patient/getPatients/${reqString}`, {}, true);
+        }
+      })
+      .then(patientsResponse => {
+        const patDetails = patientsResponse.data;
+        setpatDetails(patDetails);
+        console.log("PATIENT DETAILS", patDetails);
+
+      })
+      .catch(error => {
+        var errormsg = error.response.data.error;
+        if(!(errormsg === "No tests found for the given ID")){
+          alert(error.response.data.error)
+        }
+      });
+  }, []);
+
+  const renderPatientsTable = () => {
+    return (
+      <table className = "patients-table">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody className="tableBody">
+        {patDetails.map((patDetail) => (
+            <tr key={patDetail.id} onClick = {() => handleRowClick(patDetail.id)}>
+              <td>{patDetail.firstName}</td>
+              <td>{patDetail.email}</td>
+              <td>{patDetail.gender}</td>
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  const handleRowClick = (patientID) => {
+    localStorage.setItem("currentPatientID", patientID)
+    navigate("/rad-own-pat-details")
+  }
+
   return (
     <>
       <div className="rad-dashboard-container">
@@ -140,59 +210,11 @@ const RadDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="frame-parent51">
-          <div className="frame-child379" />
-          <div className="frame-parent52">
-            <div className="group-parent79">
-              <div className="patient-1-container">
-                <div className="patient-12">Patient 1</div>
-                <div className="uk15">uk</div>
-              </div>
-              <div className="rectangle-parent31">
-                <div className="group-child58" />
-                <img className="group-child63" alt="" src="/group-236802.svg" />
-              </div>
-            </div>
-            <div className="group-parent80" onClick={onFrameContainer12Click}>
-              <div className="patient-2-container">
-                <div className="patient-12">Patient 2</div>
-                <div className="uk15">uSA</div>
-              </div>
-              <img className="frame-child380" alt="" src="/group-236783.svg" />
-            </div>
-            <div className="group-parent81">
-              <div className="patient-3-container">
-                <div className="patient-12">Patient 3</div>
-                <div className="uk15">USA</div>
-              </div>
-              <div className="frame-child380">
-                <div className="rectangle-parent31">
-                  <div className="group-child60" />
-                  <img
-                    className="group-child65"
-                    alt=""
-                    src="/group-236804.svg"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="patient-name-container">
-              <div className="patient-name5">Patient Name</div>
-              <div className="parent9">
-                <div className="div100">21</div>
-                <div className="div101">25</div>
-                <div className="div102">34</div>
-                <div className="age5">Age</div>
-              </div>
-              <div className="male-parent10">
-                <div className="male30">Male</div>
-                <div className="female15">Female</div>
-                <div className="male31">Male</div>
-                <div className="gender15">Gender</div>
-              </div>
-            </div>
+        <div className="my-patients-list-parent">
+          <b className="my-patients-list">My Patients list</b>
+          <div className="frame-child-125" >
+          {renderPatientsTable()}
           </div>
-          <b className="my-patients-list1">My Patients List</b>
         </div>
       </div>
       </div>
