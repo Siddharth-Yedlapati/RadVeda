@@ -22,7 +22,7 @@ public interface CollaborationServiceInterface {
     String clearGroupMessagesForTest(Long testId, User currentUser);
     String clearPrivateMessagesForTestAndUser(Long testId, String userType, Long userId, User currentUser);
     String deleteMessageForCurrentUserForTest(Long testId, String messageType, Long messageId, User currentUser);
-    String deleteMessageForEveryoneForTest(Long testId, String messageType, Long messageId, User currentUser);
+    String deleteMessageForEveryoneForTest(Long testId, String messageType, Long messageId, User currentUser, String authorizationHeader);
     String cleanByDeletedUser(String userType, Long userId);
     User authenticate(String authorizationHeader);
     boolean isUserValid(String userType, Long userId, String authorizationHeader);
