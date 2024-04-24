@@ -68,6 +68,11 @@ public class CollaborationService implements CollaborationServiceInterface{
     @Override
     public String setGroupMessageNotifiabilityToTrueForTest(Long testId, User currentUser)
     {
+        if(!Objects.equals(currentUser.getType(), "RADIOLOGIST") && !Objects.equals(currentUser.getType(), "DOCTOR"))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
         String notifiabilityType = "GROUP";
         String notificationRecipientType = currentUser.getType();
         Long notificationRecipientId = currentUser.getId();
@@ -86,6 +91,11 @@ public class CollaborationService implements CollaborationServiceInterface{
     @Override
     public String setGroupMessageNotifiabilityToFalseForTest(Long testId, User currentUser)
     {
+        if(!Objects.equals(currentUser.getType(), "RADIOLOGIST") && !Objects.equals(currentUser.getType(), "DOCTOR"))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
         String notifiabilityType = "GROUP";
         String notificationRecipientType = currentUser.getType();
         Long notificationRecipientId = currentUser.getId();
@@ -485,8 +495,31 @@ public class CollaborationService implements CollaborationServiceInterface{
     @Override
     public List<User> getDirectlyContactedPeopleForTest(Long testId, User currentUser)
     {
-        //TODO
-        return null;
+        List<PrivateMessage> sentPrivateMessages = privateMessageRepository.findByTestIdAndSenderTypeAndSenderId(testId, currentUser.getType(), currentUser.getId());
+
+        List<PrivateMessage> receivedPrivateMessages = privateMessageRepository.findByTestIdAndRecipientTypeAndRecipientId(testId, currentUser.getType(), currentUser.getId());
+
+        List<User> users = new ArrayList<>();
+
+        for (PrivateMessage privateMessage : sentPrivateMessages) {
+            User user = new User();
+            user.setType(privateMessage.getRecipientType());
+            user.setId(privateMessage.getRecipientId());
+            user.setFirstName(privateMessage.getRecipientFirstName());
+            user.setLastName(privateMessage.getRecipientLastName());
+            users.add(user);
+        }
+        for (PrivateMessage privateMessage : receivedPrivateMessages) {
+            User user = new User();
+            user.setType(privateMessage.getSenderType());
+            user.setId(privateMessage.getSenderId());
+            user.setFirstName(privateMessage.getSenderFirstName());
+            user.setLastName(privateMessage.getSenderLastName());
+            users.add(user);
+        }
+
+        Set<User> uniqueUsers = new HashSet<>(users);
+        return new ArrayList<>(uniqueUsers);
     }
 
     @Override
@@ -496,8 +529,20 @@ public class CollaborationService implements CollaborationServiceInterface{
         List<PrivateMessage> otherEndUserToCurrentUserPrivateMessages = privateMessageRepository.findByTestIdAndSenderTypeAndSenderIdAndRecipientTypeAndRecipientId(testId, userType, userId, currentUser.getType(), currentUser.getId());
 
         List<PrivateMessage> conversation = new ArrayList<>();
-        conversation.addAll(currentUserToOtherEndUserPrivateMessages);
-        conversation.addAll(otherEndUserToCurrentUserPrivateMessages);
+
+        for (PrivateMessage currentUserToOtherEndUserPrivateMessage : currentUserToOtherEndUserPrivateMessages) {
+            Optional<MessageVisibility> optionalMessageVisibility = messageVisibilityRepository.findByMessageTypeAndMessageIdAndUserTypeAndUserId("PRIVATE", currentUserToOtherEndUserPrivateMessage.getId(), currentUser.getType(), currentUser.getId());
+            if (optionalMessageVisibility.isPresent() && optionalMessageVisibility.get().isVisible()) {
+                conversation.add(currentUserToOtherEndUserPrivateMessage);
+            }
+        }
+
+        for (PrivateMessage otherEndUserToCurrentUserPrivateMessage : otherEndUserToCurrentUserPrivateMessages) {
+            Optional<MessageVisibility> optionalMessageVisibility = messageVisibilityRepository.findByMessageTypeAndMessageIdAndUserTypeAndUserId("PRIVATE", otherEndUserToCurrentUserPrivateMessage.getId(), currentUser.getType(), currentUser.getId());
+            if (optionalMessageVisibility.isPresent() && optionalMessageVisibility.get().isVisible()) {
+                conversation.add(otherEndUserToCurrentUserPrivateMessage);
+            }
+        }
 
         return conversation;
     }
@@ -520,36 +565,198 @@ public class CollaborationService implements CollaborationServiceInterface{
     @Override
     public String clearGroupMessagesForTest(Long testId, User currentUser)
     {
-        //TODO
-        return null;
+        if(!Objects.equals(currentUser.getType(), "RADIOLOGIST") && !Objects.equals(currentUser.getType(), "DOCTOR"))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        List<GroupMessage> groupMessages = groupMessageRepository.findByTestId(testId);
+
+        for (GroupMessage groupMessage : groupMessages) {
+            messageVisibilityRepository.updateIfExists("GROUP", groupMessage.getId(), currentUser.getType(), currentUser.getId(), false);
+        }
+
+        return "Successfully cleared group messages for current user!";
     }
 
     @Override
     public String clearPrivateMessagesForTestAndUser(Long testId, String userType, Long userId, User currentUser)
     {
-        //TODO
-        return null;
+        List<PrivateMessage> privateMessages = getPrivateConversationForTestAndUser(testId, userType, userId, currentUser);
+
+        for(PrivateMessage privateMessage : privateMessages)
+        {
+            messageVisibilityRepository.updateIfExists("PRIVATE", privateMessage.getId(), currentUser.getType(), currentUser.getId(), false);
+        }
+
+        return "Successfully cleared private messages between current user and given user!";
     }
 
     @Override
     public String deleteMessageForCurrentUserForTest(Long testId, String messageType, Long messageId, User currentUser)
     {
-        //TODO
-        return null;
+        if(Objects.equals(messageType, "PRIVATE"))
+        {
+            Optional<PrivateMessage> optionalPrivateMessage = privateMessageRepository.findById(messageId);
+            if(optionalPrivateMessage.isEmpty())
+            {
+                return "Invalid message!";
+            }
+            if(!Objects.equals(optionalPrivateMessage.get().getTestId(), testId))
+            {
+                return "Invalid message!";
+            }
+            if(!(Objects.equals(currentUser.getType(), optionalPrivateMessage.get().getSenderType()) && Objects.equals(currentUser.getId(), optionalPrivateMessage.get().getSenderId())) && !(Objects.equals(currentUser.getType(), optionalPrivateMessage.get().getRecipientType()) && Objects.equals(currentUser.getId(), optionalPrivateMessage.get().getRecipientId())))
+            {
+                return "Invalid message!";
+            }
+        }
+        else //GROUP
+        {
+            if(!Objects.equals(currentUser.getType(), "RADIOLOGIST") && !Objects.equals(currentUser.getType(), "DOCTOR"))
+            {
+                throw new UnauthorisedUserException("Permission denied!");
+            }
+
+            Optional<GroupMessage> optionalGroupMessage = groupMessageRepository.findById(messageId);
+            if(optionalGroupMessage.isEmpty())
+            {
+                return "Invalid message!";
+            }
+            if(!Objects.equals(optionalGroupMessage.get().getTestId(), testId))
+            {
+                return "Invalid message!";
+            }
+        }
+
+        messageVisibilityRepository.updateIfExists(messageType, messageId, currentUser.getType(), currentUser.getId(), false);
+        return "Successfully deleted message for current user!";
     }
 
     @Override
-    public String deleteMessageForEveryoneForTest(Long testId, String messageType, Long messageId, User currentUser)
+    public String deleteMessageForEveryoneForTest(Long testId, String messageType, Long messageId, User currentUser, String authorizationHeader)
     {
-        //TODO
-        return null;
+        if(Objects.equals(messageType, "PRIVATE"))
+        {
+            Optional<PrivateMessage> optionalPrivateMessage = privateMessageRepository.findById(messageId);
+            if(optionalPrivateMessage.isEmpty())
+            {
+                return "Invalid message!";
+            }
+            if(!Objects.equals(optionalPrivateMessage.get().getTestId(), testId))
+            {
+                return "Invalid message!";
+            }
+            if(!Objects.equals(currentUser.getType(), optionalPrivateMessage.get().getSenderType()) || !Objects.equals(currentUser.getId(), optionalPrivateMessage.get().getSenderId()))
+            {
+                return "Invalid message!";
+            }
+
+            messageVisibilityRepository.updateIfExists(messageType, messageId, currentUser.getType(), currentUser.getId(), false);
+            messageVisibilityRepository.updateIfExists(messageType, messageId, optionalPrivateMessage.get().getRecipientType(), optionalPrivateMessage.get().getRecipientId(), false);
+
+            return "Successfully deleted message for everyone!";
+        }
+        else //GROUP
+        {
+            if(!Objects.equals(currentUser.getType(), "RADIOLOGIST") && !Objects.equals(currentUser.getType(), "DOCTOR"))
+            {
+                throw new UnauthorisedUserException("Permission denied!");
+            }
+
+            Optional<GroupMessage> optionalGroupMessage = groupMessageRepository.findById(messageId);
+            if(optionalGroupMessage.isEmpty())
+            {
+                return "Invalid message!";
+            }
+            if(!Objects.equals(optionalGroupMessage.get().getTestId(), testId))
+            {
+                return "Invalid message!";
+            }
+            if(!Objects.equals(currentUser.getType(), optionalGroupMessage.get().getSenderType()) || !Objects.equals(currentUser.getId(), optionalGroupMessage.get().getSenderId()))
+            {
+                return "Invalid message!";
+            }
+
+            String jwtToken = "";
+
+            // Checking if the Authorization header is present and not empty
+            if (authorizationHeader != null && !authorizationHeader.isEmpty())
+            {
+                // Extracting JWT bearer token
+                jwtToken = authorizationHeader.replace("Bearer ", "");
+            }
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            // Setting up the request headers with the JWT token
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + jwtToken);
+
+            String url = "http://localhost:9192/tests/"+ testId +"/getPeopleInvolvedForTest";
+
+            // Sending a GET request to the test management service with the JWT token in the headers
+            ResponseEntity<String> responseEntity;
+            try{
+                responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+            } catch (RuntimeException e){ //VERIFY_EXCEPTION
+                throw new UnableToFetchTestDetailsException("Error while retrieving people involved for test!");
+            }
+
+            // Creating a list to store user types
+            List<String> userTypes = new ArrayList<>();
+            //Creating a list to store corresponding user ids
+            List<Long> userIds = new ArrayList<>();
+
+            // Checking if the response status is OK (200)
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                // Extracting the response body
+                String responseBody = responseEntity.getBody();
+
+                // Parsing the response body
+                try {
+                    JSONArray jsonArray = new JSONArray(responseBody);
+
+                    // Extracting userType and userId from each JSON object in the array
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String userType = jsonObject.getString("type");
+                        Long userId = jsonObject.getLong("id");
+                        userTypes.add(userType);
+                        userIds.add(userId);
+                    }
+
+                } catch (JSONException e) {
+                    throw new UnableToFetchTestDetailsException("JSON parsing exception!");
+                }
+            }
+            else
+            {
+                throw new UnableToFetchTestDetailsException("Error while retrieving people involved for test!");
+            }
+
+            for(int i=0;i<userTypes.size();i++)
+            {
+                if(Objects.equals(userTypes.get(i), "RADIOLOGIST") || Objects.equals(userTypes.get(i), "DOCTOR"))
+                {
+                    messageVisibilityRepository.updateIfExists(messageType, messageId, userTypes.get(i), userIds.get(i), false);
+                }
+            }
+
+            return "Successfully deleted message for everyone!";
+        }
     }
 
     @Override
     public String cleanByDeletedUser(String userType, Long userId)
     {
-        //TODO
-        return null;
+        List<PrivateMessage> privateMessages = privateMessageRepository.findBySenderTypeAndSenderId(userType, userId);
+        List<GroupMessage> groupMessages = groupMessageRepository.findBySenderTypeAndSenderId(userType, userId);
+
+        privateMessageRepository.deleteAll(privateMessages);
+        groupMessageRepository.deleteAll(groupMessages);
+
+        return "Successfully deleted all messages where the given user is the sender!";
     }
 
     @Override
