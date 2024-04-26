@@ -12,7 +12,7 @@ public interface TestServiceInterface {
 
     Test prescribeTest(String authorizationHeader, TestRequest request);
 
-    Test assignLab(String authorizationHeader, Long testID, Long labStaff);
+    Test assignLab(String authorizationHeader, Long testID, Long labStaff, long patientID);
     Test assignRad(String authorizationHeader, Long testID, Long radID);
 
     Optional<Test> findById(Long testID);
@@ -21,6 +21,7 @@ public interface TestServiceInterface {
     List<Test> findAllTestsByPatientAndUser(Long patientID, String userType, Long userID);
     List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID);
     List<Test> findAllPrimaryAndConsultedTestsByUser(String authorizationHeader, String userType, Long userID);
+    List<Test> findAllConsultedTestsByUser(String authorizationHeader, String userType, Long userID);
     User authenticate(String authorizationHeader);
     List<User> getPeopleInvolvedForTest(String authorizationHeader, Long testID);
 }

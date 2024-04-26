@@ -40,7 +40,9 @@ public class TestService implements TestServiceInterface {
     }
 
     @Override
-    public Test assignLab(String authorizationHeader, Long testId, Long labStaff) {
+    public Test assignLab(String authorizationHeader, Long testId, Long labStaff, long patientID) {
+        int flag = 0;
+        int flag1 = 0;
         Optional<Test> testRec = findById(testId);
         Test test = testRec.orElseThrow(() -> new UserNotFoundException("Test Assignment Failed"));
         String jwtToken = authorizationHeader.replace("Bearer ", "");
@@ -55,13 +57,24 @@ public class TestService implements TestServiceInterface {
         try {
             responseEntity = restTemplate.exchange("http://localhost:9199/labstaff-test/"+ labStaff +"/addTest/" + testId, HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
         } catch (RuntimeException e){
-            throw new UserNotFoundException("Error in assigning a lab");
+            flag = 1;
         }
         
         if(!responseEntity.getStatusCode().is2xxSuccessful()){
             // testRepository.deleteTest(savedTest.getId());
-            throw new UserNotFoundException("Error in assigning a lab");
+            flag = 1;
             // throw new UserNotFoundException("Failed to prescribe test");
+        }
+        try{
+            responseEntity = restTemplate.exchange("http://localhost:9201/radiologist/assignRadiologist/" + patientID + "/" + testId, HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class );
+        } catch (RuntimeException e){
+            flag1 = 1;
+        }
+        if(!responseEntity.getStatusCode().is2xxSuccessful()){
+            flag1 = 1;
+        }
+        if(flag == 1 || flag1 == 1){        // TODO: ROLLBACK PROPERLY
+            throw new UserNotFoundException("Error");
         }
         testRepository.addLabforTest(testId, labStaff);
         testRepository.updateTestStatus(testId,
@@ -242,6 +255,71 @@ public class TestService implements TestServiceInterface {
             return testRepository.findByLabStaffID(userID);
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<Test> findAllConsultedTestsByUser(String authorizationHeader, String userType, Long userID){
+        String jwtToken = authorizationHeader.replace("Bearer ", "");
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.set("Authorization", "Bearer " + jwtToken);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if("DOCTOR".equals(userType)){
+            try{
+                responseEntity = restTemplate.exchange("http://localhost:9194/doctor/getConsultedTests/" + userID, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+            }
+            catch(RuntimeException e){
+                throw new UserNotFoundException("Failed to fetch test details");
+            }
+            List<Test> primarytestdetails =  testRepository.findByDoctorID(userID);
+            List<Test> consultedtestdetails = new ArrayList<>();
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                String responseBody = responseEntity.getBody();
+                try{
+                    JSONArray jsonArray = new JSONArray(responseBody);
+                    List<Long> testIds = new ArrayList<>();
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Long id = jsonObject.getLong("consultedTestID");
+                        Test newtest = testRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Test not found"));
+                        consultedtestdetails.add(newtest);
+                    }
+                }
+                catch(JSONException e){
+                    throw new UserNotFoundException("Error parsing JSON response");
+                }
+            }
+            return consultedtestdetails;
+
+        }
+        else if("RADIOLOGIST".equals(userType)){
+            try{
+                responseEntity = restTemplate.exchange("http://localhost:9201/radiologist/getConsultedTests/" + userID, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+            }
+            catch(RuntimeException e){
+                throw new UserNotFoundException("Failed to fetch test details");
+            }
+            List<Test> primarytestdetails =  testRepository.findByRadiologistID(userID);
+            List<Test> consultedtestdetails = new ArrayList<>();
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                String responseBody = responseEntity.getBody();
+                try{
+                    JSONArray jsonArray = new JSONArray(responseBody);
+                    List<Long> testIds = new ArrayList<>();
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Long id = jsonObject.getLong("consultedTestID");
+                        Test newtest = testRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Test not found"));
+                        consultedtestdetails.add(newtest);
+                    }
+                }
+                catch(JSONException e){
+                    throw new UserNotFoundException("Error parsing JSON response");
+                }
+            }
+            return consultedtestdetails;
+        }
+        return new ArrayList<>();  
     }
 
     @Override
