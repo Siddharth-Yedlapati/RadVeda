@@ -24,7 +24,7 @@ public class AccountStatistics {
     private String accountOperationType; //"REGISTRATION" OR "MODIFICATION" OR "DELETION"
     private String temporalScope; //"TODAY" or "SO_FAR"
     private String clientType; //"ADMIN" or "SUPERADMIN"
-    private Long clientId;
+    private Long clientId; //If client is SUPERADMIN then clientId would be ignored
 }
 
 // Used to display statistics of the following format:
