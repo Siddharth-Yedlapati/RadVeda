@@ -1,5 +1,6 @@
 package RadVeda.Analytics;
 
+import RadVeda.Analytics.Statistics.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,13 +10,161 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class AnalyticsService {
+
+    private final AccountStatisticsRepository accountStatisticsRepository;
+    private final RequestsStatisticsRepository requestsStatisticsRepository;
+    private final LastUpdateRepository lastUpdateRepository;
+
+    public String incrementRequestsStatistics(RequestsStatisticsRequest request)
+    {
+        List<String> temporalScopes = List.of("TODAY", "SO_FAR");
+        for(String temporalScope: temporalScopes)
+        {
+            Optional<RequestsStatistics> optionalRequestsStatistics = requestsStatisticsRepository.findByRequesterTypeAndRequestTypeAndTemporalScopeAndClientTypeAndClientId(request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+            if(optionalRequestsStatistics.isEmpty())
+            {
+                Long count = 0L;
+                count++;
+                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+            }
+            else
+            {
+                Long count = optionalRequestsStatistics.get().getCount();
+                count++;
+                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+            }
+        }
+
+        return "Successfully incremented stats!";
+    }
+
+    public String decrementRequestsStatistics(RequestsStatisticsRequest request)
+    {
+        List<String> temporalScopes = List.of("TODAY", "SO_FAR");
+        for(String temporalScope: temporalScopes)
+        {
+            Optional<RequestsStatistics> optionalRequestsStatistics = requestsStatisticsRepository.findByRequesterTypeAndRequestTypeAndTemporalScopeAndClientTypeAndClientId(request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+            if(optionalRequestsStatistics.isEmpty())
+            {
+                Long count = 0L;
+                count--;
+                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+            }
+            else
+            {
+                Long count = optionalRequestsStatistics.get().getCount();
+                count--;
+                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+            }
+        }
+
+        return "Successfully decremented stats!";
+    }
+
+    public Long getRequestsStatistics(RequestsStatisticsRequest request, String temporalScope)
+    {
+        Optional<RequestsStatistics> optionalRequestsStatistics = requestsStatisticsRepository.findByRequesterTypeAndRequestTypeAndTemporalScopeAndClientTypeAndClientId(request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+        if(optionalRequestsStatistics.isEmpty())
+        {
+            return 0L;
+        }
+        else
+        {
+            return optionalRequestsStatistics.get().getCount();
+        }
+    }
+
+    public String incrementAccountStatistics(AccountStatisticsRequest request)
+    {
+        List<String> temporalScopes = List.of("TODAY", "SO_FAR");
+        for(String temporalScope: temporalScopes)
+        {
+            Optional<AccountStatistics> optionalAccountStatistics = accountStatisticsRepository.findByAccountHolderTypeAndAccountOperationTypeAndTemporalScopeAndClientTypeAndClientId(request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+            if(optionalAccountStatistics.isEmpty())
+            {
+                Long count = 0L;
+                count++;
+                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+            }
+            else
+            {
+                Long count = optionalAccountStatistics.get().getCount();
+                count++;
+                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+            }
+        }
+
+        return "Successfully incremented stats!";
+    }
+
+    public String decrementAccountStatistics(AccountStatisticsRequest request)
+    {
+        List<String> temporalScopes = List.of("TODAY", "SO_FAR");
+        for(String temporalScope: temporalScopes)
+        {
+            Optional<AccountStatistics> optionalAccountStatistics = accountStatisticsRepository.findByAccountHolderTypeAndAccountOperationTypeAndTemporalScopeAndClientTypeAndClientId(request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+            if(optionalAccountStatistics.isEmpty())
+            {
+                Long count = 0L;
+                count--;
+                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+            }
+            else
+            {
+                Long count = optionalAccountStatistics.get().getCount();
+                count--;
+                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+            }
+        }
+
+        return "Successfully decremented stats!";
+    }
+
+    public Long getAccountStatistics(AccountStatisticsRequest request, String temporalScope)
+    {
+        Optional<AccountStatistics> optionalAccountStatistics = accountStatisticsRepository.findByAccountHolderTypeAndAccountOperationTypeAndTemporalScopeAndClientTypeAndClientId(request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+        if(optionalAccountStatistics.isEmpty())
+        {
+            return 0L;
+        }
+        else
+        {
+            return optionalAccountStatistics.get().getCount();
+        }
+    }
+
+    public void updateAnalyticsDatabase()
+    {
+        LocalDate currentDate = LocalDate.now();
+
+        Optional<LastUpdate> optionalLastUpdate = lastUpdateRepository.findById(1L);
+        if(optionalLastUpdate.isEmpty())
+        {
+            LastUpdate lastUpdate = new LastUpdate();
+            lastUpdate.setDate(currentDate);
+            lastUpdateRepository.save(lastUpdate);
+        }
+        else
+        {
+            LastUpdate lastUpdate = optionalLastUpdate.get();
+
+            if(!Objects.equals(lastUpdate.getDate(), currentDate))
+            {
+                lastUpdateRepository.updateDateById(1L, currentDate);
+
+                //reset all stats with temporalScope="TODAY" to 0:
+                accountStatisticsRepository.resetTodayRecords();
+                requestsStatisticsRepository.resetTodayRecords();
+            }
+        }
+    }
+
     public User authenticate(String authorizationHeader)
     { // NOTE: This function is different from authenticate functions in other services
         String jwtToken = "";
