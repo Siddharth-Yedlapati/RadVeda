@@ -28,7 +28,7 @@ public class SuperAdminController {
         User user = SuperAdminService.authenticate(authorizationHeader);
 
         if(user == null) {
-            throw new UnauthorizedUserException("Invalid User!");
+            throw new UnauthorizedUserException("Invalid UserDetails!");
         }
 
 
@@ -44,7 +44,7 @@ public class SuperAdminController {
          User user = SuperAdminService.authenticate(authorizationHeader);
 
          if(user == null) {
-             throw new UnauthorizedUserException("Invalid User!");
+             throw new UnauthorizedUserException("Invalid UserDetails!");
          }
 
          return SuperAdminService.findById(SuperAdminID).get();
@@ -59,7 +59,7 @@ public class SuperAdminController {
          User user = SuperAdminService.authenticate(authorizationHeader);
 
          if(user == null) {
-             throw new UnauthorizedUserException("Invalid User!");
+             throw new UnauthorizedUserException("Invalid UserDetails!");
          }
 
         SuperAdminService.deleteSuperAdmin(SuperAdminID);

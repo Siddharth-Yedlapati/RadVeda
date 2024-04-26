@@ -1,5 +1,8 @@
 package RadVeda.UserManagement.Users.Admin.user;
 
+import RadVeda.UserManagement.Users.Admin.events.AdminSignUpCompleteEvent;
+import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +20,8 @@ import java.util.Optional;
 public class AdminController {
     private final AdminService adminService;
     private static String delimiter = ":_:";
+
+
 
     @GetMapping("/profile")
     public Admin getProfile(@AuthenticationPrincipal UserDetails userDetails)
@@ -42,6 +47,8 @@ public class AdminController {
         return admin.get();
     }
 
+
+
     @GetMapping("/validateAdminId/{id}")
     public boolean validateAdminId(@PathVariable Long id)
     {
@@ -64,5 +71,26 @@ public class AdminController {
 
         return admin.get().getFirstName() + delimiter + admin.get().getLastName();
     }
+
+    @GetMapping("/profile/{id}")
+    //Called by super admin (maybe from frontend or from super admin service..TBD)
+    public Optional<Admin> getProfileById(@PathVariable Long id)
+            throws InvalidInputFormatException, UserNotFoundException {
+
+
+        Optional<Admin> admin = adminService.findById(id);
+
+        return admin;
+    }
+
+    @PostMapping
+    //called by super admin from super admin service
+    public String updateAdmin(@RequestBody AdminUpdateRequest updateRequest, final HttpServletRequest request) {
+        Admin admin = adminService.updateAdmin(updateRequest);
+        return "Details Updated !";
+    }
+
+
+
 
 }

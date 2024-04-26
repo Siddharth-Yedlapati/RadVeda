@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.Admin.user;
 
+import RadVeda.UserManagement.exception.UserNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
@@ -76,10 +77,35 @@ public class AdminService implements AdminServiceInterface {
             newDocument.setDocuments(document);
             newDocument.setAdmin(newAdmin); 
             admindocumentsrepository.save(newDocument);
-        }        
+        }
 
         return adminRepository.save(newAdmin);
     }
+
+    @Override
+    public Admin updateAdmin(AdminUpdateRequest request) throws  UserNotFoundException{
+
+        Optional<Admin> adminRec = adminRepository.findById(request.adminId());
+        Admin admin = adminRec.orElseThrow(() -> new UserNotFoundException("Invalid Admin Id"));
+
+        admin.setFirstName(request.firstName());
+        admin.setMiddleName(request.middleName());
+        admin.setLastName(request.lastName());
+        admin.setAddressL1(request.addressL1());
+        admin.setAddressL2(request.addressL2());
+        admin.setCountry(request.country());
+        admin.setState(request.state());
+        admin.setCity(request.city());
+        admin.setEmail(request.email());
+        admin.setPhoneNumber(request.phoneNumber());
+        admin.setOrgName(request.orgName());
+        admin.setOrgAddressL1(request.orgAddressL1());
+        admin.setOrgAddressL2(request.orgAddressL2());
+
+        return adminRepository.save(admin);
+    }
+
+
 
     @Override
     public Optional<Admin> findByEmail(String email) {

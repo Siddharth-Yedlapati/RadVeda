@@ -12,6 +12,7 @@ public interface SuperAdminServiceInterface {
 
     void deleteSuperAdmin(Long Id);
 
+
     User authenticate(String AuthorizationHeader);
     List<SuperAdmin> getSuperAdmins( List<Long> SuperAdminIDs);
 

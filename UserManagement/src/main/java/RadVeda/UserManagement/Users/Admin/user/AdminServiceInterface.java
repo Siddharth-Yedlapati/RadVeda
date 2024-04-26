@@ -10,6 +10,8 @@ public interface AdminServiceInterface {
 
     Admin registerAdmin(AdminSignUpRequest request);
 
+    Admin updateAdmin(AdminUpdateRequest request);
+
     Optional<Admin> findByEmail(String email);
 
     void saveAdminVerificationToken(Admin theAdmin, String verificationToken);

@@ -28,6 +28,7 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         newSuperAdmin.setLastName(request.lastName());
         newSuperAdmin.setEmail(request.email());
         newSuperAdmin.setGender(request.gender());
+        newSuperAdmin.setDOB(request.DOB());
 
         return SuperAdminRepo.save(newSuperAdmin);
     }
@@ -36,6 +37,7 @@ public class SuperAdminService implements SuperAdminServiceInterface {
     public Optional<SuperAdmin> findById(Long Id) {
         return SuperAdminRepo.findById(Id);
     }
+
 
     @Override
     public List<SuperAdmin> getSuperAdmins(List<Long> SuperAdminIDs){
@@ -101,7 +103,7 @@ public class SuperAdminService implements SuperAdminServiceInterface {
             // Checking if the response status is OK (200)
             if (responseEntity.getStatusCode() == HttpStatus.OK)
             {
-                // Creating a new User object
+                // Creating a new UserDetails object
                 User user = new User();
                 user.setType(userTypes.get(i));
 
