@@ -24,7 +24,9 @@ const LabStaffDashboard = () => {
   }
   else
   {
-    useEffect(() => {navigate("/labstaff-login-page");}) 
+    useEffect(() => {
+      navigate("/labstaff-login-page");
+    }) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
@@ -45,6 +47,76 @@ const LabStaffDashboard = () => {
   const onNotifyPatient = useCallback(() => {
     navigate("/labstaff-test-pending");
   }, [navigate]);
+
+  const [patDetails, setpatDetails] = useState([]);
+
+  useEffect(() => {
+    request("GET", "http://localhost:9191/labstaffs/profile", {}, true)
+      .then(doctorResponse => {
+        const doctorId = doctorResponse.data.id;
+        return request("GET", `http://localhost:9192/tests/LABSTAFF/${doctorId}/getTests`, {}, true);
+      })
+      .then(testsResponse => { 
+        const patients = testsResponse.data;
+        console.log(patients);
+        if (patients.length !== 0) {
+          const uniquePatientIDs = [...new Set(patients.map(patient => patient.patientID))];
+          const sortedUniquePatientIDs = uniquePatientIDs.sort((id1, id2) => {
+            // Find the latest datePrescribed for each patient ID
+            const latestDatePrescribed1 = Math.max(...patients.filter(patient => patient.patientID === id1).map(patient => new Date(patient.datePrescribed).getTime()));
+            const latestDatePrescribed2 = Math.max(...patients.filter(patient => patient.patientID === id2).map(patient => new Date(patient.datePrescribed).getTime()));
+        
+            // Compare the latest datePrescribed values
+            return latestDatePrescribed1 - latestDatePrescribed2;
+        });
+          const reqString = sortedUniquePatientIDs.join(',');
+          console.log("reqString: " + reqString);
+          return request("GET", `http://localhost:9198/patient/getPatients/${reqString}`, {}, true);
+        }
+      })
+      .then(patientsResponse => {
+        const patDetails = patientsResponse.data;
+        setpatDetails(patDetails);
+        console.log(patDetails);
+
+      })
+      .catch(error => {
+        var errormsg = error.response.data.error;
+        if(!(errormsg === "No tests found for the given ID")){
+          alert(error.response.data.error)
+        }
+      });
+  }, []);
+
+  const renderPatientsTable = () => {
+    return (
+      <table className = "patients-table">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody className="tableBody">
+        {patDetails.map((patDetail) => (
+            <tr key={patDetail.id} onClick = {() => handleRowClick(patDetail.id)}>
+              <td>{patDetail.firstName}</td>
+              <td>{patDetail.email}</td>
+              <td>{patDetail.gender}</td>
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  const handleRowClick = (patientID) => {
+    localStorage.setItem("currentPatientID", patientID)
+    navigate("/doc-own-patient-details")
+  }
 
   return (
     <>
