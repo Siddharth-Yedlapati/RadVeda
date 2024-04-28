@@ -20,9 +20,9 @@ public class TestController {
     private final TestService testService;
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/{testID}/assignLab/{labID}")
+    @PostMapping("/{testID}/assignLab/{labID}/{patientID}")
     public Boolean addLabforTest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                              @PathVariable Long testID, @PathVariable Long labID)
+                              @PathVariable Long testID, @PathVariable Long labID, @PathVariable Long patientID)
             throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
         User currentuser = testService.authenticate(authorizationHeader);
 
@@ -31,7 +31,7 @@ public class TestController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        testService.assignLab(authorizationHeader, testID, labID);
+        testService.assignLab(authorizationHeader, testID, labID, patientID);
         return Boolean.TRUE;
     }
 
@@ -142,6 +142,21 @@ public class TestController {
             throw new UnauthorisedUserException("Permission denied!");
         } 
         List<Test> testlist = testService.findAllPrimaryAndConsultedTestsByUser(authorizationHeader ,userType, userID);
+        if(testlist.isEmpty()){
+            throw new UserNotFoundException("No tests found for the given ID");
+        }
+        return testlist;
+    }
+
+    @GetMapping("/{userType}/{userID}/getAllConsultedTests")
+    public List<Test> getAllConsultedTests(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String userType, @PathVariable Long userID)
+                throws UserNotFoundException, UnauthorisedUserException {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        } 
+        List<Test> testlist = testService.findAllConsultedTestsByUser(authorizationHeader ,userType, userID);
         if(testlist.isEmpty()){
             throw new UserNotFoundException("No tests found for the given ID");
         }
