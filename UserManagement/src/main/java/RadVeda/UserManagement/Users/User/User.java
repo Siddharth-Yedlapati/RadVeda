@@ -35,5 +35,7 @@ public abstract class User {
 
     private String role;
     private boolean isEnabled = false;
+//    private boolean emailVerified = false;
+//    private boolean adminVerified = false;
 
 }
