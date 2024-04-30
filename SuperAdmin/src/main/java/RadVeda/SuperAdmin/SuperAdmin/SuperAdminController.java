@@ -21,19 +21,11 @@ public class SuperAdminController {
 
     @CrossOrigin(origins = "http://localhost:9191")
     @PostMapping("/addSuperAdmin")
-    public String addSuperAdmin(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                                @RequestBody SuperAdminRequest superAdminRequest, final HttpServletRequest request)
+    public String addSuperAdmin(@RequestBody SuperAdminRequest superAdminRequest, final HttpServletRequest request)
             throws UnauthorizedUserException{
 
-        User user = SuperAdminService.authenticate(authorizationHeader);
-
-        if(user == null) {
-            throw new UnauthorizedUserException("Invalid UserDetails!");
-        }
-
-
         SuperAdminService.addSuperAdmin(superAdminRequest);
-        return "Success! SuperAdmin has been added";
+        return "Success";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

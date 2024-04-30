@@ -15,7 +15,9 @@ public class UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @Column(nullable = false)
     private Long adminId;
+
     private String firstName;
     private String middleName;
     private String lastName;

@@ -16,12 +16,12 @@ public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Long> {
     List<SuperAdmin> findAll();
     Optional<SuperAdmin> findById(Long Id);
 
-    @Query(value = "SELECT * FROM SuperAdmin WHERE Id IN (:ids)", nativeQuery = true)
+    @Query(value = "SELECT * FROM super_admin WHERE Id IN (:ids)", nativeQuery = true)
     List<SuperAdmin> getSuperAdmins(@Param("ids") List<Long> ids);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM SuperAdmin WHERE Id = :Id", nativeQuery = true)
+    @Query(value = "DELETE FROM super_admin WHERE Id = :Id", nativeQuery = true)
     void deleteSuperAdmin(Long Id);
 
 }

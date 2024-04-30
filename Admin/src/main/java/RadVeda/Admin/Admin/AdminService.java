@@ -1,5 +1,6 @@
 package RadVeda.Admin.Admin;
 import RadVeda.Admin.User;
+import RadVeda.Admin.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -20,12 +21,23 @@ public class AdminService implements AdminServiceInterface {
     @Override
     public Admin addAdmin(AdminRequest request) {
         var newadmin = new Admin();
+        newadmin.setId(request.Id());
         newadmin.setFirstName(request.firstName());
         newadmin.setLastName(request.lastName());
         newadmin.setEmail(request.email());
-        newadmin.setGender(request.gender());
 
         return adminRepo.save(newadmin);
+    }
+
+    @Override
+    public Admin updateAdmin(AdminRequest request, Long Id) throws UserNotFoundException {
+        Optional<Admin> adminRec = adminRepo.findById(Id);
+        Admin admin = adminRec.orElseThrow(() -> new UserNotFoundException("Invalid User"));
+        if(request.firstName() != null) admin.setFirstName(request.firstName());
+        if(request.lastName() != null) admin.setLastName(request.lastName());
+        if(request.email() != null) admin.setEmail(request.email());
+
+        return adminRepo.save(admin);
     }
 
     @Override

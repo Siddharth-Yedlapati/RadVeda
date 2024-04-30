@@ -38,8 +38,9 @@ public class AdminDoc {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Admin_ID", referencedColumnName = "id")
+    @JoinColumn(name = "adminId", referencedColumnName = "id", nullable = false)
     private Admin admin;
 
+    @Column(nullable = false)
     private Long docId;
 }

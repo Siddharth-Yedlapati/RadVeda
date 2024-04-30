@@ -1,6 +1,9 @@
 package RadVeda.UserManagement.Users.Doctor.user;
 
 import RadVeda.UserManagement.Users.Admin.user.Admin;
+import RadVeda.UserManagement.Users.Admin.user.AdminUpdateAcceptance;
+import RadVeda.UserManagement.Users.User.UserUpdateAcceptance;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,4 +68,41 @@ public class DoctorController {
 
         return doctor.get().getFirstName() + delimiter + doctor.get().getLastName();
     }
+
+    @GetMapping("/profile/{id}")
+    //Called by super admin (maybe from frontend or from super admin service..TBD)
+    public Optional<Doctor> getProfileById(@PathVariable Long id)
+            throws InvalidInputFormatException, UserNotFoundException {
+
+
+        Optional<Doctor> doctor = doctorService.findById(id);
+
+        return doctor;
+    }
+
+    @PostMapping("/update")
+    public String updateDoc(@RequestBody UserUpdateAcceptance updateRequest, final HttpServletRequest request) {
+        System.out.println("22");
+        return doctorService.updateDoctor(updateRequest);
+    }
+
+    @PostMapping("/acceptSignUp/{Id}")
+    public String acceptSignUp(@PathVariable Long Id)
+            throws UserNotFoundException {
+        String res = doctorService.adminAcceptedSignUp(Id);
+        if(res.equalsIgnoreCase("success")) {
+            return "Success";
+        }
+        return "Failed";
+    }
+
+    @PostMapping("/declineSignUp/{Id}")
+    public String declineSignUp(@PathVariable Long Id)throws UserNotFoundException {
+        String res = doctorService.adminDeclinedSignUp(Id);
+        if(res.equalsIgnoreCase("deleted")) {
+            return "Success";
+        }
+        return "Failed";
+    }
+
 }

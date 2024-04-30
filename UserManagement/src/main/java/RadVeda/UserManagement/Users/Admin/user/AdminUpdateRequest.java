@@ -14,5 +14,7 @@ public record AdminUpdateRequest(Long adminId,
                                  String role,
                                  String orgName,
                                  String orgAddressL1,
-                                 String orgAddressL2) {
+                                 String orgAddressL2,
+                                 String remarks,
+                                 String type) {
 }

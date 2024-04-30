@@ -1,10 +1,12 @@
 package RadVeda.Admin.Admin;
+
+import java.util.Date;
+
 public record AdminRequest (
-            String firstName,
-            String lastName,
-            String email,
-            String gender
-    )
+        Long Id,
+        String firstName,
+        String lastName,
+        String email)
 {
 
 }

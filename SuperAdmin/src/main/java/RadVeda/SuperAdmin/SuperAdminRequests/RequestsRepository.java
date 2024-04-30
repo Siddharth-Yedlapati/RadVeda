@@ -9,16 +9,24 @@ import java.util.Optional;
 import java.util.List;
 public interface RequestsRepository  extends JpaRepository<Requests, Long> {
 
-    @Query(value = "SELECT * FROM requests WHERE type_of_request = :type and status = false ORDER BY date_of_request", nativeQuery = true)
+    @Query(value = "SELECT * FROM requests WHERE type_of_request = :type and status LIKE 'TBD' ORDER BY date_of_request desc", nativeQuery = true)
     List<Requests> getTypeRequests(String type);
+
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE requests SET status = true WHERE id = :Id", nativeQuery = true)
-    void updateStatus(Long Id);
+    @Query(value = "UPDATE requests SET status = 'ACCEPTED' WHERE id = :Id", nativeQuery = true)
+    void updateStatusToAccept(Long Id);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE requests SET status = 'DECLINED' WHERE id = :Id", nativeQuery = true)
+    void updateStatusToDecline(Long Id);
 
-
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE requests SET approved_by = :aId WHERE id = :Id", nativeQuery = true)
+    void assignApprover(Long Id, Long aId);
 
 
 }

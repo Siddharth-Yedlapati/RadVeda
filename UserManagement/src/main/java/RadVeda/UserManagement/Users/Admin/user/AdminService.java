@@ -1,16 +1,20 @@
 package RadVeda.UserManagement.Users.Admin.user;
 
+import RadVeda.UserManagement.Users.Admin.signup.AdminServiceRequest;
+import RadVeda.UserManagement.Users.Doctor.signup.DoctorServiceRequest;
+import RadVeda.UserManagement.Users.Doctor.user.DoctorDocuments;
 import RadVeda.UserManagement.exception.UserNotFoundException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
 import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationToken;
 import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
-import RadVeda.UserManagement.Users.Doctor.user.DoctorDocuments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
-import RadVeda.UserManagement.Users.Admin.signup.token.AdminVerificationTokenRepository;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
 import java.util.List;
@@ -79,33 +83,9 @@ public class AdminService implements AdminServiceInterface {
             admindocumentsrepository.save(newDocument);
         }
 
+
         return adminRepository.save(newAdmin);
     }
-
-    @Override
-    public Admin updateAdmin(AdminUpdateRequest request) throws  UserNotFoundException{
-
-        Optional<Admin> adminRec = adminRepository.findById(request.adminId());
-        Admin admin = adminRec.orElseThrow(() -> new UserNotFoundException("Invalid Admin Id"));
-
-        admin.setFirstName(request.firstName());
-        admin.setMiddleName(request.middleName());
-        admin.setLastName(request.lastName());
-        admin.setAddressL1(request.addressL1());
-        admin.setAddressL2(request.addressL2());
-        admin.setCountry(request.country());
-        admin.setState(request.state());
-        admin.setCity(request.city());
-        admin.setEmail(request.email());
-        admin.setPhoneNumber(request.phoneNumber());
-        admin.setOrgName(request.orgName());
-        admin.setOrgAddressL1(request.orgAddressL1());
-        admin.setOrgAddressL2(request.orgAddressL2());
-
-        return adminRepository.save(admin);
-    }
-
-
 
     @Override
     public Optional<Admin> findByEmail(String email) {
@@ -132,14 +112,189 @@ public class AdminService implements AdminServiceInterface {
             adminRepository.delete(admin);
             return "Token already expired";
         }
-        admin.setEnabled(true);
+        admin.setEmailVerified(true);
+        admin.setEnabled(admin.isEmailVerified() && admin.isAdminVerified());
         adminRepository.save(admin);
-        return "valid";
+        if (admin.isEnabled()) {
+            return sendUserToServer(admin);
+        }
+        return "success";
     }
 
     @Override
     public Optional<Admin> findById(Long id) {
         return adminRepository.findById(id);
     }
+
+    //Invoke when UMS sends signUp request
+    @Override
+    public String requestSignUp(Admin admin) {
+
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = "";
+
+        String remarks = "Request for Sign Up";
+        AdminUpdateRequest req = new AdminUpdateRequest(
+                admin.getId(),
+                admin.getFirstName(),
+                admin.getMiddleName(),
+                admin.getLastName(),
+                admin.getAddressL1(),
+                admin.getAddressL2(),
+                admin.getCountry(),
+                admin.getState(),
+                admin.getCity(),
+                admin.getEmail(),
+                admin.getPhoneNumber(),
+                admin.getRole(),
+                admin.getOrgName(),
+                admin.getOrgAddressL1(),
+                admin.getOrgAddressL2(),
+                remarks,
+                "SIGNUP"
+        );
+
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "failure";
+        }
+
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9196/requests/makeSignUpRequest", HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        }
+        catch (Exception e) {
+            return "failure";
+        }
+        return responseEntity.getBody();
+
+    }
+
+    //Invoked when admin accepts signUp request
+    @Override
+    public String adminAcceptedSignUp(Long adminId) throws UserNotFoundException{
+        Optional<Admin> adminRec = adminRepository.findById(adminId);
+        Admin admin = adminRec.orElseThrow(() -> new UserNotFoundException("Invalid Admin Id"));
+        admin.setAdminVerified(true);
+        admin.setEnabled(admin.isEmailVerified() && admin.isAdminVerified());
+        adminRepository.save(admin);
+        if(!admin.isEnabled()) return "success";
+        else return sendUserToServer(admin);
+
+    }
+
+    @Override
+    public String adminDeclinedSignUp(Long adminId) throws UserNotFoundException {
+        Optional<Admin> adminRec = adminRepository.findById(adminId);
+        Admin admin = adminRec.orElseThrow(() -> new UserNotFoundException("Invalid Admin Id"));
+        adminTokenRepository.deleteByAdminId(adminId);
+        admindocumentsrepository.delete(adminId);
+        adminRepository.deleteById(adminId);
+        return "Deleted";
+    }
+
+    @Override
+    public String sendUserToServer(Admin admin) {
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = "";
+        AdminServiceRequest req = new AdminServiceRequest(
+                admin.getId(),
+                admin.getFirstName(),
+                admin.getLastName(),
+                admin.getEmail()
+        );
+
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9197/admin/addAdmins", HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            adminTokenRepository.deleteByAdminId(admin.getId());
+            admindocumentsrepository.delete(admin.getId());
+            adminRepository.deleteById(admin.getId());
+            return "failure";
+        }
+        return responseEntity.getBody();
+
+    }
+
+    //Invoked when admin accepts Update request
+    @Override
+    public String updateAdmin(AdminUpdateAcceptance request) throws  UserNotFoundException{
+
+        Optional<Admin> adminRec = adminRepository.findById(request.adminId());
+        Admin admin = adminRec.orElseThrow(() -> new UserNotFoundException("Invalid Admin Id"));
+
+        if(request.firstName()!=null) admin.setFirstName(request.firstName());
+        if(request.middleName()!=null)admin.setMiddleName(request.middleName());
+        if(request.lastName()!=null)admin.setLastName(request.lastName());
+        if(request.addressL1()!=null)admin.setAddressL1(request.addressL1());
+        if(request.addressL2()!=null)admin.setAddressL2(request.addressL2());
+        if(request.country()!=null)admin.setCountry(request.country());
+        if(request.state()!=null)admin.setState(request.state());
+        if(request.city()!=null)admin.setCity(request.city());
+        if(request.email()!=null)admin.setEmail(request.email());
+        if(request.phoneNumber()!=null)admin.setPhoneNumber(request.phoneNumber());
+        if(request.orgName()!=null)admin.setOrgName(request.orgName());
+        if(request.orgAddressL1()!=null)admin.setOrgAddressL1(request.orgAddressL1());
+        if(request.orgAddressL2()!=null)admin.setOrgAddressL2(request.orgAddressL2());
+
+        adminRepository.save(admin);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = "";
+        AdminServiceRequest req = new AdminServiceRequest(
+                admin.getId(),
+                admin.getFirstName(),
+                admin.getLastName(),
+                admin.getEmail()
+        );
+
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9197/admin/updateAdmin/"+admin.getId(), HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            adminTokenRepository.deleteByAdminId(admin.getId());
+            admindocumentsrepository.delete(admin.getId());
+            adminRepository.deleteById(admin.getId());
+            return "failure";
+        }
+        return responseEntity.getBody();
+
+    }
+
 
 }

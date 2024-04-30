@@ -10,13 +10,21 @@ public interface AdminServiceInterface {
 
     Admin registerAdmin(AdminSignUpRequest request);
 
-    Admin updateAdmin(AdminUpdateRequest request);
-
     Optional<Admin> findByEmail(String email);
 
     void saveAdminVerificationToken(Admin theAdmin, String verificationToken);
 
     String validateToken(String theToken);
+
+    String requestSignUp(Admin admin);
+    String adminAcceptedSignUp(Long Id);
+    String adminDeclinedSignUp(Long Id);
+
+    String updateAdmin(AdminUpdateAcceptance adminUpdateAcceptance);
+
+    String sendUserToServer(Admin admin);
+
+
 
     Optional<Admin> findById(Long id);
 }

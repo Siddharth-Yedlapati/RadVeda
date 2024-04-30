@@ -50,7 +50,7 @@ public class RequestsService implements RequestsServiceInterface {
         userRepository.save(admin);
         requestsRepository.save(requests);
 
-        return "Request is sent for approval";
+        return "Success";
 
     }
     @Override
@@ -68,18 +68,143 @@ public class RequestsService implements RequestsServiceInterface {
         return requestsRepository.getTypeRequests(type);
     }
 
-    public String accept(String authHeader, Long req_id) {
+    @Override
+    public String accept(String authHeader, Long req_id, Long aId) throws UserNotFoundException{
+        Optional<Requests> reqRec = requestsRepository.findById(req_id);
+        Requests req = reqRec.orElseThrow(() -> new UserNotFoundException("Request not found"));
+        if(req.getTypeOfRequest().equalsIgnoreCase("signup")) {
+            return acceptSignUp(authHeader, req_id, aId);
+        }
+        if(req.getTypeOfRequest().equalsIgnoreCase("update")) {
+            return acceptUpdate(authHeader, req_id, aId);
+        }
+
+        return " ";
+    }
+
+    @Override
+    public String decline(String authHeader, Long req_id, Long aId) throws UserNotFoundException {
+        Optional<Requests> reqRec = requestsRepository.findById(req_id);
+        Requests req = reqRec.orElseThrow(() -> new UserNotFoundException("Request not found"));
+        if(req.getTypeOfRequest().equalsIgnoreCase("signup")) {
+            return declineSignUp(authHeader, req_id, aId);
+        }
+        return " ";
+    }
+
+
+    public String acceptSignUp(String authorizationHeader, Long req_id, Long aId) {
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+        else
+        {
+            // Handling the case where the Authorization header is missing or empty
+            return null;
+        }
+
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        String requestBody = "";
+
+        UserDetails admin = userInfo(req_id);
+
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9191/admins/acceptSignUp/"+admin.getAdminId(),
+                    HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+
+            requestsRepository.updateStatusToAccept(req_id);
+            requestsRepository.assignApprover(req_id, aId);
+
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+            return "Failed to Accept";
+        }
+
+        return responseEntity.getBody();
+
+
+    }
+
+    public String declineSignUp(String authorizationHeader, Long req_id, Long aId) {
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+        else
+        {
+            // Handling the case where the Authorization header is missing or empty
+            return null;
+        }
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        String requestBody = "";
+
+        UserDetails admin = userInfo(req_id);
+
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9191/admins/declineSignUp/"+admin.getAdminId(),
+                    HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+
+            requestsRepository.updateStatusToDecline(req_id);
+            requestsRepository.assignApprover(req_id, aId);
+
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+            return "Failed to Decline";
+        }
+
+        return responseEntity.getBody();
+    }
+
+    public String acceptUpdate(String authorizationHeader, Long req_id, Long aId) {
 
         UserDetails admin = userInfo(req_id);
 
 
         String requestBody = "";
 
-        String jwtToken = authHeader.replace("Bearer ", "");
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+        else
+        {
+            // Handling the case where the Authorization header is missing or empty
+            return null;
+        }
+
+
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
         RestTemplate restTemplate = new RestTemplate();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + jwtToken);
         ResponseEntity<String> responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         AceeptRecord rec = new AceeptRecord(
@@ -108,13 +233,16 @@ public class RequestsService implements RequestsServiceInterface {
         }
 
         try {
-            responseEntity = restTemplate.exchange("http://localhost:9191/consent/sendConsentRequest",
+            responseEntity = restTemplate.exchange("http://localhost:9191/admins/updateAdmin",
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
 
-            requestsRepository.updateStatus(req_id);
+            requestsRepository.updateStatusToAccept(req_id);
+            requestsRepository.assignApprover(req_id, aId);
+
         }
         catch (RuntimeException e) {
             e.printStackTrace();
+            return "Failed to Accept";
         }
 
 
@@ -122,9 +250,7 @@ public class RequestsService implements RequestsServiceInterface {
 
     }
 
-    public void decline(Long req_id) {
 
-    }
     @Override
     public User authenticate(String authorizationHeader)
     {

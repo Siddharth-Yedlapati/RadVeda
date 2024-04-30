@@ -12,8 +12,8 @@ public interface RequestsServiceInterface {
 
     List<Requests> getRequest(String type);
 
-    String accept(String authHeader, Long Id);
-    void decline(Long Id);
+    String accept(String authHeader, Long Id, Long aId);
+    String decline(String authHeader, Long Id, Long aId);
 
     User authenticate(String AuthorizationHeader);
 

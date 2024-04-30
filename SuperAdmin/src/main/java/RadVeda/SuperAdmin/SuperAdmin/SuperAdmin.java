@@ -21,8 +21,6 @@ public class SuperAdmin extends User {
     private String firstName;
     private String lastName;
     private String email;
-    private String gender;
-    private Date DOB;
 
     public SuperAdmin() {
 

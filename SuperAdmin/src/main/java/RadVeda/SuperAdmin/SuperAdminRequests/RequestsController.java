@@ -17,22 +17,32 @@ import java.util.List;
 public class RequestsController {
 
     private final RequestsService requestsService;
-    @CrossOrigin(origins = "http://localhost:9197")
-    @PostMapping("/makeRequest")
-    public String addRequest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                             @RequestBody UserRequest userRequest,
-                             final HttpServletRequest request)
+    @CrossOrigin(origins = {"http://localhost:9197", "http://localhost:9191"})
+    @PostMapping("/makeSignUpRequest")
+    public String addSignUpRequest(@RequestBody UserRequest userRequest)
         throws UnauthorizedUserException {
-
-        User user = requestsService.authenticate(authorizationHeader);
-
-         if(user == null) {
-             throw new UnauthorizedUserException("Invalid User!");
-         }
 
          return requestsService.addUser(userRequest);
 
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/makeUpdateRequest")
+    public String addUpdateRequest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                                   @RequestBody UserRequest userRequest)
+            throws UnauthorizedUserException {
+
+        User user = requestsService.authenticate(authorizationHeader);
+
+        if(user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
+
+
+        return requestsService.addUser(userRequest);
+
+    }
+
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/userInfo/{id}")
     public UserDetails userInfo(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -64,9 +74,9 @@ public class RequestsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/accept/{id}")
+    @GetMapping("{aId}/accept/{id}")
     String acceptRequest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                              @PathVariable Long id)
+                         @PathVariable Long id, @PathVariable Long aId)
             throws UnauthorizedUserException {
 
         User user = requestsService.authenticate(authorizationHeader);
@@ -75,7 +85,21 @@ public class RequestsController {
             throw new UnauthorizedUserException("Invalid User!");
         }
 
-        return requestsService.accept(authorizationHeader, id);
+        return requestsService.accept(authorizationHeader, id, aId);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("{aId}/decline/{id}")
+    String declineRequest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                          @PathVariable Long id, @PathVariable Long aId)
+            throws UnauthorizedUserException {
+        User user = requestsService.authenticate(authorizationHeader);
+
+        if (user == null) {
+            throw new UnauthorizedUserException("Invalid User!");
+        }
+
+        return requestsService.decline(authorizationHeader, id, aId);
     }
 
 

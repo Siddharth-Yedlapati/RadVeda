@@ -21,12 +21,12 @@ public class Requests {
     private String typeOfRequest;
 
     private String remarks;
-    private Boolean status;
+    private String status;
     private Long approvedBy;
     private Date dateOfRequest;
 
     public Requests() {
-        this.status = false;
+        this.status = "TBD";
         this.dateOfRequest = new Date();
     }
 

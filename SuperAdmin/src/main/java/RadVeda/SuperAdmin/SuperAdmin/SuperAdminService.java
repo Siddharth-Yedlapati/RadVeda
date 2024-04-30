@@ -27,8 +27,7 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         newSuperAdmin.setFirstName(request.firstName());
         newSuperAdmin.setLastName(request.lastName());
         newSuperAdmin.setEmail(request.email());
-        newSuperAdmin.setGender(request.gender());
-        newSuperAdmin.setDOB(request.DOB());
+
 
         return SuperAdminRepo.save(newSuperAdmin);
     }

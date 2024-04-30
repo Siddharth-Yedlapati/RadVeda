@@ -1,6 +1,12 @@
 package RadVeda.UserManagement.Users.SuperAdmin.user;
 
+import RadVeda.UserManagement.Users.Admin.signup.AdminServiceRequest;
+import RadVeda.UserManagement.Users.Admin.user.Admin;
 import RadVeda.UserManagement.Users.Radiologist.user.Radiologist;
+import RadVeda.UserManagement.Users.SuperAdmin.signup.SuperAdminServiceRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import RadVeda.UserManagement.Users.SuperAdmin.signup.SuperAdminSignUpRequest;
@@ -10,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import RadVeda.UserManagement.Users.SuperAdmin.signup.SuperAdminSignUpRequest;
 import RadVeda.UserManagement.Users.SuperAdmin.signup.token.SuperAdminVerificationTokenRepository;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
 import java.util.List;
@@ -100,7 +107,42 @@ public class SuperAdminService implements SuperAdminServiceInterface {
         }
         superadmin.setEnabled(true);
         superadminRepository.save(superadmin);
-        return "valid";
+        return sendUserToServer(superadmin);
+    }
+
+    @Override
+    public String sendUserToServer(SuperAdmin superAdmin) {
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = "";
+        SuperAdminServiceRequest req = new SuperAdminServiceRequest(
+                superAdmin.getFirstName(),
+                superAdmin.getLastName(),
+                superAdmin.getEmail()
+        );
+
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange("http://localhost:9196/super-admin/addSuperAdmin", HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            superadminTokenRepository.deleteBySuperAdminId(superAdmin.getId());
+            superadminRepository.deleteById(superAdmin.getId());
+            return "failure";
+        }
+        return responseEntity.getBody();
+
     }
 
     @Override

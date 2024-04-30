@@ -15,14 +15,22 @@ import java.util.stream.Collectors;
 
 @RequestMapping("/admin")
 
-public class AdminServiceController {
+public class AdminController {
     private final AdminService adminService;
 
     @CrossOrigin(origins = "http://localhost:9191")
     @PostMapping("/addAdmins")
     public String addAdmins(@RequestBody AdminRequest adminRequest, final HttpServletRequest request)  throws UnauthorizedUserException{
         adminService.addAdmin(adminRequest);
-        return "Success! Admin has been added";
+        return "Success";
+    }
+
+    @CrossOrigin(origins = "http://localhost:9191")
+    @PostMapping("/updateAdmin/{id}")
+    public String updateAdmin(@RequestBody AdminRequest adminRequest, final HttpServletRequest request,
+                              @PathVariable Long id)  throws UnauthorizedUserException{
+        adminService.updateAdmin(adminRequest, id);
+        return "Success";
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

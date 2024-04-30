@@ -1,7 +1,5 @@
 package RadVeda.UserManagement.Users.Admin.user;
 
-import RadVeda.UserManagement.Users.Admin.events.AdminSignUpCompleteEvent;
-import RadVeda.UserManagement.Users.Admin.signup.AdminSignUpRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192", "http://localhost:9194", "http://localhost:9195", "http://localhost:9196", "http://localhost:9197", "http://localhost:9198", "http://localhost:9199", "http://localhost:9200", "http://localhost:9201", "http://localhost:9202"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:9193", "http://localhost:9192", "http://localhost:9194", "http://localhost:9195","http://localhost:9196" , "http://localhost:9196", "http://localhost:9197", "http://localhost:9198", "http://localhost:9199", "http://localhost:9200", "http://localhost:9201", "http://localhost:9202"})
 @RequestMapping("/admins")
 public class AdminController {
     private final AdminService adminService;
@@ -49,8 +47,8 @@ public class AdminController {
 
 
 
-    @GetMapping("/validateAdminId/{id}")
-    public boolean validateAdminId(@PathVariable Long id)
+    @GetMapping("/validateAdmin/{id}")
+    public boolean validateAdmin(@PathVariable Long id)
     {
         Optional<Admin> admin = adminService.findById(id);
         return admin.isPresent() && admin.get().isEnabled();
@@ -83,13 +81,30 @@ public class AdminController {
         return admin;
     }
 
-    @PostMapping
+    @PostMapping("/updateAdmin")
     //called by super admin from super admin service
-    public String updateAdmin(@RequestBody AdminUpdateRequest updateRequest, final HttpServletRequest request) {
-        Admin admin = adminService.updateAdmin(updateRequest);
-        return "Details Updated !";
+    public String updateAdmin(@RequestBody AdminUpdateAcceptance updateRequest, final HttpServletRequest request) {
+        return adminService.updateAdmin(updateRequest);
     }
 
+    @PostMapping("/acceptSignUp/{Id}")
+    public String acceptSignUp(@PathVariable Long Id)
+        throws UserNotFoundException {
+        String res = adminService.adminAcceptedSignUp(Id);
+        if(res.equalsIgnoreCase("success")) {
+            return "Received";
+        }
+        return "Failed";
+    }
+
+    @PostMapping("/declineSignUp/{Id}")
+    public String declineSignUp(@PathVariable Long Id)throws UserNotFoundException {
+        String res = adminService.adminDeclinedSignUp(Id);
+        if(res.equalsIgnoreCase("deleted")) {
+            return "Declined";
+        }
+        return "Failed";
+    }
 
 
 
