@@ -29,6 +29,14 @@ const RadOwnPatDetails = () => {
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isNotificationsOpen, setNotificationsOpen] = useState(false);
+  
+  const openNPUserOptions = useCallback(() => {
+    setNPUserOptionsOpen(true);
+  }, []);
+
+  const closeNPUserOptions = useCallback(() => {
+    setNPUserOptionsOpen(false);
+  }, []);
 
   const [allChatNotifs, setAllChatNotifs] = useState([]);
   const [allChatNotifsID, setAllChatNotifsID] = useState([]);
@@ -40,13 +48,6 @@ const RadOwnPatDetails = () => {
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
   
 
-  const openNPUserOptions = useCallback(() => {
-    setNPUserOptionsOpen(true);
-  }, []);
-
-  const closeNPUserOptions = useCallback(() => {
-    setNPUserOptionsOpen(false);
-  }, []);
 
   const deleteChatID = (index) => {
     // console.log(res);
@@ -416,9 +417,8 @@ const RadOwnPatDetails = () => {
                             <button className="clear-button" onClick={() => deleteChatID(index)}>Clear</button>
                         </div>
                     </div>
+                
                 ))}
-            </div>
-            <div className="message-container">
                 {allConsentRequestNotifications.map((message, index) => (
                     <div className="message" key={index}>
                         <div className="message-content">{message}</div>
@@ -428,8 +428,6 @@ const RadOwnPatDetails = () => {
                         </div>
                     </div>
                 ))}
-            </div>
-            <div className="message-container">
                 {allOneWayNotifications.map((message, index) => (
                     <div className="message" key={index}>
                         <div className="message-content">{message}</div>
@@ -438,7 +436,8 @@ const RadOwnPatDetails = () => {
                         </div>
                     </div>
                 ))}
-                <button className="clear-button"onClick={deleteAllChatNotifs}>Clear All Chats</button>
+                <button className="clear-button"onClick={deleteAllChatNotifs}>Clear All Chat Notifications</button>
+
             </div>
         </div>
           
