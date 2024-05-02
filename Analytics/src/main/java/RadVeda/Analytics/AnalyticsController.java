@@ -212,23 +212,33 @@ public class AnalyticsController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        if(Objects.equals(request.accountHolderType(), "DOCTOR") || Objects.equals(request.accountHolderType(), "RADIOLOGIST") || Objects.equals(request.accountHolderType(), "LABSTAFF"))
+        if(!Objects.equals(request.accountOperationType(), "LOGIN") && !Objects.equals(request.accountOperationType(), "LOGOUT"))
         {
-            if(!Objects.equals(currentUser.getType(), "ADMIN"))
+            if(Objects.equals(request.accountHolderType(), "DOCTOR") || Objects.equals(request.accountHolderType(), "RADIOLOGIST") || Objects.equals(request.accountHolderType(), "LABSTAFF"))
             {
-                throw new UnauthorisedUserException("Permission denied!");
+                if(!Objects.equals(currentUser.getType(), "ADMIN"))
+                {
+                    throw new UnauthorisedUserException("Permission denied!");
+                }
+            }
+            else if(Objects.equals(request.accountHolderType(), "ADMIN"))
+            {
+                if(!Objects.equals(currentUser.getType(), "SUPERADMIN"))
+                {
+                    throw new UnauthorisedUserException("Permission denied!");
+                }
+            }
+            else if(Objects.equals(request.accountHolderType(), "PATIENT"))
+            {
+                if(!Objects.equals(currentUser.getType(), "PATIENT"))
+                {
+                    throw new UnauthorisedUserException("Permission denied!");
+                }
             }
         }
-        else if(Objects.equals(request.accountHolderType(), "ADMIN"))
+        else
         {
-            if(!Objects.equals(currentUser.getType(), "SUPERADMIN"))
-            {
-                throw new UnauthorisedUserException("Permission denied!");
-            }
-        }
-        else if(Objects.equals(request.accountHolderType(), "PATIENT"))
-        {
-            if(!Objects.equals(currentUser.getType(), "PATIENT"))
+            if(!Objects.equals(currentUser.getType(), request.accountHolderType()))
             {
                 throw new UnauthorisedUserException("Permission denied!");
             }
@@ -240,9 +250,9 @@ public class AnalyticsController {
             throw new InvalidUserException("Stats client type must be either ADMIN or SUPERADMIN");
         }
 
-        if(!Objects.equals(request.accountOperationType(), "REGISTRATION") && !Objects.equals(request.accountOperationType(), "MODIFICATION") && !Objects.equals(request.accountOperationType(), "DELETION"))
+        if(!Objects.equals(request.accountOperationType(), "REGISTRATION") && !Objects.equals(request.accountOperationType(), "MODIFICATION") && !Objects.equals(request.accountOperationType(), "DELETION") && !Objects.equals(request.accountOperationType(), "LOGIN") && !Objects.equals(request.accountOperationType(), "LOGOUT"))
         {
-            throw new InvalidRequestException("Account operation type must be REGISTRATION OR MODIFICATION OR DELETION");
+            throw new InvalidRequestException("Account operation type must be REGISTRATION OR MODIFICATION OR DELETION OR LOGIN OR LOGOUT");
         }
 
         if(request.clientType().equals("SUPERADMIN"))
@@ -282,23 +292,33 @@ public class AnalyticsController {
             throw new UnauthorisedUserException("Permission denied!");
         }
 
-        if(Objects.equals(request.accountHolderType(), "DOCTOR") || Objects.equals(request.accountHolderType(), "RADIOLOGIST") || Objects.equals(request.accountHolderType(), "LABSTAFF"))
+        if(!Objects.equals(request.accountOperationType(), "LOGIN") && !Objects.equals(request.accountOperationType(), "LOGOUT"))
         {
-            if(!Objects.equals(currentUser.getType(), "ADMIN"))
+            if(Objects.equals(request.accountHolderType(), "DOCTOR") || Objects.equals(request.accountHolderType(), "RADIOLOGIST") || Objects.equals(request.accountHolderType(), "LABSTAFF"))
             {
-                throw new UnauthorisedUserException("Permission denied!");
+                if(!Objects.equals(currentUser.getType(), "ADMIN"))
+                {
+                    throw new UnauthorisedUserException("Permission denied!");
+                }
+            }
+            else if(Objects.equals(request.accountHolderType(), "ADMIN"))
+            {
+                if(!Objects.equals(currentUser.getType(), "SUPERADMIN"))
+                {
+                    throw new UnauthorisedUserException("Permission denied!");
+                }
+            }
+            else if(Objects.equals(request.accountHolderType(), "PATIENT"))
+            {
+                if(!Objects.equals(currentUser.getType(), "PATIENT"))
+                {
+                    throw new UnauthorisedUserException("Permission denied!");
+                }
             }
         }
-        else if(Objects.equals(request.accountHolderType(), "ADMIN"))
+        else
         {
-            if(!Objects.equals(currentUser.getType(), "SUPERADMIN"))
-            {
-                throw new UnauthorisedUserException("Permission denied!");
-            }
-        }
-        else if(Objects.equals(request.accountHolderType(), "PATIENT"))
-        {
-            if(!Objects.equals(currentUser.getType(), "PATIENT"))
+            if(!Objects.equals(currentUser.getType(), request.accountHolderType()))
             {
                 throw new UnauthorisedUserException("Permission denied!");
             }
@@ -309,9 +329,9 @@ public class AnalyticsController {
             throw new InvalidUserException("Stats client type must be either ADMIN or SUPERADMIN");
         }
 
-        if(!Objects.equals(request.accountOperationType(), "REGISTRATION") && !Objects.equals(request.accountOperationType(), "MODIFICATION") && !Objects.equals(request.accountOperationType(), "DELETION"))
+        if(!Objects.equals(request.accountOperationType(), "REGISTRATION") && !Objects.equals(request.accountOperationType(), "MODIFICATION") && !Objects.equals(request.accountOperationType(), "DELETION") && !Objects.equals(request.accountOperationType(), "LOGIN") && !Objects.equals(request.accountOperationType(), "LOGOUT"))
         {
-            throw new InvalidRequestException("Account operation type must be REGISTRATION OR MODIFICATION OR DELETION");
+            throw new InvalidRequestException("Account operation type must be REGISTRATION OR MODIFICATION OR DELETION OR LOGIN OR LOGOUT");
         }
 
         if(request.clientType().equals("SUPERADMIN"))
@@ -368,9 +388,9 @@ public class AnalyticsController {
             throw new InvalidUserException("Stats client type must be either ADMIN or SUPERADMIN");
         }
 
-        if(!Objects.equals(request.accountOperationType(), "REGISTRATION") && !Objects.equals(request.accountOperationType(), "MODIFICATION") && !Objects.equals(request.accountOperationType(), "DELETION"))
+        if(!Objects.equals(request.accountOperationType(), "REGISTRATION") && !Objects.equals(request.accountOperationType(), "MODIFICATION") && !Objects.equals(request.accountOperationType(), "DELETION") && !Objects.equals(request.accountOperationType(), "LOGIN") && !Objects.equals(request.accountOperationType(), "LOGOUT"))
         {
-            throw new InvalidRequestException("Account operation type must be REGISTRATION OR MODIFICATION OR DELETION");
+            throw new InvalidRequestException("Account operation type must be REGISTRATION OR MODIFICATION OR DELETION OR LOGIN OR LOGOUT");
         }
 
         if(request.clientType().equals("SUPERADMIN"))
