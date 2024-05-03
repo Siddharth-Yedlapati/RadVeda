@@ -1,9 +1,9 @@
 package RadVeda.Collaboration.Messages;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedBooleanConverter;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedLongConverter;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedStringConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +19,18 @@ public class MessageVisibility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String messageType;
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long messageId;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String userType;
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long userId;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
     private boolean visible;
 }

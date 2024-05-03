@@ -1,9 +1,8 @@
 package RadVeda.Collaboration.Messages;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedLongConverter;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedStringConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +19,15 @@ public class PrivateMessage extends Message{
     private Long id;
     private static String messageType = "PRIVATE";
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String recipientType;
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long recipientId;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String recipientFirstName;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String recipientLastName;
 }
