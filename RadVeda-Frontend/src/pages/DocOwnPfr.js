@@ -301,7 +301,7 @@ const DocOwnPfr = () => {
           />
           <div className="group-wrapper72" onClick={openEditor}>
             <div className="add-notes-wrapper2">
-              <div className="upload-report">Add Notes</div>
+              <div className="upload-report">Add Impressions</div>
             </div>
           </div>
           <div className="frame-child239" />
@@ -318,7 +318,7 @@ const DocOwnPfr = () => {
           <div className="frame-child250" />
           <div className="group-wrapper73" onClick={openDocOwnRadNotes}>
             <div className="view-radiologists-notes-wrapper5">
-              <div className="upload-report">View Radiologist’s Notes</div>
+              <div className="upload-report">View Radiologist’s Impressions</div>
             </div>
           </div>
         </div>
@@ -351,7 +351,7 @@ const DocOwnPfr = () => {
         </div>
         <div className="doc-own-pfr-inner6" onClick={openEditor}>
           <div className="view-own-notes-wrapper4">
-            <div className="upload-report">View own notes</div>
+            <div className="upload-report">View own Impressions</div>
           </div>
         </div>
         <div className="doc-own-pfr-inner7">

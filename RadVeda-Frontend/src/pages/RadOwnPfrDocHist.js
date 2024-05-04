@@ -65,7 +65,7 @@ const RadOwnPfrDocHist = () => {
         <div className="frame-parent21">
           <div className="group-wrapper49">
             <div className="view-doctors-notes-wrapper2">
-              <div className="view-doctors-notes4">View Doctors’ Notes</div>
+              <div className="view-doctors-notes4">View Doctor’s Impressions</div>
             </div>
           </div>
           <div className="frame-child91" />
@@ -113,7 +113,7 @@ const RadOwnPfrDocHist = () => {
         </div>
         <div className="rad-own-pfr-doc-hist-inner2">
           <div className="view-radiologists-notes-container">
-            <div className="view-doctors-notes4">View Radiologist’s Notes</div>
+            <div className="view-doctors-notes4">View Radiologist’s Impressions</div>
           </div>
         </div>
         <div className="rad-own-pfr-doc-hist-inner3">

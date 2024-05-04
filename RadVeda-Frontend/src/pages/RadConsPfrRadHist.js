@@ -231,7 +231,7 @@ const RadConsPfrRadHist = () => {
         <div className="frame-parent62">
           <div className="group-wrapper136">
             <div className="view-doctors-notes-wrapper11">
-              <div className="view-doctors-notes13">View Doctor’s Notes</div>
+              <div className="view-doctors-notes13">View Doctor’s Impressions</div>
             </div>
           </div>
           <div className="frame-child407" />
@@ -257,7 +257,7 @@ const RadConsPfrRadHist = () => {
           <div className="group-wrapper138">
             <div className="view-radiologists-notes-wrapper9">
               <div className="view-doctors-notes13">
-                View Radiologist’s Notes
+                View Radiologist’s Impressions
               </div>
             </div>
           </div>

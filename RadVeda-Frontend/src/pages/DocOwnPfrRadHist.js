@@ -67,7 +67,7 @@ const DocOwnPfrRadHist = () => {
           <img className="xray1-1-icon14" alt="" src="/xray1-1@2x.png" />
           <div className="group-wrapper77">
             <div className="view-doctors-notes-wrapper7">
-              <div className="view-doctors-notes9">View Doctor’s notes</div>
+              <div className="view-doctors-notes9">View Doctor’s Impressions</div>
             </div>
           </div>
           <div className="frame-child279" />

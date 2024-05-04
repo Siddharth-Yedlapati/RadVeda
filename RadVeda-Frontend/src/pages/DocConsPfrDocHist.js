@@ -88,7 +88,7 @@ const DocConsPfrDocHist = () => {
           <div className="group-wrapper66">
             <div className="view-radiologists-notes-wrapper3">
               <div className="view-radiologists-notes5">
-                View Radiologist’s Notes
+                View Radiologist’s Impressions
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@ const DocConsPfrDocHist = () => {
         </div>
         <div className="doc-cons-pfr-doc-hist-inner2">
           <div className="view-doctors-notes-wrapper5">
-            <div className="view-radiologists-notes5">View Doctors’ notes</div>
+            <div className="view-radiologists-notes5">View Doctor’s Impressions</div>
           </div>
         </div>
         <div className="doc-cons-pfr-doc-hist-inner3">

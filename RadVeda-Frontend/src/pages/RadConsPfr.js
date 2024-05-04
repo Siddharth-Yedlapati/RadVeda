@@ -280,7 +280,7 @@ const RadConsPfr = () => {
         <div className="frame-parent61">
           <div className="group-wrapper133" onClick={openRadConsDocNotes}>
             <div className="view-doctors-notes-wrapper10">
-              <div className="view-doctors-notes12">View Doctor’s Notes</div>
+              <div className="view-doctors-notes12">View Doctor’s Impressions</div>
             </div>
           </div>
           <img className="frame-child396" alt="" src="/rectangle-5907.svg" />
@@ -318,12 +318,12 @@ const RadConsPfr = () => {
         </div>
         <div className="rad-cons-pfr-inner1" onClick={onFrameContainer12Click}>
           <div className="add-notes-wrapper3">
-            <div className="view-doctors-notes12">Add Notes</div>
+            <div className="view-doctors-notes12">Add Impressions</div>
           </div>
         </div>
         <div className="rad-cons-pfr-inner2" onClick={openRadConsNotes}>
           <div className="view-own-notes-wrapper6">
-            <div className="view-doctors-notes12">View own notes</div>
+            <div className="view-doctors-notes12">View own Impressions</div>
           </div>
         </div>
         <img className="rad-cons-pfr-child2" alt="" src="/rectangle-5907.svg" />
@@ -344,7 +344,7 @@ const RadConsPfr = () => {
         <div className="rad-cons-pfr-inner5" onClick={openRadConsOtherRadNotes}>
           <div className="view-other-radiologists-notes-wrapper1">
             <div className="view-doctors-notes12">
-              View Other Radiologist’s Notes
+              View Other Radiologist’s Impressions
             </div>
           </div>
         </div>

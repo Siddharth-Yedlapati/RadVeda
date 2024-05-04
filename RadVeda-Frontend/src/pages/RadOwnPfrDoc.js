@@ -279,7 +279,7 @@ const RadOwnPfrDoc = () => {
         <div className="frame-parent18">
           <div className="group-wrapper37" onClick={openRadOwnDocNotes}>
             <div className="view-doctors-notes-container">
-              <div className="view-doctors-notes1">View Doctors’ Notes</div>
+              <div className="view-doctors-notes1">View Doctor’s Impressions</div>
             </div>
           </div>
           <img className="frame-child50" alt="" src="/rectangle-5907.svg" />
@@ -298,12 +298,12 @@ const RadOwnPfrDoc = () => {
           />
           <div className="group-wrapper38" onClick={onFrameContainer1Click}>
             <div className="add-notes-container">
-              <div className="view-doctors-notes1">Add Notes</div>
+              <div className="view-doctors-notes1">Add Impressions</div>
             </div>
           </div>
           <div className="group-wrapper39" onClick={openRadOwnNotes}>
             <div className="view-own-notes-container">
-              <div className="view-doctors-notes1">View own notes</div>
+              <div className="view-doctors-notes1">View own Impressions</div>
             </div>
           </div>
           <div className="group-wrapper40" onClick={onFrameContainer3Click}>
@@ -367,7 +367,7 @@ const RadOwnPfrDoc = () => {
         >
           <div className="view-other-radiologists-notes-container">
             <div className="view-doctors-notes1">
-              View Other Radiologist’s Notes
+              View Other Radiologist’s Impressions
             </div>
           </div>
         </div>

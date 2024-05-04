@@ -248,7 +248,7 @@ const DocConsPfrRad = () => {
           <img className="xray1-1-icon26" alt="" src="/xray1-1@2x.png" />
           <div className="group-wrapper154" onClick={openDocConsNotes}>
             <div className="view-own-notes-wrapper9">
-              <div className="view-own-notes11">View own notes</div>
+              <div className="view-own-notes11">View own Impressions</div>
             </div>
           </div>
           <div className="frame-child490" />
@@ -268,7 +268,7 @@ const DocConsPfrRad = () => {
           onClick={onFrameContainer2Click}
         >
           <div className="add-notes-wrapper5">
-            <div className="view-own-notes11">Add Notes</div>
+            <div className="view-own-notes11">Add Impressions</div>
           </div>
         </div>
         <div className="doc-cons-pfr-rad-inner3">

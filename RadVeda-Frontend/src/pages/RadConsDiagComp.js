@@ -263,7 +263,7 @@ const RadConsDiagComp = () => {
         <div className="frame-parent66">
           <div className="group-wrapper149" onClick={openRadConsDocNotes}>
             <div className="view-doctors-notes-wrapper15">
-              <div className="view-doctors-notes17">View Doctors’ Notes</div>
+              <div className="view-doctors-notes17">View Doctor’s Impressions</div>
             </div>
           </div>
           <img className="frame-child469" alt="" src="/rectangle-5907.svg" />
@@ -282,7 +282,7 @@ const RadConsDiagComp = () => {
           />
           <div className="group-wrapper150" onClick={openRadConsNotes}>
             <div className="view-own-notes-wrapper8">
-              <div className="view-doctors-notes17">View own notes</div>
+              <div className="view-doctors-notes17">View own Impressions</div>
             </div>
           </div>
           <div className="group-wrapper151">
@@ -321,7 +321,7 @@ const RadConsDiagComp = () => {
         >
           <div className="view-other-radiologists-notes-wrapper3">
             <div className="view-doctors-notes17">
-              View Other Radiologist’s Notes
+              View Other Radiologist’s Impressions
             </div>
           </div>
         </div>

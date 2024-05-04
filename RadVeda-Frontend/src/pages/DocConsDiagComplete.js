@@ -281,7 +281,7 @@ const DocConsDiagComplete = () => {
           <div className="group-wrapper64" onClick={openDocConsRadNotes}>
             <div className="view-radiologists-notes-wrapper2">
               <div className="view-radiologists-details4">
-                View Radiologist’s Notes
+                View Radiologist’s Impressions
               </div>
             </div>
           </div>
@@ -303,7 +303,7 @@ const DocConsDiagComplete = () => {
           onClick={openDocConsNotes}
         >
           <div className="view-own-notes-wrapper2">
-            <div className="view-radiologists-details4">View own notes</div>
+            <div className="view-radiologists-details4">View own Impressions</div>
           </div>
         </div>
         <div className="doc-cons-diag-complete-inner4">

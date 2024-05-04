@@ -317,7 +317,7 @@ const RadOwnDiagComp = () => {
         <div className="frame-parent19">
           <div className="group-wrapper42" onClick={openRadOwnDocNotes}>
             <div className="view-doctors-notes-frame">
-              <div className="view-report">View Doctors’ Notes</div>
+              <div className="view-report">View Doctor’s Impressions</div>
             </div>
           </div>
           <img className="frame-child61" alt="" src="/rectangle-5907.svg" />
@@ -337,7 +337,7 @@ const RadOwnDiagComp = () => {
           />
           <div className="group-wrapper43" onClick={openRadOwnNotes}>
             <div className="view-own-notes-frame">
-              <div className="view-report">View own notes</div>
+              <div className="view-report">View own Impressions</div>
             </div>
           </div>
           <div className="group-wrapper44" onClick={viewPersonnelNav}>
@@ -375,7 +375,7 @@ const RadOwnDiagComp = () => {
           onClick={openRadOwnOtherRadNotes}
         >
           <div className="view-other-radiologists-notes-frame">
-            <div className="view-report">View Other Radiologist’s Notes</div>
+            <div className="view-report">View Other Radiologist’s Impressions</div>
           </div>
         </div>
         <b className="annotations-by-other2">
