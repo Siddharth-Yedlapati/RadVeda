@@ -5,8 +5,11 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import java.time.LocalDate;
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class EncryptionUtility {
 
@@ -85,5 +88,19 @@ public class EncryptionUtility {
 
     public static LocalDate decryptLocalDate(String encryptedText) {
         return LocalDate.parse(decrypt(encryptedText), DATE_FORMATTER);
+    }
+
+    public static String encrypt(Date value) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        return encrypt(sdf.format(value));
+    }
+
+    public static Date decryptDate(String encryptedText) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+            return sdf.parse(decrypt(encryptedText));
+        } catch (ParseException e) {
+            throw new RuntimeException("Error decrypting date", e);
+        }
     }
 }

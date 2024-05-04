@@ -2,6 +2,7 @@ package RadVeda.LabStaff.LabStaffTest;
 
 import RadVeda.LabStaff.LabStaff.LabStaff;
 
+import RadVeda.LabStaff.StorageEncryption.Converters.EncryptedLongConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +20,6 @@ public class LabStaffTest {
     @JoinColumn(name = "LabStaff_Id", referencedColumnName = "Id")
     private LabStaff LabStaff;
 
+    @Convert(converter = EncryptedLongConverter.class)
     private Long Test_Id;
 }

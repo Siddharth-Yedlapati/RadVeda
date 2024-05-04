@@ -1,5 +1,7 @@
 package RadVeda.UserManagement.Users.Doctor.user;
 
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedBooleanConverter;
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,10 +16,19 @@ public class Doctor extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgName;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL1;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL2;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
     private boolean isEmailVerified = false;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
     private boolean isAdminVerified = false;
 
     public Doctor() {

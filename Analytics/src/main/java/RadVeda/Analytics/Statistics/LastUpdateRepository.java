@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Optional;
 
 public interface LastUpdateRepository extends JpaRepository<LastUpdate, Long> {
