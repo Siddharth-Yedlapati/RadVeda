@@ -92,7 +92,19 @@ const RadSignup1 = () => {
     navigate("/rad-signup-2");
   }, [navigate]);
 
+  const [agreeTerms, setAgreeTerms] = useState(false); // State variable for checkbox
+
+  const handleCheckboxChange = () => {
+    setAgreeTerms(!agreeTerms);
+  };
+
   const onSubmit = () => {
+
+    if (!agreeTerms) {
+      alert("Please give the required consent.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert("Password mismatch!");
       return;
@@ -253,7 +265,7 @@ const RadSignup1 = () => {
                 setPhoneNumber(value);
               }}
               placeholder="Phone number"
-            />
+            />    
           </div>
         </div>
         <div className="helpertext112">
@@ -263,6 +275,17 @@ const RadSignup1 = () => {
       <div className="your-password-must4">
         Your password must be at least 8 characters long and should contain at
         least 1 uppercase, 1 lowercase, 1 numeric and 1 special character
+      </div>
+      <div className="checkbox-container">
+        <input
+          type="checkbox"
+          id="agreeTerms"
+          checked={agreeTerms}
+          onChange={handleCheckboxChange}
+        />
+        <label htmlFor="agreeTerms"> I hereby give consent to concerned 
+users of RadVeda to view my name, organisation I am affiliated to (if applicable), gender, and 
+age.</label>
       </div>
     </div>
   );
