@@ -5,6 +5,7 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Converter
 public class EncryptedLocalDateConverter implements AttributeConverter<LocalDate, String> {

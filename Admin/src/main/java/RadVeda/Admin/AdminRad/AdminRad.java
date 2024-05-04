@@ -1,6 +1,7 @@
 package RadVeda.Admin.AdminRad;
 
 import RadVeda.Admin.Admin.Admin;
+import RadVeda.Admin.StorageEncryption.Converters.EncryptedLongConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,5 +18,6 @@ public class AdminRad {
     @JoinColumn(name = "Admin_ID", referencedColumnName = "id")
     private Admin admin;
 
+    @Convert(converter = EncryptedLongConverter.class)
     private Long radId;
 }

@@ -1,6 +1,6 @@
 package RadVeda.UserManagement.Users.Patient.signup;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
