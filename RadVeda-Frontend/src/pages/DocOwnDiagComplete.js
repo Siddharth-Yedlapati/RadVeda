@@ -298,7 +298,7 @@ const DocOwnDiagComplete = () => {
           <div className="group-wrapper75" onClick={openDocOwnRadNotes}>
             <div className="view-radiologists-notes-wrapper6">
               <div className="view-radiologists-details8">
-                View Radiologist’s Notes
+                View Radiologist’s Impressions
               </div>
             </div>
           </div>
@@ -317,7 +317,7 @@ const DocOwnDiagComplete = () => {
         </div>
         <div className="doc-own-diag-complete-inner3" onClick={openEditor}>
           <div className="view-own-notes-wrapper5">
-            <div className="view-radiologists-details8">View own notes</div>
+            <div className="view-radiologists-details8">View own Impressions</div>
           </div>
         </div>
         <div className="doc-own-diag-complete-inner4">

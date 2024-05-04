@@ -265,7 +265,7 @@ const DocOwnPfrRad = () => {
           <img className="xray1-1-icon11" alt="" src="/xray1-1@2x.png" />
           <div className="group-wrapper71" onClick={openDocOwnNotes}>
             <div className="view-own-notes-wrapper3">
-              <div className="view-own-notes5">View own notes</div>
+              <div className="view-own-notes5">View own Impressions</div>
             </div>
           </div>
           <div className="frame-child228" />
@@ -285,7 +285,7 @@ const DocOwnPfrRad = () => {
           onClick={openEditor}
         >
           <div className="add-notes-wrapper1">
-            <div className="view-own-notes5">Add Notes</div>
+            <div className="view-own-notes5">Add Impressions</div>
           </div>
         </div>
         <div className="doc-own-pfr-rad-inner3">
