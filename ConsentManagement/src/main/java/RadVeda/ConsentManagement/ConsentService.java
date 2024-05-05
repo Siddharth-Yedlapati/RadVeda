@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.*;
 
 import org.json.JSONArray;
@@ -109,12 +110,12 @@ public class ConsentService implements ConsentServiceInterface{
             responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
         } catch (RuntimeException e){ //VERIFY_EXCEPTION
             consentRequestRepository.delete(consentRequest); // Rolling back the previously saved consent request
-            return "Failed to send consent request notification!";
+            throw new UnableToFetchConsentException("Failed to send consent request notification!");
         }
 
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
             consentRequestRepository.delete(consentRequest); // Rolling back the previously saved consent request
-            return "Failed to send consent request notification!";
+            throw new UnableToFetchConsentException("Failed to send consent request notification!");
         }
 
         for(User user: consentSeekers)

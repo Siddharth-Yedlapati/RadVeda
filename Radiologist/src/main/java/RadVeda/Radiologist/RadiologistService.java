@@ -232,7 +232,7 @@ public class RadiologistService implements RadiologistServiceInterface {
             responseEntity = restTemplate.exchange("http://localhost:9202/consent/sendConsentRequest",
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
         } catch (RuntimeException e) {
-            e.printStackTrace();
+            throw new UserNotFoundException("Unable to obtain consent");
         }
 
 
