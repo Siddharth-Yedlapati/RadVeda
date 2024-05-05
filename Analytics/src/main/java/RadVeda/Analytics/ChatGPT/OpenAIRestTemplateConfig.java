@@ -6,11 +6,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
+import javax.crypto.spec.SecretKeySpec;
+
 @Configuration
 public class OpenAIRestTemplateConfig {
 
-    @Value("${openai.api.key}")
-    private String openaiApiKey;
+    private static final String openaiApiKey;
+
+    static {
+        try {
+            openaiApiKey = System.getenv("OPENAI_API_KEY");
+        } catch (Exception e) {
+            throw new RuntimeException("Error extracting OpenAI API Key", e);
+        }
+    }
 
     @Bean
     @Qualifier("openaiRestTemplate")
