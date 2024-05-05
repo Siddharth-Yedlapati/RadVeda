@@ -23,7 +23,7 @@ const PatientChooseLab = ({testID, onClose, patientID}) => {
 
   const selectLab = (labId, testId) => {
     console.log(labId, testID);
-    request("POST", `http://localhost:9192/tests/${testId}/assignLab/${labId}`, {}, true) // TODO: ROLLBACK CHANGES
+    request("POST", `http://localhost:9192/tests/${testId}/assignLab/${labId}/${patientID}`, {}, true) // TODO: ROLLBACK CHANGES
       .then(response => {
         alert("Lab Chosen Successfully !")
         onClose();
