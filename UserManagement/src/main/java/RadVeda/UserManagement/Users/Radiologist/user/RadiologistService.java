@@ -45,14 +45,20 @@ public class RadiologistService implements RadiologistServiceInterface {
             if (!radiologist.isEnabled()) {
                 RadiologistVerificationToken token = radiologistTokenRepository.findByRadiologist_id(radiologist.getId());
                 Calendar calendar = Calendar.getInstance();
-                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                if (token == null || (token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
                     ResponseEntity<String> responseEntity;
                     HttpHeaders headers = new HttpHeaders();
                     RestTemplate restTemplate = new RestTemplate();
                     responseEntity = restTemplate.exchange("http://localhost:9201/radiologist/deleteRadiologist/" + radiologist.getId().toString(), HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
-                    radiologistTokenRepository.delete(token);
-                    radiologistdocumentsrepository.delete(radiologist.getId());
-                    radiologistRepository.delete(radiologist);
+                    if (token != null) {
+                        radiologistTokenRepository.delete(token);
+                    }
+                    if (radiologist.getId() != null) {
+                        radiologistdocumentsrepository.delete(radiologist.getId());
+                    }
+                    if (radiologist != null) {
+                        radiologistRepository.delete(radiologist);
+                    }
                     
                 }
             }

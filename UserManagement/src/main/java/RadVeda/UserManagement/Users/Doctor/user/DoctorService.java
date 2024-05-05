@@ -48,7 +48,7 @@ public class DoctorService implements DoctorServiceInterface {
             if (!doctor.isEmailVerified()) {
                 DoctorVerificationToken token = doctorTokenRepository.findByDoctor_id(doctor.getId());
                 Calendar calendar = Calendar.getInstance();
-                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                if (token == null || (token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
                     ResponseEntity<String> responseEntity;
                     HttpHeaders headers = new HttpHeaders();
                     RestTemplate restTemplate = new RestTemplate();
@@ -56,9 +56,15 @@ public class DoctorService implements DoctorServiceInterface {
                             doctor.getId(), HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
 
                     if(responseEntity.getBody() != null && responseEntity.getBody().equalsIgnoreCase("success")) {
-                        doctorTokenRepository.delete(token);
-                        doctordocumentsrepository.delete(doctor.getId());
-                        doctorRepository.delete(doctor);
+                        if (token != null) {
+                            doctorTokenRepository.delete(token);
+                        }
+                        if (doctor.getId() != null) {
+                            doctordocumentsrepository.delete(doctor.getId());
+                        }
+                        if (doctor != null) {
+                            doctorRepository.delete(doctor);
+                        }
                     }
                 }
             }
