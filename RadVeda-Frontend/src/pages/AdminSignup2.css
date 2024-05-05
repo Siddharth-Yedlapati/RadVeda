@@ -172,7 +172,7 @@
   max-height: 100%;
 }
 .admin-signup-2-child4 {
-  /* position: absolute;
+  position: absolute;
   height: 7.8%;
   width: 31.4%;
   top: 69.97%;
@@ -181,18 +181,20 @@
   left: 10.72%;
   border-radius: var(--br-3xs);
   background-color: var(--color-mediumslateblue-200);
-  box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11); */
-  position: absolute;
-  height: 7.22%;
-  width: 15.22%;
-  top: 69.97%;
-  right: 57.88%;
-  bottom: 7.8%;
-  left: 10.72%;
-  border-radius: var(--br-3xs);
-  background-color: var(--color-mediumslateblue-200);
   box-shadow: 0 18px 30px rgba(68, 97, 242, 0.11);
+  padding: 10px;
+  display: flex; /* Use flexbox */
+  justify-content: space-between; /* Evenly space items */
+  align-items: center; /* Center items vertically */
+}
+.admin-signup-2-child4 input[type="file"],
+.admin-signup-2-child4 button {
+  flex: 1; /* Make both input and button take equal space */
+  margin: 0 5px; /* Adjust margin as needed */
+  height: 35px;
   cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .upload-documents-for2 {
   position: absolute;
