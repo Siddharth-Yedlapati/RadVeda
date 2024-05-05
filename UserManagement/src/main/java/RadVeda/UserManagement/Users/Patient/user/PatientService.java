@@ -59,9 +59,15 @@ public class PatientService implements PatientServiceInterface {
                         HttpHeaders headers = new HttpHeaders();
                         RestTemplate restTemplate = new RestTemplate();
                         responseEntity = restTemplate.exchange("http://localhost:9198/patient/" + patient.getId().toString() + "/deletePatient", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
-                        patientTokenRepository.delete(token);
-                        patientdocumentsrepository.delete(patient.getId()); // deleting documents uploaded
-                        patientRepository.delete(patient);
+                        if (token != null) {
+                            patientTokenRepository.delete(token);
+                        }
+                        if (patient.getId() != null) {
+                            patientdocumentsrepository.delete(patient.getId()); // deleting documents uploaded
+                        }
+                        if (patient != null) {
+                            patientRepository.delete(patient);
+                        }
                     }
                 }
                 else
@@ -70,18 +76,42 @@ public class PatientService implements PatientServiceInterface {
                     PatientVerificationToken patientToken = patientTokenRepository.findByPatient_id(patient.getId());
                     PatientGuardianVerificationToken patientGuardianToken = patientGuardianTokenRepository.findByPatientguardian_id(patientGuardian.getId());
                     Calendar calendar = Calendar.getInstance();
-                    if ((patientToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0 || (patientGuardianToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0)
+
+                    if (((!patient.isEmailVerified() && patientToken == null)
+                            || (!patientGuardian.isEmailVerified() && patientGuardianToken == null))
+                            || (patientToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0
+                            || (patientGuardianToken.getExpirationTime().getTime()
+                                    - calendar.getTime().getTime()) <= 0)
                     {
                         ResponseEntity<String> responseEntity;
                         HttpHeaders headers = new HttpHeaders();
                         RestTemplate restTemplate = new RestTemplate();
                         responseEntity = restTemplate.exchange("http://localhost:9198/patient/" + patient.getId().toString() + "/deletePatient", HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
-                        patientTokenRepository.delete(patientToken);
-                        patientGuardianTokenRepository.delete(patientGuardianToken);
-                        patientdocumentsrepository.delete(patient.getId());
-                        patientguardiandocumentsrepository.delete(patientGuardian.getId());
-                        patientRepository.delete(patient);
-                        patientGuardianRepository.delete(patientGuardian);
+
+                        if (patientToken != null) {
+                            patientTokenRepository.delete(patientToken);
+                        }
+
+                        if (patientGuardianToken != null) {
+                            patientGuardianTokenRepository.delete(patientGuardianToken);
+                        }
+
+                        if (patient.getId() != null) {
+                            patientdocumentsrepository.delete(patient.getId());
+                        }
+
+                        if (patientGuardian.getId() != null) {
+                            patientguardiandocumentsrepository.delete(patientGuardian.getId());
+                        }
+
+                        if (patient != null) {
+                            patientRepository.delete(patient);
+                        }
+
+                        if (patientGuardian != null) {
+                            patientGuardianRepository.delete(patientGuardian);
+                        }
+
                     }
                 }
             }

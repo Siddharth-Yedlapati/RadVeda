@@ -17,5 +17,5 @@ public interface LastUpdateRepository extends JpaRepository<LastUpdate, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE last_update lu SET lu.date = :newDate WHERE lu.id = :id", nativeQuery = true)
-    void updateDateById(Long id, LocalDate newDate);
+    void updateDateById(Long id, String newDate);
 }

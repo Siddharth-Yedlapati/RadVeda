@@ -1,6 +1,7 @@
 package RadVeda.Analytics;
 
 import RadVeda.Analytics.Statistics.*;
+import RadVeda.Analytics.StorageEncryption.EncryptionUtility;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,7 @@ public class AnalyticsService {
             {
                 Long count = optionalRequestsStatistics.get().getCount();
                 count++;
-                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+                requestsStatisticsRepository.updateIfExists(EncryptionUtility.encrypt(count), EncryptionUtility.encrypt(request.requesterType()), EncryptionUtility.encrypt(request.requestType()), EncryptionUtility.encrypt(temporalScope), EncryptionUtility.encrypt(request.clientType()), EncryptionUtility.encrypt(request.clientId()));
             }
         }
 
@@ -79,7 +80,7 @@ public class AnalyticsService {
             {
                 Long count = optionalRequestsStatistics.get().getCount();
                 count--;
-                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+                requestsStatisticsRepository.updateIfExists(EncryptionUtility.encrypt(count), EncryptionUtility.encrypt(request.requesterType()), EncryptionUtility.encrypt(request.requestType()), EncryptionUtility.encrypt(temporalScope), EncryptionUtility.encrypt(request.clientType()), EncryptionUtility.encrypt(request.clientId()));
             }
         }
 
@@ -124,7 +125,7 @@ public class AnalyticsService {
             {
                 Long count = optionalAccountStatistics.get().getCount();
                 count++;
-                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+                accountStatisticsRepository.updateIfExists(EncryptionUtility.encrypt(count), EncryptionUtility.encrypt(request.accountHolderType()), EncryptionUtility.encrypt(request.accountOperationType()), EncryptionUtility.encrypt(temporalScope), EncryptionUtility.encrypt(request.clientType()), EncryptionUtility.encrypt(request.clientId()));
             }
         }
 
@@ -156,7 +157,7 @@ public class AnalyticsService {
             {
                 Long count = optionalAccountStatistics.get().getCount();
                 count--;
-                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+                accountStatisticsRepository.updateIfExists(EncryptionUtility.encrypt(count), EncryptionUtility.encrypt(request.accountHolderType()), EncryptionUtility.encrypt(request.accountOperationType()), EncryptionUtility.encrypt(temporalScope), EncryptionUtility.encrypt(request.clientType()), EncryptionUtility.encrypt(request.clientId()));
             }
         }
 
@@ -193,11 +194,11 @@ public class AnalyticsService {
 
             if(!Objects.equals(lastUpdate.getDate(), currentDate))
             {
-                lastUpdateRepository.updateDateById(1L, currentDate);
+                lastUpdateRepository.updateDateById(1L, EncryptionUtility.encrypt(currentDate));
 
                 //reset all stats with temporalScope="TODAY" to 0:
-                accountStatisticsRepository.resetTodayRecords();
-                requestsStatisticsRepository.resetTodayRecords();
+                accountStatisticsRepository.resetTodayRecords(EncryptionUtility.encrypt(0L), EncryptionUtility.encrypt("TODAY"));
+                requestsStatisticsRepository.resetTodayRecords(EncryptionUtility.encrypt(0L), EncryptionUtility.encrypt("TODAY"));
             }
         }
     }

@@ -35,10 +35,16 @@ public class LabStaffService implements LabStaffServiceInterface {
             if (!labstaff.isEnabled()) {
                 LabStaffVerificationToken token = labstaffTokenRepository.findByLabstaff_id(labstaff.getId());
                 Calendar calendar = Calendar.getInstance();
-                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-                    labstaffTokenRepository.delete(token);
-                    labstaffdocumentsrepository.delete(labstaff.getId());
-                    labstaffRepository.delete(labstaff);
+                if (token == null || (token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    if (token != null) {
+                        labstaffTokenRepository.delete(token);
+                    }
+                    if (labstaff.getId() != null) {
+                        labstaffdocumentsrepository.delete(labstaff.getId());
+                    }
+                    if (labstaff != null) {
+                        labstaffRepository.delete(labstaff);
+                    }
                 }
             }
         }

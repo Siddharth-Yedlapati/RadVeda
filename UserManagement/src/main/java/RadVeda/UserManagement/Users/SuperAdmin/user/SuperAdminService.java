@@ -42,9 +42,13 @@ public class SuperAdminService implements SuperAdminServiceInterface {
             if (!superadmin.isEnabled()) {
                 SuperAdminVerificationToken token = superadminTokenRepository.findBySuperadmin_id(superadmin.getId());
                 Calendar calendar = Calendar.getInstance();
-                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-                    superadminTokenRepository.delete(token);
-                    superadminRepository.delete(superadmin);
+                if (token == null || (token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    if (token != null) {
+                        superadminTokenRepository.delete(token);
+                    }
+                    if (superadmin != null) {
+                        superadminRepository.delete(superadmin);
+                    }
                 }
             }
         }
