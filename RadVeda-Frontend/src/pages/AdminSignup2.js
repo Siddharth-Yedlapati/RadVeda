@@ -201,12 +201,11 @@ const AdminSignup2 = () => {
         src="/iconsregularchevrondowns.svg"
       />
       <div className="admin-signup-2-child4" >
-        <div>React S3 File Upload</div>
+
         <input type="file" onChange={handleFileInput}/>
         <br></br>
         <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
       </div>
-      <div className="admin-signup-2-child5" onClick={onRectangle3Click} />
       <b className="back69" onClick={onRectangle3Click}>Back</b>
       <div className="admin-signup-2-child8" onClick={onRectangle1Click} />
       <b className="login17" onClick={onRectangle1Click}>Login</b>

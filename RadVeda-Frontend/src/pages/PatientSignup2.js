@@ -253,15 +253,12 @@ const PatientSignup2 = () => {
         <p className="sign-up-as8">patient</p>
       </div>
       <div className="patient-signup-2-inner">
-        <div>React S3 File Upload</div>
         <input type="file" onChange={handleFileInput}/>
         <br></br>
         <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
       </div>
   
-      <div className="patient-signup-2-child1" />
-      <div className="patient-signup-2-child2" />
-      <img className="patient-signup-2-child3" alt="" src="/arrow-1.svg" />
+      
       <div className="patient-signup-2-child4" onClick={onRectangle1Click} />
       <b className="fill-up-guardian">Fill up guardian info</b>
       <div className="patient-signup-2-child5" onClick={onRectangle2Click} />

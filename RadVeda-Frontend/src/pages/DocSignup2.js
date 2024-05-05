@@ -192,14 +192,12 @@ const DocSignup2 = () => {
         src="/iconsregularchevrondowns.svg"
       />
       <div className="doc-signup-2-child4" >
-        <div>React S3 File Upload</div>
+        
         <input type="file" onChange={handleFileInput}/>
         <br></br>
         <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
       </div> 
-      <div className="doc-signup-2-child5" />
-      <div className="doc-signup-2-child6" />
-      <img className="doc-signup-2-child7" alt="" src="/arrow-1.svg" />
+    
       <div className="doc-signup-2-child8" onClick={onRectangle1Click} />
       <b className="login11" onClick={onRectangle1Click}>Login</b>
       <div className="already-have-an9" onClick={onRectangle1Click}> Already have an account?</div>
