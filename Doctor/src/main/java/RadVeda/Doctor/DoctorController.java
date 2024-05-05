@@ -1,6 +1,8 @@
 package RadVeda.Doctor;
 
 import java.util.List;
+
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +40,15 @@ public class DoctorController {
     @PostMapping("/addDoctor")
     public String addDoctor(@RequestBody DoctorSignUpRequest request) {
         doctorService.addDoctor(request);
-        return "Success! Doctor has been added";
+        return "Success";
+    }
+
+    @CrossOrigin(origins = "http://localhost:9191")
+    @PostMapping("/updateDoctor/{id}")
+    public String updateAdmin(@RequestBody DoctorSignUpRequest doctorSignUpRequest, final HttpServletRequest request,
+                              @PathVariable Long id)  throws UnauthorisedUserException{
+        doctorService.updateDoctor(doctorSignUpRequest, id);
+        return "Success";
     }
 
     @CrossOrigin(origins = "http://localhost:9192")

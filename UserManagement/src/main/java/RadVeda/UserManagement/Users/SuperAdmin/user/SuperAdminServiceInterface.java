@@ -18,5 +18,6 @@ public interface SuperAdminServiceInterface {
 
     String validateToken(String theToken);
 
+    String sendUserToServer(SuperAdmin superAdmin);
     Optional<SuperAdmin> findById(Long id);
 }

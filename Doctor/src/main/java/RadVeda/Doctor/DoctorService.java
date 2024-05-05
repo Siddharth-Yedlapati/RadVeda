@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 import java.time.LocalDate;
+import java.util.Date;
 import java.time.ZoneId;
 
 @Service
@@ -135,21 +136,23 @@ public class DoctorService implements DoctorServiceInterface {
     @Override
     public Doctor addDoctor(DoctorSignUpRequest request){
         var newDoctor = new Doctor();
+        newDoctor.setId(request.Id());
         newDoctor.setFirstName(request.firstName());
-        newDoctor.setMiddleName(request.middleName());
         newDoctor.setLastName(request.lastName());
-        newDoctor.setAddressL1(request.addressL1());
-        newDoctor.setAddressL2(request.addressL2());
-        newDoctor.setCountry(request.country());
-        newDoctor.setState(request.state());
-        newDoctor.setCity(request.city());
         newDoctor.setEmail(request.email());
-        newDoctor.setOrgName(request.orgName());
-        newDoctor.setOrgAddressL1(request.orgAddressL1());
-        newDoctor.setOrgAddressL2(request.orgAddressL2());
         return doctorRepository.save(newDoctor);
     }
 
+    @Override
+    public Doctor updateDoctor(DoctorSignUpRequest request, Long Id) throws UserNotFoundException {
+        Optional<Doctor> adminRec = doctorRepository.findById(Id);
+        Doctor admin = adminRec.orElseThrow(() -> new UserNotFoundException("Invalid User"));
+        if(request.firstName() != null) admin.setFirstName(request.firstName());
+        if(request.lastName() != null) admin.setLastName(request.lastName());
+        if(request.email() != null) admin.setEmail(request.email());
+
+        return doctorRepository.save(admin);
+    }
 
     @Override
     public void deleteDoctor(Long doctorID){

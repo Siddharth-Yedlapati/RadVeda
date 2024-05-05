@@ -11,6 +11,8 @@ public interface DoctorServiceInterface {
     DoctorTests prescribeTest(DoctorTestRequest request);
     Optional<Doctor> getDoctor(Long doctorid);
     Doctor addDoctor(DoctorSignUpRequest request);
+
+    Doctor updateDoctor(DoctorSignUpRequest request, Long Id);
     void deleteDoctor(Long doctorID);
     DoctorTests addNotes(Long id, String notes);
     void deleteTest(Long testID);

@@ -1,5 +1,7 @@
 package RadVeda.UserManagement.Users.Doctor.user;
 
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedBooleanConverter;
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +16,20 @@ public class Doctor extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgName;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL1;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL2;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
+    private boolean isEmailVerified = false;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
+    private boolean isAdminVerified = false;
 
     public Doctor() {
         this.setRole("DOCTOR");
@@ -24,12 +37,14 @@ public class Doctor extends User {
 
     public Doctor(String firstName, String middleName, String lastName, String addressL1, String addressL2,
             String country, String state, String city, String email, String password, String phoneNumber, String role,
-            boolean isEnabled, String orgName, String orgAddressL1, String orgAddressL2) {
+            boolean isEnabled, boolean emailVerified, boolean adminVerified, String orgName, String orgAddressL1, String orgAddressL2) {
         super(firstName, middleName, lastName, addressL1, addressL2, country, state, city, email, password, phoneNumber,
                 role, isEnabled);
         this.orgName = orgName;
         this.orgAddressL1 = orgAddressL1;
         this.orgAddressL2 = orgAddressL2;
+        this.isEmailVerified = emailVerified;
+        this.isAdminVerified = adminVerified;
         this.setRole("DOCTOR");
     }
 }

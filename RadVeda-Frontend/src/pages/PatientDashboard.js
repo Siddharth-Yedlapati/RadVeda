@@ -707,8 +707,6 @@ const PatientDashboard = () => {
                         </div>
                     </div>
                 ))}
-            </div>
-            <div className="message-container">
                 {allConsentRequestNotifications.map((message, index) => (
                     <div className="message" key={index}>
                         <div className="message-content">{message}</div>
@@ -718,8 +716,6 @@ const PatientDashboard = () => {
                         </div>
                     </div>
                 ))}
-            </div>
-            <div className="message-container">
                 {allOneWayNotifications.map((message, index) => (
                     <div className="message" key={index}>
                         <div className="message-content">{message}</div>
@@ -730,6 +726,7 @@ const PatientDashboard = () => {
                 ))}
                 <button className="clear-button"onClick={deleteAllChatNotifs}>Clear All Chats</button>
             </div>
+           
         </div>
           
         </PortalPopup>

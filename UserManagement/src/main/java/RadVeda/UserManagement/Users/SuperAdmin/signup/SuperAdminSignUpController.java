@@ -35,10 +35,10 @@ public class SuperAdminSignUpController {
             return "This account has already been verified. Please login!";
         }
         String verificationResult = superadminService.validateToken(token);
-        if (verificationResult.equalsIgnoreCase("valid")) {
+        if (verificationResult.equalsIgnoreCase("success")) {
             return "Email verified successfully!! You can now login to your account.";
         }
-        return "Invalid verification token";
+        return "Please signUp again";
     }
 
     public String applicationUrl(HttpServletRequest request) {

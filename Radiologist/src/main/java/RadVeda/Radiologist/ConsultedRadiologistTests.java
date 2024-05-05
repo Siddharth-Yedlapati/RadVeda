@@ -1,5 +1,6 @@
 package RadVeda.Radiologist;
 
+import RadVeda.Radiologist.StorageEncryption.Converters.EncryptedLongConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +17,9 @@ public class ConsultedRadiologistTests{
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "radiologistID", referencedColumnName = "id")
-    private Radiologist radiologist;    
+    private Radiologist radiologist;
 
+    @Convert(converter = EncryptedLongConverter.class)
     private Long consultedTestID;
 
     public ConsultedRadiologistTests() {

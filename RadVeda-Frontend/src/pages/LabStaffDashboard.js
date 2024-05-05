@@ -24,7 +24,9 @@ const LabStaffDashboard = () => {
   }
   else
   {
-    useEffect(() => {navigate("/labstaff-login-page");}) 
+    useEffect(() => {
+      navigate("/labstaff-login-page");
+    }) 
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
@@ -38,6 +40,172 @@ const LabStaffDashboard = () => {
     setNPUserOptionsOpen(false);
   }, []);
 
+  const [isNotificationsOpen, setNotificationsOpen] = useState(false);
+
+  const [allChatNotifs, setAllChatNotifs] = useState([]);
+  const [allChatNotifsID, setAllChatNotifsID] = useState([]);
+
+  const [allConsentRequestNotifications, setAllConsentRequestNotifications] = useState([]);
+  const [allConsentRequestNotificationsID, setAllConsentRequestNotificationsID] = useState([]);
+
+  const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
+  const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
+  
+
+
+  const deleteChatID = (index) => {
+    // console.log(res);
+    console.log("index is", index);
+    console.log("Chat ID is", allChatNotifsID[index]);
+    let idToDelete = allChatNotifsID[index];
+    request(
+      "DELETE",
+      "http://localhost:9193/notifications/deleteChatNotification/" + String(idToDelete), 
+      {
+        
+      },
+      true
+      ).then(
+        () => {
+          
+          console.log("SUCCESS");
+          alert("Chat Notification deleted successfully");
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR in deleting")
+        }
+      )
+  }
+
+  const deleteAllChatNotifs = () => {
+    request(
+      "DELETE",
+      "http://localhost:9193/notifications/deleteAllChatNotifications", 
+      {
+
+      },
+      true
+      ).then(
+        () => {
+          
+          console.log("SUCCESS");
+          alert("Chat Notifications deleted successfully");
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR in deleting")
+        }
+      )
+  }
+
+  const openNotifications = useCallback(() => {
+    console.log("CLICKED NOTIFICATIONS")
+    request(
+      "GET",
+      "http://localhost:9193/notifications/getAllChatNotifications", 
+      {
+
+      },
+      true
+      ).then(
+        (response) => {
+          
+          console.log(response.data);
+          
+          setAllChatNotifs([]);
+          let arr = []
+          let arrID = []
+          for (let i = 0; i < response.data.length; i++) {
+
+            arr.push(response.data[i].message);
+            arrID.push(response.data[i].id);
+          }
+
+          setAllChatNotifs(arr);
+          setAllChatNotifsID(arrID);
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR1")
+        }
+      )
+
+      request(
+        "GET",
+        "http://localhost:9193/notifications/getAllConsentRequestNotifications", 
+        {
+  
+        },
+        true
+        ).then(
+          (response) => {
+            
+            console.log(response.data[0].message);
+            
+            setAllConsentRequestNotifications([]);
+            let arr = []
+            let arrID = []
+            for (let i = 0; i < response.data.length; i++) {
+  
+              arr.push(response.data[i].message);
+              arrID.push(response.data[i].id);
+            }
+  
+            setAllConsentRequestNotifications(arr);
+            setAllConsentRequestNotificationsID(arrID);
+            
+          }
+        ).catch(
+          (error) => {
+            // alert(error.response.data.error);
+            console.log("ERROR2")
+          }
+        )
+
+        request(
+          "GET",
+          "http://localhost:9193/notifications/getAllOneWayNotifications", 
+          {
+    
+          },
+          true
+          ).then(
+            (response) => {
+              
+              console.log(response.data[0].message);
+              
+              setAllOneWayNotifications([]);
+              let arr = []
+              let arrID = []
+              for (let i = 0; i < response.data.length; i++) {
+    
+                arr.push(response.data[i].message);
+                arrID.push(response.data[i].id);
+              }
+    
+              setAllOneWayNotifications(arr);
+              setAllOneWayNotificationsID(arrID);
+              
+            }
+          ).catch(
+            (error) => {
+              // alert(error.response.data.error);
+              console.log("ERROR3")
+            }
+          )
+
+
+    setNotificationsOpen(true);
+  }, []);
+
+  const closeNotifications = useCallback(() => {
+    setNotificationsOpen(false);
+  }, []);
+
   const onFrameContainerClick = useCallback(() => {
     navigate("/labstaff-test-pending");
   }, [navigate]);
@@ -45,6 +213,76 @@ const LabStaffDashboard = () => {
   const onNotifyPatient = useCallback(() => {
     navigate("/labstaff-test-pending");
   }, [navigate]);
+
+  const [patDetails, setpatDetails] = useState([]);
+
+  useEffect(() => {
+    request("GET", "http://localhost:9191/labstaffs/profile", {}, true)
+      .then(doctorResponse => {
+        const doctorId = doctorResponse.data.id;
+        return request("GET", `http://localhost:9192/tests/LABSTAFF/${doctorId}/getTests`, {}, true);
+      })
+      .then(testsResponse => { 
+        const patients = testsResponse.data;
+        console.log(patients);
+        if (patients.length !== 0) {
+          const uniquePatientIDs = [...new Set(patients.map(patient => patient.patientID))];
+          const sortedUniquePatientIDs = uniquePatientIDs.sort((id1, id2) => {
+            // Find the latest datePrescribed for each patient ID
+            const latestDatePrescribed1 = Math.max(...patients.filter(patient => patient.patientID === id1).map(patient => new Date(patient.datePrescribed).getTime()));
+            const latestDatePrescribed2 = Math.max(...patients.filter(patient => patient.patientID === id2).map(patient => new Date(patient.datePrescribed).getTime()));
+        
+            // Compare the latest datePrescribed values
+            return latestDatePrescribed1 - latestDatePrescribed2;
+        });
+          const reqString = sortedUniquePatientIDs.join(',');
+          console.log("reqString: " + reqString);
+          return request("GET", `http://localhost:9198/patient/getPatients/${reqString}`, {}, true);
+        }
+      })
+      .then(patientsResponse => {
+        const patDetails = patientsResponse.data;
+        setpatDetails(patDetails);
+        console.log(patDetails);
+
+      })
+      .catch(error => {
+        var errormsg = error.response.data.error;
+        if(!(errormsg === "No tests found for the given ID")){
+          alert(error.response.data.error)
+        }
+      });
+  }, []);
+
+  const renderPatientsTable = () => {
+    return (
+      <table className = "patients-table">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody className="tableBody">
+        {patDetails.map((patDetail) => (
+            <tr key={patDetail.id} onClick = {() => handleRowClick(patDetail.id)}>
+              <td>{patDetail.firstName}</td>
+              <td>{patDetail.email}</td>
+              <td>{patDetail.gender}</td>
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  const handleRowClick = (patientID) => {
+    localStorage.setItem("currentPatientID", patientID)
+    navigate("/doc-own-patient-details")
+  }
 
   return (
     <>
@@ -58,10 +296,10 @@ const LabStaffDashboard = () => {
           onClick={openNPUserOptions}
         />
         <div className="iconnotification-bing1">
-          <img className="vector-icon9" alt="" src="/vector.svg" />
-          <img className="vector-icon10" alt="" src="/vector.svg" />
-          <img className="vector-icon11" alt="" />
-          <div className="iconnotification-bing-item" />
+          <img className="vector-icon9" alt="" src="/vector.svg" onClick={openNotifications}/>
+          <img className="vector-icon10" alt="" src="/vector.svg" onClick={openNotifications}/>
+          <img className="vector-icon11" alt="" onClick={openNotifications}/>
+          <div className="iconnotification-bing-item" onClick={openNotifications}/>
           <div className="div1">03</div>
         </div>
         <img className="need-help-icon1" alt="" src="/need-help.svg" />
@@ -146,6 +384,50 @@ const LabStaffDashboard = () => {
           onOutsideClick={closeNPUserOptions}
         >
           <NPUserOptions onClose={closeNPUserOptions} />
+        </PortalPopup>
+      )}
+      {isNotificationsOpen && (
+        <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Top right"
+          onOutsideClick={closeNotifications}
+        >
+          <div className="notification-container">
+            <h2 className="notification-heading">Notifications</h2>
+            <div className="message-container">
+                {allChatNotifs.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="reply-button">Reply</button>
+                            <button className="ignore-button">Ignore</button>
+                            <button className="clear-button" onClick={() => deleteChatID(index)}>Clear</button>
+                        </div>
+                    </div>
+                
+                ))}
+                {allConsentRequestNotifications.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="reply-button">Fill Consent Form</button>
+                            <button className="clear-button">Clear</button>
+                        </div>
+                    </div>
+                ))}
+                {allOneWayNotifications.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="clear-button">Clear</button>
+                        </div>
+                    </div>
+                ))}
+                <button className="clear-button"onClick={deleteAllChatNotifs}>Clear All Chat Notifications</button>
+
+            </div>
+        </div>
+          
         </PortalPopup>
       )}
     </>

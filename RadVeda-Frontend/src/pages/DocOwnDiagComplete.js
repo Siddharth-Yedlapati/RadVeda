@@ -43,6 +43,172 @@ const DocOwnDiagComplete = () => {
     setNPUserOptionsOpen(false);
   }, []);
 
+  const [isNotificationsOpen, setNotificationsOpen] = useState(false);
+
+  const [allChatNotifs, setAllChatNotifs] = useState([]);
+  const [allChatNotifsID, setAllChatNotifsID] = useState([]);
+
+  const [allConsentRequestNotifications, setAllConsentRequestNotifications] = useState([]);
+  const [allConsentRequestNotificationsID, setAllConsentRequestNotificationsID] = useState([]);
+
+  const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
+  const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
+  
+
+
+  const deleteChatID = (index) => {
+    // console.log(res);
+    console.log("index is", index);
+    console.log("Chat ID is", allChatNotifsID[index]);
+    let idToDelete = allChatNotifsID[index];
+    request(
+      "DELETE",
+      "http://localhost:9193/notifications/deleteChatNotification/" + String(idToDelete), 
+      {
+        
+      },
+      true
+      ).then(
+        () => {
+          
+          console.log("SUCCESS");
+          alert("Chat Notification deleted successfully");
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR in deleting")
+        }
+      )
+  }
+
+  const deleteAllChatNotifs = () => {
+    request(
+      "DELETE",
+      "http://localhost:9193/notifications/deleteAllChatNotifications", 
+      {
+
+      },
+      true
+      ).then(
+        () => {
+          
+          console.log("SUCCESS");
+          alert("Chat Notifications deleted successfully");
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR in deleting")
+        }
+      )
+  }
+
+  const openNotifications = useCallback(() => {
+    console.log("CLICKED NOTIFICATIONS")
+    request(
+      "GET",
+      "http://localhost:9193/notifications/getAllChatNotifications", 
+      {
+
+      },
+      true
+      ).then(
+        (response) => {
+          
+          console.log(response.data);
+          
+          setAllChatNotifs([]);
+          let arr = []
+          let arrID = []
+          for (let i = 0; i < response.data.length; i++) {
+
+            arr.push(response.data[i].message);
+            arrID.push(response.data[i].id);
+          }
+
+          setAllChatNotifs(arr);
+          setAllChatNotifsID(arrID);
+        }
+      ).catch(
+        (error) => {
+          // alert(error.response.data.error);
+          console.log("ERROR1")
+        }
+      )
+
+      request(
+        "GET",
+        "http://localhost:9193/notifications/getAllConsentRequestNotifications", 
+        {
+  
+        },
+        true
+        ).then(
+          (response) => {
+            
+            console.log(response.data[0].message);
+            
+            setAllConsentRequestNotifications([]);
+            let arr = []
+            let arrID = []
+            for (let i = 0; i < response.data.length; i++) {
+  
+              arr.push(response.data[i].message);
+              arrID.push(response.data[i].id);
+            }
+  
+            setAllConsentRequestNotifications(arr);
+            setAllConsentRequestNotificationsID(arrID);
+            
+          }
+        ).catch(
+          (error) => {
+            // alert(error.response.data.error);
+            console.log("ERROR2")
+          }
+        )
+
+        request(
+          "GET",
+          "http://localhost:9193/notifications/getAllOneWayNotifications", 
+          {
+    
+          },
+          true
+          ).then(
+            (response) => {
+              
+              console.log(response.data[0].message);
+              
+              setAllOneWayNotifications([]);
+              let arr = []
+              let arrID = []
+              for (let i = 0; i < response.data.length; i++) {
+    
+                arr.push(response.data[i].message);
+                arrID.push(response.data[i].id);
+              }
+    
+              setAllOneWayNotifications(arr);
+              setAllOneWayNotificationsID(arrID);
+              
+            }
+          ).catch(
+            (error) => {
+              // alert(error.response.data.error);
+              console.log("ERROR3")
+            }
+          )
+
+
+    setNotificationsOpen(true);
+  }, []);
+
+  const closeNotifications = useCallback(() => {
+    setNotificationsOpen(false);
+  }, []);
+
   const openDocOwnRadNotes = useCallback(() => {
     setDocOwnRadNotesOpen(true);
   }, []);
@@ -86,10 +252,10 @@ const DocOwnDiagComplete = () => {
           onClick={openNPUserOptions}
         />
         <div className="iconnotification-bing28">
-          <img className="vector-icon126" alt="" src="/vector.svg" />
-          <img className="vector-icon127" alt="" src="/vector.svg" />
-          <img className="vector-icon128" alt="" />
-          <div className="iconnotification-bing-child26" />
+          <img className="vector-icon126" alt="" src="/vector.svg" onClick={openNotifications}/>
+          <img className="vector-icon127" alt="" src="/vector.svg" onClick={openNotifications}/>
+          <img className="vector-icon128" alt="" onClick={openNotifications}/>
+          <div className="iconnotification-bing-child26" onClick={openNotifications}/>
           <div className="div60">03</div>
         </div>
         <img className="need-help-icon28" alt="" src="/need-help.svg" />
@@ -132,7 +298,7 @@ const DocOwnDiagComplete = () => {
           <div className="group-wrapper75" onClick={openDocOwnRadNotes}>
             <div className="view-radiologists-notes-wrapper6">
               <div className="view-radiologists-details8">
-                View Radiologist’s Notes
+                View Radiologist’s Impressions
               </div>
             </div>
           </div>
@@ -151,7 +317,7 @@ const DocOwnDiagComplete = () => {
         </div>
         <div className="doc-own-diag-complete-inner3" onClick={openEditor}>
           <div className="view-own-notes-wrapper5">
-            <div className="view-radiologists-details8">View own notes</div>
+            <div className="view-radiologists-details8">View own Impressions</div>
           </div>
         </div>
         <div className="doc-own-diag-complete-inner4">
@@ -207,6 +373,50 @@ const DocOwnDiagComplete = () => {
             <button className="closeBtn" onClick={closeEditor}>Close</button>
           </div>
         </div>
+      )}
+      {isNotificationsOpen && (
+        <PortalPopup
+          overlayColor="rgba(113, 113, 113, 0.3)"
+          placement="Top right"
+          onOutsideClick={closeNotifications}
+        >
+          <div className="notification-container">
+            <h2 className="notification-heading">Notifications</h2>
+            <div className="message-container">
+                {allChatNotifs.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="reply-button">Reply</button>
+                            <button className="ignore-button">Ignore</button>
+                            <button className="clear-button" onClick={() => deleteChatID(index)}>Clear</button>
+                        </div>
+                    </div>
+                
+                ))}
+                {allConsentRequestNotifications.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="reply-button">Fill Consent Form</button>
+                            <button className="clear-button">Clear</button>
+                        </div>
+                    </div>
+                ))}
+                {allOneWayNotifications.map((message, index) => (
+                    <div className="message" key={index}>
+                        <div className="message-content">{message}</div>
+                        <div className="buttons-container">
+                            <button className="clear-button">Clear</button>
+                        </div>
+                    </div>
+                ))}
+                <button className="clear-button"onClick={deleteAllChatNotifs}>Clear All Chat Notifications</button>
+
+            </div>
+        </div>
+          
+        </PortalPopup>
       )}
     </>
   );

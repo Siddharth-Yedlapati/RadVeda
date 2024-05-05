@@ -1,5 +1,7 @@
 package RadVeda.Radiologist;
 
+import RadVeda.Radiologist.StorageEncryption.Converters.EncryptedBooleanConverter;
+import RadVeda.Radiologist.StorageEncryption.Converters.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,20 +16,46 @@ public class Radiologist extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgName;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL1;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL2;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String firstName;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String middleName;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String lastName;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String addressL1;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String addressL2;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String country;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String city;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String state;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String email;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String phonenumber;
 
+    @Convert(converter = EncryptedBooleanConverter.class)
     private Boolean available;
 
 

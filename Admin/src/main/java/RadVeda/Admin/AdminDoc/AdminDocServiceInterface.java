@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AdminDocServiceInterface {
-        AdminDoc addDocforAdmin(AdminDocRequest request);
-        void deleteRecord(Long id);
+        String addDocforAdmin(Long adminId, Long docId);
+
         List<Long> getDocsOfAdmin(Long adminID);
-        Optional<AdminDoc> getDocs(Long docId);
+
+        String deleteDoc(Long doc_id);
         User authenticate(String authorizationHeader);
 }

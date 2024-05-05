@@ -436,3 +436,47 @@
   color: var(--white-color);
   font-family: var(--btn-l-semi-bold);
 }
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: black;
+  position: relative;
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+}
+
+.message-content {
+  margin-bottom: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reply-button,
+.ignore-button,
+.clear-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #ccc;
+  border: 1px solid #999;
+  cursor: pointer;
+}
+
+.reply-button:hover,
+.ignore-button:hover,
+.clear-button:hover {
+  background-color: #bbb;
+}

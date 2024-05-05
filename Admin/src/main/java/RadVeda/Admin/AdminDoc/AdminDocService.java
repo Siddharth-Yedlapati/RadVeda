@@ -27,8 +27,8 @@ public class AdminDocService implements AdminDocServiceInterface {
     private final AdminService adminService;
 
     @Override
-    public AdminDoc addDocforAdmin(AdminDocRequest request) {
-        Optional<Admin> admin = adminService.findById(request.adminId());
+    public String addDocforAdmin(Long docId, Long adminId) {
+        Optional<Admin> admin = adminService.findById(adminId);
 
         if (admin.isEmpty()) {
             throw new UserNotFoundException("Admin Not Registered!");
@@ -37,14 +37,19 @@ public class AdminDocService implements AdminDocServiceInterface {
         Admin newAdmin = admin.get();
         AdminDoc newRecord = new AdminDoc();
         newRecord.setAdmin(newAdmin);
-        newRecord.setDocId(request.docId());
+        newRecord.setDocId(docId);
 
-        return adminDocRepository.save(newRecord);
-    }
+        try {
+            adminDocRepository.save(newRecord);
+        }
+        catch(Error | Exception e) {
+            e.printStackTrace();
+            return "failure";
+        }
 
-    @Override
-    public void deleteRecord(Long id) {
-        adminDocRepository.deleteById(id);
+        return "Success";
+
+
     }
 
     @Override
@@ -53,12 +58,19 @@ public class AdminDocService implements AdminDocServiceInterface {
     }
 
     @Override
-    public Optional<AdminDoc> getDocs(Long docId) {
-        return adminDocRepository.findById(docId);
+    public String deleteDoc(Long doc_id) {
+        try {
+            adminDocRepository.deleteAdminDoc(doc_id);
+        }
+        catch (Error | Exception e) {
+            e.printStackTrace();
+            return "failure";
+        }
+        return "success";
     }
+
     @Override
-    public User authenticate(String authorizationHeader)
-    {
+    public User authenticate(String authorizationHeader) {
         String jwtToken = "";
 
         // Checking if the Authorization header is present and not empty

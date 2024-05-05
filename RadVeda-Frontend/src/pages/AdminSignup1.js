@@ -92,7 +92,19 @@ const AdminSignup1 = () => {
     navigate("/admin-signup-2");
   }, [navigate]);
 
+  const [agreeTerms, setAgreeTerms] = useState(false); // State variable for checkbox
+
+  const handleCheckboxChange = () => {
+    setAgreeTerms(!agreeTerms);
+  };
+
   const onSubmit = () => {
+
+    if (!agreeTerms) {
+      alert("Please give the required consent.");
+      return;
+    }
+
     localStorage.setItem('password', password)
     localStorage.setItem('phoneNumber', phoneNumber)
     //console.log(password)
@@ -203,6 +215,17 @@ const AdminSignup1 = () => {
       <div className="your-password-must3">
         Your password must be at least 8 characters long and should contain at
         least 1 uppercase, 1 lowercase, 1 numeric and 1 special character
+      </div>
+      <div className="checkbox-container">
+        <input
+          type="checkbox"
+          id="agreeTerms"
+          checked={agreeTerms}
+          onChange={handleCheckboxChange}
+        />
+        <label htmlFor="agreeTerms"> I hereby give consent to concerned 
+users of RadVeda to view my name, organisation I am affiliated to (if applicable), gender, and 
+age.</label>
       </div>
     </div>
   );

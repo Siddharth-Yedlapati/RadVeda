@@ -1,12 +1,16 @@
 package RadVeda.UserManagement.Users.Patient.user;
 
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedBooleanConverter;
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedLocalDateConverter;
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedStringConverter;
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedDateConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import RadVeda.UserManagement.Users.User.User;
 
 import javax.print.Doc;
-import java.sql.Date;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -16,11 +20,23 @@ public class Patient extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Convert(converter = EncryptedDateConverter.class)
     private Date DOB;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String gender;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String race;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String ethnicity;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String maritalStatus;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
     private boolean emailVerified;
 
     @OneToOne

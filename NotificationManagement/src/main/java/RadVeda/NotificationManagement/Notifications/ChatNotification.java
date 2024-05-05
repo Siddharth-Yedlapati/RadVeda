@@ -1,9 +1,8 @@
 package RadVeda.NotificationManagement.Notifications;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import RadVeda.NotificationManagement.StorageEncryption.Converters.EncryptedLongConverter;
+import RadVeda.NotificationManagement.StorageEncryption.Converters.EncryptedStringConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,9 @@ public class ChatNotification extends Notification{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String chatType;
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long chatId;
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/Admin/pom.xml" />
+        <option value="$PROJECT_DIR$/Doctor/pom.xml" />
+        <option value="$PROJECT_DIR$/Patient/pom.xml" />
+        <option value="$PROJECT_DIR$/LabStaff/pom.xml" />
+        <option value="$PROJECT_DIR$/Analytics/pom.xml" />
+        <option value="$PROJECT_DIR$/Radiologist/pom.xml" />
+        <option value="$PROJECT_DIR$/Collaboration/pom.xml" />
+        <option value="$PROJECT_DIR$/TestManagement/pom.xml" />
+        <option value="$PROJECT_DIR$/UserManagement/pom.xml" />
+        <option value="$PROJECT_DIR$/ImageManagement/pom.xml" />
+        <option value="$PROJECT_DIR$/ConsentManagement/pom.xml" />
+        <option value="$PROJECT_DIR$/NotificationManagement/pom.xml" />
+        <option value="$PROJECT_DIR$/SuperAdmin/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

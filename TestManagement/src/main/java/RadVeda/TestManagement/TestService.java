@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 import java.time.LocalDate;
+import java.util.Date;
 import java.time.ZoneId;
 
 @Service
@@ -398,6 +399,9 @@ public class TestService implements TestServiceInterface {
         }
         else if("RADIOLOGIST".equals(userType)){
             return testRepository.findAllTestsByPatientAndRadID(patientID, userID);
+        }
+        else if("LABSTAFF".equals(userType)){
+            return testRepository.findAllTestsByPatientAndLabStaffID(patientID, userID);
         }
         return new ArrayList<>();
     }

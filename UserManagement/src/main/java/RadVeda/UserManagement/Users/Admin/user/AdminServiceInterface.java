@@ -16,5 +16,15 @@ public interface AdminServiceInterface {
 
     String validateToken(String theToken);
 
+    String requestSignUp(Admin admin);
+    String adminAcceptedSignUp(Long Id);
+    String adminDeclinedSignUp(Long Id);
+
+    String updateAdmin(AdminUpdateAcceptance adminUpdateAcceptance);
+
+    String sendUserToServer(Admin admin);
+
+
+
     Optional<Admin> findById(Long id);
 }

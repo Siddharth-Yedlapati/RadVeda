@@ -1,9 +1,8 @@
 package RadVeda.ConsentManagement.ConsentRequest;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import RadVeda.ConsentManagement.StorageEncryption.Converters.EncryptedLongConverter;
+import RadVeda.ConsentManagement.StorageEncryption.Converters.EncryptedStringConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +18,15 @@ public class ConsentRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String consentProviderType;
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long consentProviderId;
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long testId;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String message;
 }

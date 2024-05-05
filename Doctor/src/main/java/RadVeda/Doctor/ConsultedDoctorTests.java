@@ -1,5 +1,6 @@
 package RadVeda.Doctor;
 
+import RadVeda.Doctor.StorageEncryption.Converters.EncryptedLongConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +17,9 @@ public class ConsultedDoctorTests{
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctorID", referencedColumnName = "id")
-    private Doctor doctor;    
+    private Doctor doctor;
 
+    @Convert(converter = EncryptedLongConverter.class)
     private Long consultedTestID;
 
     public ConsultedDoctorTests() {

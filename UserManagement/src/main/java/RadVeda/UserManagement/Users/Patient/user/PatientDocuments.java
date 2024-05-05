@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.Patient.user;
 
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class PatientDocuments {
     @JoinColumn(name = "patientID", referencedColumnName = "id")
     private Patient patient;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String Documents;
 
     public PatientDocuments() {

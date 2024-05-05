@@ -195,14 +195,11 @@ const LabStaffSignup2 = () => {
         src="/iconsregularchevrondowns.svg"
       />
       <div className="labstaff-signup-2-child4" >
-        <div>React S3 File Upload</div>
         <input type="file" onChange={handleFileInput}/>
         <br></br>
         <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
       </div>
-      <div className="labstaff-signup-2-child5" />
-      <div className="labstaff-signup-2-child6" />
-      <img className="arrow-icon" alt="" src="/arrow-1.svg" />
+      
       <div className="labstaff-signup-2-child7" onClick={onRectangle1Click} />
       <b className="login2" onClick={onRectangle1Click}>Login</b>
       <div className="already-have-an2" onClick={onRectangle1Click}> Already have an account?</div>

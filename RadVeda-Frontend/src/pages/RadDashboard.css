@@ -497,3 +497,127 @@
   color: var(--white-color);
   font-family: var(--font-poppins);
 }
+
+
+/*****/
+
+.patients-table {
+  border-collapse: collapse;
+  width: 180%;
+  border-spacing: 50px 50px;
+  display: block;
+  max-height: 460px;
+  overflow-y: scroll;
+}
+.patients-table::-webkit-scrollbar {
+  display: none;
+}
+
+.patients-table th,
+.patients-table td {
+  padding-left: 40px; 
+  padding-right: 40px; 
+  
+  text-align: left;
+}
+
+.patients-table th {
+  background-color: var(--color-gray-300);
+  color: var(--color-steelblue-200);
+  font-weight: bold;
+  cursor: default;
+}
+
+.patients-table tbody tr:hover {
+  cursor: pointer;
+  background-color: var(--color-gray-300);
+}
+
+.patients-table button {
+  
+  top: 0;
+
+  border-radius: var(--br-5xs);
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  width: 134px;
+  height: 33px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: var(--btnfont-size);
+  color: var(--white-color);
+  font-family: var(--btn-l-semi-bold);
+}
+
+
+.my-patients-list {
+  position: absolute;
+  top: 240px;
+  left: 17px;
+  text-transform: capitalize;
+}
+
+.my-patients-list-parent {
+  position: absolute;
+  top: 224px;
+  left: 101px;
+  width: 682px;
+  height: 264px;
+  font-size: var(--font-size-base);
+  color: var(--color-lavender);
+}
+
+.frame-child-125 {
+  position: absolute;
+  top: 270px;
+  left: 12px;
+  width: 500px;
+  height: 206px;
+}
+
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: black;
+  position: relative;
+  display: flex; 
+  align-items: center;
+  justify-content: space-between;
+}
+
+.message-content {
+  margin-bottom: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reply-button,
+.ignore-button,
+.clear-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #ccc;
+  border: 1px solid #999;
+  cursor: pointer;
+}
+
+.reply-button:hover,
+.ignore-button:hover,
+.clear-button:hover {
+  background-color: #bbb;
+}
