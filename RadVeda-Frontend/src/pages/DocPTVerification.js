@@ -29,8 +29,9 @@ const DocPTVerification = () => {
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [patientID, setpatientID] = useState("");
+  const [otp, setOTP] = useState("");
 
-  
+  console.log("HERE",otp)
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -51,7 +52,6 @@ const DocPTVerification = () => {
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
   
-
 
   const deleteChatID = (index) => {
     // console.log(res);
@@ -264,7 +264,15 @@ const DocPTVerification = () => {
           <div className="input69">
             <div className="content74">
               <div className="min-height69" />
-              <div className="label69">789064</div>
+              
+              <input
+              type="text"
+              className="label69"
+              value={otp}
+              onChange={(e) => setOTP(e.target.value)}
+              placeholder="Enter OTP"
+              />
+              
             </div>
           </div>
           <div className="helpertext69">
