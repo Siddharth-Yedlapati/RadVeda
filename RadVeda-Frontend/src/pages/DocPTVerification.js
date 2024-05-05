@@ -31,7 +31,6 @@ const DocPTVerification = () => {
   const [patientID, setpatientID] = useState("");
   const [otp, setOTP] = useState("");
 
-  console.log("HERE",otp)
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);

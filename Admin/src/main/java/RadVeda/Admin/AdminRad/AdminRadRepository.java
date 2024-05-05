@@ -1,4 +1,4 @@
-package RadVeda.Admin.AdminRad;;
+package RadVeda.Admin.AdminRad;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

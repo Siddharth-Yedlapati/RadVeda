@@ -32,7 +32,16 @@ public class AnalyticsService {
             {
                 Long count = 0L;
                 count++;
-                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+                RequestsStatistics requestsStatistics = new RequestsStatistics();
+                
+                requestsStatistics.setCount(count);
+                requestsStatistics.setRequesterType(request.requesterType());
+                requestsStatistics.setRequestType(request.requestType());
+                requestsStatistics.setTemporalScope(temporalScope);
+                requestsStatistics.setClientType(request.clientType());
+                requestsStatistics.setClientId(request.clientId());
+
+                requestsStatisticsRepository.save(requestsStatistics);
             }
             else
             {
@@ -55,7 +64,16 @@ public class AnalyticsService {
             {
                 Long count = 0L;
                 count--;
-                requestsStatisticsRepository.updateIfExists(count, request.requesterType(), request.requestType(), temporalScope, request.clientType(), request.clientId());
+                RequestsStatistics requestsStatistics = new RequestsStatistics();
+                
+                requestsStatistics.setCount(count);
+                requestsStatistics.setRequesterType(request.requesterType());
+                requestsStatistics.setRequestType(request.requestType());
+                requestsStatistics.setTemporalScope(temporalScope);
+                requestsStatistics.setClientType(request.clientType());
+                requestsStatistics.setClientId(request.clientId());
+
+                requestsStatisticsRepository.save(requestsStatistics);
             }
             else
             {
@@ -91,7 +109,16 @@ public class AnalyticsService {
             {
                 Long count = 0L;
                 count++;
-                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+                AccountStatistics accountStatistics = new AccountStatistics();
+                
+                accountStatistics.setCount(count);
+                accountStatistics.setAccountHolderType(request.accountHolderType());
+                accountStatistics.setAccountOperationType(request.accountOperationType());
+                accountStatistics.setTemporalScope(temporalScope);
+                accountStatistics.setClientType(request.clientType());
+                accountStatistics.setClientId(request.clientId());
+
+                accountStatisticsRepository.save(accountStatistics);
             }
             else
             {
@@ -114,7 +141,16 @@ public class AnalyticsService {
             {
                 Long count = 0L;
                 count--;
-                accountStatisticsRepository.updateIfExists(count, request.accountHolderType(), request.accountOperationType(), temporalScope, request.clientType(), request.clientId());
+                AccountStatistics accountStatistics = new AccountStatistics();
+                
+                accountStatistics.setCount(count);
+                accountStatistics.setAccountHolderType(request.accountHolderType());
+                accountStatistics.setAccountOperationType(request.accountOperationType());
+                accountStatistics.setTemporalScope(temporalScope);
+                accountStatistics.setClientType(request.clientType());
+                accountStatistics.setClientId(request.clientId());
+
+                accountStatisticsRepository.save(accountStatistics);
             }
             else
             {

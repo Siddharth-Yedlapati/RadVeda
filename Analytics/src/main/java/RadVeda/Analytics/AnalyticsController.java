@@ -71,7 +71,11 @@ public class AnalyticsController {
 
         if(!Objects.equals(request.clientType(), "SUPERADMIN") && !analyticsService.isUserValid(request.clientType(), request.clientId(), authorizationHeader))
         {
+            System.out.println(authorizationHeader);
+            System.out.println(request.clientType());
+            System.out.println(request.clientId());
             throw new InvalidUserException("Invalid stats client!");
+
         }
 
         return analyticsService.incrementRequestsStatistics(request);
