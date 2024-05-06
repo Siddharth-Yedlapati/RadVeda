@@ -1,5 +1,6 @@
 package RadVeda.SuperAdmin.SuperAdminRequests;
 
+import RadVeda.SuperAdmin.StorageEncryption.EncryptionUtility;
 import RadVeda.SuperAdmin.User;
 import RadVeda.SuperAdmin.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +66,7 @@ public class RequestsService implements RequestsServiceInterface {
 
     @Override
     public List<Requests> getRequest(String type) {
-        return requestsRepository.getTypeRequests(type);
+        return requestsRepository.getTypeRequests(EncryptionUtility.encrypt(type), EncryptionUtility.encrypt("TBD"));
     }
 
     @Override
@@ -124,8 +125,8 @@ public class RequestsService implements RequestsServiceInterface {
             responseEntity = restTemplate.exchange("http://localhost:9191/admins/acceptSignUp/"+admin.getAdminId(),
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
 
-            requestsRepository.updateStatusToAccept(req_id);
-            requestsRepository.assignApprover(req_id, aId);
+            requestsRepository.updateStatusToAccept(req_id, EncryptionUtility.encrypt("ACCEPTED"));
+            requestsRepository.assignApprover(req_id, EncryptionUtility.encrypt(aId));
 
         }
         catch (RuntimeException e) {
@@ -167,8 +168,8 @@ public class RequestsService implements RequestsServiceInterface {
             responseEntity = restTemplate.exchange("http://localhost:9191/admins/declineSignUp/"+admin.getAdminId(),
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
 
-            requestsRepository.updateStatusToDecline(req_id);
-            requestsRepository.assignApprover(req_id, aId);
+            requestsRepository.updateStatusToDecline(req_id, EncryptionUtility.encrypt("DECLINED"));
+            requestsRepository.assignApprover(req_id, EncryptionUtility.encrypt(aId));
 
         }
         catch (RuntimeException e) {
@@ -236,8 +237,8 @@ public class RequestsService implements RequestsServiceInterface {
             responseEntity = restTemplate.exchange("http://localhost:9191/admins/updateAdmin",
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
 
-            requestsRepository.updateStatusToAccept(req_id);
-            requestsRepository.assignApprover(req_id, aId);
+            requestsRepository.updateStatusToAccept(req_id, EncryptionUtility.encrypt("ACCEPTED"));
+            requestsRepository.assignApprover(req_id, EncryptionUtility.encrypt(aId));
 
         }
         catch (RuntimeException e) {
