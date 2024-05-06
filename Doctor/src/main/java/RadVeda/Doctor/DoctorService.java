@@ -24,6 +24,7 @@ import java.util.Random;
 import java.time.LocalDate;
 import java.util.Date;
 import java.time.ZoneId;
+import RadVeda.Doctor.StorageEncryption.EncryptionUtility;
 
 @Service
 @RequiredArgsConstructor
@@ -169,7 +170,7 @@ public class DoctorService implements DoctorServiceInterface {
 
     @Override
     public void deleteTest(Long testID){
-        doctortestsrepository.deleteTest(testID);
+        doctortestsrepository.deleteTest(EncryptionUtility.encrypt(testID));
         return;
     }
 
@@ -180,6 +181,6 @@ public class DoctorService implements DoctorServiceInterface {
 
     @Override
     public List<ConsultedDoctorTests> getConsultedDoctors(Long testID){
-        return consulteddoctortestsrepository.getConsultedDoctors(testID);
+        return consulteddoctortestsrepository.getConsultedDoctors(EncryptionUtility.encrypt(testID));
     }
 }

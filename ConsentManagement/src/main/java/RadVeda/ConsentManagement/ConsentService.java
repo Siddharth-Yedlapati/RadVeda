@@ -21,6 +21,7 @@ import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
+import RadVeda.ConsentManagement.StorageEncryption.EncryptionUtility;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +38,11 @@ public class ConsentService implements ConsentServiceInterface{
     {
         return switch (consentProviderType) {
             case "DOCTOR" ->
-                    doctorProviderRepository.findTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderId);
+                    doctorProviderRepository.findTestIdsWithSomeConsentedResources(EncryptionUtility.encrypt(consentSeekerType), EncryptionUtility.encrypt(consentSeekerId), EncryptionUtility.encrypt(consentProviderId), EncryptionUtility.encrypt("true"));
             case "PATIENT" ->
-                    patientProviderRepository.findTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderId);
+                    patientProviderRepository.findTestIdsWithSomeConsentedResources(EncryptionUtility.encrypt(consentSeekerType), EncryptionUtility.encrypt(consentSeekerId), EncryptionUtility.encrypt(consentProviderId), EncryptionUtility.encrypt("true"));
             case "RADIOLOGIST" ->
-                    radiologistProviderRepository.findTestIdsWithSomeConsentedResources(consentSeekerType, consentSeekerId, consentProviderId);
+                    radiologistProviderRepository.findTestIdsWithSomeConsentedResources(EncryptionUtility.encrypt(consentSeekerType), EncryptionUtility.encrypt(consentSeekerId), EncryptionUtility.encrypt(consentProviderId), EncryptionUtility.encrypt("true"));
             default -> throw new InvalidConsentProviderTypeException("Invalid consent provider type!");
         };
     }
@@ -138,9 +139,9 @@ public class ConsentService implements ConsentServiceInterface{
 
         for(DoctorProviderConsent doctorProviderConsent : doctorProviderConsents)
         {
-            int numRowsUpdated = doctorProviderRepository.updateIfExists(doctorProviderConsent.getConsentSeekerType(), doctorProviderConsent.getConsentSeekerId(), doctorProviderConsent.getConsentProviderId(), doctorProviderConsent.getTestId(), doctorProviderConsent.isNotesAllowed());
+            int numRowsUpdated = doctorProviderRepository.updateIfExists(EncryptionUtility.encrypt(doctorProviderConsent.getConsentSeekerType()), EncryptionUtility.encrypt(doctorProviderConsent.getConsentSeekerId()), EncryptionUtility.encrypt(doctorProviderConsent.getConsentProviderId()), EncryptionUtility.encrypt(doctorProviderConsent.getTestId()), EncryptionUtility.encrypt(doctorProviderConsent.isNotesAllowed()));
             if(numRowsUpdated == 0) {
-                doctorProviderRepository.insertEntry(doctorProviderConsent.getConsentSeekerType(), doctorProviderConsent.getConsentSeekerId(), doctorProviderConsent.getConsentProviderId(), doctorProviderConsent.getTestId(), doctorProviderConsent.isNotesAllowed());
+                doctorProviderRepository.insertEntry(EncryptionUtility.encrypt(doctorProviderConsent.getConsentSeekerType()), EncryptionUtility.encrypt(doctorProviderConsent.getConsentSeekerId()), EncryptionUtility.encrypt(doctorProviderConsent.getConsentProviderId()), EncryptionUtility.encrypt(doctorProviderConsent.getTestId()), EncryptionUtility.encrypt(doctorProviderConsent.isNotesAllowed()));
             }
         }
         return "Consent preferences for doctor saved successfully!";
@@ -153,9 +154,9 @@ public class ConsentService implements ConsentServiceInterface{
 
         for(PatientProviderConsent patientProviderConsent : patientProviderConsents)
         {
-            int numRowsUpdated = patientProviderRepository.updateIfExists(patientProviderConsent.getConsentSeekerType(), patientProviderConsent.getConsentSeekerId(), patientProviderConsent.getConsentProviderId(), patientProviderConsent.getTestId(), patientProviderConsent.isImagesAllowed(), patientProviderConsent.isReportAllowed());
+            int numRowsUpdated = patientProviderRepository.updateIfExists(EncryptionUtility.encrypt(patientProviderConsent.getConsentSeekerType()), EncryptionUtility.encrypt(patientProviderConsent.getConsentSeekerId()), EncryptionUtility.encrypt(patientProviderConsent.getConsentProviderId()), EncryptionUtility.encrypt(patientProviderConsent.getTestId()), EncryptionUtility.encrypt(patientProviderConsent.isImagesAllowed()), EncryptionUtility.encrypt(patientProviderConsent.isReportAllowed()));
             if(numRowsUpdated == 0) {
-                patientProviderRepository.insertEntry(patientProviderConsent.getConsentSeekerType(), patientProviderConsent.getConsentSeekerId(), patientProviderConsent.getConsentProviderId(), patientProviderConsent.getTestId(), patientProviderConsent.isImagesAllowed(), patientProviderConsent.isReportAllowed());
+                patientProviderRepository.insertEntry(EncryptionUtility.encrypt(patientProviderConsent.getConsentSeekerType()), EncryptionUtility.encrypt( patientProviderConsent.getConsentSeekerId()), EncryptionUtility.encrypt( patientProviderConsent.getConsentProviderId()), EncryptionUtility.encrypt( patientProviderConsent.getTestId()), EncryptionUtility.encrypt( patientProviderConsent.isImagesAllowed()), EncryptionUtility.encrypt( patientProviderConsent.isReportAllowed()));
             }
         }
         return "Consent preferences for patient saved successfully!";
@@ -168,9 +169,9 @@ public class ConsentService implements ConsentServiceInterface{
 
         for(RadiologistProviderConsent radiologistProviderConsent : radiologistProviderConsents)
         {
-            int numRowsUpdated = radiologistProviderRepository.updateIfExists(radiologistProviderConsent.getConsentSeekerType(), radiologistProviderConsent.getConsentSeekerId(), radiologistProviderConsent.getConsentProviderId(), radiologistProviderConsent.getTestId(), radiologistProviderConsent.isAnnotationsAllowed(), radiologistProviderConsent.isNotesAllowed());
+            int numRowsUpdated = radiologistProviderRepository.updateIfExists(EncryptionUtility.encrypt(radiologistProviderConsent.getConsentSeekerType()), EncryptionUtility.encrypt( radiologistProviderConsent.getConsentSeekerId()), EncryptionUtility.encrypt( radiologistProviderConsent.getConsentProviderId()), EncryptionUtility.encrypt( radiologistProviderConsent.getTestId()), EncryptionUtility.encrypt( radiologistProviderConsent.isAnnotationsAllowed()), EncryptionUtility.encrypt( radiologistProviderConsent.isNotesAllowed()));
             if(numRowsUpdated == 0) {
-                radiologistProviderRepository.insertEntry(radiologistProviderConsent.getConsentSeekerType(), radiologistProviderConsent.getConsentSeekerId(), radiologistProviderConsent.getConsentProviderId(), radiologistProviderConsent.getTestId(), radiologistProviderConsent.isAnnotationsAllowed(), radiologistProviderConsent.isNotesAllowed());
+                radiologistProviderRepository.insertEntry(EncryptionUtility.encrypt(radiologistProviderConsent.getConsentSeekerType()), EncryptionUtility.encrypt( radiologistProviderConsent.getConsentSeekerId()), EncryptionUtility.encrypt( radiologistProviderConsent.getConsentProviderId()), EncryptionUtility.encrypt( radiologistProviderConsent.getTestId()), EncryptionUtility.encrypt( radiologistProviderConsent.isAnnotationsAllowed()), EncryptionUtility.encrypt( radiologistProviderConsent.isNotesAllowed()));
             }
         }
         return "Consent preferences for radiologist saved successfully!";
@@ -179,14 +180,14 @@ public class ConsentService implements ConsentServiceInterface{
     @Override
     public String cleanByDeletedUser(String userType, Long userId)
     {
-        doctorProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(userType, userId);
-        patientProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(userType, userId);
-        radiologistProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(userType, userId);
+        doctorProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(EncryptionUtility.encrypt(userType), EncryptionUtility.encrypt(userId));
+        patientProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(EncryptionUtility.encrypt(userType), EncryptionUtility.encrypt(userId));
+        radiologistProviderRepository.deleteByConsentSeekerTypeAndConsentSeekerId(EncryptionUtility.encrypt(userType), EncryptionUtility.encrypt(userId));
 
         switch (userType) {
-            case "DOCTOR" -> doctorProviderRepository.deleteByConsentProviderId(userId);
-            case "PATIENT" -> patientProviderRepository.deleteByConsentProviderId(userId);
-            case "RADIOLOGIST" -> radiologistProviderRepository.deleteByConsentProviderId(userId);
+            case "DOCTOR" -> doctorProviderRepository.deleteByConsentProviderId(EncryptionUtility.encrypt(userId));
+            case "PATIENT" -> patientProviderRepository.deleteByConsentProviderId(EncryptionUtility.encrypt(userId));
+            case "RADIOLOGIST" -> radiologistProviderRepository.deleteByConsentProviderId(EncryptionUtility.encrypt(userId));
         }
 
         return "Successfully deleted consent information corresponding to given user!";

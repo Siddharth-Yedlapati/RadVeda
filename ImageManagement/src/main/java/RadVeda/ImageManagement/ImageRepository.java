@@ -14,12 +14,12 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     Optional<Image> findById(Long id);
 
     @Query(value = "SELECT * FROM image WHERE testID = :testID", nativeQuery = true)
-    List<Image> findAllImages(Long testID);
+    List<Image> findAllImages(String testID);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM image WHERE testID = :testID", nativeQuery = true)
-    void deleteImageOriginal(Long testID);
+    void deleteImageOriginal(String testID);
 
     
     // @Modifying

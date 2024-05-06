@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import RadVeda.Admin.StorageEncryption.EncryptionUtility;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +61,7 @@ public class AdminDocService implements AdminDocServiceInterface {
     @Override
     public String deleteDoc(Long doc_id) {
         try {
-            adminDocRepository.deleteAdminDoc(doc_id);
+            adminDocRepository.deleteAdminDoc(EncryptionUtility.encrypt(doc_id));
         }
         catch (Error | Exception e) {
             e.printStackTrace();

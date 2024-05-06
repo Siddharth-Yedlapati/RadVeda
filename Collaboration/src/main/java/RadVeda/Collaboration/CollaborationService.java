@@ -16,6 +16,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import RadVeda.Collaboration.StorageEncryption.EncryptionUtility;
 
 import java.util.*;
 
@@ -39,9 +40,9 @@ public class CollaborationService implements CollaborationServiceInterface{
         Long notificationSenderId = userId;
         boolean notifiable = true;
 
-        int numRowsUpdated = notifiabilityRepository.updateIfExists(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+        int numRowsUpdated = notifiabilityRepository.updateIfExists(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         if(numRowsUpdated == 0) {
-            notifiabilityRepository.insertEntry(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+            notifiabilityRepository.insertEntry(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         }
 
         return "Notifiability info set successfully!";
@@ -57,9 +58,9 @@ public class CollaborationService implements CollaborationServiceInterface{
         Long notificationSenderId = userId;
         boolean notifiable = false;
 
-        int numRowsUpdated = notifiabilityRepository.updateIfExists(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+        int numRowsUpdated = notifiabilityRepository.updateIfExists(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         if(numRowsUpdated == 0) {
-            notifiabilityRepository.insertEntry(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+            notifiabilityRepository.insertEntry(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         }
 
         return "Notifiability info set successfully!";
@@ -80,9 +81,9 @@ public class CollaborationService implements CollaborationServiceInterface{
         Long notificationSenderId = null;
         boolean notifiable = true;
 
-        int numRowsUpdated = notifiabilityRepository.updateIfExists(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+        int numRowsUpdated = notifiabilityRepository.updateIfExists(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         if(numRowsUpdated == 0) {
-            notifiabilityRepository.insertEntry(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+            notifiabilityRepository.insertEntry(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         }
 
         return "Notifiability info set successfully!";
@@ -103,9 +104,9 @@ public class CollaborationService implements CollaborationServiceInterface{
         Long notificationSenderId = null;
         boolean notifiable = false;
 
-        int numRowsUpdated = notifiabilityRepository.updateIfExists(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+        int numRowsUpdated = notifiabilityRepository.updateIfExists(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         if(numRowsUpdated == 0) {
-            notifiabilityRepository.insertEntry(notifiabilityType, testId, notificationRecipientType, notificationRecipientId, notificationSenderType, notificationSenderId, notifiable);
+            notifiabilityRepository.insertEntry(EncryptionUtility.encrypt(notifiabilityType), EncryptionUtility.encrypt( testId), EncryptionUtility.encrypt( notificationRecipientType), EncryptionUtility.encrypt( notificationRecipientId), EncryptionUtility.encrypt( notificationSenderType), EncryptionUtility.encrypt( notificationSenderId), EncryptionUtility.encrypt( notifiable));
         }
 
         return "Notifiability info set successfully!";
@@ -267,7 +268,7 @@ public class CollaborationService implements CollaborationServiceInterface{
             {
                 if (Objects.equals(userTypes.get(i), "RADIOLOGIST") || Objects.equals(userTypes.get(i), "DOCTOR"))
                 {
-                    messageVisibilityRepository.insertEntry("GROUP", groupMessage.getId(), userTypes.get(i), userIds.get(i), true);
+                    messageVisibilityRepository.insertEntry(EncryptionUtility.encrypt("GROUP"), EncryptionUtility.encrypt(groupMessage.getId()), EncryptionUtility.encrypt(userTypes.get(i)), EncryptionUtility.encrypt(userIds.get(i)), EncryptionUtility.encrypt(true));
                 }
             }
 
@@ -436,8 +437,8 @@ public class CollaborationService implements CollaborationServiceInterface{
         if(!notificationFailure)
         {
             //Setting message visibility info:
-            messageVisibilityRepository.insertEntry("PRIVATE", privateMessage.getId(), senderType, senderId, true);
-            messageVisibilityRepository.insertEntry("PRIVATE", privateMessage.getId(), recipientType, recipientId, true);
+            messageVisibilityRepository.insertEntry(EncryptionUtility.encrypt("PRIVATE"), EncryptionUtility.encrypt(privateMessage.getId()), EncryptionUtility.encrypt(senderType), EncryptionUtility.encrypt(senderId), EncryptionUtility.encrypt(true));
+            messageVisibilityRepository.insertEntry(EncryptionUtility.encrypt("PRIVATE"), EncryptionUtility.encrypt(privateMessage.getId()), EncryptionUtility.encrypt(recipientType), EncryptionUtility.encrypt(recipientId), EncryptionUtility.encrypt(true));
 
             return "Private message sent successfully!";
         }
@@ -573,7 +574,7 @@ public class CollaborationService implements CollaborationServiceInterface{
         List<GroupMessage> groupMessages = groupMessageRepository.findByTestId(testId);
 
         for (GroupMessage groupMessage : groupMessages) {
-            messageVisibilityRepository.updateIfExists("GROUP", groupMessage.getId(), currentUser.getType(), currentUser.getId(), false);
+            messageVisibilityRepository.updateIfExists(EncryptionUtility.encrypt("GROUP"), EncryptionUtility.encrypt(groupMessage.getId()), EncryptionUtility.encrypt(currentUser.getType()), EncryptionUtility.encrypt(currentUser.getId()), EncryptionUtility.encrypt(false));
         }
 
         return "Successfully cleared group messages for current user!";
@@ -586,7 +587,7 @@ public class CollaborationService implements CollaborationServiceInterface{
 
         for(PrivateMessage privateMessage : privateMessages)
         {
-            messageVisibilityRepository.updateIfExists("PRIVATE", privateMessage.getId(), currentUser.getType(), currentUser.getId(), false);
+            messageVisibilityRepository.updateIfExists(EncryptionUtility.encrypt("PRIVATE"), EncryptionUtility.encrypt(privateMessage.getId()), EncryptionUtility.encrypt(currentUser.getType()), EncryptionUtility.encrypt(currentUser.getId()), EncryptionUtility.encrypt(false));
         }
 
         return "Successfully cleared private messages between current user and given user!";
@@ -629,7 +630,7 @@ public class CollaborationService implements CollaborationServiceInterface{
             }
         }
 
-        messageVisibilityRepository.updateIfExists(messageType, messageId, currentUser.getType(), currentUser.getId(), false);
+        messageVisibilityRepository.updateIfExists(EncryptionUtility.encrypt(messageType), EncryptionUtility.encrypt(messageId), EncryptionUtility.encrypt(currentUser.getType()), EncryptionUtility.encrypt(currentUser.getId()), EncryptionUtility.encrypt(false));
         return "Successfully deleted message for current user!";
     }
 
@@ -652,8 +653,8 @@ public class CollaborationService implements CollaborationServiceInterface{
                 return "Invalid message!";
             }
 
-            messageVisibilityRepository.updateIfExists(messageType, messageId, currentUser.getType(), currentUser.getId(), false);
-            messageVisibilityRepository.updateIfExists(messageType, messageId, optionalPrivateMessage.get().getRecipientType(), optionalPrivateMessage.get().getRecipientId(), false);
+            messageVisibilityRepository.updateIfExists(EncryptionUtility.encrypt(messageType), EncryptionUtility.encrypt(messageId), EncryptionUtility.encrypt(currentUser.getType()), EncryptionUtility.encrypt(currentUser.getId()), EncryptionUtility.encrypt(false));
+            messageVisibilityRepository.updateIfExists(EncryptionUtility.encrypt(messageType), EncryptionUtility.encrypt(messageId), EncryptionUtility.encrypt(optionalPrivateMessage.get().getRecipientType()), EncryptionUtility.encrypt(optionalPrivateMessage.get().getRecipientId()), EncryptionUtility.encrypt(false));
 
             return "Successfully deleted message for everyone!";
         }
@@ -739,7 +740,7 @@ public class CollaborationService implements CollaborationServiceInterface{
             {
                 if(Objects.equals(userTypes.get(i), "RADIOLOGIST") || Objects.equals(userTypes.get(i), "DOCTOR"))
                 {
-                    messageVisibilityRepository.updateIfExists(messageType, messageId, userTypes.get(i), userIds.get(i), false);
+                    messageVisibilityRepository.updateIfExists(EncryptionUtility.encrypt(messageType), EncryptionUtility.encrypt(messageId), EncryptionUtility.encrypt(userTypes.get(i)), EncryptionUtility.encrypt(userIds.get(i)), EncryptionUtility.encrypt(false));
                 }
             }
 
