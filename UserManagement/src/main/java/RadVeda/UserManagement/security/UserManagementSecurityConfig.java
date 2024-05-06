@@ -67,6 +67,7 @@ public class UserManagementSecurityConfig {
                                 .requestMatchers("/patientSignUp/**").permitAll()
                                 .requestMatchers("/patients/validatePatientId/{id}").hasAnyAuthority("ADMIN", "SUPERADMIN", "DOCTOR", "PATIENT", "RADIOLOGIST", "LABSTAFF")
                                 .requestMatchers("/patients/getFirstAndLastNamesForPatientId/{id}").hasAnyAuthority("ADMIN", "SUPERADMIN", "DOCTOR", "PATIENT", "RADIOLOGIST", "LABSTAFF")
+                                .requestMatchers("/patients/getEmailForPatientId/{id}").hasAnyAuthority("DOCTOR")
                                 .requestMatchers("/patients/**").hasAnyAuthority("PATIENT")
                                 .requestMatchers("/radiologistSignUp/**").permitAll()
                                 .requestMatchers("/radiologists/validateRadiologistId/{id}").hasAnyAuthority("ADMIN", "SUPERADMIN", "DOCTOR", "PATIENT", "RADIOLOGIST", "LABSTAFF")

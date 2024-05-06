@@ -10,6 +10,7 @@ import RadVeda.TestManagement.exception.UserNotFoundException;
 import RadVeda.TestManagement.exception.UnauthorisedUserException;
 // import RadVeda.TestManagement.security.UserManagementDetailsService;
 
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -173,5 +174,51 @@ public class TestController {
             throw new UnauthorisedUserException("Permission denied!");
         }
         return testService.getPeopleInvolvedForTest(authorizationHeader, testId);
-    }    
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/sendTestVerificationOTP/{patientId}")
+    public String sendTestVerificationOTP(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long patientId)
+    {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        if(!Objects.equals(currentuser.getType(), "DOCTOR"))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        if(!testService.isUserValid("PATIENT", patientId, authorizationHeader))
+        {
+            throw new UserNotFoundException("Patient with given patient ID doesn't exist!");
+        }
+
+        return testService.sendTestVerificationOTP(patientId, currentuser.getId(), authorizationHeader);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/validateTestVerificationOTP/{patientId}/{otp}")
+    public String validateTestVerificationOTP(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long patientId, @PathVariable Long otp)
+    {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        if(!Objects.equals(currentuser.getType(), "DOCTOR"))
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+
+        if(!testService.isUserValid("PATIENT", patientId, authorizationHeader))
+        {
+            throw new UserNotFoundException("Patient with given patient ID doesn't exist!");
+        }
+
+        return testService.validateTestVerificationOTP(patientId, currentuser.getId(), otp, authorizationHeader);
+    }
 }
