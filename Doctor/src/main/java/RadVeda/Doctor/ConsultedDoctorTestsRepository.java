@@ -16,5 +16,5 @@ public interface ConsultedDoctorTestsRepository extends JpaRepository<ConsultedD
     List<ConsultedDoctorTests> getConsultedTests(Long doctorID);
 
     @Query(value = "SELECT * FROM consulteddoctortests WHERE consulted_testid = :testID", nativeQuery = true)  // check why column name is different in SQL
-    List<ConsultedDoctorTests> getConsultedDoctors(Long testID);
+    List<ConsultedDoctorTests> getConsultedDoctors(String testID);
 }

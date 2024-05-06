@@ -529,7 +529,7 @@ function downloadMergedImage() {
   }, [])
 
   const closeDicomViewer = useCallback(() => {
-    downloadMergedImage();
+    // downloadMergedImage();
     setDicomViewerOpen(false);
   }, [])
 

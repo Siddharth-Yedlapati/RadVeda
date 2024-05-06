@@ -17,12 +17,12 @@ public interface ImageRepositoryAnnotated extends JpaRepository<ImageAnnotated, 
     // List<ImageAnnotated> findAllImages(Long testID);
 
     @Query(value = "SELECT * FROM image_annotated WHERE testID = :testID AND radID = :radID", nativeQuery = true)
-    List<ImageAnnotated> findAllImagesAnnotated(Long testID, Long radID);
+    List<ImageAnnotated> findAllImagesAnnotated(String testID, String radID);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM image_annotated WHERE testID = :testID AND radID = :radID", nativeQuery = true)
-    void deleteImageAnnotated(Long testID,Long radID);
+    void deleteImageAnnotated(String testID,String radID);
 
 
 

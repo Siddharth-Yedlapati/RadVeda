@@ -28,6 +28,7 @@ import java.util.Random;
 import java.time.LocalDate;
 import java.util.Date;
 import java.time.ZoneId;
+import RadVeda.TestManagement.StorageEncryption.EncryptionUtility;
 
 @Service
 @RequiredArgsConstructor
@@ -77,12 +78,12 @@ public class TestService implements TestServiceInterface {
         if(flag == 1 || flag1 == 1){        // TODO: ROLLBACK PROPERLY
             throw new UserNotFoundException("Error");
         }
-        testRepository.addLabforTest(testId, labStaff);
-        testRepository.updateTestStatus(testId,
-                "Test Not Conducted",
-                "Pending For Review by Radiologist",
-                test.getRadiologistStatus(),
-                "Test Not Conducted");
+        testRepository.addLabforTest(EncryptionUtility.encrypt(testId), EncryptionUtility.encrypt(labStaff));
+        testRepository.updateTestStatus(EncryptionUtility.encrypt(testId),
+                EncryptionUtility.encrypt("Test Not Conducted"),
+                EncryptionUtility.encrypt("Pending For Review by Radiologist"),
+                EncryptionUtility.encrypt(test.getRadiologistStatus()),
+                EncryptionUtility.encrypt("Test Not Conducted"));
         return test;
     }
     @Override
@@ -112,12 +113,12 @@ public class TestService implements TestServiceInterface {
             throw new UserNotFoundException("Error in assigning a radiologist");
             // throw new UserNotFoundException("Failed to prescribe test");
         }
-        testRepository.addRadForTest(testId, rad);
-        testRepository.updateTestStatus(testId,
-                test.getPatientStatus(),
-                test.getDoctorStatus(),
-                "Pending for Review",
-                test.getLabStaffStatus());
+        testRepository.addRadForTest(EncryptionUtility.encrypt(testId), EncryptionUtility.encrypt(rad));
+        testRepository.updateTestStatus(EncryptionUtility.encrypt(testId),
+                EncryptionUtility.encrypt(test.getPatientStatus()),
+                EncryptionUtility.encrypt(test.getDoctorStatus()),
+                EncryptionUtility.encrypt("Pending for Review"),
+                EncryptionUtility.encrypt(test.getLabStaffStatus()));
         return test;
     }
 
@@ -244,16 +245,16 @@ public class TestService implements TestServiceInterface {
     @Override
     public List<Test> findAllTestsByUser(String userType, Long userID){
         if("DOCTOR".equals(userType)){
-            return testRepository.findByDoctorID(userID);
+            return testRepository.findByDoctorID(EncryptionUtility.encrypt(userID));
         }
         else if("PATIENT".equals(userType)){
-            return testRepository.findByPatientID(userID);
+            return testRepository.findByPatientID(EncryptionUtility.encrypt(userID));
         }
         else if("RADIOLOGIST".equals(userType)){
-            return testRepository.findByRadiologistID(userID);
+            return testRepository.findByRadiologistID(EncryptionUtility.encrypt(userID));
         }
         else if("LABSTAFF".equals(userType)){
-            return testRepository.findByLabStaffID(userID);
+            return testRepository.findByLabStaffID(EncryptionUtility.encrypt(userID));
         }
         return new ArrayList<>();
     }
@@ -272,7 +273,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByDoctorID(userID);
+            List<Test> primarytestdetails =  testRepository.findByDoctorID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -300,7 +301,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByRadiologistID(userID);
+            List<Test> primarytestdetails =  testRepository.findByRadiologistID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -339,7 +340,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByDoctorID(userID);
+            List<Test> primarytestdetails =  testRepository.findByDoctorID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -368,7 +369,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByRadiologistID(userID);
+            List<Test> primarytestdetails =  testRepository.findByRadiologistID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -395,13 +396,13 @@ public class TestService implements TestServiceInterface {
     @Override
     public List<Test> findAllTestsByPatientAndUser(Long patientID, String userType, Long userID){
         if("DOCTOR".equals(userType)){
-            return testRepository.findByPatientAndDocID(patientID, userID);
+            return testRepository.findByPatientAndDocID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         else if("RADIOLOGIST".equals(userType)){
-            return testRepository.findAllTestsByPatientAndRadID(patientID, userID);
+            return testRepository.findAllTestsByPatientAndRadID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         else if("LABSTAFF".equals(userType)){
-            return testRepository.findAllTestsByPatientAndLabStaffID(patientID, userID);
+            return testRepository.findAllTestsByPatientAndLabStaffID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         return new ArrayList<>();
     }
@@ -409,11 +410,12 @@ public class TestService implements TestServiceInterface {
     @Override
     public List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID){
         if("DOCTOR".equals(userType)){
-            return testRepository.findConsultedByPatientAndDocID(patientID, userID);
+            return testRepository.findConsultedByPatientAndDocID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         else if("RADIOLOGIST".equals(userType)){
-            return testRepository.findConsultedTestsByPatientAndRadID(patientID, userID);
+            return testRepository.findConsultedTestsByPatientAndRadID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
+        
         return new ArrayList<>();
     }
 

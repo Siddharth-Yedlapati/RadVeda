@@ -18,6 +18,6 @@ public interface RadiologistRepository extends JpaRepository<Radiologist, Long> 
     @Query(value = "DELETE FROM radiologist WHERE id = :radiologistID", nativeQuery = true)
     void delete(Long radiologistID);
 
-    @Query(value = "SELECT id FROM radiologist WHERE available=true", nativeQuery = true)
-    List<Long> availableLabStaff();
+    @Query(value = "SELECT id FROM radiologist WHERE available = :status", nativeQuery = true)
+    List<Long> availableLabStaff(String status);
 }

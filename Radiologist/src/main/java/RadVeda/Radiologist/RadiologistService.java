@@ -24,6 +24,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.time.ZoneId;
 
+import RadVeda.Radiologist.StorageEncryption.EncryptionUtility;
+
 @Service
 @RequiredArgsConstructor
 public class RadiologistService implements RadiologistServiceInterface {
@@ -134,7 +136,7 @@ public class RadiologistService implements RadiologistServiceInterface {
 
     @Override
     public List<Long> availableRadiologists() {
-        return radiologistrepository.availableLabStaff();
+        return radiologistrepository.availableLabStaff(EncryptionUtility.encrypt(true));
     }
 
     @Override
@@ -171,7 +173,7 @@ public class RadiologistService implements RadiologistServiceInterface {
 
     @Override
     public void deleteTest(Long testID){
-        radiologisttestsrepository.deleteTest(testID);
+        radiologisttestsrepository.deleteTest(EncryptionUtility.encrypt(testID));
         return;
     }
 
@@ -182,12 +184,12 @@ public class RadiologistService implements RadiologistServiceInterface {
 
     @Override
     public List<ConsultedRadiologistTests> getConsultedRadiologists(Long testID){
-        return consultedradiologisttestsrepository.getConsultedRadiologists(testID);
+        return consultedradiologisttestsrepository.getConsultedRadiologists(EncryptionUtility.encrypt(testID));
     }
 
     @Override
     public void assignRadiologist(String authHeader, Long patId, Long testId) {
-        List<Long> availableRads = radiologistrepository.availableLabStaff();
+        List<Long> availableRads = radiologistrepository.availableLabStaff(EncryptionUtility.encrypt(true));
 
         Random random = new Random();
         int index = random.nextInt(availableRads.size());

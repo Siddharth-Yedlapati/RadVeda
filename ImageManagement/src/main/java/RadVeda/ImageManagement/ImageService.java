@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import RadVeda.ImageManagement.StorageEncryption.EncryptionUtility;
 
 
 
@@ -27,7 +28,7 @@ public class ImageService implements ImageServiceInterface {
 
     @Override
     public List<Image> findByIDOriginal(Long testID) {
-        return ImageRepository.findAllImages(testID);
+        return ImageRepository.findAllImages(EncryptionUtility.encrypt(testID));
     }
 
     
@@ -47,7 +48,7 @@ public class ImageService implements ImageServiceInterface {
     @Override
     public void deleteImageOriginal(Long testID) {
         
-        ImageRepository.deleteImageOriginal(testID);
+        ImageRepository.deleteImageOriginal(EncryptionUtility.encrypt(testID));
     }
 
     
@@ -67,13 +68,13 @@ public class ImageService implements ImageServiceInterface {
     @Override
     public List<ImageAnnotated> findByIDAnnotated(Long testID, Long radID) {
 
-        return ImageRepositoryAnnotated.findAllImagesAnnotated(testID, radID);
+        return ImageRepositoryAnnotated.findAllImagesAnnotated(EncryptionUtility.encrypt(testID), EncryptionUtility.encrypt(radID));
     }
 
     @Override
     public void deleteImageAnnotated(Long testID, Long radID) {
 
-        ImageRepositoryAnnotated.deleteImageAnnotated(testID, radID);
+        ImageRepositoryAnnotated.deleteImageAnnotated(EncryptionUtility.encrypt(testID), EncryptionUtility.encrypt(radID));
     }
 
    

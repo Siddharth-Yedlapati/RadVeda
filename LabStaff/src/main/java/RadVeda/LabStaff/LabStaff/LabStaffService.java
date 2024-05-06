@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
+import RadVeda.LabStaff.StorageEncryption.EncryptionUtility;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +55,7 @@ public class LabStaffService implements LabStaffServiceInterface{
 
     @Override
     public List<LabStaff> availableLabStaff() {
-        return labStaffRepository.availableLabStaff();
+        return labStaffRepository.availableLabStaff(EncryptionUtility.encrypt(true));
     }
 
     @Override

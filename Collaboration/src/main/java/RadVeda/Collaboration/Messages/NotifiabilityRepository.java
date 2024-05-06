@@ -21,23 +21,23 @@ public interface NotifiabilityRepository extends JpaRepository<Notifiability, Lo
             "AND n.notification_sender_type = :notificationSenderType " +
             "AND n.notification_sender_id = :notificationSenderId", nativeQuery = true)
     int updateIfExists(String notifiabilityType,
-                       Long testId,
+                       String testId,
                        String notificationRecipientType,
-                       Long notificationRecipientId,
+                       String notificationRecipientId,
                        String notificationSenderType,
-                       Long notificationSenderId,
-                       boolean notifiable);
+                       String notificationSenderId,
+                       String notifiable);
 
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO notifiability (notifiability_type, test_id, notification_recipient_type, notification_recipient_id, notification_sender_type, notification_sender_id, notifiable) " +
             "VALUES (:notifiabilityType, :testId, :notificationRecipientType, :notificationRecipientId, :notificationSenderType, :notificationSenderId, :notifiable)", nativeQuery = true)
     void insertEntry(String notifiabilityType,
-                     Long testId,
+                     String testId,
                      String notificationRecipientType,
-                     Long notificationRecipientId,
+                     String notificationRecipientId,
                      String notificationSenderType,
-                     Long notificationSenderId,
-                     boolean notifiable);
+                     String notificationSenderId,
+                     String notifiable);
 
 }

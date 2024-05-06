@@ -18,12 +18,12 @@ public interface MessageVisibilityRepository extends JpaRepository<MessageVisibi
             "AND mv.message_id = :messageId " +
             "AND mv.user_type = :userType " +
             "AND mv.user_id = :userId ", nativeQuery = true)
-    int updateIfExists(String messageType, Long messageId, String userType, Long userId, boolean visible);
+    int updateIfExists(String messageType, String messageId, String userType, String userId, String visible);
 
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO message_visibility (message_type, message_id, user_type, user_id, visible) " +
             "VALUES (:messageType, :messageId, :userType, :userId, :visible)", nativeQuery = true)
-    void insertEntry(String messageType, Long messageId, String userType, Long userId, boolean visible);
+    void insertEntry(String messageType, String messageId, String userType, String userId, String visible);
 
 }
