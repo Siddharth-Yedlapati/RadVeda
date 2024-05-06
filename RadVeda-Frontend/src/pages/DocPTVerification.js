@@ -208,12 +208,84 @@ const DocPTVerification = () => {
 
   const sendOTP = useCallback(() => {
     //send otp logic
-  }, []);
+
+    request(
+        "PUT",
+        "http://localhost:9192/tests/sendTestVerificationOTP/" + String(patientID),
+        {},
+        true
+    ).then(response1 => {
+
+      if(response1.data === "Test verification OTP sent successfully!")
+      {
+        request(
+            "GET",
+            "/doctors/profile",
+            {},
+            true
+        ).then(response2 => {
+
+
+          request(
+              "POST",
+              "http://localhost:9193/notifications/sendOneWayNotification",
+              {
+                "message": "Dr "+String(response2.data.firstName)+ "wants to prescribe a test for you. An OTP has been sent to you via email!",
+                "recipientType": "PATIENT",
+                "recipientId": Number(patientID)
+              },
+              true
+          ).then(response3 => {
+            alert("OTP sent successfully!")
+            console.log("Successfully sent test verification OTP and also notified patient about it!")
+          }).catch(error => {
+            alert("OTP sent successfully!")
+            console.log("Test verification OTP sent successfully, but failed to send one-way-notification to patient!")
+          })
+
+
+        }).catch(error => {
+          alert("OTP sent successfully!")
+          console.log("Test verification OTP sent successfully, but failed to send one-way-notification to patient!")
+        })
+      }
+      else {
+        alert("Error sending test verification OTP!")
+        console.log("Error sending test verification OTP!")
+      }
+
+    }).catch(error => {
+      alert("Error sending test verification OTP!")
+      console.log("Error sending test verification OTP!")
+    })
+
+  }, [patientID]);
 
   const onFrameContainerClick = useCallback(() => {
-    localStorage.setItem("patientID", patientID);
-    navigate("/doc-pt-details");
-  }, [navigate, patientID]);
+
+    request(
+        "DELETE",
+        "http://localhost:9192/tests/validateTestVerificationOTP/" + String(patientID)+ "/" + String(otp),
+        {},
+        true
+    ).then(response => {
+
+      if(response.data === "valid") {
+        localStorage.setItem("patientID", patientID);
+        navigate("/doc-pt-details");
+      }
+      else
+      {
+        alert("Invalid OTP!")
+        console.log("Invalid OTP!")
+      }
+
+    }).catch(error => {
+      alert("Invalid OTP!")
+      console.log("Invalid OTP!!")
+    })
+
+  }, [navigate, patientID, otp]);
 
   const onFrameContainer2Click = useCallback(() => {
     navigate("/doc-dashboard");
