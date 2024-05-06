@@ -10,7 +10,7 @@ import createImageIdsAndCacheMetaData from './helpers/helpers/createImageIdsAndC
 import setTitleAndDescription from './helpers/helpers/setTitleAndDescription';
 import addDropDownToToolbar from './helpers/helpers/addDropdownToToolbar';
 import addButtonToToolbar from './helpers/helpers/addButtonToToolbar';
-
+import html2canvas from 'html2canvas';
 import * as cornerstoneTools from '@cornerstonejs/tools';
 import { useEffect, useState } from 'react';
 
@@ -39,7 +39,58 @@ const DicomViewer = () => {
 
   const [istoolsInitialized, setToolsInitialized] = useState(areToolsInitialized());
 
+  function downloadImage(image, filename) {
+    // Create a link element
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = filename;
+  
+    // Append the link to the body
+    document.body.appendChild(link);
+  
+    // Trigger click event to start download
+    link.click();
+  
+    // Remove the link from the body
+    document.body.removeChild(link);
+  }
+  function downloadMergedImage() {
+    const element = document.getElementById('cornerstone-element');
+    const displayDiv = document.getElementsByClassName('annotely-image-1-icon')[0];
+  
+    // Use html2canvas to capture the entire element
+    html2canvas(element).then(function (canvas) {
+      // Convert the canvas to a data URL
+      const image1 = canvas.toDataURL('image/png');
+      const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      const img = document.createElement('img');
+      img.src = image1;
 
+      let newWidth = canvas.width;
+      let newHeight = canvas.height;
+      let maxWidth = 279;
+      let maxHeight = 250;
+      if (newWidth > maxWidth) {
+          newHeight *= maxWidth / newWidth;
+          newWidth = maxWidth;
+      }
+      if (newHeight > maxHeight) {
+          newWidth *= maxHeight / newHeight;
+          newHeight = maxHeight;
+      }
+
+      // Set the width and height attributes of the img element
+      img.width = newWidth;
+      img.height = newHeight;      
+      img.style.position = 'relative';
+      img.style.top = -40 + 'px';
+
+      displayDiv.innerHTML = '';
+      displayDiv.appendChild(img);
+      // Trigger download
+      downloadImage(image, 'annotated_image.png');
+    });
+  }
 
 
   useEffect(() => {
@@ -173,6 +224,10 @@ const DicomViewer = () => {
       viewport.setProperties({ rotation: rotation + 90 });
       viewport.render();
     });
+
+    addToolButton('Save Image', () => {
+      downloadMergedImage();
+    });
     
 
     
@@ -186,7 +241,63 @@ const DicomViewer = () => {
       
       // Add tools to Cornerstone3D
       if(istoolsInitialized){
-        const toolGroup = ToolGroupManager.getToolGroup(toolGroupId);
+        var toolGroup = ToolGroupManager.getToolGroup(toolGroupId);
+        if(toolGroup === undefined){
+          cornerstoneTools.addTool(LengthTool);
+          cornerstoneTools.addTool(ProbeTool);
+          cornerstoneTools.addTool(RectangleROITool);
+          cornerstoneTools.addTool(EllipticalROITool);
+          cornerstoneTools.addTool(CircleROITool);
+          cornerstoneTools.addTool(BidirectionalTool);
+          cornerstoneTools.addTool(AngleTool);
+          cornerstoneTools.addTool(CobbAngleTool);
+          cornerstoneTools.addTool(ArrowAnnotateTool);
+          cornerstoneTools.addTool(PlanarFreehandROITool);
+          cornerstoneTools.addTool(EraserTool);
+          cornerstoneTools.addTool(KeyImageTool);
+  
+          toolGroup = ToolGroupManager.createToolGroup(toolGroupId);
+      
+          // Add the tools to the tool group
+          toolGroup.addTool(LengthTool.toolName);
+          toolGroup.addTool(ProbeTool.toolName);
+          toolGroup.addTool(RectangleROITool.toolName);
+          toolGroup.addTool(EllipticalROITool.toolName);
+          toolGroup.addTool(CircleROITool.toolName);
+          toolGroup.addTool(BidirectionalTool.toolName);
+          toolGroup.addTool(AngleTool.toolName);
+          toolGroup.addTool(CobbAngleTool.toolName);
+          toolGroup.addTool(ArrowAnnotateTool.toolName);
+          toolGroup.addTool(PlanarFreehandROITool.toolName);
+          toolGroup.addTool(EraserTool.toolName);
+          toolGroup.addTool(KeyImageTool.toolName);
+  
+          toolGroup.setToolActive(toolsNames[0], {
+            bindings: [
+              {
+                mouseButton: MouseBindings.Primary, // Left Click
+              },
+            ],
+          });
+          // We set all the other tools passive here, this means that any state is rendered, and editable
+          // But aren't actively being drawn (see the toolModes example for information)
+          toolGroup.setToolPassive(ProbeTool.toolName);
+          toolGroup.setToolPassive(RectangleROITool.toolName);
+          toolGroup.setToolPassive(EllipticalROITool.toolName);
+          toolGroup.setToolPassive(CircleROITool.toolName);
+          toolGroup.setToolPassive(BidirectionalTool.toolName);
+          toolGroup.setToolPassive(AngleTool.toolName);
+          toolGroup.setToolPassive(ArrowAnnotateTool.toolName);
+          toolGroup.setToolPassive(PlanarFreehandROITool.toolName);
+          toolGroup.setToolPassive(EraserTool.toolName);
+        
+          toolGroup.setToolConfiguration(PlanarFreehandROITool.toolName, {
+            calculateStats: true,
+          });
+        }
+
+
+
         const imageIds = ["wadouri:https://radveda.s3.ap-south-1.amazonaws.com/0015.DCM"];
     
         // Instantiate a rendering engine
@@ -198,7 +309,7 @@ const DicomViewer = () => {
           type: ViewportType.STACK,
           element,
           defaultOptions: {
-            background: [0.2, 0, 0.2],
+            background: [0, 0, 0],
           },
         };
 
