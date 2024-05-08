@@ -18,7 +18,10 @@ const ChatOverlay = ({ onClose }) => {
         "text": newMessage
       },
       true
-    )
+    ).catch(error => {
+        alert("This forum is not yet ready to accept messages!")
+        console.log("Unable to send message!");
+    })
 
     setMessages([...messages, { text: newMessage, sender: "user" }]);
     setNewMessage("");
@@ -39,7 +42,9 @@ const ChatOverlay = ({ onClose }) => {
         console.log(response.data);
         setMessages(response.data);
       }
-    )
+    ).catch(error => {
+        console.log("Unable to fetch any group messages!");
+    })
 
     // setMessages([{text: "message1", sender: "user1"}, {text: "message2", sender: "user2"}])
     // Call your backend API to fetch message history

@@ -32,8 +32,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 1465px;
-  height: 859px;
+  width: 1600px;
+  height: 900px;
   object-fit: cover;
 }
 .recover-password4 {
@@ -225,7 +225,7 @@
 .admin-login-page {
   width: 100%;
   position: relative;
-  height: 859px;
+  height: 899px;
   overflow: hidden;
   text-align: center;
   font-size: var(--font-size-base);

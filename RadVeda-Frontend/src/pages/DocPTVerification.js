@@ -216,8 +216,7 @@ const DocPTVerification = () => {
         true
     ).then(response1 => {
 
-      if(response1.data === "Test verification OTP sent successfully!")
-      {
+      if (response1.data === "Test verification OTP sent successfully!") {
         request(
             "GET",
             "/doctors/profile",
@@ -230,7 +229,7 @@ const DocPTVerification = () => {
               "POST",
               "http://localhost:9193/notifications/sendOneWayNotification",
               {
-                "message": "Dr "+String(response2.data.firstName)+ "wants to prescribe a test for you. An OTP has been sent to you via email!",
+                "message": "Dr " + String(response2.data.firstName) + "wants to prescribe a test for you. An OTP has been sent to you via email!",
                 "recipientType": "PATIENT",
                 "recipientId": Number(patientID)
               },
@@ -248,8 +247,7 @@ const DocPTVerification = () => {
           alert("OTP sent successfully!")
           console.log("Test verification OTP sent successfully, but failed to send one-way-notification to patient!")
         })
-      }
-      else {
+      } else {
         alert("Error sending test verification OTP!")
         console.log("Error sending test verification OTP!")
       }
@@ -327,9 +325,7 @@ const DocPTVerification = () => {
           </div>
         </div>
         <div className="doc-pt-verification-inner1"onClick={sendOTP}>
-          <div className="send-otp-wrapper">
-            <div className="enter-otp" onClick={sendOTP}>Send OTP</div>
-          </div>
+          Send OTP
         </div>
         <div className="text-fieldoutlined69">
           <div className="input69">

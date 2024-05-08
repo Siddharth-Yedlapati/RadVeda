@@ -2,9 +2,9 @@ server:
   port: 9202
 spring:
   datasource:
-    url: jdbc:mysql://localhost:4000/ConsentManagementDB
+    url: jdbc:mysql://localhost:3306/ConsentManagementDB
     username: root
-    password: mqpass
+    password: riddhi1509
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
