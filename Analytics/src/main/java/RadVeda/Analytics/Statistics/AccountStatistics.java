@@ -42,3 +42,6 @@ public class AccountStatistics {
 // <accountHolderType>s who have modified their account <temporalScope>: <count>
 // <accountHolderType>s who have deleted their account <temporalScope>: <count>
 // Number of online <accountHolderType>s: <login-count-so-far> - <logout-count-so-far>
+
+//ACCOUNTHOLDER TYPE For ADMIN -> DOCTOR, RADIOLOGIST, LABSTAFF, PATIENT
+//And for superadmin -> DOCTOR, RADIOLOGIST, LABSTAFF, PATIENT, ADMIN

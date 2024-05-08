@@ -8,7 +8,7 @@ import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-
+  const [id, setID] = useState(0)
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
     request(
@@ -17,7 +17,8 @@ const AdminDashboard = () => {
       {},
       true
       ).then(response => {
-        console.log(response.data)
+        console.log("ID",response.data.id)
+        setID(response.data.id);
       }).catch(error => {
         navigate("/admin-login-page");
       })
@@ -57,7 +58,35 @@ const AdminDashboard = () => {
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
   
+  const [statistics, setStatistics] = useState(["Pending <requestType> requests made <temporalScope> by <requesterType>s: <count>", "there", "my", "name"]);
 
+  useEffect(() => {
+
+    // Request statistics
+    
+      request(
+        "GET",
+        "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+        {
+          "requesterType": "DOCTOR",
+          "requestType": "SIGNUP",
+          "clientType": "ADMIN",
+          "clientId": 1
+        },
+        true
+      ).then(
+        (response) => {
+          console.log("RESPONSE", response)
+        }
+      ).catch(
+        (error) => {
+          console.log(error.response.data.error)
+          // alert(error.response.data.error);
+        }
+      );
+    
+  }, []);
+  
 
   const deleteChatID = (index) => {
     // console.log(res);
@@ -245,11 +274,7 @@ const AdminDashboard = () => {
             <div className="view-doctors">Review Account Deletion Requests</div>
           </div>
         </div>
-        <div className="admin-dashboard-inner2">
-          <div className="rectangle-wrapper2">
-            <div className="group-child28" />
-          </div>
-        </div>
+        
         <img className="vector-icon168" alt="" />
         <img
           className="admin-dashboard-item"
@@ -271,11 +296,7 @@ const AdminDashboard = () => {
             <span>Good Morning</span>
             <b className="admin14"> Admin1</b>
           </div>
-          <div className="group-wrapper85">
-            <div className="notifications-frame">
-              <div className="view-doctors">Notifications</div>
-            </div>
-          </div>
+          
           <div className="group-wrapper86" onClick={onFrameContainer12Click}>
             <div className="view-doctors-wrapper">
               <div className="view-doctors">View doctors</div>
@@ -303,50 +324,24 @@ const AdminDashboard = () => {
             <div className="view-doctors">View lab staff</div>
           </div>
         </div>
-        <div className="admin-dashboard-child2" />
-        <div className="clear-all2">clear all</div>
-        <div className="admin-dashboard-child3" />
-        <div className="patient-john-doe">
-          patient John Doe, registered today 2:39 pm
+        
+        
+        {/* <div className="admin-dashboard-child4" />
+        <div className="statistics1">
+          <h3>Statistics</h3>
+        {statistics.map((stat, index) => (
+            <div key={index}>{stat}</div>
+          ))}
+        </div> */}
+        <div className="statistics-container">
+            <h2 className="statistics-heading">Statistics</h2>
+              {statistics.map((stat, index) => (
+                <div className="statistics-message" key={index}>
+                <div className="statistics-content">{stat}</div>
         </div>
-        <div className="admin-dashboard-inner5">
-          <div className="group-child28" />
-        </div>
-        <div className="patient-abc-registered">
-          patient ABC, registered today 2:01 pm
-        </div>
-        <div className="admin-dashboard-inner6">
-          <div className="group-child28" />
-        </div>
-        <div className="patient-xyz-registered">
-          patient XYZ, registered today 12:39 pm
-        </div>
-        <div className="admin-dashboard-inner7">
-          <div className="group-child28" />
-        </div>
-        <div className="patient-pqr-registered">
-          patient PQR, registered today 12:09 pm
-        </div>
-        <div className="admin-dashboard-inner8">
-          <div className="group-child28" />
-        </div>
-        <div className="patient-sty-registered">
-          patient STY, registered today 6:19 am
-        </div>
-        <div className="admin-dashboard-inner9">
-          <div className="group-child28" />
-        </div>
-        <div className="patient-lmn-registered">
-          patient LMN, registered today 5:39 am
-        </div>
-        <div className="admin-dashboard-child4" />
-        <div className="statistics1">Statistics</div>
-        <div className="patients-online-87">patients online: 87</div>
-        <div className="patients-enrolled-today1">
-          patients Enrolled Today: 189
-        </div>
-        <div className="total-patients-888">Total Patients: 888</div>
-        <div className="doctors-onboard-257">Doctors Onboard: 257</div>
+  ))}
+</div>
+        
       </div>
       {isNPUserOptionsOpen && (
         <PortalPopup

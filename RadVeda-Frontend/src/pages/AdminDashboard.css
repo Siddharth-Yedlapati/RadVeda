@@ -436,44 +436,30 @@
   width: 354px;
   height: 373px;
 }
-.doctors-onboard-257,
+/* .doctors-onboard-257,
 .patients-enrolled-today1,
 .patients-online-87,
 .statistics1,
 .total-patients-888 {
   position: absolute;
   left: 1106px;
-  font-size: var(--font-size-5xl);
   text-transform: capitalize;
-  font-weight: 600;
   display: inline-block;
-}
-.statistics1 {
-  top: 483px;
-  color: var(--color-firebrick);
+  top: 283px;
+} */
+/* .statistics1 {
+  background-color: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  position: absolute;
+  left: 1106px;
+  top: 83px;
+  color: white;
   width: 253px;
   height: 43px;
-}
-.doctors-onboard-257,
-.patients-enrolled-today1,
-.patients-online-87,
-.total-patients-888 {
-  top: 540px;
-  width: 270px;
-  height: 53px;
-}
-.doctors-onboard-257,
-.patients-enrolled-today1,
-.total-patients-888 {
-  top: 584px;
-}
-.doctors-onboard-257,
-.total-patients-888 {
-  top: 672px;
-}
-.doctors-onboard-257 {
-  top: 722px;
-}
+  font-weight: 600;
+  font-size: var(--font-size-5xl);
+} */
+
+
 .admin-dashboard {
   width: 100%;
   position: relative;
@@ -527,5 +513,68 @@
 .reply-button:hover,
 .ignore-button:hover,
 .clear-button:hover {
+  background-color: #bbb;
+}
+
+
+/* .statistics1 {
+  background-color: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  position: absolute;
+  left: 1106px;
+  top: 83px;
+  height: 43px;
+  color: white;
+  font-size: var(--font-size-5xl);
+  font-weight: 600;
+} */
+
+
+.statistics-container {
+  max-width: 400px; /* Set the maximum width */
+  /* overflow-x: auto; Enable horizontal scrolling */
+  position: absolute;
+  width: 350px;
+  top: 83px;
+  left: 1050px;
+  color: white;
+  /* overflow-y: scroll; */
+}
+
+.statistics-heading {
+  margin-bottom: 10px; /* Add some bottom margin to the heading */
+}
+
+.statistics-message {
+  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: black;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statistics-content {
+  margin-bottom: 10px;
+}
+
+.statistics-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.statistics-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #ccc;
+  border: 1px solid #999;
+  cursor: pointer;
+}
+
+.statistics-button:hover {
   background-color: #bbb;
 }
