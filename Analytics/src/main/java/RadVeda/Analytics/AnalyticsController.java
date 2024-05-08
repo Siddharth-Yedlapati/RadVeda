@@ -145,7 +145,7 @@ public class AnalyticsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getRequestsStatistics/{temporalScope}")
+    @PostMapping("/getRequestsStatistics/{temporalScope}")
     public Long getRequestsStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody RequestsStatisticsRequest request, @PathVariable String temporalScope)
     {
         analyticsService.updateAnalyticsDatabase();
@@ -363,7 +363,7 @@ public class AnalyticsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getAccountStatistics/{temporalScope}")
+    @PostMapping("/getAccountStatistics/{temporalScope}")
     public Long getAccountStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody AccountStatisticsRequest request, @PathVariable String temporalScope)
     {
         analyticsService.updateAnalyticsDatabase();
