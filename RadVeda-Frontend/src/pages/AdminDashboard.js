@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
 import "./AdminDashboard.css";
+import StatsPieChart from "../StatsPieChart";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -58,32 +59,1373 @@ const AdminDashboard = () => {
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
   
-  const [statistics, setStatistics] = useState(["Pending <requestType> requests made <temporalScope> by <requesterType>s: <count>", "there", "my", "name"]);
+  const [statistics, setStatistics] = useState([]);
+  const [requestsPieData, setRequestsPieData] = useState([]);
+  const [accountPieData, setAccountPieData] = useState([]);
 
   useEffect(() => {
 
-    // Request statistics
+    request(
+      "GET",
+      "/admins/profile",
+      {},
+      true
+      ).then(profileResponse => {
+
+        var adminId = profileResponse.data.id
+ 
+
+        // Requests statistics
+
+        let requestsPieData = [];
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "SIGNUP",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor signup requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "SIGNUP",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor signup requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "SIGNUP",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist signup requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "SIGNUP",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist signup requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "SIGNUP",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff signup requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "SIGNUP",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff signup requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modification requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modification requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modification requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modification requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modification requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modification requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletion requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletion requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletion requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletion requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletion requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletion requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+
+        // Account Statistics
+
+        let accountPieData = [];
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "DELETION",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "LOGIN",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "DOCTOR",
+                "accountOperationType": "LOGOUT",
+                "clientType": "ADMIN",
+                "clientId": adminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
     
-      request(
-        "GET",
-        "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
-        {
-          "requesterType": "DOCTOR",
-          "requestType": "SIGNUP",
-          "clientType": "ADMIN",
-          "clientId": 1
-        },
-        true
-      ).then(
-        (response) => {
-          console.log("RESPONSE", response)
-        }
-      ).catch(
-        (error) => {
-          console.log(error.response.data.error)
-          // alert(error.response.data.error);
-        }
-      );
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online doctors", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "LOGIN",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "RADIOLOGIST",
+                "accountOperationType": "LOGOUT",
+                "clientType": "ADMIN",
+                "clientId": adminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online radiologists", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "LOGIN",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "LABSTAFF",
+                "accountOperationType": "LOGOUT",
+                "clientType": "ADMIN",
+                "clientId": adminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online labstaffs", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "LOGIN",
+            "clientType": "ADMIN",
+            "clientId": adminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "PATIENT",
+                "accountOperationType": "LOGOUT",
+                "clientType": "ADMIN",
+                "clientId": adminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online patients", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+      }).catch(error => {
+        console.log(error)
+      })
+
     
   }, []);
   
@@ -333,14 +1675,16 @@ const AdminDashboard = () => {
             <div key={index}>{stat}</div>
           ))}
         </div> */}
-        <div className="statistics-container">
-            <h2 className="statistics-heading">Statistics</h2>
-              {statistics.map((stat, index) => (
-                <div className="statistics-message" key={index}>
-                <div className="statistics-content">{stat}</div>
+
+        <div className="requests-piechart-container">
+          <h2 className="requests-piechart">Requests Statistics</h2>
+          <StatsPieChart data={requestsPieData} />
         </div>
-  ))}
-</div>
+
+        <div className="account-piechart-container">
+          <h2 className="account-piechart">Account Statistics</h2>
+          <StatsPieChart data={accountPieData} />
+        </div>
         
       </div>
       {isNPUserOptionsOpen && (

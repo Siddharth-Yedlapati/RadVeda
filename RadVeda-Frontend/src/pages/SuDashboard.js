@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
 import "./SuDashboard.css";
+import StatsPieChart from "../StatsPieChart";
 
 const SuDashboard = () => {
   const navigate = useNavigate();
@@ -56,7 +57,1749 @@ const SuDashboard = () => {
 
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
+
+  const [requestsPieData, setRequestsPieData] = useState([]);
+  const [accountPieData, setAccountPieData] = useState([]);
   
+
+  useEffect(() => {
+
+    request(
+      "GET",
+      "/superadmins/profile",
+      {},
+      true
+      ).then(profileResponse => {
+
+        var superadminId = profileResponse.data.id
+ 
+
+        // Requests statistics
+
+        let requestsPieData = [];
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor signup requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor signup requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "ADMIN",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin signup requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "ADMIN",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin signup requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "ADMIN",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account modification requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "ADMIN",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account modification requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "ADMIN",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account deletion requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "ADMIN",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account deletion requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist signup requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist signup requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff signup requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "SIGNUP",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff signup requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modification requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modification requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modification requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modification requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modification requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modification requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletion requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "DOCTOR",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletion requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletion requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "RADIOLOGIST",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletion requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/TODAY",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletion requests today", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getRequestsStatistics/SO_FAR",
+          {
+            "requesterType": "LABSTAFF",
+            "requestType": "ACCOUNT_DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletion requests so far", value: response.data}
+              requestsPieData.push(stat)
+
+              setRequestsPieData(requestsPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+
+        // Account Statistics
+
+        let accountPieData = [];
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Doctor account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Radiologist account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "LabStaff account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Patient account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "DOCTOR",
+            "accountOperationType": "LOGIN",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "DOCTOR",
+                "accountOperationType": "LOGOUT",
+                "clientType": "SUPERADMIN",
+                "clientId": superadminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online doctors", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "RADIOLOGIST",
+            "accountOperationType": "LOGIN",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "RADIOLOGIST",
+                "accountOperationType": "LOGOUT",
+                "clientType": "SUPERADMIN",
+                "clientId": superadminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online radiologists", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "LABSTAFF",
+            "accountOperationType": "LOGIN",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "LABSTAFF",
+                "accountOperationType": "LOGOUT",
+                "clientType": "SUPERADMIN",
+                "clientId": superadminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online labstaffs", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "PATIENT",
+            "accountOperationType": "LOGIN",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "PATIENT",
+                "accountOperationType": "LOGOUT",
+                "clientType": "SUPERADMIN",
+                "clientId": superadminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online patients", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "ADMIN",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin registrations today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "ADMIN",
+            "accountOperationType": "REGISTRATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin registrations so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "ADMIN",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account modifications today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "ADMIN",
+            "accountOperationType": "MODIFICATION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account modifications so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/TODAY",
+          {
+            "accountHolderType": "ADMIN",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account deletions today", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "ADMIN",
+            "accountOperationType": "DELETION",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+            if(response.data != 0)
+            {
+              const stat = {name: "Admin account deletions so far", value: response.data}
+              accountPieData.push(stat)
+
+              setAccountPieData(accountPieData)
+            }
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        );
+
+        request(
+          "POST",
+          "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+          {
+            "accountHolderType": "ADMIN",
+            "accountOperationType": "LOGIN",
+            "clientType": "SUPERADMIN",
+            "clientId": superadminId
+          },
+          true
+        ).then(
+          (response) => {
+
+            request(
+              "POST",
+              "http://localhost:9203/analytics/getAccountStatistics/SO_FAR",
+              {
+                "accountHolderType": "ADMIN",
+                "accountOperationType": "LOGOUT",
+                "clientType": "SUPERADMIN",
+                "clientId": superadminId
+              },
+              true
+            ).then(
+              (response1) => {
+
+                var num_online = response.data - response1.data
+    
+                if(num_online != 0)
+                {
+                  const stat = {name: "Currently online admins", value: num_online}
+                  accountPieData.push(stat)
+    
+                  setAccountPieData(accountPieData)
+                }
+                
+              }
+            ).catch(
+              (error) => {
+                console.log(error)
+              }
+            );
+
+          }
+        ).catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+
+
+      }).catch(error => {
+        console.log(error)
+      })
+
+    
+  }, []);
 
 
   const deleteChatID = (index) => {
@@ -297,6 +2040,18 @@ const SuDashboard = () => {
         </div>
         <div className="total-patients-2587">Total Patients: 2587</div>
         <div className="doctors-onboard-857">Doctors Onboard: 857</div>
+      
+      
+        <div className="requests-piechart-container">
+          <h2 className="requests-piechart">Requests Statistics</h2>
+          <StatsPieChart data={requestsPieData} />
+        </div>
+
+        <div className="account-piechart-container">
+          <h2 className="account-piechart">Account Statistics</h2>
+          <StatsPieChart data={accountPieData} />
+        </div>
+
       </div>
       {isNPUserOptionsOpen && (
         <PortalPopup
