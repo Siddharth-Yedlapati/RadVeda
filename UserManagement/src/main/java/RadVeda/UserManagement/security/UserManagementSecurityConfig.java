@@ -75,7 +75,9 @@ public class UserManagementSecurityConfig {
                                 .requestMatchers("/labstaffSignUp/**").permitAll()
                                 .requestMatchers("/labstaffs/validateLabStaffId/{id}").hasAnyAuthority("ADMIN", "SUPERADMIN", "DOCTOR", "PATIENT", "RADIOLOGIST", "LABSTAFF")
                                 .requestMatchers("/labstaffs/getFirstAndLastNamesForLabStaffId/{id}").hasAnyAuthority("ADMIN", "SUPERADMIN", "DOCTOR", "PATIENT", "RADIOLOGIST", "LABSTAFF")
-                                .requestMatchers("/labstaffs/**").hasAnyAuthority("LABSTAFF").anyRequest()
+                                .requestMatchers("/labstaffs/**").hasAnyAuthority("LABSTAFF")
+                                .requestMatchers("encryptor/sendPublicKey/{service}").permitAll()
+                                .anyRequest()
                                 .authenticated())
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
