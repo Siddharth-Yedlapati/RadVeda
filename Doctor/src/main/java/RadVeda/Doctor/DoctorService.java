@@ -1,7 +1,10 @@
 package RadVeda.Doctor;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
+import org.apache.catalina.authenticator.SavedRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +27,20 @@ import java.util.Random;
 import java.time.LocalDate;
 import java.util.Date;
 import java.time.ZoneId;
+
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+
 import RadVeda.Doctor.StorageEncryption.EncryptionUtility;
+
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +49,13 @@ public class DoctorService implements DoctorServiceInterface {
     private final DoctorTestsRepository doctortestsrepository;
     private final ConsultedDoctorTestsRepository consulteddoctortestsrepository;
     // private final SuperAdminVerificationTokenRepository superadminTokenRepository;
+//    private final Long period = (long) (2 * 60 * 1000);
+
+
+
 
     @Override
-    public User authenticate(String authorizationHeader)
-    {
+    public User authenticate(String authorizationHeader) {
         String jwtToken = "";
 
         // Checking if the Authorization header is present and not empty
