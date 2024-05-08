@@ -40,10 +40,16 @@ public class AdminService implements AdminServiceInterface {
             if (!admin.isEnabled()) {
                 AdminVerificationToken token = adminTokenRepository.findByAdmin_id(admin.getId());
                 Calendar calendar = Calendar.getInstance();
-                if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
-                    adminTokenRepository.delete(token);
-                    admindocumentsrepository.delete(admin.getId());
-                    adminRepository.delete(admin);
+                if (token == null || (token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+                    if (token != null) {
+                        adminTokenRepository.delete(token);
+                    }
+                    if (admin.getId() != null) {
+                        admindocumentsrepository.delete(admin.getId());
+                    }
+                    if (admin != null) {
+                        adminRepository.delete(admin);
+                    }
                 }
             }
         }

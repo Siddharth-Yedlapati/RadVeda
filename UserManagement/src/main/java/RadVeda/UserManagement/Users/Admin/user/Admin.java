@@ -1,5 +1,7 @@
 package RadVeda.UserManagement.Users.Admin.user;
 
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedBooleanConverter;
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,11 +19,19 @@ public class Admin extends User {
 
     @NaturalId
     @Column(unique = true, nullable = false)
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgName;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL1;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String orgAddressL2;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
     private boolean isEmailVerified = false;
+
+    @Convert(converter = EncryptedBooleanConverter.class)
     private boolean isAdminVerified = false;
 
     public Admin() {

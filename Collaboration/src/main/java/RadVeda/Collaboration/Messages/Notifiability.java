@@ -1,9 +1,9 @@
 package RadVeda.Collaboration.Messages;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedBooleanConverter;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedLongConverter;
+import RadVeda.Collaboration.StorageEncryption.Converters.EncryptedStringConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,11 +31,24 @@ public class Notifiability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String notifiabilityType; //Either "GROUP" or "PRIVATE"
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long testId;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String notificationRecipientType;
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long notificationRecipientId;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String notificationSenderType; //Set to null if notifiabilityType is "GROUP"
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long notificationSenderId; //Set to null if notifiabilityType is "GROUP"
+
+    @Convert(converter = EncryptedBooleanConverter.class)
     private boolean notifiable;
 }

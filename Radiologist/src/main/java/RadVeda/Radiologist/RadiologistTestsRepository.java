@@ -15,5 +15,5 @@ public interface RadiologistTestsRepository extends JpaRepository<RadiologistTes
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM radiologisttests WHERE testid = :testID", nativeQuery = true)
-    void deleteTest(Long testID);
+    void deleteTest(String testID);
 }

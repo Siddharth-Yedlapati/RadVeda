@@ -47,8 +47,8 @@ public class AdminController {
 
 
 
-    @GetMapping("/validateAdmin/{id}")
-    public boolean validateAdmin(@PathVariable Long id)
+    @GetMapping("/validateAdminId/{id}")
+    public boolean validateAdminId(@PathVariable Long id)
     {
         Optional<Admin> admin = adminService.findById(id);
         return admin.isPresent() && admin.get().isEnabled();

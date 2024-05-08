@@ -1,9 +1,8 @@
 package RadVeda.Analytics.Statistics;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import RadVeda.Analytics.StorageEncryption.Converters.EncryptedLongConverter;
+import RadVeda.Analytics.StorageEncryption.Converters.EncryptedStringConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,11 +18,22 @@ public class RequestsStatistics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedLongConverter.class)
     private Long count;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String requesterType;
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String requestType; //"SIGNUP" or "ACCOUNT_MODIFICATION" or "ACCOUNT_DELETION"
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String temporalScope; //"TODAY" or "SO_FAR"
+
+    @Convert(converter = EncryptedStringConverter.class)
     private String clientType; //"ADMIN" or "SUPERADMIN"
+
+    @Convert(converter = EncryptedLongConverter.class)
     private Long clientId; //If client is SUPERADMIN then clientId would be ignored
 }
 

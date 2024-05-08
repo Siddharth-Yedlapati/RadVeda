@@ -88,7 +88,7 @@ const DocConsDiagCompHist = () => {
           <div className="group-wrapper67">
             <div className="view-radiologists-notes-wrapper4">
               <div className="view-radiologists-notes6">
-                View Radiologist’s Notes
+                View Radiologist’s Impressions
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@ const DocConsDiagCompHist = () => {
         </div>
         <div className="doc-cons-diag-comp-hist-inner2">
           <div className="view-doctors-notes-wrapper6">
-            <div className="view-radiologists-notes6">View doctors’ notes</div>
+            <div className="view-radiologists-notes6">View Doctor’s Impressions</div>
           </div>
         </div>
         <div className="doc-cons-diag-comp-hist-inner3">

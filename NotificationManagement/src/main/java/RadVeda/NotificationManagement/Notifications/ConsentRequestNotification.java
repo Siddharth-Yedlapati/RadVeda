@@ -1,9 +1,7 @@
 package RadVeda.NotificationManagement.Notifications;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import RadVeda.NotificationManagement.StorageEncryption.Converters.EncryptedLongConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +17,6 @@ public class ConsentRequestNotification extends Notification{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptedLongConverter.class)
     private Long consentRequestId;
 }

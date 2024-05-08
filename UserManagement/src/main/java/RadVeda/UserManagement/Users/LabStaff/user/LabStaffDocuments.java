@@ -1,5 +1,6 @@
 package RadVeda.UserManagement.Users.LabStaff.user;
 
+import RadVeda.UserManagement.security.StorageEncryption.Converters.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class LabStaffDocuments {
     @JoinColumn(name = "labstaffID", referencedColumnName = "id")
     private LabStaff labstaff;
 
+    @Convert(converter = EncryptedStringConverter.class)
     private String Documents;
 
     public LabStaffDocuments() {

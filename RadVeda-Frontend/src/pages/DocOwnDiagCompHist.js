@@ -88,7 +88,7 @@ const DocOwnDiagCompHist = () => {
           <div className="group-wrapper79">
             <div className="view-radiologists-notes-wrapper8">
               <div className="view-radiologists-notes10">
-                View Radiologist’s Notes
+                View Radiologist’s Impressions
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@ const DocOwnDiagCompHist = () => {
         </div>
         <div className="doc-own-diag-comp-hist-inner2">
           <div className="view-doctors-notes-wrapper9">
-            <div className="view-radiologists-notes10">View doctors’ notes</div>
+            <div className="view-radiologists-notes10">View Doctor’s Impressions</div>
           </div>
         </div>
         <div className="doc-own-diag-comp-hist-inner3">

@@ -1,7 +1,13 @@
 package RadVeda.TestManagement;
 
+import RadVeda.TestManagement.StorageEncryption.Converters.EncryptedLongConverter;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.persistence.Convert;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.client.HttpClientErrorException;
@@ -21,18 +27,234 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import RadVeda.TestManagement.StorageEncryption.EncryptionUtility;
 
 @Service
 @RequiredArgsConstructor
 public class TestService implements TestServiceInterface {
     private final TestRepository testRepository;
+    private final TestVerificationOTPRepository testVerificationOTPRepository;
+    private final JavaMailSender mailSender;
+    private static String delimiter = ":_:";
     // private final SuperAdminVerificationTokenRepository superadminTokenRepository;
+
+
+    public Long generateOTP() {
+        // Create a list of digits from 0 to 9
+        List<Integer> digits = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            digits.add(i);
+        }
+
+        // Shuffle the list to get a random order
+        Collections.shuffle(digits);
+
+        // Build a 6-digit number from the first six unique digits
+        long number = 0; // Use long to accumulate the result
+        for (int i = 0; i < 6; i++) {
+            number = number * 10 + digits.get(i);
+        }
+
+        return number;
+    }
+
+    public void sendEmail(String mailContent, String recipientEmail) throws MessagingException, UnsupportedEncodingException {
+        String subject = "One Time Password for new test being prescribed";
+        String senderName = "RadVeda";
+        MimeMessage message = mailSender.createMimeMessage();
+        var messageHelper = new MimeMessageHelper(message);
+        messageHelper.setFrom("RadVeda.Team@gmail.com", senderName);
+        messageHelper.setTo(recipientEmail);
+        messageHelper.setSubject(subject);
+        messageHelper.setText(mailContent, true);
+        mailSender.send(message);
+    }
+
+    @Override
+    public String sendTestVerificationOTP(Long patientId, Long doctorId, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+
+        String patientEmail;
+        String patientFirstName;
+        String doctorFirstName;
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        String url = "http://localhost:9191/patients/getEmailForPatientId/"+patientId;
+
+        // Sending a GET request to the user management service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (HttpClientErrorException.Forbidden ex){ //VERIFY_EXCEPTION
+            return "Failed to send test verification OTP!";
+        } catch (RuntimeException e){
+            return "Failed to send test verification OTP!";
+        }
+
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            // Extracting response body from the response entity
+            patientEmail = responseEntity.getBody();
+        }
+        else
+        {
+            return "Failed to send test verification OTP!";
+        }
+
+
+
+        restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        url = "http://localhost:9191/doctors/getFirstAndLastNamesForDoctorId/"+doctorId;
+
+        // Sending a GET request to the user management service with the JWT token in the headers
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (HttpClientErrorException.Forbidden ex){ //VERIFY_EXCEPTION
+            return "Failed to send test verification OTP!";
+        } catch (RuntimeException e){
+            return "Failed to send test verification OTP!";
+        }
+
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            // Extracting response body from the response entity
+            String responseBody = responseEntity.getBody(); //doctorFirstName + delimiter + doctorLastName
+
+            String[] parts = responseBody.split(delimiter);
+            doctorFirstName = parts[0];
+        }
+        else
+        {
+            return "Failed to send test verification OTP!";
+        }
+
+
+
+        restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        url = "http://localhost:9191/patients/getFirstAndLastNamesForPatientId/"+patientId;
+
+        // Sending a GET request to the user management service with the JWT token in the headers
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (HttpClientErrorException.Forbidden ex){ //VERIFY_EXCEPTION
+            return "Failed to send test verification OTP!";
+        } catch (RuntimeException e){
+            return "Failed to send test verification OTP!";
+        }
+
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            // Extracting response body from the response entity
+            String responseBody = responseEntity.getBody(); //patientFirstName + delimiter + patientLastName
+
+            String[] parts = responseBody.split(delimiter);
+            patientFirstName = parts[0];
+        }
+        else
+        {
+            return "Failed to send test verification OTP!";
+        }
+
+        Long otp = generateOTP();
+
+        String mailContent = "<p> Hi " + patientFirstName + ", </p>" +
+                "<p>Dr "+ doctorFirstName +" wants to prescribe a test for you." + " " +
+                "Your One Time Password for allowing this is given below:</p>" +
+                otp +
+                "<p>Thank you,<br>RadVeda Support Team";
+
+        try
+        {
+            sendEmail(mailContent, patientEmail);
+
+            Optional<TestVerificationOTP> optionalTestVerificationOTP = testVerificationOTPRepository.findByPatientIdAndDoctorId(patientId, doctorId);
+            if(optionalTestVerificationOTP.isEmpty())
+            {
+                TestVerificationOTP testVerificationOTP = new TestVerificationOTP();
+
+                testVerificationOTP.setOtp(otp);
+                testVerificationOTP.setPatientId(patientId);
+                testVerificationOTP.setDoctorId(doctorId);
+
+                testVerificationOTPRepository.save(testVerificationOTP);
+            }
+            else
+            {
+                TestVerificationOTP existingTestVerificationOTP = optionalTestVerificationOTP.get();
+
+                TestVerificationOTP testVerificationOTP = new TestVerificationOTP();
+
+                testVerificationOTP.setId(existingTestVerificationOTP.getId());
+                testVerificationOTP.setOtp(otp);
+                testVerificationOTP.setPatientId(patientId);
+                testVerificationOTP.setDoctorId(doctorId);
+
+                testVerificationOTPRepository.save(testVerificationOTP);
+            }
+
+        } catch (MessagingException e){
+            return "Failed to send test verification OTP!";
+        } catch (UnsupportedEncodingException e){
+            return "Failed to send test verification OTP!";
+        }
+
+        return "Test verification OTP sent successfully!";
+
+    }
+
+    @Override
+    public String validateTestVerificationOTP(Long patientId, Long doctorId, Long otp, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+        Optional<TestVerificationOTP> optionalTestVerificationOTP = testVerificationOTPRepository.findByPatientIdAndDoctorId(patientId, doctorId);
+        if(optionalTestVerificationOTP.isEmpty())
+        {
+            return "invalid";
+        }
+        else
+        {
+            TestVerificationOTP testVerificationOTP = optionalTestVerificationOTP.get();
+            Long correctOtp = testVerificationOTP.getOtp();
+            Calendar calendar = Calendar.getInstance();
+            if ((testVerificationOTP.getExpirationTime().getTime() - calendar.getTime().getTime()) > 0 && Objects.equals(correctOtp, otp))
+            {
+                testVerificationOTPRepository.delete(testVerificationOTP);
+                return "valid";
+            }
+            testVerificationOTPRepository.delete(testVerificationOTP);
+            return "invalid";
+        }
+    }
 
     @Override
     public List<Test> getTests() {
@@ -76,12 +298,12 @@ public class TestService implements TestServiceInterface {
         if(flag == 1 || flag1 == 1){        // TODO: ROLLBACK PROPERLY
             throw new UserNotFoundException("Error");
         }
-        testRepository.addLabforTest(testId, labStaff);
-        testRepository.updateTestStatus(testId,
-                "Test Not Conducted",
-                "Pending For Review by Radiologist",
-                test.getRadiologistStatus(),
-                "Test Not Conducted");
+        testRepository.addLabforTest(EncryptionUtility.encrypt(testId), EncryptionUtility.encrypt(labStaff));
+        testRepository.updateTestStatus(EncryptionUtility.encrypt(testId),
+                EncryptionUtility.encrypt("Test Not Conducted"),
+                EncryptionUtility.encrypt("Pending For Review by Radiologist"),
+                EncryptionUtility.encrypt(test.getRadiologistStatus()),
+                EncryptionUtility.encrypt("Test Not Conducted"));
         return test;
     }
     @Override
@@ -111,12 +333,12 @@ public class TestService implements TestServiceInterface {
             throw new UserNotFoundException("Error in assigning a radiologist");
             // throw new UserNotFoundException("Failed to prescribe test");
         }
-        testRepository.addRadForTest(testId, rad);
-        testRepository.updateTestStatus(testId,
-                test.getPatientStatus(),
-                test.getDoctorStatus(),
-                "Pending for Review",
-                test.getLabStaffStatus());
+        testRepository.addRadForTest(EncryptionUtility.encrypt(testId), EncryptionUtility.encrypt(rad));
+        testRepository.updateTestStatus(EncryptionUtility.encrypt(testId),
+                EncryptionUtility.encrypt(test.getPatientStatus()),
+                EncryptionUtility.encrypt(test.getDoctorStatus()),
+                EncryptionUtility.encrypt("Pending for Review"),
+                EncryptionUtility.encrypt(test.getLabStaffStatus()));
         return test;
     }
 
@@ -243,16 +465,16 @@ public class TestService implements TestServiceInterface {
     @Override
     public List<Test> findAllTestsByUser(String userType, Long userID){
         if("DOCTOR".equals(userType)){
-            return testRepository.findByDoctorID(userID);
+            return testRepository.findByDoctorID(EncryptionUtility.encrypt(userID));
         }
         else if("PATIENT".equals(userType)){
-            return testRepository.findByPatientID(userID);
+            return testRepository.findByPatientID(EncryptionUtility.encrypt(userID));
         }
         else if("RADIOLOGIST".equals(userType)){
-            return testRepository.findByRadiologistID(userID);
+            return testRepository.findByRadiologistID(EncryptionUtility.encrypt(userID));
         }
         else if("LABSTAFF".equals(userType)){
-            return testRepository.findByLabStaffID(userID);
+            return testRepository.findByLabStaffID(EncryptionUtility.encrypt(userID));
         }
         return new ArrayList<>();
     }
@@ -271,7 +493,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByDoctorID(userID);
+            List<Test> primarytestdetails =  testRepository.findByDoctorID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -299,7 +521,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByRadiologistID(userID);
+            List<Test> primarytestdetails =  testRepository.findByRadiologistID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -338,7 +560,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByDoctorID(userID);
+            List<Test> primarytestdetails =  testRepository.findByDoctorID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -367,7 +589,7 @@ public class TestService implements TestServiceInterface {
             catch(RuntimeException e){
                 throw new UserNotFoundException("Failed to fetch test details");
             }
-            List<Test> primarytestdetails =  testRepository.findByRadiologistID(userID);
+            List<Test> primarytestdetails =  testRepository.findByRadiologistID(EncryptionUtility.encrypt(userID));
             List<Test> consultedtestdetails = new ArrayList<>();
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 String responseBody = responseEntity.getBody();
@@ -394,13 +616,13 @@ public class TestService implements TestServiceInterface {
     @Override
     public List<Test> findAllTestsByPatientAndUser(Long patientID, String userType, Long userID){
         if("DOCTOR".equals(userType)){
-            return testRepository.findByPatientAndDocID(patientID, userID);
+            return testRepository.findByPatientAndDocID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         else if("RADIOLOGIST".equals(userType)){
-            return testRepository.findAllTestsByPatientAndRadID(patientID, userID);
+            return testRepository.findAllTestsByPatientAndRadID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         else if("LABSTAFF".equals(userType)){
-            return testRepository.findAllTestsByPatientAndLabStaffID(patientID, userID);
+            return testRepository.findAllTestsByPatientAndLabStaffID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         return new ArrayList<>();
     }
@@ -408,11 +630,12 @@ public class TestService implements TestServiceInterface {
     @Override
     public List<Test> findConsultedTestsByPatientAndUser(Long patientID, String userType, Long userID){
         if("DOCTOR".equals(userType)){
-            return testRepository.findConsultedByPatientAndDocID(patientID, userID);
+            return testRepository.findConsultedByPatientAndDocID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
         else if("RADIOLOGIST".equals(userType)){
-            return testRepository.findConsultedTestsByPatientAndRadID(patientID, userID);
+            return testRepository.findConsultedTestsByPatientAndRadID(EncryptionUtility.encrypt(patientID), EncryptionUtility.encrypt(userID));
         }
+        
         return new ArrayList<>();
     }
 
@@ -486,6 +709,53 @@ public class TestService implements TestServiceInterface {
         consultedpersonnellist.add(primary_rad);
 
         return consultedpersonnellist;
+    }
+
+    @Override
+    public boolean isUserValid(String userType, Long userId, String authorizationHeader)
+    { // This function assumes that the current user is an authenticated user
+
+        String jwtToken = "";
+
+        // Checking if the Authorization header is present and not empty
+        if (authorizationHeader != null && !authorizationHeader.isEmpty())
+        {
+            // Extracting JWT bearer token
+            jwtToken = authorizationHeader.replace("Bearer ", "");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Setting up the request headers with the JWT token
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwtToken);
+
+        HashMap<String, String> urlMap = new HashMap<>();
+        urlMap.put("ADMIN", "http://localhost:9191/admins/validateAdminId/"+userId);
+        urlMap.put("DOCTOR", "http://localhost:9191/doctors/validateDoctorId/"+userId);
+        urlMap.put("LABSTAFF", "http://localhost:9191/labstaffs/validateLabStaffId/"+userId);
+        urlMap.put("PATIENT", "http://localhost:9191/patients/validatePatientId/"+userId);
+        urlMap.put("RADIOLOGIST", "http://localhost:9191/radiologists/validateRadiologistId/"+userId);
+        urlMap.put("SUPERADMIN", "http://localhost:9191/superadmins/validateSuperAdminId/"+userId);
+
+        String url = urlMap.get(userType);
+
+        // Sending a GET request to the user management service with the JWT token in the headers
+        ResponseEntity<String> responseEntity;
+        try{
+            responseEntity = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        } catch (HttpClientErrorException.Forbidden ex){ //VERIFY_EXCEPTION
+            return false;
+        }
+        // Checking if the response status is OK (200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            // Extracting response body from the response entity
+            String responseBody = responseEntity.getBody();
+            return Boolean.parseBoolean(responseBody);
+        }
+
+        return false;
     }
 
     @Override

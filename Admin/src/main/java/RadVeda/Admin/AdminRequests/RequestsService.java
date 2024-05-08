@@ -5,6 +5,7 @@ import RadVeda.Admin.Admin.AdminRepository;
 import RadVeda.Admin.AdminDoc.AdminDoc;
 import RadVeda.Admin.AdminDoc.AdminDocRepository;
 import RadVeda.Admin.AdminDoc.AdminDocService;
+import RadVeda.Admin.StorageEncryption.EncryptionUtility;
 import RadVeda.Admin.User;
 import RadVeda.Admin.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,7 @@ public class RequestsService implements RequestsServiceInterface {
         requests.setAdminId(adminId);
 
         if(adminId == 0) {
-            adminId = adminDocRepository.getAdmin(request.userId()).get(0);
+            adminId = adminDocRepository.getAdmin(EncryptionUtility.encrypt(request.userId())).get(0);
             requests.setAdminId(adminId);
         }
 
@@ -89,7 +90,7 @@ public class RequestsService implements RequestsServiceInterface {
 
     @Override
     public List<Requests> getRequest(Long adminId, String type) {
-        return requestsRepository.getTypeRequests(adminId, type);
+        return requestsRepository.getTypeRequests(EncryptionUtility.encrypt(adminId), EncryptionUtility.encrypt(type), EncryptionUtility.encrypt("TBD"));
     }
 
     @Override
@@ -151,7 +152,7 @@ public class RequestsService implements RequestsServiceInterface {
 
             if(responseEntity.getBody()!= null && responseEntity.getBody().equalsIgnoreCase("success")){
                 adminDocService.addDocforAdmin(user.getUserId(), aId);
-                requestsRepository.updateStatusToAccept(req_id);
+                requestsRepository.updateStatusToAccept(req_id, EncryptionUtility.encrypt("ACCEPTED"));
             }
         }
         catch (RuntimeException e) {
@@ -195,7 +196,7 @@ public class RequestsService implements RequestsServiceInterface {
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
 
             if(responseEntity.getBody()!= null && responseEntity.getBody().equalsIgnoreCase("success")) {
-                requestsRepository.updateStatusToDecline(req_id);
+                requestsRepository.updateStatusToDecline(req_id, EncryptionUtility.encrypt("DECLINED"));
             }
 
         }
@@ -265,7 +266,7 @@ public class RequestsService implements RequestsServiceInterface {
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
 
             if(responseEntity.getBody()!= null && responseEntity.getBody().equalsIgnoreCase("success")){
-                requestsRepository.updateStatusToAccept(req_id);
+                requestsRepository.updateStatusToAccept(req_id, EncryptionUtility.encrypt("ACCEPTED"));
             }
         }
         catch (RuntimeException e) {

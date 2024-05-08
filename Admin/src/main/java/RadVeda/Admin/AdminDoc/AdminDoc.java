@@ -24,6 +24,7 @@
 package RadVeda.Admin.AdminDoc;
 
 import RadVeda.Admin.Admin.Admin;
+import RadVeda.Admin.StorageEncryption.Converters.EncryptedLongConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,5 +43,6 @@ public class AdminDoc {
     private Admin admin;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptedLongConverter.class)
     private Long docId;
 }

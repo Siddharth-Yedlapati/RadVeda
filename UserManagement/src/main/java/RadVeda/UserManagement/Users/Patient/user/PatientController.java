@@ -65,4 +65,20 @@ public class PatientController {
 
         return patient.get().getFirstName() + delimiter + patient.get().getLastName();
     }
+
+    @GetMapping("/getEmailForPatientId/{id}")
+    public String getEmailForPatientId(@PathVariable Long id)
+    {
+        Optional<Patient> patient = patientService.findById(id);
+        if(patient.isEmpty())
+        {
+            throw new UserNotFoundException("Invalid patient id!");
+        }
+        if(!patient.get().isEnabled())
+        {
+            throw new UserNotFoundException("Patient with given id is not yet enabled!");
+        }
+
+        return patient.get().getEmail();
+    }
 }

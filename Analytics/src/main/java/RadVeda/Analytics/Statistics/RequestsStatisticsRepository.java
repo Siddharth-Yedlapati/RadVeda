@@ -11,8 +11,8 @@ public interface RequestsStatisticsRepository extends JpaRepository<RequestsStat
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE requests_statistics SET count = 0 WHERE temporal_scope = 'TODAY'", nativeQuery = true)
-    void resetTodayRecords();
+    @Query(value = "UPDATE requests_statistics rs SET rs.count = :resetCountTo WHERE rs.temporal_scope = :temporalScope", nativeQuery = true)
+    void resetTodayRecords(String resetCountTo, String temporalScope);
 
     Optional<RequestsStatistics> findByRequesterTypeAndRequestTypeAndTemporalScopeAndClientTypeAndClientId(
             String requesterType,
@@ -25,22 +25,22 @@ public interface RequestsStatisticsRepository extends JpaRepository<RequestsStat
     @Modifying
     @Transactional
     @Query(
-            value = "UPDATE requests_statistics " +
-                    "SET count = :count " +
-                    "WHERE requester_type = :requesterType " +
-                    "AND request_type = :requestType " +
-                    "AND temporal_scope = :temporalScope " +
-                    "AND client_type = :clientType " +
-                    "AND client_id = :clientId",
+            value = "UPDATE requests_statistics rs " +
+                    "SET rs.count = :count " +
+                    "WHERE rs.requester_type = :requesterType " +
+                    "AND rs.request_type = :requestType " +
+                    "AND rs.temporal_scope = :temporalScope " +
+                    "AND rs.client_type = :clientType " +
+                    "AND rs.client_id = :clientId",
             nativeQuery = true
     )
     void updateIfExists(
-            Long count,
+            String count,
             String requesterType,
             String requestType,
             String temporalScope,
             String clientType,
-            Long clientId
+            String clientId
     );
 
 }

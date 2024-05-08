@@ -11,8 +11,8 @@ public interface AccountStatisticsRepository extends JpaRepository<AccountStatis
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE account_statistics SET count = 0 WHERE temporal_scope = 'TODAY'", nativeQuery = true)
-    void resetTodayRecords();
+    @Query(value = "UPDATE account_statistics SET count = :resetCountTo WHERE temporal_scope = :temporalScope", nativeQuery = true)
+    void resetTodayRecords(String resetCountTo, String temporalScope);
 
     Optional<AccountStatistics> findByAccountHolderTypeAndAccountOperationTypeAndTemporalScopeAndClientTypeAndClientId(
             String accountHolderType,
@@ -35,12 +35,12 @@ public interface AccountStatisticsRepository extends JpaRepository<AccountStatis
             nativeQuery = true
     )
     void updateIfExists(
-            Long count,
+            String count,
             String accountHolderType,
             String accountOperationType,
             String temporalScope,
             String clientType,
-            Long clientId
+            String clientId
     );
 
 }

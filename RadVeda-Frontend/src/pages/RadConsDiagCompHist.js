@@ -65,7 +65,7 @@ const RadConsDiagCompHist = () => {
         <div className="frame-parent64">
           <div className="group-wrapper142">
             <div className="view-doctors-notes-wrapper13">
-              <div className="view-doctors-notes15">View Doctors’ Notes</div>
+              <div className="view-doctors-notes15">View Doctor’s Impressions</div>
             </div>
           </div>
           <div className="frame-child441" />
@@ -118,7 +118,7 @@ const RadConsDiagCompHist = () => {
         </div>
         <div className="rad-cons-diag-comp-hist-inner3">
           <div className="view-radiologists-notes-wrapper11">
-            <div className="view-doctors-notes15">View Radiologist’s Notes</div>
+            <div className="view-doctors-notes15">View Radiologist’s Impressions</div>
           </div>
         </div>
         <div className="rad-cons-diag-comp-hist-inner4">

@@ -11,18 +11,18 @@ import java.util.Optional;
 
 @Repository
 public interface DoctorProviderRepository extends JpaRepository<DoctorProvider, Long> {
-    @Query(value = "SELECT dp.test_id FROM doctor_provider dp WHERE dp.consent_provider_id = :consentProviderId AND dp.consent_seeker_type = :consentSeekerType AND dp.consent_Seeker_id = :consentSeekerId AND dp.notes_allowed = true", nativeQuery = true)
-    List<Long> findTestIdsWithSomeConsentedResources(String consentSeekerType, Long consentSeekerId, Long consentProviderId);
+    @Query(value = "SELECT dp.test_id FROM doctor_provider dp WHERE dp.consent_provider_id = :consentProviderId AND dp.consent_seeker_type = :consentSeekerType AND dp.consent_Seeker_id = :consentSeekerId AND dp.notes_allowed = :status", nativeQuery = true)
+    List<Long> findTestIdsWithSomeConsentedResources(String consentSeekerType, String consentSeekerId, String consentProviderId, String status);
 
     Optional<DoctorProvider> findByConsentSeekerTypeAndConsentSeekerIdAndConsentProviderIdAndTestId(String consentSeekerType, Long consentSeekerId, Long consentProviderId, Long testId);
 
     @Transactional
     @Modifying
-    void deleteByConsentSeekerTypeAndConsentSeekerId(String consentSeekerType, Long consentSeekerId);
+    void deleteByConsentSeekerTypeAndConsentSeekerId(String consentSeekerType, String consentSeekerId);
 
     @Transactional
     @Modifying
-    void deleteByConsentProviderId(Long consentProviderId);
+    void deleteByConsentProviderId(String consentProviderId);
 
     @Transactional
     @Modifying
@@ -32,19 +32,19 @@ public interface DoctorProviderRepository extends JpaRepository<DoctorProvider, 
             "AND d.consent_provider_id = :consentProviderId " +
             "AND d.test_id = :testId", nativeQuery = true)
     int updateIfExists(String consentSeekerType,
-                            Long consentSeekerId,
-                            Long consentProviderId,
-                            Long testId,
-                            boolean notesAllowed);
+                            String consentSeekerId,
+                            String consentProviderId,
+                            String testId,
+                            String notesAllowed);
 
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO doctor_provider (consent_seeker_type, consent_seeker_id, consent_provider_id, test_id, notes_allowed) " +
             "VALUES (:consentSeekerType, :consentSeekerId, :consentProviderId, :testId, :notesAllowed)", nativeQuery = true)
     void insertEntry(String consentSeekerType,
-                           Long consentSeekerId,
-                           Long consentProviderId,
-                           Long testId,
-                           boolean notesAllowed);
+                           String consentSeekerId,
+                           String consentProviderId,
+                           String testId,
+                           String notesAllowed);
 
 }

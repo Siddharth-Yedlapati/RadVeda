@@ -124,7 +124,7 @@ const PatientGaurdianInfo = () => {
     }
     else{
       alert("Guardians age must be above 18");
-      navigate("/patient-login-page")
+      navigate("/patient-signup-2")
     }
     
   }, [navigate, GdateOfBirth, Ggender, Grelationship, GphoneNumber, GuploadedFiles]);

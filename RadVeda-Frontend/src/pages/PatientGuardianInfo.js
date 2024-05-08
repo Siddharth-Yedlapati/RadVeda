@@ -91,11 +91,11 @@ const PatientGuardianInfo = () => {
   }, [navigate]);
 
   const onRectangle1Click = useCallback(() => {
-    if (!GfirstName || !GlastName || !GaddressLine1 || !GemailAddress || !GaddressLine2 || !Gcountry || !Gstate || !Gcity) {
-      navigate("/patient-signup-2"); 
-      window.alert("Didnt fill in all the guardian details, moving to Patient Details.");
-    } else {
-
+  {
+    console.log("pat",localStorage.getItem('email'));
+    console.log("guar",GemailAddress);
+    if(localStorage.getItem('email') == GemailAddress) alert("Guardian can't have same email as Patient");
+    else{ 
     localStorage.setItem('GfirstName', GfirstName);
     localStorage.setItem('GmiddleName', GmiddleName);
     localStorage.setItem('GlastName', GlastName);
@@ -105,9 +105,23 @@ const PatientGuardianInfo = () => {
     localStorage.setItem('Gcountry', Gcountry);
     localStorage.setItem('Gstate', Gstate);
     localStorage.setItem('Gcity', Gcity);
-
+    
+    if (
+      !GfirstName ||
+      !GlastName ||
+      !GaddressLine1 ||
+      !GemailAddress ||
+      !GaddressLine2 ||
+      !Gcountry ||
+      !Gstate ||
+      !Gcity
+    ) {
+      alert("Please fill in all the guardian details.");
+      return;
+    }
     navigate("/patient-gaurdian-info-2");
     }
+  }
   }, [navigate, GfirstName, GmiddleName, GlastName, GaddressLine1, GemailAddress, GaddressLine2, Gcountry, Gstate, Gcity]);
 
   const onRectangle2Click = useCallback(() => {
