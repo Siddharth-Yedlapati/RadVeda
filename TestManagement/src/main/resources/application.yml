@@ -2,9 +2,9 @@ server:
   port: 9192
 spring:
   datasource:
-    url: jdbc:mysql://localhost:4000/TestManagementDB
+    url: jdbc:mysql://localhost:3306/TestManagementDB
     username: root
-    password: mqpass
+    password: riddhi1509
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

@@ -53,6 +53,12 @@ public class TestService implements TestServiceInterface {
         // Shuffle the list to get a random order
         Collections.shuffle(digits);
 
+        //Ensure first digit isn't 0
+        while(digits.get(0) == 0)
+        {
+            Collections.shuffle(digits);
+        }
+
         // Build a 6-digit number from the first six unique digits
         long number = 0; // Use long to accumulate the result
         for (int i = 0; i < 6; i++) {
