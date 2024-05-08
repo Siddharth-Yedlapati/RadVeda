@@ -528,53 +528,32 @@
   font-weight: 600;
 } */
 
-
-.statistics-container {
-  max-width: 400px; /* Set the maximum width */
-  /* overflow-x: auto; Enable horizontal scrolling */
+.requests-piechart-container {
   position: absolute;
-  width: 350px;
-  top: 83px;
-  left: 1050px;
+  width: 320px;
+  top: 50px;
+  left: 1010px;
   color: white;
-  /* overflow-y: scroll; */
 }
 
-.statistics-heading {
-  margin-bottom: 10px; /* Add some bottom margin to the heading */
+.requests-piechart {
+  position: absolute;
+  width: 320px;
+  top: -10px;
+  left: 0;
 }
 
-.statistics-message {
-  background: linear-gradient(265.41deg, #46aa72, #2da0a4);
-  border: 1px solid black;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  color: black;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.account-piechart-container {
+  position: absolute;
+  width: 320px;
+  top: 455px;
+  left: 1010px;
+  color: white;
 }
 
-.statistics-content {
-  margin-bottom: 10px;
-}
-
-.statistics-buttons {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.statistics-button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  background-color: #ccc;
-  border: 1px solid #999;
-  cursor: pointer;
-}
-
-.statistics-button:hover {
-  background-color: #bbb;
+.account-piechart {
+  position: absolute;
+  width: 320px;
+  top: -10px;
+  left: 0;
 }
