@@ -219,6 +219,14 @@ const DocDashboard = () => {
   }, [navigate]);
 
   useEffect(() => {
+    const toggleSwitch = document.getElementById('availability-checkbox');
+    let isAvailable = toggleSwitch.checked;
+
+    toggleSwitch.addEventListener('change', function() {
+      isAvailable = toggleSwitch.checked;
+      console.log('Availability:', isAvailable ? 'Available' : 'Not Available'); 
+    });
+
     request("GET", "http://localhost:9191/doctors/profile", {}, true)
       .then(doctorResponse => {
         const doctorId = doctorResponse.data.id;
@@ -314,6 +322,11 @@ const DocDashboard = () => {
               <span>John Doe</span>
             </b>
           </div>
+          <div class="availability-toggle">
+            <input type="checkbox" id="availability-checkbox"/>
+            <label for="availability-checkbox" class="toggle">Availability:</label>
+          </div>
+
           <div className="group-wrapper53" onClick={onFrameContainerClick}>
             <div className="prescribe-test-wrapper">
               <div className="prescribe-test">Prescribe Test</div>

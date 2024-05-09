@@ -608,3 +608,32 @@
 .clear-button:hover {
   background-color: #bbb;
 }
+
+
+.availability-toggle {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.availability-toggle input {
+  display: none;
+}
+
+.toggle {
+  position: absolute;
+  cursor: pointer;
+  top: 4px;
+  left: 99px;
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .toggle {
+  left: 30px;
+}
