@@ -39,3 +39,5 @@ public class RequestsStatistics {
 
 // Used to display statistics of the following format:
 // Pending <requestType> requests made <temporalScope> by <requesterType>s: <count>
+//FOR ADMIN-> DOC, RAD, LABSTAFF
+//FOR SUPERADMIN -> DOC, RAD, LABSTAFF, ADMIN

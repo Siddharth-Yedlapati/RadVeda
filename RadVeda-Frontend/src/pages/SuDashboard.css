@@ -361,7 +361,7 @@
   width: 100%;
   position: relative;
   background-color: var(--color-gray-300);
-  height: 859px;
+  height: 899px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-5xl);
@@ -411,4 +411,36 @@
 .ignore-button:hover,
 .clear-button:hover {
   background-color: #bbb;
+}
+
+.requests-piechart-container {
+  position: absolute;
+  width: 320px;
+  top: 50px;
+  left: 1010px;
+  color: white;
+  font-size: 14px;
+}
+
+.requests-piechart {
+  position: absolute;
+  width: 320px;
+  top: -10px;
+  left: 0;
+}
+
+.account-piechart-container {
+  position: absolute;
+  width: 320px;
+  top: 455px;
+  left: 1010px;
+  color: white;
+  font-size: 14px;
+}
+
+.account-piechart {
+  position: absolute;
+  width: 320px;
+  top: -10px;
+  left: 0;
 }

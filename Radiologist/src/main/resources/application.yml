@@ -2,9 +2,9 @@ server:
   port: 9201
 spring:
   datasource:
-    url: jdbc:mysql://localhost:4000/RadiologistServiceDB
+    url: jdbc:mysql://localhost:3306/RadiologistServiceDB
     username: root
-    password: mqpass
+    password: riddhi1509
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

@@ -2,9 +2,9 @@ server:
   port: 9191
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/UserManagementDB
+    url: jdbc:mysql://localhost:4000/UserManagementDB
     username: root
-    password: mysql
+    password: mqpass
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

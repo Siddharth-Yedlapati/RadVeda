@@ -149,7 +149,7 @@ const PatientSignup1 = () => {
           "gender": localStorage.getItem("gender"),
           "race": localStorage.getItem("race"),
           "ethnicity": localStorage.getItem("ethnicity"),
-          "maritalstatus": localStorage.getItem("maritalStatus"),
+          "maritalStatus": localStorage.getItem("maritalStatus"),
           "Documents": doc_request,
           "guardianFirstName": localStorage.getItem("GfirstName"),
           "guardianMiddleName": localStorage.getItem("GmiddleName"),

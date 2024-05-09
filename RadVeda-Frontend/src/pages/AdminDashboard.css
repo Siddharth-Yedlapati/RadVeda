@@ -436,49 +436,35 @@
   width: 354px;
   height: 373px;
 }
-.doctors-onboard-257,
+/* .doctors-onboard-257,
 .patients-enrolled-today1,
 .patients-online-87,
 .statistics1,
 .total-patients-888 {
   position: absolute;
   left: 1106px;
-  font-size: var(--font-size-5xl);
   text-transform: capitalize;
-  font-weight: 600;
   display: inline-block;
-}
-.statistics1 {
-  top: 483px;
-  color: var(--color-firebrick);
+  top: 283px;
+} */
+/* .statistics1 {
+  background-color: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  position: absolute;
+  left: 1106px;
+  top: 83px;
+  color: white;
   width: 253px;
   height: 43px;
-}
-.doctors-onboard-257,
-.patients-enrolled-today1,
-.patients-online-87,
-.total-patients-888 {
-  top: 540px;
-  width: 270px;
-  height: 53px;
-}
-.doctors-onboard-257,
-.patients-enrolled-today1,
-.total-patients-888 {
-  top: 584px;
-}
-.doctors-onboard-257,
-.total-patients-888 {
-  top: 672px;
-}
-.doctors-onboard-257 {
-  top: 722px;
-}
+  font-weight: 600;
+  font-size: var(--font-size-5xl);
+} */
+
+
 .admin-dashboard {
   width: 100%;
   position: relative;
   background-color: var(--color-gray-300);
-  height: 859px;
+  height: 899px;
   overflow: hidden;
   text-align: left;
   font-size: var(--components-helper-text-size);
@@ -528,4 +514,46 @@
 .ignore-button:hover,
 .clear-button:hover {
   background-color: #bbb;
+}
+
+
+/* .statistics1 {
+  background-color: linear-gradient(265.41deg, #46aa72, #2da0a4);
+  position: absolute;
+  left: 1106px;
+  top: 83px;
+  height: 43px;
+  color: white;
+  font-size: var(--font-size-5xl);
+  font-weight: 600;
+} */
+
+.requests-piechart-container {
+  position: absolute;
+  width: 320px;
+  top: 50px;
+  left: 1010px;
+  color: white;
+}
+
+.requests-piechart {
+  position: absolute;
+  width: 320px;
+  top: -10px;
+  left: 0;
+}
+
+.account-piechart-container {
+  position: absolute;
+  width: 320px;
+  top: 455px;
+  left: 1010px;
+  color: white;
+}
+
+.account-piechart {
+  position: absolute;
+  width: 320px;
+  top: -10px;
+  left: 0;
 }
