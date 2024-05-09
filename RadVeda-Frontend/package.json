@@ -24,6 +24,7 @@
     "cornerstone-wado-image-loader": "^4.13.2",
     "dcmjs": "^0.19.9",
     "dicomweb-client": "^0.10.4",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
     "html2canvas": "^1.4.1",
     "http-headers": "^3.0.2",
     "react": "^18.2.0",
