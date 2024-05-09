@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("SuperAdminDB")
+@DiscriminatorValue("AdminDB")
 public class UserDetails {
 
 

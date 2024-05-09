@@ -14,7 +14,6 @@ public class UserDetails {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @Column(nullable = false)

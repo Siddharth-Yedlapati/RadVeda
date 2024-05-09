@@ -189,7 +189,7 @@ public class DoctorService implements DoctorServiceInterface {
 
     @Override
     public void deleteTest(Long testID){
-        doctortestsrepository.deleteTest(EncryptionUtility.encrypt(testID));
+//        doctortestsrepository.deleteTest(EncryptionUtility.encrypt(testID));
         return;
     }
 
@@ -202,4 +202,6 @@ public class DoctorService implements DoctorServiceInterface {
     public List<ConsultedDoctorTests> getConsultedDoctors(Long testID){
         return consulteddoctortestsrepository.getConsultedDoctors(EncryptionUtility.encrypt(testID));
     }
+
+
 }

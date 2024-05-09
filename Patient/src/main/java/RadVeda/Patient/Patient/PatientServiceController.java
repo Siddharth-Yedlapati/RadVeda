@@ -6,6 +6,9 @@ import RadVeda.Patient.Patient.PatientService;
 import RadVeda.Patient.exceptions.UnauthorizedUserException;
 import RadVeda.Patient.User;
 
+import RadVeda.Patient.transitEncryption.EncryptionManager;
+import RadVeda.Patient.transitEncryption.EncryptionRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.Id;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +24,23 @@ import java.util.List;
 public class PatientServiceController {
 
     private final PatientService patientService;
+    private final EncryptionRepository encryptionRepository;
 
     @CrossOrigin(origins = "http://localhost:9191")
-    @PostMapping("/addPatient")
-    public String addPatient(@RequestBody PatientRequest patientRequest, final HttpServletRequest request)  throws UnauthorizedUserException{
+    @PostMapping("{service}/addPatient")
+    public String addPatient(@RequestBody String patientRequestStr, @PathVariable String service, final HttpServletRequest request)  throws UnauthorizedUserException{
 
-//        User user = patientService.authenticate(authorizationHeader);
-//
-//        if(user == null) {
-//            throw new UnauthorizedUserException("Invalid User!");
-//        }
+        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
+        PatientRequest patientRequest;
+        ObjectMapper objectmapper = new ObjectMapper();
 
+        try {
+            patientRequestStr = encryptionManager.decryptMessage(patientRequestStr);
+            patientRequest = objectmapper.readValue(patientRequestStr, PatientRequest.class);
+        }
+        catch (Exception e) {
+            return "Fail\n"+e.getMessage();
+        }
 
         patientService.addPatient(patientRequest);
         return "Success! Patient has been added";

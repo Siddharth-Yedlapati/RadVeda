@@ -51,16 +51,16 @@ public class EncryptionService {
         map_ports.put("UMS", "9191");
 //        map_ports.put("TMS", "9192");
 //        map_ports.put("NMS", "9193");
-        map_ports.put("doctor", "9194");
-//        map_ports.put("Collab", "9195");
-//        map_ports.put("SuperAdmin", "9196");
-//        map_ports.put("Admin", "9197");
-//        map_ports.put("Patient", "9198");
+//        map_ports.put("doctor", "9194");
+//        map_ports.put("collaboration", "9195");
+//        map_ports.put("superAdmin", "9196");
+//        map_ports.put("admin", "9197");
+        map_ports.put("patient", "9198");
 //        map_ports.put("LabStaff", "9199");
 //        map_ports.put("IMS", "9200");
-//        map_ports.put("Radiologist", "9201");
+//        map_ports.put("radiologist", "9201");
 //        map_ports.put("CMS", "9202");
-//        map_ports.put("Analytics", "9203");
+//        map_ports.put("analytics", "9203");
 
 
         return map_ports;
@@ -149,7 +149,8 @@ public class EncryptionService {
         }
 
         count = 0;
-
+        servicePublicKeys = new HashMap<>();
+        System.out.println("making dummy call");
     }
 
     private void sendSharedKeysToService(String service1, String service2) throws  Exception {
@@ -184,6 +185,7 @@ public class EncryptionService {
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         return cipher.doFinal(data.getBytes());
     }
+
 
     private static List<List<String>> getPairs(List<String> columnNames) {
         List<List<String>> combinations = new ArrayList<>();

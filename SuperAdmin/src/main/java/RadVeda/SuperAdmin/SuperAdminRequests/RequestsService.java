@@ -27,7 +27,14 @@ public class RequestsService implements RequestsServiceInterface {
     @Override
     public String addUser(UserRequest request) {
 
+        Requests requests = new Requests();
+        requests.setTypeOfRequest(request.type());
+        requests.setRemarks(request.remarks());
+        requestsRepository.save(requests);
+
+
         UserDetails admin = new UserDetails();
+        admin.setId(requests.getId());
         admin.setAdminId(request.adminId());
         admin.setFirstName(request.firstName());
         admin.setMiddleName(request.middleName());
@@ -44,12 +51,8 @@ public class RequestsService implements RequestsServiceInterface {
         admin.setOrgAddressL2(request.orgAddressL2());
         admin.setRole(request.role());
 
-        Requests requests = new Requests();
-        requests.setTypeOfRequest(request.type());
-        requests.setRemarks(request.remarks());
 
         userRepository.save(admin);
-        requestsRepository.save(requests);
 
         return "Success";
 

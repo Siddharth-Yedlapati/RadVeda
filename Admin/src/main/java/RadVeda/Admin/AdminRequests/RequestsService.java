@@ -5,6 +5,9 @@ import RadVeda.Admin.Admin.AdminRepository;
 import RadVeda.Admin.AdminDoc.AdminDoc;
 import RadVeda.Admin.AdminDoc.AdminDocRepository;
 import RadVeda.Admin.AdminDoc.AdminDocService;
+import RadVeda.Admin.AdminLabStaff.AdminLabStaff;
+import RadVeda.Admin.AdminLabStaff.AdminLabStaffService;
+import RadVeda.Admin.AdminRad.AdminRadService;
 import RadVeda.Admin.StorageEncryption.EncryptionUtility;
 import RadVeda.Admin.User;
 import RadVeda.Admin.exceptions.UserNotFoundException;
@@ -31,6 +34,8 @@ public class RequestsService implements RequestsServiceInterface {
     private final AdminDocRepository adminDocRepository;
     private final AdminRepository adminRepository;
     private final AdminDocService adminDocService;
+    private final AdminRadService adminRadService;
+    private final AdminLabStaffService adminLabStaffService;
 
     @Override
     public String addUser(UserRequest request, Long adminId) {
@@ -151,7 +156,9 @@ public class RequestsService implements RequestsServiceInterface {
                     HttpMethod.POST, new HttpEntity<>(requestBody, headers), String.class);
 
             if(responseEntity.getBody()!= null && responseEntity.getBody().equalsIgnoreCase("success")){
-                adminDocService.addDocforAdmin(user.getUserId(), aId);
+                if(userRole.equalsIgnoreCase("doctor")) adminDocService.addDocforAdmin(user.getUserId(), aId);
+                if(userRole.equalsIgnoreCase("radiologist")) adminRadService.addRadForAdmin(user.getUserId(), aId);
+                if(userRole.equalsIgnoreCase("labstaff")) adminLabStaffService.addLabStaffForAdmin(user.getUserId(), aId);
                 requestsRepository.updateStatusToAccept(req_id, EncryptionUtility.encrypt("ACCEPTED"));
             }
         }

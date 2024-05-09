@@ -3,6 +3,7 @@ package RadVeda.Admin.AdminLabStaff;
 import RadVeda.Admin.Admin.Admin;
 import RadVeda.Admin.Admin.AdminRepository;
 import RadVeda.Admin.Admin.AdminService;
+import RadVeda.Admin.AdminDoc.AdminDoc;
 import RadVeda.Admin.User;
 import RadVeda.Admin.exceptions.UserNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,8 +29,8 @@ public class AdminLabStaffService implements AdminLabStaffServiceInterface {
     private final AdminService adminService;
 
     @Override
-    public AdminLabStaff addLabStaffforAdmin(AdminLabStaffRequest request) {
-        Optional<Admin> admin = adminService.findById(request.adminId());
+    public String addLabStaffForAdmin(Long labStaffId, Long adminId) {
+        Optional<Admin> admin = adminService.findById(adminId);
 
         if (admin.isEmpty()) {
             throw new UserNotFoundException("Admin Not Registered!");
@@ -38,9 +39,18 @@ public class AdminLabStaffService implements AdminLabStaffServiceInterface {
         Admin newAdmin = admin.get();
         AdminLabStaff newRecord = new AdminLabStaff();
         newRecord.setAdmin(newAdmin);
-        newRecord.setLabstaffId(request.labstaffId());
+        newRecord.setLabstaffId(labStaffId);
 
-        return adminLabStaffRepository.save(newRecord);
+        try {
+            adminLabStaffRepository.save(newRecord);
+        }
+        catch(Error | Exception e) {
+            e.printStackTrace();
+            return "failure";
+        }
+
+        return "Success";
+
     }
 
     @Override
