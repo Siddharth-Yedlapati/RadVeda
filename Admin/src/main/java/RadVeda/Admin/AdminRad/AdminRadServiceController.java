@@ -15,15 +15,15 @@ public class AdminRadServiceController {
     private final AdminRadService adminRadService;
 
     /* Call from Test Management Service after adding a new test*/
-    @CrossOrigin(origins = "http://localhost:9192")
-    @PostMapping("/addRad")
-    public String addRadforAdmin(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                                 @RequestBody AdminRadRequest adminRadRequest,
-                                 final HttpServletRequest request)  throws UnauthorizedUserException {
-
-        adminRadService.addRadforAdmin(adminRadRequest);
-        return "Radiologist successfully added";
-    }
+//    @CrossOrigin(origins = "http://localhost:9192")
+//    @PostMapping("/addRad")
+//    public String addRadforAdmin(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+//                                 @RequestBody AdminRadRequest adminRadRequest,
+//                                 final HttpServletRequest request)  throws UnauthorizedUserException {
+//
+//        adminRadService.addRadforAdmin(adminRadRequest);
+//        return "Radiologist successfully added";
+//    }
 
     @CrossOrigin(origins = "http://localhost:9192")
     @DeleteMapping("/{radId}/deleteRad")

@@ -37,7 +37,7 @@ public class AdminService implements AdminServiceInterface {
         List<Admin> allAdmins = getAdmins();
 
         for (Admin admin : allAdmins) {
-            if (!admin.isEnabled()) {
+            if (!admin.isEmailVerified()) {
                 AdminVerificationToken token = adminTokenRepository.findByAdmin_id(admin.getId());
                 Calendar calendar = Calendar.getInstance();
                 if (token == null || (token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
@@ -122,7 +122,27 @@ public class AdminService implements AdminServiceInterface {
         admin.setEnabled(admin.isEmailVerified() && admin.isAdminVerified());
         adminRepository.save(admin);
         if (admin.isEnabled()) {
-            return sendUserToServer(admin);
+            String res = sendUserToServer(admin);
+            if(res.equalsIgnoreCase("success")) return "success";
+            else {
+                ResponseEntity<String> responseEntity;
+                HttpHeaders headers = new HttpHeaders();
+                RestTemplate restTemplate = new RestTemplate();
+                responseEntity = restTemplate.exchange("http://localhost:9197/admin-doc/deleteDoc/" +
+                        admin.getId(), HttpMethod.DELETE ,new HttpEntity<>(headers), String.class);
+
+                if(responseEntity.getBody() != null && responseEntity.getBody().equalsIgnoreCase("success")) {
+                    adminTokenRepository.delete(token);
+                    admindocumentsrepository.delete(admin.getId());
+                    adminRepository.delete(admin);
+                }
+                else {
+                    admin.setEmailVerified(false);
+                    admin.setEnabled(admin.isEmailVerified() && admin.isAdminVerified());
+                    adminRepository.save(admin);
+                }
+                return "failure";
+            }
         }
         return "success";
     }
@@ -234,9 +254,6 @@ public class AdminService implements AdminServiceInterface {
         }
         catch (Exception e) {
             e.printStackTrace();
-            adminTokenRepository.deleteByAdminId(admin.getId());
-            admindocumentsrepository.delete(admin.getId());
-            adminRepository.deleteById(admin.getId());
             return "failure";
         }
         return responseEntity.getBody();
@@ -293,9 +310,6 @@ public class AdminService implements AdminServiceInterface {
         }
         catch (Exception e) {
             e.printStackTrace();
-            adminTokenRepository.deleteByAdminId(admin.getId());
-            admindocumentsrepository.delete(admin.getId());
-            adminRepository.deleteById(admin.getId());
             return "failure";
         }
         return responseEntity.getBody();

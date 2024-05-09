@@ -19,6 +19,5 @@ public class EncryptionController {
         if(res == 1) {
             encryptionService.generateSharedKeys();
         }
-
     }
 }

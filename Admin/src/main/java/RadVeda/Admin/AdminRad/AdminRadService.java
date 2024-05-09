@@ -3,6 +3,7 @@ package RadVeda.Admin.AdminRad;
 import RadVeda.Admin.Admin.Admin;
 import RadVeda.Admin.Admin.AdminRepository;
 import RadVeda.Admin.Admin.AdminService;
+import RadVeda.Admin.AdminDoc.AdminDoc;
 import RadVeda.Admin.User;
 import RadVeda.Admin.exceptions.UserNotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,8 +28,8 @@ public class AdminRadService implements AdminRadServiceInterface {
     private final AdminService adminService;
 
     @Override
-    public AdminRad addRadforAdmin(AdminRadRequest request) {
-        Optional<Admin> admin = adminService.findById(request.adminId());
+    public String addRadForAdmin(Long radId, Long adminId) {
+        Optional<Admin> admin = adminService.findById(adminId);
 
         if (admin.isEmpty()) {
             throw new UserNotFoundException("Admin Not Registered!");
@@ -37,9 +38,17 @@ public class AdminRadService implements AdminRadServiceInterface {
         Admin newAdmin = admin.get();
         AdminRad newRecord = new AdminRad();
         newRecord.setAdmin(newAdmin);
-        newRecord.setRadId(request.radId());
+        newRecord.setRadId(radId);
 
-        return adminRadRepository.save(newRecord);
+        try {
+            adminRadRepository.save(newRecord);
+        }
+        catch(Error | Exception e) {
+            e.printStackTrace();
+            return "failure";
+        }
+
+        return "Success";
     }
 
     @Override

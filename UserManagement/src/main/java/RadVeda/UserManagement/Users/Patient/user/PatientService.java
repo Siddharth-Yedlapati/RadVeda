@@ -10,6 +10,8 @@ import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationToke
 import RadVeda.UserManagement.Users.Patient.signup.token.PatientVerificationTokenRepository;
 import RadVeda.UserManagement.Users.Patient.signup.PatientServiceRequest;
 import RadVeda.UserManagement.exception.UserAlreadyExistsException;
+import RadVeda.UserManagement.security.transitEncryption.EncryptionManager;
+import RadVeda.UserManagement.security.transitEncryption.EncryptionRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +36,7 @@ public class PatientService implements PatientServiceInterface {
     private final BCryptPasswordEncoder passwordEncoder;
     private final PatientVerificationTokenRepository patientTokenRepository;
     private final PatientGuardianVerificationTokenRepository patientGuardianTokenRepository;
+    private final EncryptionRepository encryptionRepository;
 
     @Override
     public List<Patient> getPatients() {
@@ -121,6 +124,10 @@ public class PatientService implements PatientServiceInterface {
     @Override
     public Patient registerPatient(PatientSignUpRequest request) {
         cleanUp(); // Cleaning up the Patient and PatientVerificationToken tables before a new signup
+
+        EncryptionManager encryptionManager = new EncryptionManager("patient", encryptionRepository);
+
+
         Optional<Patient> patient = this.findByEmail(request.email());
         if (patient.isPresent()) {
             throw new UserAlreadyExistsException(
@@ -166,10 +173,17 @@ public class PatientService implements PatientServiceInterface {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        
+
+        try {
+            requestBody = encryptionManager.encryptMessage(requestBody);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ResponseEntity<String> responseEntity;
 
-        responseEntity = restTemplate.exchange("http://localhost:9198/patient/addPatient", HttpMethod.POST ,new HttpEntity<>(requestBody, headers), String.class);
+        responseEntity = restTemplate.exchange("http://localhost:9198/patient/UMS/addPatient", HttpMethod.POST ,new HttpEntity<>(requestBody, headers), String.class);
         for (String document : request.Documents()){
             var newDocument = new PatientDocuments();
             newDocument.setDocuments(document);

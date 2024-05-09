@@ -2,9 +2,9 @@ server:
   port: 9198
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/PatientDB
+    url: jdbc:mysql://localhost:4000/PatientDB
     username: root
-    password: riddhi1509
+    password: mqpass
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
