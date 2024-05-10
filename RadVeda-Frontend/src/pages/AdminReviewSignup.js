@@ -8,27 +8,29 @@ import "./AdminReviewSignup.css";
 
 const AdminReviewSignup = () => {
   const navigate = useNavigate();
-  const [id, setID] = useState(0)
-  if(getAuthToken() !== null && getAuthToken() !== "null")
-  {
-    request(
-      "GET",
-      "/admins/profile",
-      {},
-      true
-      ).then(response => {
-        setID(response.data.id)
-      }).catch(error => {
-        navigate("/admin-login-page");
-      })
-  }
-  else
-  {
-    useEffect(() => {navigate("/admin-login-page");}) 
-  }
+  const [adminId, setAdminId] = useState(-1);
+  // if(getAuthToken() !== null && getAuthToken() !== "null")
+  // {
+  //   request(
+  //     "GET",
+  //     "/admins/profile",
+  //     {},
+  //     true
+  //     ).then(response => {
+  //       console.log(response.data)
+  //       setID(response.data.id)
+  //     }).catch(error => {
+  //       navigate("/admin-login-page");
+  //     })
+  // }
+  // else
+  // {
+  //   useEffect(() => {navigate("/admin-login-page");}) 
+  // }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
-  const [signupDetails, setSignupDetails] = useState([])
+  const [signupDetails, setSignupDetails] = useState([]);
+  // const [reqId, setReqId] = useState(0);
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -45,25 +47,58 @@ const AdminReviewSignup = () => {
   let doS = []
   useEffect(() => {
 
-    request("GET", `http://localhost:9197/${id}/getRequests/SIGNUP`, {}, true)
-      .then(reqResponse => {
-        const reqId = reqResponse.data.id;
-        const dateOfSignup = reqResponse.data.dateOfRequest
-        doS.push(dateOfSignup);
-        return request("GET", `http://localhost:9197/userInfo/${reqId}`, {}, true);
-      })
-      .then(userResponse => { 
-        const userInfo = userResponse.data;
-        console.log(userInfo);
-        setSignupDetails(userInfo);
-      })
+  
+    if(getAuthToken() !== null && getAuthToken() !== "null")
+    {
+      request ("GET", "http://localhost:9191/admins/profile", {}, true).
+    then(patResponse => {
+      const adminId1 = patResponse.data.id;
+      setAdminId(adminId);
+      console.log(adminId1);
+      return request("GET", `http://localhost:9197/requests/${adminId}/getRequests/SIGNUP`, {}, true)
+    })
+    .then(userDetails => {
+      console.log(userDetails)
+      setSignupDetails(userDetails);
+      console.log(signupDetails)
+    })
+    .catch(error => {
+      console.log(error)
+      var errormsg = error.response.data.error;
+      if(!(errormsg === "No tests found for the given ID")){
+        alert(error.response.data.error)
+      }
+    });
+    }
+    else
+    {
+      useEffect(() => {navigate("/admin-login-page");}) 
+    }
+
+
+    // request("GET", `http://localhost:9197/requests/1/getRequests/SIGNUP`, {}, true)
+    //   .then(reqResponse => {
+
+    //     const reqId = reqResponse.data.id;
+    //     const dateOfSignup = reqResponse.data.dateOfRequest
+    //     console.log(reqResponse);
+    //     doS.push(dateOfSignup);
+    //     return request("GET", `http://localhost:9197/requests/userInfo/${reqId}`, {}, true);
+    //   })
+    //   .then(userResponse => { 
+    //     const userInfo = userResponse.data;
+    //     console.log(userInfo);
+    //     setSignupDetails(userInfo);
+    //   })
       
-      .catch(error => {
-        var errormsg = error.response.data.error;
-        if(!(errormsg === "No tests found for the given ID")){
-          alert(error.response.data.error)
-        }
-      });
+    //   .catch(error => {
+    //     var errormsg = error.response.data.error;
+    //     if(!(errormsg === "No tests found for the given ID")){
+    //       alert(error.response.data.error)
+    //     }
+    //   });
+
+
   }, []);
 
   const handleAccept = () => {
@@ -75,6 +110,7 @@ const AdminReviewSignup = () => {
   }
 
   const renderPatientsTable = () => {
+    console.log(signupDetails);
     return (
       <table className = "patients-table">
         <thead>
@@ -87,10 +123,11 @@ const AdminReviewSignup = () => {
           </tr>
         </thead>
         <tbody className="tableBody">
-        {signupDetails.map((detail, index) => (
-            <tr key={detail.id}>
-              <td>{detail.name}</td>
-              <td>{doS[index]}</td>
+        {signupDetails.map((detail) => (
+            <tr>
+              <td>{detail.firstName}</td>
+              <td>{detail.role}</td>
+              <td>{detail.dateOfRequest}</td>
               <td>
               {/* Buttons for Accept and Decline */}
                 <button onClick={() => handleAccept(detail)}>Accept</button>
@@ -135,8 +172,9 @@ const AdminReviewSignup = () => {
           </div>
         </div>
 
+        
 
-        <div className="frame-parent44">
+        {/* <div className="frame-parent44">
           <div className="frame-child364" />
           <div className="sign-up-requests-group">
             <b className="sign-up-requests-container1">
@@ -293,7 +331,8 @@ const AdminReviewSignup = () => {
           <div className="view-wrapper40">
             <div className="view42">Back</div>
           </div>
-        </div>
+        </div> */}
+
       </div>
       {isNPUserOptionsOpen && (
         <PortalPopup

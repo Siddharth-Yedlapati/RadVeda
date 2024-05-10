@@ -54,13 +54,13 @@ public class RequestsController {
         if(user == null) {
             throw new UnauthorizedUserException("Invalid User!");
         }
-
+        System.out.print(id);
         return requestsService.userInfo(id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("{adminId}/getRequests/{type}")
-    List<Requests> getRequest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+    List<RequestsRecord> getRequest(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
                               @PathVariable Long adminId,
                               @PathVariable String type)
             throws UnauthorizedUserException {

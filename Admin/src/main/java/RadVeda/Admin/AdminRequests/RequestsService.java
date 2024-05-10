@@ -94,8 +94,17 @@ public class RequestsService implements RequestsServiceInterface {
     }
 
     @Override
-    public List<Requests> getRequest(Long adminId, String type) {
-        return requestsRepository.getTypeRequests(EncryptionUtility.encrypt(adminId), EncryptionUtility.encrypt(type), EncryptionUtility.encrypt("TBD"));
+    public List<RequestsRecord> getRequest(Long adminId, String type) {
+        System.out.println(type);
+        List<Requests> req = requestsRepository.getTypeRequests(EncryptionUtility.encrypt(adminId), EncryptionUtility.encrypt(type), EncryptionUtility.encrypt("TBD"));
+        List<RequestsRecord> reqs = new ArrayList<>();
+        for(Requests r: req) {
+            long id = r.getId();
+            UserDetails u = userInfo(id);
+            RequestsRecord rec = new RequestsRecord(u.getFirstName(), r.getRole(), r.getDateOfRequest());
+            reqs.add(rec);
+        }
+        return reqs;
     }
 
     @Override

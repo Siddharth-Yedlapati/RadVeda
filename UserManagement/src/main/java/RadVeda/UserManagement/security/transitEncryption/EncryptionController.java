@@ -16,7 +16,7 @@ public class EncryptionController {
     public void sendPublicKey(@RequestBody byte[] publicKey, @PathVariable String service) {
         int res = encryptionService.addPublicKey(service, publicKey);
         System.out.println(res);
-        if(res == 1) {
+        if(res == 2) {
             encryptionService.generateSharedKeys();
         }
     }
