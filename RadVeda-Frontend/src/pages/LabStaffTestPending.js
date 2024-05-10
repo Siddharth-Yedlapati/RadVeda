@@ -4,6 +4,9 @@ import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
+import S3 from 'react-aws-s3';
+import { string_delimiter, config } from "../config";
+
 import "./LabStaffTestPending.css";
 
 const LabStaffTestPending = () => {
@@ -28,7 +31,57 @@ const LabStaffTestPending = () => {
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFiles, setuploadedFiles] = useState([]);
   
+
+  var base_url = "https://radveda.s3.ap-south-1.amazonaws.com/"
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  }
+
+  const uploadFile = async (file) => {
+    const ReactS3Client = new S3(config);
+    // the name of the file uploaded is used to upload it to S3
+    console.log(uploadedFiles)
+    ReactS3Client
+    .uploadFile(file, "LABSTAFF" + string_delimiter + localStorage.getItem("email") + string_delimiter + file.name)
+    .then(data => {
+      console.log(data)
+      uploadedFiles.push(data.location);
+      request(
+        "POST",
+        "http://localhost:9200/images/addOriginalImage",
+        {
+          "testID": localStorage.getItem("currentTestID"),
+          "imageURL": data.location
+        },
+        true
+      ).then((response) => {
+        alert(response.data)
+        request(
+          "POST",
+          "http://localhost:9192/tests/updateTestStatus", 
+          {
+            "testID": localStorage.get("currentTestID"),
+            "PatientStatus": "Pending For Review By Radiologist",
+            "DoctorStatus": "Pending For Review By Radiologist",
+            "RadiologistStatus": "Pending for Review",
+            "LabStaffStatus": "Test Completed"
+          },
+          true
+        )
+      }).then((response) => {
+        navigate("/labstaff-dashboard")
+        console.log(response)
+      }).catch((error) => {
+        alert(error.response.data.error);
+      })
+      setuploadedFiles(uploadedFiles)
+    })
+    .catch(err => console.error(err))
+}
+
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -90,7 +143,11 @@ const LabStaffTestPending = () => {
         </div>
         <div className="labstaff-test-pending-inner3">
           <div className="upload-images-wrapper">
-            <div className="upload-remarks">Upload Images</div>
+            <div className="upload-remarks">
+            <input type="file" onChange={handleFileInput}/>
+            <br></br>
+            <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+            </div>
           </div>
         </div>
       </div>

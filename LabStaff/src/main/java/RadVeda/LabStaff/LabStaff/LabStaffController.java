@@ -25,9 +25,7 @@ public class LabStaffController {
 
     @CrossOrigin(origins = umService)
     @PostMapping("/addLabStaff")
-    public String addLabStaff(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                                @RequestBody LabStaffRequest labStaffRequest,
-                                final HttpServletRequest request)  throws UnauthorizedUserException {
+    public String addLabStaff(@RequestBody LabStaffRequest labStaffRequest, final HttpServletRequest request)  throws UnauthorizedUserException {
 
 //        User user = labStaffService.authenticate(authorizationHeader);
 //

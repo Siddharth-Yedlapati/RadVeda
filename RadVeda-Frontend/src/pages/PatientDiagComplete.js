@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import PatientUserOptions from "../components/PatientUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import PatientDocRemarks from "../components/PatientDocRemarks";
@@ -6,8 +6,17 @@ import PatientPersonnelInfo from "../components/PatientPersonnelInfo";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
+import DicomViewer from "./DicomViewer";
+import cornerstone from "cornerstone-core";
+import dicomParser from "dicom-parser";
+import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
 import "./PatientDiagComplete.css";
+import S3 from 'react-aws-s3';
+import { string_delimiter, config } from "../config";
 
+cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
+
+cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
 const PatientDiagComplete = () => {
   const navigate = useNavigate();
 
@@ -33,7 +42,8 @@ const PatientDiagComplete = () => {
   const [isPatientDocRemarksOpen, setPatientDocRemarksOpen] = useState(false);
   const [isPatientPersonnelInfoOpen, setPatientPersonnelInfoOpen] =
     useState(false);
-  
+  const [imageURL, setImageURL] = useState("");
+  const divRef = useRef(null);
 
   const openPatientUserOptions = useCallback(() => {
     setPatientUserOptionsOpen(true);
@@ -63,6 +73,103 @@ const PatientDiagComplete = () => {
     navigate("/patient-dashboard");
   }, [navigate]);
 
+  // async function downloadTestReport(){
+  //   request(
+  //     "GET",
+  //     "http://localhost:9194/doctor/" + localStorage.getItem("testID") + "/getReport",
+  //     {},
+  //     true
+  //   ).then((response) => {
+  //     console.log(response)
+  //     const ReactS3Client = new S3(config);
+  //     ReactS3Client.getObject(response.data, localStorage.getItem("testID") + "_report.pdf");
+  //   })
+    
+  // }
+
+  // async function downloadTestReport() {
+  //   try {
+  //     const response = await fetch("http://localhost:9194/doctor/" + localStorage.getItem("testID") + "/getReport");
+      
+  //     if (!response.ok) {
+  //       throw new Error('Failed to download file');
+  //     }
+  
+  //     const blob = await response.blob();
+  
+  //     // Create a temporary URL for the blob
+  //     const url = window.URL.createObjectURL(blob);
+  
+  //     // Create a link element
+  //     const link = document.createElement('a');
+  //     link.href = url;
+  //     link.download = 'test_report.pdf'; // specify the file name here
+  //     document.body.appendChild(link);
+  
+  //     // Trigger the download
+  //     link.click();
+  
+  //     // Clean up
+  //     window.URL.revokeObjectURL(url);
+  //     document.body.removeChild(link);
+  //   } catch (error) {
+  //     console.error('Error downloading file:', error);
+  //   }
+  // }
+
+  useEffect(() => {
+
+
+    request(
+      "GET",
+      "http://localhost:9200/images/" + localStorage.getItem("testID") + "/getImageOriginal",
+      {},
+      true
+    ).then((response) => {
+      setImageURL(response.data[0].imageURL)
+      console.log(imageURL)
+    
+    const particularDiv = document.getElementsByClassName('xray1-1-icon19')[0];
+    
+    // Set divRef.current to the particular div
+    const image_url = "wadouri:" + response.data[0].imageURL
+    divRef.current = particularDiv;
+    cornerstone.enable(divRef.current);
+    cornerstone
+    .loadImage(
+      image_url
+    )
+    .then(image => {
+
+      console.log(image);
+      const viewport = {
+        invert: false,
+        pixelReplication: false,
+        voi: {
+          windowWidth: 279,
+          windowCenter: 200
+        },
+        scale: 0.4
+        ,
+        translation: {
+          x: 0,
+          y: 0
+        }
+        // colormap: "hot"
+      };
+
+      cornerstone.displayImage(divRef.current, image, viewport);
+
+      // run();
+
+      // cornerstone.setViewport(divRef.current, viewport);
+      // cornerstone.updateImage(divRef.current);
+    }).catch((error) => {
+      console.log(error.response.data.error)
+    })
+    });
+  }, [imageURL]);
+
   return (
     <>
       <div className="patient-diag-complete">
@@ -90,7 +197,7 @@ const PatientDiagComplete = () => {
           <div className="frame-child339" />
           <div className="frame-child340" />
           <b className="test-image2">Test Image</b>
-          <img className="xray1-1-icon19" alt="" src="/xray1-1@2x.png" />
+          <img className="xray1-1-icon19" />
           <div className="group-wrapper80">
             <div className="download-test-report-wrapper">
               <div className="download-test-report">Download Test Report</div>

@@ -1,4 +1,4 @@
-package RadVeda.LabStaff.LabStaff;
+package RadVeda.UserManagement.Users.LabStaff.signup;
 
 import java.time.LocalDate;
 import java.util.Date;

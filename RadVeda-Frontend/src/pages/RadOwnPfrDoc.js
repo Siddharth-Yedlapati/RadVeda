@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import RadOwnDocNotes from "../components/RadOwnDocNotes";
@@ -8,6 +8,14 @@ import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
 import "./RadOwnPfrDoc.css";
+import DicomViewer from "./DicomViewer";
+import cornerstone from "cornerstone-core";
+import dicomParser from "dicom-parser";
+import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
+
+cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
+
+cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
 
 const RadOwnPfrDoc = () => {
   const navigate = useNavigate();
@@ -35,7 +43,9 @@ const RadOwnPfrDoc = () => {
   const [isRadOwnNotesOpen, setRadOwnNotesOpen] = useState(false);
   const [isRadOwnOtherRadNotesOpen, setRadOwnOtherRadNotesOpen] =
     useState(false);
-  
+  const [imageURL, setImageURL] = useState("");
+  const divRef = useRef(null);
+
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -55,8 +65,107 @@ const RadOwnPfrDoc = () => {
 
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
-  
+  const [annotatedimage, setannotatedimage] = useState("");
 
+  async function fetchAndDisplayImage() {
+    try {
+
+        const displayDiv = document.getElementsByClassName('annotely-image-1-icon')[0];
+        // Fetch image data from Amazon S3
+        const response = await fetch(annotatedimage);
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch image');
+        }
+        
+        // Read the image data as a blob
+        const blob = await response.blob();
+        
+        // Create an img element
+        const imgElement = document.createElement('img');
+        
+        // Set the src attribute of the img element to the blob URL
+        imgElement.src = URL.createObjectURL(blob);
+        imgElement.width = 250
+        imgElement.height = 250
+        imgElement.style.position = 'relative';
+        imgElement.style.top = "-300px"
+        // Append the img element to the display div
+        displayDiv.appendChild(imgElement);
+        displayDiv.bottom = 120
+    } catch (error) {
+        console.error('Error fetching and displaying image:', error);
+    }
+}
+  
+  useEffect(() => {
+    request(
+      "GET",
+      "http://localhost:9200/images/" + localStorage.getItem("testID") + "/" + localStorage.getItem("radID") + "/getImageAnnotated",
+      {},
+      true
+    ).then((response) => {
+      setannotatedimage(response.data[0].imageURL)
+      console.log(annotatedimage)
+    })
+  }, [annotatedimage]);
+
+  useEffect(() => {
+
+
+    request(
+      "GET",
+      "http://localhost:9200/images/" + localStorage.getItem("testID") + "/getImageOriginal",
+      {},
+      true
+    ).then((response) => {
+      setImageURL(response.data[0].imageURL)
+      console.log(imageURL)
+    
+    const particularDiv = document.getElementsByClassName('xray1-1-icon')[0];
+    
+    // Set divRef.current to the particular div
+    const image_url = "wadouri:" + response.data[0].imageURL
+    divRef.current = particularDiv;
+    cornerstone.enable(divRef.current);
+    cornerstone
+    .loadImage(
+      image_url
+    )
+    .then(image => {
+
+      console.log(image);
+      const viewport = {
+        invert: false,
+        pixelReplication: false,
+        voi: {
+          windowWidth: 279,
+          windowCenter: 200
+        },
+        scale: 0.4
+        ,
+        translation: {
+          x: 0,
+          y: 0
+        }
+        // colormap: "hot"
+      };
+
+      cornerstone.displayImage(divRef.current, image, viewport);
+
+      // run();
+
+      // cornerstone.setViewport(divRef.current, viewport);
+      // cornerstone.updateImage(divRef.current);
+
+      fetchAndDisplayImage();
+
+    }).catch((error) => {
+      console.log(error.response.data.error)
+    })
+    });
+  }, [imageURL]);
+  
 
   const deleteChatID = (index) => {
     // console.log(res);
@@ -290,11 +399,9 @@ const RadOwnPfrDoc = () => {
           <div className="frame-child53" />
           <div className="frame-child51" />
           <b className="original-image1">Original Image</b>
-          <img className="xray1-1-icon1" alt="" src="/xray1-1@2x.png" />
-          <img
-            className="annotely-image-1-icon1"
-            alt=""
-            src="/annotely-image-1@2x.png"
+          <div className="xray1-1-icon"/>
+          <div
+            className="annotely-image-1-icon"
           />
           <div className="group-wrapper38" onClick={onFrameContainer1Click}>
             <div className="add-notes-container">

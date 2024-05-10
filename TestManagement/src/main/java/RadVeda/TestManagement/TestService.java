@@ -304,8 +304,8 @@ public class TestService implements TestServiceInterface {
         if(flag == 1 || flag1 == 1){        // TODO: ROLLBACK PROPERLY
             throw new UserNotFoundException("Error");
         }
-        testRepository.addLabforTest(EncryptionUtility.encrypt(testId), EncryptionUtility.encrypt(labStaff));
-        testRepository.updateTestStatus(EncryptionUtility.encrypt(testId),
+        testRepository.addLabforTest(testId, EncryptionUtility.encrypt(labStaff));
+        testRepository.updateTestStatus(testId,
                 EncryptionUtility.encrypt("Test Not Conducted"),
                 EncryptionUtility.encrypt("Pending For Review by Radiologist"),
                 EncryptionUtility.encrypt(test.getRadiologistStatus()),
@@ -339,11 +339,11 @@ public class TestService implements TestServiceInterface {
             throw new UserNotFoundException("Error in assigning a radiologist");
             // throw new UserNotFoundException("Failed to prescribe test");
         }
-        testRepository.addRadForTest(EncryptionUtility.encrypt(testId), EncryptionUtility.encrypt(rad));
-        testRepository.updateTestStatus(EncryptionUtility.encrypt(testId),
+        testRepository.addRadForTest(testId, EncryptionUtility.encrypt(rad));
+        testRepository.updateTestStatus(testId,
                 EncryptionUtility.encrypt(test.getPatientStatus()),
                 EncryptionUtility.encrypt(test.getDoctorStatus()),
-                EncryptionUtility.encrypt("Pending for Review"),
+                EncryptionUtility.encrypt("Test Not Conducted"),
                 EncryptionUtility.encrypt(test.getLabStaffStatus()));
         return test;
     }
@@ -763,6 +763,43 @@ public class TestService implements TestServiceInterface {
 
         return false;
     }
+
+    @Override
+    public Test updateTestStatus(Long testID, String userType, String status){
+        Test savedtest = testRepository.findById(testID).orElseThrow(() -> new UserNotFoundException("Test not found"));
+        if("DOCTOR".equals(userType)){
+            savedtest.setDoctorStatus(status);
+        }
+        else if("PATIENT".equals(userType)){
+            savedtest.setPatientStatus(status);
+        }
+        else if("RADIOLOGIST".equals(userType)){
+            savedtest.setRadiologistStatus(status);
+        }
+        else if("LABSTAFF".equals(userType)){
+            savedtest.setLabStaffStatus(status);    
+        }
+        return testRepository.save(savedtest);
+    }
+
+    @Override
+    public Test updateTestStatus(UpdateTestRequest request){
+        Test savedtest = testRepository.findById(request.testID()).orElseThrow(() -> new UserNotFoundException("Test not found"));
+        if(request.DoctorStatus() != null) {
+            savedtest.setDoctorStatus(request.DoctorStatus());
+        }
+        if(request.PatientStatus() != null) {
+            savedtest.setPatientStatus(request.PatientStatus());
+        }
+        if(request.RadiologistStatus() != null) {
+            savedtest.setRadiologistStatus(request.RadiologistStatus());
+        }
+        if(request.LabStaffStatus() != null) {
+            savedtest.setLabStaffStatus(request.LabStaffStatus());
+        }
+        return testRepository.save(savedtest);
+    }
+    
 
     @Override
     public User authenticate(String authorizationHeader)

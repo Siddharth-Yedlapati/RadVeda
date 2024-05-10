@@ -503,7 +503,21 @@ const PatientDashboard = () => {
   };
 
   const handleRowClick = (testID) => {
-    console.log('Clicked Row');
+    const test = testDetails.find(testDetail => testDetail.id === testID);
+    localStorage.setItem("testID", test.id);
+    const status = test.patientStatus;
+    if(status == "Pending For Review By Radiologist"){
+      navigate("/patient-pfr-radiologist");
+    }
+    else if(status == "Pending For Review By Doctor"){
+      navigate("/patient-pfr-doctor");
+    }
+    else if(status == "Diagnosis Completed"){
+      navigate("/patient-diag-complete");
+    }
+    else {
+      console.error("Doctor Status not valid:", status)  // ensure that the doctorstatus is one of the above 3
+    }
   }
 
   // const handleButtonClick = (testID) => {

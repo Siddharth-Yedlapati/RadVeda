@@ -12,6 +12,10 @@ import RadVeda.TestManagement.exception.UnauthorisedUserException;
 
 import java.util.Objects;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import RadVeda.TestManagement.UpdateTestRequest;
+
 
 
 @RestController
@@ -221,4 +225,28 @@ public class TestController {
 
         return testService.validateTestVerificationOTP(patientId, currentuser.getId(), otp, authorizationHeader);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/updateTestStatus/{testID}/{UserType}/{status}")
+    public String updateTestStatus(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID, @PathVariable String UserType, @PathVariable String status) {
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        testService.updateTestStatus(testID, UserType, status);
+        return "Successfully updated test status";
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/updateTestStatus")
+    public Test updateTestStatus(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody UpdateTestRequest request){
+        User currentuser = testService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return testService.updateTestStatus(request);
+    }
+    
 }

@@ -340,7 +340,7 @@ const DocOwnPatientDetails = () => {
     else if(status == "Pending For Review"){
       navigate("/doc-own-pfr");
     }
-    else if(status == "Diagnosis Complete"){
+    else if(status == "Diagnosis Completed"){
       navigate("/doc-own-diag-complete");
     }
     else {
@@ -417,7 +417,7 @@ const DocOwnPatientDetails = () => {
           {renderTestsTable()}
           </div> */}
           
-        <div className="my-tests-list-parent" >
+        <div className="my-tests-list-parent1" >
           <b className="my-tests-list">Tests prescribed by me</b>
           <div className="frame-child-test-125" >
           {renderTestsTable()}

@@ -181,11 +181,18 @@ public class DoctorService implements DoctorServiceInterface {
     }
 
     @Override
-    public DoctorTests addNotes(Long id, String notes){
-        DoctorTests test = doctortestsrepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Test not found"));
-        test.setDoctorNotes(notes);
+    public DoctorTests addNotes(Long id, NotesRequest notes){
+        DoctorTests test = doctortestsrepository.gettestbyid(EncryptionUtility.encrypt(id)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
+        test.setDoctorNotes(notes.notes());
         return doctortestsrepository.save(test);
     } 
+
+    @Override
+    public DoctorTests addReport(Long id, ReportRequest report){
+        DoctorTests test = doctortestsrepository.gettestbyid(EncryptionUtility.encrypt(id)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
+        test.setDoctorNotes(report.report());
+        return doctortestsrepository.save(test);
+    }
 
     @Override
     public void deleteTest(Long testID){
@@ -203,5 +210,17 @@ public class DoctorService implements DoctorServiceInterface {
         return consulteddoctortestsrepository.getConsultedDoctors(EncryptionUtility.encrypt(testID));
     }
 
+
+    @Override
+    public String getNotes(Long testID){
+        DoctorTests test = doctortestsrepository.gettestbyid(EncryptionUtility.encrypt(testID)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
+        return test.getDoctorNotes();        
+    }
+
+    @Override
+    public String getReport(Long testID){
+        DoctorTests test = doctortestsrepository.gettestbyid(EncryptionUtility.encrypt(testID)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
+        return test.getReport();
+    }
 
 }

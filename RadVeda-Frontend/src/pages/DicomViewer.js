@@ -13,8 +13,11 @@ import addButtonToToolbar from './helpers/helpers/addButtonToToolbar';
 import html2canvas from 'html2canvas';
 import * as cornerstoneTools from '@cornerstonejs/tools';
 import { useEffect, useState } from 'react';
+import { string_delimiter, config } from "../config";
+import S3 from 'react-aws-s3';
+import { request, getAuthToken} from "../axios_helper";
 
-const DicomViewer = () => {
+const DicomViewer = ({imagelink}) => {
   const {
     LengthTool,
     ProbeTool,
@@ -54,41 +57,145 @@ const DicomViewer = () => {
     // Remove the link from the body
     document.body.removeChild(link);
   }
+
+//   function uploadImageToS3(image, params) {
+//     // Upload image to S3
+//     const ReactS3Client = new S3(config);
+//     ReactS3Client.uploadFile(params, "RADIOLOGIST" + string_delimiter + "ANNOTATED" + string_delimiter + params.Key)
+//         .then((data) => {
+//             console.log('Upload success:', data);
+//         })
+//         .catch((err) => {
+//             console.error('Upload error:', err);
+//         });
+// }  
+
+function uploadImageToS3(imageFile, params) {
+  // Upload image to S3
+  const ReactS3Client = new S3(config);
+  ReactS3Client.uploadFile(imageFile, "RADIOLOGIST" + string_delimiter + "ANNOTATED" + string_delimiter + params.Key)
+      .then((data) => {
+          console.log('Upload success:', data);
+          request(
+            "POST",
+            "http://localhost:9200/images/addAnnotatedImage",
+            {
+              "testID": localStorage.getItem("testID"),
+              "radID": localStorage.getItem("radID"),
+              "imageURL": data.location
+            },
+            true
+          )
+          }).then((response) => {
+            request(
+              "POST",
+              "http://localhost:9192/tests/updateTestStatus",
+              {
+                "testID": localStorage.getItem("testID"),
+                "PatientStatus": "Pending For Review By Doctor",
+                "DoctorStatus": "Pending For Review",
+                "RadiologistStatus": "Pending For Review By Doctor",
+              },
+              true
+            ).then((response) => {
+              console.log(response)
+            }).catch((error) => {
+              console.log(error.response.data.error);
+            })
+          }).catch((err) => {
+          console.error('Upload error:', err);
+      });
+}
+
+function dataURItoBlob(dataURI) {
+  var binary = atob(dataURI.split(',')[1]);
+  var array = [];
+  for(var i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+  }
+  return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+}
+
+  // function downloadMergedImage() {
+  //   const element = document.getElementById('cornerstone-element');
+  //   const displayDiv = document.getElementsByClassName('annotely-image-1-icon')[0];
+  
+  //   // Use html2canvas to capture the entire element
+  //   html2canvas(element).then(function (canvas) {
+  //     // Convert the canvas to a data URL
+  //     const image1 = canvas.toDataURL('image/png');
+  //     var blobData = dataURItoBlob(image1);
+  //     var params = {Key: "file_name", ContentType: "image/jpeg", Body: blobData};
+
+  //     const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+  //     const img = document.createElement('img');
+  //     img.src = image1;
+
+  //     let newWidth = canvas.width;
+  //     let newHeight = canvas.height;
+  //     let maxWidth = 279;
+  //     let maxHeight = 250;
+  //     if (newWidth > maxWidth) {
+  //         newHeight *= maxWidth / newWidth;
+  //         newWidth = maxWidth;
+  //     }
+  //     if (newHeight > maxHeight) {
+  //         newWidth *= maxHeight / newHeight;
+  //         newHeight = maxHeight;
+  //     }
+
+  //     // Set the width and height attributes of the img element
+  //     img.width = newWidth;
+  //     img.height = newHeight;      
+  //     img.style.position = 'relative';
+  //     img.style.top = -40 + 'px';
+
+  //     displayDiv.innerHTML = '';
+  //     displayDiv.appendChild(img);
+  //     // Trigger download
+  //     uploadImageToS3(image, params);
+  //   });
+  // }
+
   function downloadMergedImage() {
     const element = document.getElementById('cornerstone-element');
     const displayDiv = document.getElementsByClassName('annotely-image-1-icon')[0];
   
     // Use html2canvas to capture the entire element
     html2canvas(element).then(function (canvas) {
-      // Convert the canvas to a data URL
-      const image1 = canvas.toDataURL('image/png');
-      const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-      const img = document.createElement('img');
-      img.src = image1;
-
-      let newWidth = canvas.width;
-      let newHeight = canvas.height;
-      let maxWidth = 279;
-      let maxHeight = 250;
-      if (newWidth > maxWidth) {
-          newHeight *= maxWidth / newWidth;
-          newWidth = maxWidth;
-      }
-      if (newHeight > maxHeight) {
-          newWidth *= maxHeight / newHeight;
-          newHeight = maxHeight;
-      }
-
-      // Set the width and height attributes of the img element
-      img.width = newWidth;
-      img.height = newHeight;      
-      img.style.position = 'relative';
-      img.style.top = -40 + 'px';
-
-      displayDiv.innerHTML = '';
-      displayDiv.appendChild(img);
-      // Trigger download
-      downloadImage(image, 'annotated_image.png');
+      // Convert the canvas to a file object
+      canvas.toBlob(function (blob) {
+        const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+  
+        var params = { Key: "file_name", ContentType: "image/jpeg", Body: file };
+  
+        const img = document.createElement('img');
+        img.src = canvas.toDataURL('image/png');
+  
+        let newWidth = canvas.width;
+        let newHeight = canvas.height;
+        let maxWidth = 279;
+        let maxHeight = 250;
+        if (newWidth > maxWidth) {
+            newHeight *= maxWidth / newWidth;
+            newWidth = maxWidth;
+        }
+        if (newHeight > maxHeight) {
+            newWidth *= maxHeight / newHeight;
+            newHeight = maxHeight;
+        }
+  
+        // Set the width and height attributes of the img element
+        img.width = newWidth;
+        img.height = newHeight;      
+        img.style.position = 'relative';
+        img.style.top = -40 + 'px';
+  
+        displayDiv.innerHTML = '';
+        displayDiv.appendChild(img);
+        // Trigger upload
+        uploadImageToS3(file, params);
+      }, 'image/jpeg');
     });
   }
 
@@ -98,7 +205,7 @@ const DicomViewer = () => {
     const { MouseBindings } = csToolsEnums;
     const renderingEngineId = 'myRenderingEngine';
     const viewportId = 'CT_STACK';
-
+    console.log("imagelink:" + imagelink)
     const content = document.getElementById('content');
     const element = document.createElement('div');
     const display_element = document.getElementsByClassName("annotely-image-1-icon")[0];
@@ -298,7 +405,7 @@ const DicomViewer = () => {
 
 
 
-        const imageIds = ["wadouri:https://radveda.s3.ap-south-1.amazonaws.com/0015.DCM"];
+        const imageIds = ["wadouri:" + imagelink];
     
         // Instantiate a rendering engine
         const renderingEngine = new RenderingEngine(renderingEngineId);
@@ -390,7 +497,7 @@ const DicomViewer = () => {
           calculateStats: true,
         });
 
-        const imageIds = ["wadouri:https://radveda.s3.ap-south-1.amazonaws.com/0015.DCM"];
+        const imageIds = ["wadouri:" + imagelink];
     
         // Instantiate a rendering engine
         const renderingEngine = new RenderingEngine(renderingEngineId);

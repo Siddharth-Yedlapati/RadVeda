@@ -28,14 +28,11 @@ public class LabStaff extends User{
     @Convert(converter = EncryptedStringConverter.class)
     private String lastName;
 
-    @Convert(converter = EncryptedDateConverter.class)
-    private Date DOB;
-
     @Convert(converter = EncryptedStringConverter.class)
     private String email;
 
     @Convert(converter = EncryptedStringConverter.class)
-    private String language;
+    private String orgName;
 
     @Convert(converter = EncryptedBooleanConverter.class)
     private Boolean available;

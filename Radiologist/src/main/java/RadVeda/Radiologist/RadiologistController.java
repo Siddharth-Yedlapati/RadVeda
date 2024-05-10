@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import RadVeda.Radiologist.NotesRequest;
 
 
 
@@ -75,9 +76,20 @@ public class RadiologistController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}/addNotes")
-    public String addNotes(@PathVariable Long id, @RequestBody String notes){
+    public String addNotes(@PathVariable Long id, @RequestBody NotesRequest notes){
         radiologistService.addNotes(id, notes);
         return "Notes successfully updated";
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/{id}/getNotes")
+    public String getNotes(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id){
+        User currentuser = radiologistService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return radiologistService.getNotes(id);   
     }
 
     @CrossOrigin(origins = "http://localhost:9191")

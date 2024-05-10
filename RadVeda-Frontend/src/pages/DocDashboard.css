@@ -608,15 +608,6 @@
 .clear-button:hover {
   background-color: #bbb;
 }
-
-
-.availability-toggle {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
 .availability-toggle input {
   display: none;
 }
