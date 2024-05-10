@@ -488,6 +488,12 @@ const DocOwnPfr = () => {
     });
   }, [imageURL]);
 
+  const handle = (e) => {
+    console.log(e.target.value)
+    setNotes(e.target.value);
+  }
+
+
   return (
     <>
       <div className="doc-own-pfr">
@@ -631,7 +637,8 @@ const DocOwnPfr = () => {
               className="editorTextarea"
               placeholder="Type your notes here..."
               value={notes}
-              onChange={(e) => setNotes(e.target.value)}
+              // onChange={(e) => setNotes(e.target.value)}
+                onChange = {handle}
             ></textarea>
             <button className="saveBtn" onClick={saveNotes}>Save</button>
             <button className="closeBtn" onClick={closeEditor}>Close</button>

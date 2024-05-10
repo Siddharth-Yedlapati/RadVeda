@@ -186,35 +186,35 @@ function downloadMergedImage() {
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
   const [notes, setNotes] = useState("");
 
-  useEffect(() => {
-    request(
-      "GET",
-      "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/getNotes",
-      {},
-      true
-    ).then((response) => {
-      console.log(response.data)
-      setNotes(response.data)
-    })
-  }, [notes]);
+  // useEffect(() => {
+  //   request(
+  //     "GET",
+  //     "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/getNotes",
+  //     {},
+  //     true
+  //   ).then((response) => {
+  //     console.log(response.data)
+  //     setNotes(response.data)
+  //   })
+  // }, [notes]);
   
-  const saveNotes = useCallback(() => {
-    // Send 'notes' to the backend
-    console.log("Saving notes:", notes);
-    request(
-      "PUT",
-      "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/addNotes",
-      {
-        "notes": notes
-      },
-      true
-    ).then((response) => {
-      console.log(response)
-    })
-
-    // Close the editor overlay
-    closeRadOwnNotes();
-  }, [notes, closeRadOwnNotes]);
+  // const saveNotes = useCallback(() => {
+  //   // Send 'notes' to the backend
+  //   console.log("Saving notes:", notes);
+  //   request(
+  //     "PUT",
+  //     "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/addNotes",
+  //     {
+  //       "notes": notes
+  //     },
+  //     true
+  //   ).then((response) => {
+  //     console.log(response)
+  //   })
+  //
+  //   // Close the editor overlay
+  //   closeRadOwnNotes();
+  // }, [notes, closeRadOwnNotes]);
 
   const deleteChatID = (index) => {
     // console.log(res);
