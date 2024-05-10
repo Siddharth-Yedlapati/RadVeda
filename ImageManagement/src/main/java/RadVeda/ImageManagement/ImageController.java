@@ -25,7 +25,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/tests")
+@RequestMapping("/images")
 public class ImageController {
     private final ImageService ImageService;
 
@@ -41,9 +41,9 @@ public class ImageController {
             throw new UnauthorisedUserException("Permission denied!");
         }
         List<Image> imgs = ImageService.findByIDOriginal(testID);
-        if (imgs.isEmpty()) {
-            throw new UserNotFoundException("Unable to fetch image details");
-        }
+        // if (imgs.isEmpty()) {
+        //     throw new UserNotFoundException("Unable to fetch image details");
+        // }
 
         return imgs;
     }

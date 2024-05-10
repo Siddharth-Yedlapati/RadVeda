@@ -104,7 +104,7 @@ import RadConsDiagComp from "./pages/RadConsDiagComp";
 import RadConsPFRAnnotater from "./pages/RadConsPFRAnnotater";
 import DocConsPatDetails from "./pages/DocConsPatDetails";
 import DocConsPfrRad from "./pages/DocConsPfrRad";
-import ImageEditorPage from "./pages/ImageEditorPage";
+
 
 function App() {
   const action = useNavigationType();
@@ -679,7 +679,7 @@ function App() {
       <Route path="/rad-cons-pfr-annotater" element={<RadConsPFRAnnotater />} />
       <Route path="/doc-cons-pat-details" element={<DocConsPatDetails />} />
       <Route path="/doc-cons-pfr-rad" element={<DocConsPfrRad />} />
-      <Route path="/image-editor-page" element = {<ImageEditorPage />} />
+  
     </Routes>
   );
 }

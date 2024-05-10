@@ -25,6 +25,7 @@ import java.util.Date;
 import java.time.ZoneId;
 
 import RadVeda.Radiologist.StorageEncryption.EncryptionUtility;
+import RadVeda.Radiologist.NotesRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -165,11 +166,17 @@ public class RadiologistService implements RadiologistServiceInterface {
     }
 
     @Override
-    public RadiologistTests addNotes(Long id, String notes){
-        RadiologistTests test = radiologisttestsrepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Test not found"));
-        test.setRadiologistNotes(notes);
+    public RadiologistTests addNotes(Long id, NotesRequest notes){
+        RadiologistTests test = radiologisttestsrepository.gettestbyid(EncryptionUtility.encrypt(id)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
+        test.setRadiologistNotes(notes.notes());
         return radiologisttestsrepository.save(test);
     } 
+
+    @Override
+    public String getNotes(Long testID){
+        RadiologistTests test = radiologisttestsrepository.gettestbyid(EncryptionUtility.encrypt(testID)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
+        return test.getRadiologistNotes();
+    }
 
     @Override
     public void deleteTest(Long testID){

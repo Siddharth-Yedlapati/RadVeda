@@ -9,6 +9,12 @@ import RadVeda.UserManagement.exception.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.*;
+import RadVeda.UserManagement.Users.LabStaff.signup.LabStaffRequest;
 
 import java.util.Calendar;
 import java.util.List;
@@ -77,6 +83,26 @@ public class LabStaffService implements LabStaffServiceInterface {
         newLabStaff.setOrgName(request.orgName());
         newLabStaff.setOrgAddressL1(request.orgAddressL1());
         newLabStaff.setOrgAddressL2(request.orgAddressL2());
+
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = "";
+        LabStaffRequest req = new LabStaffRequest(request.firstName(), request.lastName(), request.email(), request.orgName(), true);
+
+        try {
+            ObjectMapper objectmapper = new ObjectMapper();
+            requestBody = objectmapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        ResponseEntity<String> responseEntity;
+
+        responseEntity = restTemplate.exchange("http://localhost:9199/labstaff/addLabStaff", HttpMethod.POST ,new HttpEntity<>(requestBody, headers), String.class);
+
         for (String document : request.Documents()){
             var newDocument = new LabStaffDocuments();
             newDocument.setDocuments(document);

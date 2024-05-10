@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RequestHeader;
+import RadVeda.TestManagement.UpdateTestRequest;
 
 public interface TestServiceInterface {
 
@@ -29,4 +30,6 @@ public interface TestServiceInterface {
     boolean isUserValid(String userType, Long userId, String authorizationHeader);
     User authenticate(String authorizationHeader);
     List<User> getPeopleInvolvedForTest(String authorizationHeader, Long testID);
+    Test updateTestStatus(Long testID, String userType, String status);
+    Test updateTestStatus(UpdateTestRequest request);
 }

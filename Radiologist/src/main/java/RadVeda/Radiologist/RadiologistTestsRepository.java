@@ -11,7 +11,10 @@ import java.util.List;
 
 
 public interface RadiologistTestsRepository extends JpaRepository<RadiologistTests, Long> {
-    
+
+    @Query(value = "SELECT * FROM radiologisttests WHERE testid = :testID", nativeQuery = true)
+    Optional<RadiologistTests> gettestbyid(String testID);
+
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM radiologisttests WHERE testid = :testID", nativeQuery = true)

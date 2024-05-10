@@ -13,6 +13,7 @@ import java.util.List;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     List<Doctor> findAll();
 
+
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM doctor WHERE id = :doctorID", nativeQuery = true)

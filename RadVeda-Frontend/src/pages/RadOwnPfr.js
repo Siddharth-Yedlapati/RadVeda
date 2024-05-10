@@ -8,7 +8,7 @@ import RadOwnOtherRadNotes from "../components/RadOwnOtherRadNotes";
 import { useNavigate } from "react-router-dom";
 import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
-import { ImageEditorComponent } from '@syncfusion/ej2-react-image-editor';
+
 import "./RadOwnPfr.css";
 import DicomViewer from "./DicomViewer";
 import cornerstone from "cornerstone-core";
@@ -57,180 +57,48 @@ const RadOwnPfr = () => {
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [isRadOwnDocNotesOpen, setRadOwnDocNotesOpen] = useState(false);
   const [isRadOwnNotesOpen, setRadOwnNotesOpen] = useState(false);
-  const [isImageEditorOpen, setImageEditorOpen] = useState(false);
+  const [isEditorOpen, setEditorOpen] = useState(false);
+
   const [isRadOwnOtherRadNotesOpen, setRadOwnOtherRadNotesOpen] =
     useState(false);
   const [isDicomViewerOpen, setDicomViewerOpen] = useState(false);
+  const [imageURL, setImageURL] = useState("");
   const divRef = useRef(null);
 
   
-
+  // useEffect(() => {
+  //   request(
+  //     "GET",
+  //     "http://localhost:9200/images/" + localStorage.getItem("testID") + "/getImageOriginal",
+  //     {},
+  //     true
+  //   ).then((response) => {
+  //     setImageURL(response.data.imageURL)
+  //     console.log(response.data)
+  //   })
+  // }, []);
 
   useEffect(() => {
 
-    // const {
-    //   LengthTool,
-    //   ToolGroupManager,
-    //   StackScrollMouseWheelTool,
-    //   ZoomTool,
-    //   Enums: csToolsEnums,
-    // } = cornerstoneTools;
-  
-    // const { ViewportType } = Enums;
-    // const { MouseBindings } = csToolsEnums;
-    
-    // const volumeName = 'CT_VOLUME_ID';
-    // const volumeLoaderScheme = 'cornerstoneStreamingImageVolume';
-    // const volumeId = `${volumeLoaderScheme}:${volumeName}`;
-    
-    // // setTitleAndDescription(
-    // //   'Annotation Tools On Volumes',
-    // //   'Here we demonstrate how annotation tools can be drawn/rendered on any plane.'
-    // // );
-    // const size = '500px';
-    // const content = document.getElementsByClassName('annotely-image-1-icon')[0];
-    // const viewportGrid = document.createElement('div');
-    
-    // viewportGrid.style.display = 'flex';
-    // viewportGrid.style.display = 'flex';
-    // viewportGrid.style.flexDirection = 'row';
-    
-    // const element1 = document.createElement('div');
-    // const element2 = document.createElement('div');
-    // const element3 = document.createElement('div');
-    // element1.oncontextmenu = () => false;
-    // element2.oncontextmenu = () => false;
-    // element3.oncontextmenu = () => false;
-    
-    // element1.style.width = size;
-    // element1.style.height = size;
-    // element2.style.width = size;
-    // element2.style.height = size;
-    // element3.style.width = size;
-    // element3.style.height = size;
-    
-    // viewportGrid.appendChild(element1);
-    // viewportGrid.appendChild(element2);
-    // viewportGrid.appendChild(element3);
-    
-    // content.appendChild(viewportGrid);
-    
-    // const instructions = document.createElement('p');
-    // instructions.innerText =
-    //   'Left Click to draw length measurements on any viewport.\n Use the mouse wheel to scroll through the stack.';
-    
-    // content.append(instructions);
-  
-    // async function run() {
-    //   await initDemo();
-    
-    //   const toolGroupId = 'STACK_TOOL_GROUP_ID';
-    
-    //   cornerstoneTools.addTool(LengthTool);
-    //   cornerstoneTools.addTool(ZoomTool);
-    //   cornerstoneTools.addTool(StackScrollMouseWheelTool);
-    
-    //   const toolGroup = ToolGroupManager.createToolGroup(toolGroupId);
-    
-    //   toolGroup.addTool(LengthTool.toolName, { volumeId });
-    //   toolGroup.addTool(ZoomTool.toolName, { volumeId });
-    //   toolGroup.addTool(StackScrollMouseWheelTool.toolName);
-    
-    //   toolGroup.setToolActive(LengthTool.toolName, {
-    //     bindings: [
-    //       {
-    //         mouseButton: MouseBindings.Primary,
-    //       },
-    //     ],
-    //   });
-    
-    //   toolGroup.setToolActive(ZoomTool.toolName, {
-    //     bindings: [
-    //       {
-    //         mouseButton: MouseBindings.Secondary,
-    //       },
-    //     ],
-    //   });
-    
-    //   toolGroup.setToolActive(StackScrollMouseWheelTool.toolName);
-    
-    //   // const imageIds = await createImageIdsAndCacheMetaData({
-    //   //   StudyInstanceUID:
-    //   //     '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463',
-    //   //   SeriesInstanceUID:
-    //   //     '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
-    //   //   wadoRsRoot: 'https://d3t6nz73ql33tx.cloudfront.net/dicomweb',
-    //   // });
 
-    //   const imageIds = ["wadouri:https://radveda.s3.ap-south-1.amazonaws.com/0015.DCM"]
+    request(
+      "GET",
+      "http://localhost:9200/images/" + localStorage.getItem("testID") + "/getImageOriginal",
+      {},
+      true
+    ).then((response) => {
+      setImageURL(response.data[0].imageURL)
+      console.log(imageURL)
     
-    //   const renderingEngineId = 'myRenderingEngine';
-    //   const renderingEngine = new RenderingEngine(renderingEngineId);
-    
-    //   const viewportIds = [
-    //     'CT_AXIAL_STACK',
-    //     'CT_SAGITTAL_STACK',
-    //     'CT_OBLIQUE_STACK',
-    //   ];
-    
-    //   const viewportInputArray = [
-    //     {
-    //       viewportId: viewportIds[0],
-    //       type: ViewportType.ORTHOGRAPHIC,
-    //       element: element1,
-    //       defaultOptions: {
-    //         orientation: Enums.OrientationAxis.AXIAL,
-    //         background: [0.2, 0, 0.2],
-    //       },
-    //     },
-    //     {
-    //       viewportId: viewportIds[1],
-    //       type: ViewportType.ORTHOGRAPHIC,
-    //       element: element2,
-    //       defaultOptions: {
-    //         orientation: Enums.OrientationAxis.SAGITTAL,
-    //         background: [0.2, 0, 0.2],
-    //       },
-    //     },
-    //     {
-    //       viewportId: viewportIds[2],
-    //       type: ViewportType.ORTHOGRAPHIC,
-    //       element: element3,
-    //       defaultOptions: {
-    //         orientation: {
-    //           viewUp: [-0.5962687530844388, 0.5453181550345819, -0.5891448751239446],
-    //           viewPlaneNormal: [-0.5962687530844388, 0.5453181550345819, -0.5891448751239446],
-    //         },
-    //         background: [0.2, 0, 0.2],
-    //       },
-    //     },
-    //   ];
-    
-    //   renderingEngine.setViewports(viewportInputArray);
-    
-    //   viewportIds.forEach((viewportId) =>
-    //     toolGroup.addViewport(viewportId, renderingEngineId)
-    //   );
-    
-    //   const volume = await volumeLoader.createAndCacheVolume(volumeId, {
-    //     imageIds,
-    //   });
-    
-    //   volume.load();
-    
-    //   setVolumesForViewports(renderingEngine, [{ volumeId }], viewportIds);
-    
-    //   renderingEngine.renderViewports(viewportIds);
-    // }
-    // Get the reference to the particular div
     const particularDiv = document.getElementsByClassName('xray1-1-icon')[0];
     
     // Set divRef.current to the particular div
+    const image_url = "wadouri:" + response.data[0].imageURL
     divRef.current = particularDiv;
     cornerstone.enable(divRef.current);
     cornerstone
     .loadImage(
-      "wadouri:https://radveda.s3.ap-south-1.amazonaws.com/0015.DCM"
+      image_url
     )
     .then(image => {
 
@@ -242,7 +110,8 @@ const RadOwnPfr = () => {
           windowWidth: 279,
           windowCenter: 200
         },
-        scale: 0.2,
+        scale: 0.4
+        ,
         translation: {
           x: 0,
           y: 0
@@ -256,8 +125,11 @@ const RadOwnPfr = () => {
 
       // cornerstone.setViewport(divRef.current, viewport);
       // cornerstone.updateImage(divRef.current);
+    }).catch((error) => {
+      console.log(error.response.data.error)
+    })
     });
-  }, []);
+  }, [imageURL]);
   
 //   function downloadImage(data, filename = 'untitled.jpeg') {
 //     var a = document.createElement('a');
@@ -312,8 +184,37 @@ function downloadMergedImage() {
 
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
-  
+  const [notes, setNotes] = useState("");
 
+  useEffect(() => {
+    request(
+      "GET",
+      "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/getNotes",
+      {},
+      true
+    ).then((response) => {
+      console.log(response.data)
+      setNotes(response.data)
+    })
+  }, [notes]);
+  
+  const saveNotes = useCallback(() => {
+    // Send 'notes' to the backend
+    console.log("Saving notes:", notes);
+    request(
+      "PUT",
+      "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/addNotes",
+      {
+        "notes": notes
+      },
+      true
+    ).then((response) => {
+      console.log(response)
+    })
+
+    // Close the editor overlay
+    closeRadOwnNotes();
+  }, [notes, closeRadOwnNotes]);
 
   const deleteChatID = (index) => {
     // console.log(res);
@@ -508,13 +409,7 @@ function downloadMergedImage() {
     setRadOwnOtherRadNotesOpen(true);
   }, []);
 
-  const openImageEditor = useCallback(() => {
-    navigate("/image-editor-page");
-  }, [navigate]);
 
-  const closeImageEditor = useCallback(() => {
-    setImageEditorOpen(false);
-  }, []);
 
   const closeRadOwnOtherRadNotes = useCallback(() => {
     setRadOwnOtherRadNotesOpen(false);
@@ -535,7 +430,7 @@ function downloadMergedImage() {
 
   const imageUrl = "https://radveda.s3.ap-south-1.amazonaws.com/0002.DCM"
 
-  let imageObj = new ImageEditorComponent({});
+
 
   return (
     <>
@@ -578,7 +473,7 @@ function downloadMergedImage() {
           />
           <div className="group-wrapper35" onClick = {openDicomViewer}>
             <div className="add-further-annotations-wrapper">
-              <div className="view-doctors-notes">Add further annotations</div>
+              <div className="view-doctors-notes">Add annotations</div>
             </div>
           </div>
           <div className="group-wrapper36">
@@ -663,7 +558,9 @@ function downloadMergedImage() {
           placement="Centered"
           onOutsideClick={closeDicomViewer}
         >
-          <DicomViewer />
+          <DicomViewer 
+            imagelink ={imageURL}
+          />
         </PortalPopup>
       )}
       {isNPUserOptionsOpen && (
@@ -685,13 +582,18 @@ function downloadMergedImage() {
         </PortalPopup>
       )}
       {isRadOwnNotesOpen && (
-        <PortalPopup
-          overlayColor="rgba(113, 113, 113, 0.3)"
-          placement="Centered"
-          onOutsideClick={closeRadOwnNotes}
-        >
-          <RadOwnNotes onClose={closeRadOwnNotes} />
-        </PortalPopup>
+        <div className="overlay">
+          <div className="editorContainer">
+            <textarea
+              className="editorTextarea"
+              placeholder="Type your notes here..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
+            <button className="saveBtn" onClick={saveNotes}>Save</button>
+            <button className="closeBtn" onClick={closeRadOwnNotes}>Close</button>
+          </div>
+        </div>
       )}
       {isRadOwnOtherRadNotesOpen && (
         <PortalPopup

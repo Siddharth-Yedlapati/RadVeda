@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, divRef, useRef } from "react";
 import NPUserOptions from "../components/NPUserOptions";
 import PortalPopup from "../components/PortalPopup";
 import DocOwnRadNotes from "../components/DocOwnRadNotes";
@@ -8,7 +8,15 @@ import { request, getAuthToken} from "../axios_helper";
 import { useEffect } from "react";
 import "./DocOwnPfr.css";
 import ChatOverlay from "./ChatOverlay";
+import DicomViewer from "./DicomViewer";
+import cornerstone from "cornerstone-core";
+import dicomParser from "dicom-parser";
+import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
+cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
+import S3 from 'react-aws-s3';
+import { string_delimiter, config } from "../config";
 
+cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
 const DocOwnPfr = () => {
   const navigate = useNavigate();
 
@@ -34,8 +42,14 @@ const DocOwnPfr = () => {
   const [isDocOwnRadNotesOpen, setDocOwnRadNotesOpen] = useState(false);
   const [isDocOwnNotesOpen, setDocOwnNotesOpen] = useState(false);
   const [isEditorOpen, setEditorOpen] = useState(false);
+  const [isEditorRadOpen, setEditorRadOpen] = useState(false);
   const [notes, setNotes] = useState("");
+  const [notesRad, setRadNotes] = useState("");
   const [isChatOpen, setChatOpen] = useState(false); // State to manage chat overlay visibility
+  const [imageURL, setImageURL] = useState("");
+  const divRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFiles, setuploadedFiles] = useState([]);
 
   
   const toggleChat = useCallback(() => {
@@ -60,6 +74,7 @@ const DocOwnPfr = () => {
 
   const [allOneWayNotifications, setAllOneWayNotifications] = useState([]);
   const [allOneWayNotificationsID, setAllOneWayNotificationsID] = useState([]);
+  const [annotatedimage, setannotatedimage] = useState("");
   
 
 
@@ -252,16 +267,226 @@ const DocOwnPfr = () => {
     setEditorOpen(true);
   }, []);
 
+  const openEditorRad = useCallback(() => {
+    setEditorRadOpen(true);
+  }, []);
+
+
   const closeEditor = useCallback(() => {
     setEditorOpen(false);
   }, []);
 
+  const closeEditorRad = useCallback(() => {
+    setEditorRadOpen(false);
+  }, []);
+
+  const handleFileInput = (e) => {
+    setSelectedFile(e.target.files[0]);
+  }
+  // request(
+  //   "POST",
+  //   "http://localhost:9192/tests/updateTestStatus",
+  //   {
+  //     "testID": localStorage.getItem("testID"),
+  //     "PatientStatus": "Diagnosis Completed",
+  //     "DoctorStatus": "Diagnosis Completed",
+  //     "RadiologistStatus": "Diagnosis Completed"
+  //   },
+  //   true
+  // )
+
+  const uploadFile = async (file) => {
+    const ReactS3Client = new S3(config);
+    // the name of the file uploaded is used to upload it to S3
+    console.log(uploadedFiles)
+    ReactS3Client
+    .uploadFile(file, "DOCTOR" + string_delimiter + "REPORT" + string_delimiter + file.name)
+    .then(data => {
+      console.log(data)
+      uploadedFiles.push(data.location);
+      request(
+        "POST",
+        "http://localhost:9194/doctor/" + localStorage.getItem("testID") + "/addReport",
+        {
+          "report" : data.location
+        },
+        true
+      ).then((response) => {
+        alert(response.data)
+
+      }).catch((error) => {
+        alert(error.response.data.error);
+      })
+      setuploadedFiles(uploadedFiles)
+    })
+    .catch(err => console.error(err))
+}
+
   const saveNotes = useCallback(() => {
     // Send 'notes' to the backend
     console.log("Saving notes:", notes);
+    request(
+      "PUT",
+      "http://localhost:9194/doctor/" + localStorage.getItem("testID") + "/addNotes",
+      {
+        "notes": notes
+      },
+      true
+    ).then((response) => {
+      console.log(response)
+    })
+
     // Close the editor overlay
     closeEditor();
   }, [notes, closeEditor]);
+
+  const saveNotesRad = useCallback(() => {
+    // Send 'notes' to the backend
+    console.log("Saving notes:", notesRad);
+    request(
+      "PUT",
+      "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/addNotes",
+      {
+        "notes": notesRad
+      },
+      true
+    ).then((response) => {
+      console.log(response)
+    })
+
+    // Close the editor overlay
+    closeEditor();
+  }, [notesRad, closeEditor]);
+
+  let imageDisplayed = false;
+
+  async function fetchAndDisplayImage() {
+    try {
+
+      if (imageDisplayed) {
+        // If the image is already displayed, return
+        return;
+    }
+        const displayDiv = document.getElementsByClassName('annotely-image-1-icon')[0];
+        // Fetch image data from Amazon S3
+        const response = await fetch(annotatedimage);
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch image');
+        }
+        
+        // Read the image data as a blob
+        const blob = await response.blob();
+        
+        // Create an img element
+        const imgElement = document.createElement('img');
+        
+        // Set the src attribute of the img element to the blob URL
+        imgElement.src = URL.createObjectURL(blob);
+        imgElement.width = 250
+        imgElement.height = 250
+        imgElement.style.position = 'relative';
+        imgElement.style.top = "-300px"
+
+        // Append the img element to the display div
+        displayDiv.appendChild(imgElement);
+        displayDiv.bottom = 120
+        imageDisplayed = true;
+    } catch (error) {
+        console.error('Error fetching and displaying image:', error);
+    }
+}
+  
+  useEffect(() => {
+    request(
+      "GET",
+      "http://localhost:9200/images/" + localStorage.getItem("testID") + "/" + localStorage.getItem("radID") + "/getImageAnnotated",
+      {},
+      true
+    ).then((response) => {
+      setannotatedimage(response.data[0].imageURL)
+      console.log(annotatedimage)
+      fetchAndDisplayImage();
+    })
+  }, [annotatedimage]);
+
+  useEffect(() => {
+    request(
+      "GET",
+      "http://localhost:9194/doctor/" + localStorage.getItem("testID") + "/getNotes",
+      {},
+      true
+    ).then((response) => {
+      console.log(response.data)
+      setNotes(response.data) 
+      })
+  }, [notes]);
+
+  useEffect(() => {
+    request(
+      "GET",
+      "http://localhost:9201/radiologist/" + localStorage.getItem("testID") + "/getNotes",
+      {},
+      true
+    ).then((response) => {
+      console.log(response.data)
+      setRadNotes(response.data)
+    })
+  }, [notesRad]);
+
+  useEffect(() => {
+
+
+    request(
+      "GET",
+      "http://localhost:9200/images/" + localStorage.getItem("testID") + "/getImageOriginal",
+      {},
+      true
+    ).then((response) => {
+      setImageURL(response.data[0].imageURL)
+      console.log(imageURL)
+    
+    const particularDiv = document.getElementsByClassName('xray1-1-icon')[0];
+    
+    // Set divRef.current to the particular div
+    const image_url = "wadouri:" + response.data[0].imageURL
+    divRef.current = particularDiv;
+    cornerstone.enable(divRef.current);
+    cornerstone
+    .loadImage(
+      image_url
+    )
+    .then(image => {
+
+      console.log(image);
+      const viewport = {
+        invert: false,
+        pixelReplication: false,
+        voi: {
+          windowWidth: 279,
+          windowCenter: 200
+        },
+        scale: 0.4
+        ,
+        translation: {
+          x: 0,
+          y: 0
+        }
+        // colormap: "hot"
+      };
+
+      cornerstone.displayImage(divRef.current, image, viewport);
+
+      // run();
+
+      // cornerstone.setViewport(divRef.current, viewport);
+      // cornerstone.updateImage(divRef.current);
+      
+    }).catch((error) => {
+      console.log(error.response.data.error)
+    })
+    });
+  }, [imageURL]);
 
   return (
     <>
@@ -293,11 +518,9 @@ const DocOwnPfr = () => {
           <div className="frame-child237" />
           <div className="frame-child235" />
           <b className="original-image12">Original Image</b>
-          <img className="xray1-1-icon12" alt="" src="/xray1-1@2x.png" />
-          <img
-            className="annotely-image-1-icon7"
-            alt=""
-            src="/annotely-image-1@2x.png"
+          <div className="xray1-1-icon"/>
+          <div
+            className="annotely-image-1-icon"
           />
           <div className="group-wrapper72" onClick={openEditor}>
             <div className="add-notes-wrapper2">
@@ -316,15 +539,19 @@ const DocOwnPfr = () => {
           <img className="frame-child248" alt="" src="/polygon-5.svg" />
           <img className="frame-child249" alt="" src="/polygon-6.svg" />
           <div className="frame-child250" />
-          <div className="group-wrapper73" onClick={openDocOwnRadNotes}>
+          <div className="group-wrapper73" onClick={openEditorRad}>
             <div className="view-radiologists-notes-wrapper5">
               <div className="upload-report">View Radiologist’s Impressions</div>
             </div>
           </div>
         </div>
-        <div className="doc-own-pfr-inner1">
+        <div className="doc-own-pfr-inner1" >
           <div className="upload-report-wrapper">
-            <div className="upload-report">Upload Report</div>
+          <div className="upload-remarks">
+            <input type="file" onChange={handleFileInput}/>
+            <br></br>
+            <button onClick={() => uploadFile(selectedFile)}> UPLOAD REPORT</button>
+            </div>
           </div>
         </div>
         <div className="doc-own-pfr-inner2">
@@ -359,16 +586,16 @@ const DocOwnPfr = () => {
             <div className="upload-report">View Personnel Info</div>
           </div>
         </div>
-        <div className="doc-own-pfr-inner8">
+        {/* <div className="doc-own-pfr-inner8">
           <div className="view-radiologists-details-wrapper5">
             <div className="upload-report">View Radiologist’s Details</div>
           </div>
-        </div>
-        <div className="doc-own-pfr-inner9">
+        </div> */}
+        {/* <div className="doc-own-pfr-inner9">
           <div className="view-other-doctors-notes-frame">
             <div className="upload-report">View other doctors’ Notes</div>
           </div>
-        </div>
+        </div> */}
       </div>
       {isNPUserOptionsOpen && (
         <PortalPopup
@@ -408,6 +635,20 @@ const DocOwnPfr = () => {
             ></textarea>
             <button className="saveBtn" onClick={saveNotes}>Save</button>
             <button className="closeBtn" onClick={closeEditor}>Close</button>
+          </div>
+        </div>
+      )}
+      {isEditorRadOpen && (
+        <div className="overlay">
+          <div className="editorContainer">
+            <textarea
+              className="editorTextarea"
+              placeholder="Type your notes here..."
+              value={notesRad}
+              onChange={(e) => setRadNotes(e.target.value)}
+            ></textarea>
+            {/* <button className="saveBtn" onClick={saveNotes}>Save</button> */}
+            <button className="closeBtn" onClick={closeEditorRad}>Close</button>
           </div>
         </div>
       )}

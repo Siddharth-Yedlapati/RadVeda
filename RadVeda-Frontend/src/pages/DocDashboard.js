@@ -30,6 +30,13 @@ const DocDashboard = () => {
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
   const [patients, setPatients] = useState("");
   const [patDetails, setpatDetails] = useState([]);
+    // Toggle switch state
+  const [isAvailable, setIsAvailable] = useState(false);
+
+  // Toggle switch handlers
+  const toggleAvailability = () => {
+    setIsAvailable(prevState => !prevState);
+  };
   
 
   const openNPUserOptions = useCallback(() => {
@@ -222,7 +229,7 @@ const DocDashboard = () => {
     request("GET", "http://localhost:9191/doctors/profile", {}, true)
       .then(doctorResponse => {
         const doctorId = doctorResponse.data.id;
-        return request("GET", `http://localhost:9192/tests/DOCTOR/${doctorId}/getTests`, {}, true);
+        return request("GET", `http://localhost:9192/tests/DOCTOR/${doctorId}/getTests`, {}, true); 
       })
       .then(testsResponse => { 
         const patients = testsResponse.data;
@@ -314,6 +321,21 @@ const DocDashboard = () => {
               <span>John Doe</span>
             </b>
           </div>
+
+          {/* <div className="availability-toggle">
+          <label htmlFor="availability-toggle" className="toggle-label">Available:</label>
+          <div className="toggle-container">
+            <div className="toggle-slider">
+              <input
+                type="checkbox"
+                id="availability-toggle"
+                checked={isAvailable}
+                onChange={toggleAvailability}
+              />
+            </div>
+          </div>
+          </div> */}
+          
           <div className="group-wrapper53" onClick={onFrameContainerClick}>
             <div className="prescribe-test-wrapper">
               <div className="prescribe-test">Prescribe Test</div>

@@ -220,31 +220,13 @@ const LabStaffDashboard = () => {
     request("GET", "http://localhost:9191/labstaffs/profile", {}, true)
       .then(doctorResponse => {
         const doctorId = doctorResponse.data.id;
-        return request("GET", `http://localhost:9192/tests/LABSTAFF/${doctorId}/getTests`, {}, true);
+        // return request("GET", `http://localhost:9192/tests/LABSTAFF/${doctorId}/getTests`, {}, true);    // TODO: DONT HARDCODE VALUE, REFRESH DATABASE
+        return request("GET", `http://localhost:9192/tests/LABSTAFF/${doctorId}/getTests`, {}, true)
       })
       .then(testsResponse => { 
         const patients = testsResponse.data;
+        setpatDetails(patients);
         console.log(patients);
-        if (patients.length !== 0) {
-          const uniquePatientIDs = [...new Set(patients.map(patient => patient.patientID))];
-          const sortedUniquePatientIDs = uniquePatientIDs.sort((id1, id2) => {
-            // Find the latest datePrescribed for each patient ID
-            const latestDatePrescribed1 = Math.max(...patients.filter(patient => patient.patientID === id1).map(patient => new Date(patient.datePrescribed).getTime()));
-            const latestDatePrescribed2 = Math.max(...patients.filter(patient => patient.patientID === id2).map(patient => new Date(patient.datePrescribed).getTime()));
-        
-            // Compare the latest datePrescribed values
-            return latestDatePrescribed1 - latestDatePrescribed2;
-        });
-          const reqString = sortedUniquePatientIDs.join(',');
-          console.log("reqString: " + reqString);
-          return request("GET", `http://localhost:9198/patient/getPatients/${reqString}`, {}, true);
-        }
-      })
-      .then(patientsResponse => {
-        const patDetails = patientsResponse.data;
-        setpatDetails(patDetails);
-        console.log(patDetails);
-
       })
       .catch(error => {
         var errormsg = error.response.data.error;
@@ -259,18 +241,20 @@ const LabStaffDashboard = () => {
       <table className = "patients-table">
         <thead>
           <tr>
-            <th>Patient Name</th>
-            <th>Age</th>
-            <th>Gender</th>
+            <th>Patient ID</th>
+            <th>Test Type</th>
+            <th>Date Prescribed</th>
+            <th>Test Status</th>
             {/* Add more table headers as needed */}
           </tr>
         </thead>
         <tbody className="tableBody">
         {patDetails.map((patDetail) => (
-            <tr key={patDetail.id} onClick = {() => handleRowClick(patDetail.id)}>
-              <td>{patDetail.firstName}</td>
-              <td>{patDetail.email}</td>
-              <td>{patDetail.gender}</td>
+            <tr key={patDetail.id} onClick = {() => handleRowClick(patDetail.id, patDetail.id, patDetail.labStaffStatus)}>
+              <td>{patDetail.patientID}</td>
+              <td>{patDetail.testType}</td>
+              <td>{patDetail.datePrescribed}</td>
+              <td>{patDetail.labStaffStatus}</td>
               {/* Add more table cells as needed */}
             </tr>
           ))}
@@ -279,9 +263,12 @@ const LabStaffDashboard = () => {
     );
   };
 
-  const handleRowClick = (patientID) => {
+  const handleRowClick = (patientID, testID, testStatus) => {
     localStorage.setItem("currentPatientID", patientID)
-    navigate("/doc-own-patient-details")
+    localStorage.setItem("currentTestID", testID)
+    if("Test Not Conducted" == testStatus){
+      navigate("/labstaff-test-pending")
+    }
   }
 
   return (
@@ -328,53 +315,7 @@ const LabStaffDashboard = () => {
           </div>
         </div>
         <div className="patient-id-parent">
-          <div className="patient-id">Patient ID</div>
-          <div className="frame-inner" />
-          <div className="frame-container">
-            <div className="group-parent" onClick={onFrameContainerClick}>
-              <div className="mri-wrapper">
-                <div className="mri">MRI</div>
-              </div>
-              <div className="remark1">Remark1</div>
-              <div className="group-wrapper">
-                <div className="notify-patient-wrapper">
-                  <div className="notify-patient"> Notify Patient</div>
-                </div>
-              </div>
-            </div>
-            <div className="group-container">
-              <div className="ct-scan-wrapper">
-                <div className="mri">CT Scan</div>
-              </div>
-              <div className="remark2">Remark2</div>
-            </div>
-            <div className="test-type-parent">
-              <div className="mri">Test Type</div>
-              <div className="parent">
-                <div className="div2">04/10/2023</div>
-                <div className="div3">25/09/2023</div>
-                <div className="div4">21/09/2023</div>
-                <div className="date-prescribed">Date Prescribed</div>
-              </div>
-              <div className="status">Status</div>
-              <div className="remarks-given-by">Remarks given by doctor</div>
-            </div>
-          </div>
-          <div className="group-parent1">
-            <div className="x-ray-wrapper">
-              <div className="mri">X-Ray</div>
-            </div>
-            <div className="remark3">Remark3</div>
-          </div>
-          <div className="test-pending-parent">
-            <div className="test-pending">Test Pending</div>
-            <div className="patient-not-notified">Patient not notified</div>
-            <div className="test-completed">Test Completed</div>
-          </div>
-          <div className="id1">ID1</div>
-          <b className="test-details1">Test Details</b>
-          <div className="id2">ID2</div>
-          <div className="id3">ID3</div>
+          {renderPatientsTable()}
         </div>
       </div>
       {isNPUserOptionsOpen && (

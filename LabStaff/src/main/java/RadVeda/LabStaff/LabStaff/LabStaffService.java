@@ -31,8 +31,7 @@ public class LabStaffService implements LabStaffServiceInterface{
         labstaff.setFirstName(request.firstName());
         labstaff.setLastName(request.lastName());
         labstaff.setAvailable(request.availability());
-        labstaff.setDOB(request.DOB());
-        labstaff.setLanguage(request.language());
+        labstaff.setOrgName(request.orgName());
         labstaff.setEmail(request.email());
         labstaff.setType("LABSTAFF");
 

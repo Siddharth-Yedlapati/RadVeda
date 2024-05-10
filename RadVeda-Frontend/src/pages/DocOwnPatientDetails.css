@@ -657,10 +657,10 @@
   text-transform: capitalize;
 }
 
-.my-tests-list-parent {
+.my-tests-list-parent1 {
   position: absolute;
   top: 224px;
-  left: 101px;
+  left: 421px;
   width: 682px;
   height: 264px;
   font-size: var(--font-size-base);

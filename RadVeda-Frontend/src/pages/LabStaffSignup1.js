@@ -260,7 +260,7 @@ const LabStaffSignup1 = () => {
         Your password must be at least 8 characters long and should contain at
         least 1 uppercase, 1 lowercase, 1 numeric and 1 special character
       </div>
-      <div className="checkbox-container">
+      <div className="checkbox-container1">
         <input
           type="checkbox"
           id="agreeTerms"

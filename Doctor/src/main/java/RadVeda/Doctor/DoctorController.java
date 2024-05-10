@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import RadVeda.Doctor.ReportRequest;
 
 
 
@@ -84,9 +85,38 @@ public class DoctorController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}/addNotes")
-    public String addNotes(@PathVariable Long id, @RequestBody String notes){
+    public String addNotes(@PathVariable Long id, @RequestBody NotesRequest notes){
         doctorService.addNotes(id, notes);
         return "Notes successfully updated";
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/{id}/getNotes")
+    public String getNotes(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id){
+        User currentuser = doctorService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return doctorService.getNotes(id);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/{id}/addReport")
+    public String addNotes(@PathVariable Long id, @RequestBody ReportRequest report){
+        doctorService.addReport(id, report);
+        return "Report successfully updated";
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/{id}/getReport")
+    public String getReport(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long id){
+        User currentuser = doctorService.authenticate(authorizationHeader);
+        if(currentuser == null)
+        {
+            throw new UnauthorisedUserException("Permission denied!");
+        }
+        return doctorService.getReport(id);
     }
 
     @CrossOrigin(origins = "http://localhost:9191")

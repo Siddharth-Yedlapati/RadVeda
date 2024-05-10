@@ -3,6 +3,7 @@ package RadVeda.TestManagement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import jakarta.transaction.Transactional;
 
@@ -49,12 +50,12 @@ public interface TestRepository extends JpaRepository<Test, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE test SET lab_staffid = :labID WHERE id = :testID", nativeQuery = true)
-    void addLabforTest(String testID, String labID);
+    void addLabforTest(Long testID, String labID);
 
     @Modifying
     @Transactional
     @Query(value = "UPDATE test SET radiologistid = :radID WHERE id = :testID", nativeQuery = true)
-    void addRadForTest(String testID, String radID);
+    void addRadForTest(Long testID, String radID);
 
     @Modifying
     @Transactional
@@ -62,7 +63,8 @@ public interface TestRepository extends JpaRepository<Test, Long> {
             "doctor_status = :docStatus, " +
             "radiologist_status = :radStatus, " +
             "lab_staff_status = :labStatus WHERE id = :testID" , nativeQuery = true)
-    void updateTestStatus(String testID, String patStatus, String docStatus, String radStatus, String labStatus);
+    void updateTestStatus(Long testID, String patStatus, String docStatus, String radStatus, String labStatus);
+
 
 
 
