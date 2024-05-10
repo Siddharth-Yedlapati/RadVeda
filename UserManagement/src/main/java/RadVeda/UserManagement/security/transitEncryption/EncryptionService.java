@@ -49,18 +49,18 @@ public class EncryptionService {
     public Map<String, String> getMap_ports() {
         Map<String, String> map_ports = new HashMap<>();
         map_ports.put("UMS", "9191");
-//        map_ports.put("TMS", "9192");
-//        map_ports.put("NMS", "9193");
+        map_ports.put("TMS", "9192");
+        map_ports.put("NMS", "9193");
         map_ports.put("doctor", "9194");
-//        map_ports.put("collaboration", "9195");
-//        map_ports.put("superAdmin", "9196");
+map_ports.put("collaboration", "9195");
+map_ports.put("superAdmin", "9196");
         map_ports.put("admin", "9197");
-//        map_ports.put("patient", "9198");
-//        map_ports.put("LabStaff", "9199");
-//        map_ports.put("IMS", "9200");
-//        map_ports.put("radiologist", "9201");
-//        map_ports.put("CMS", "9202");
-//        map_ports.put("analytics", "9203");
+        map_ports.put("patient", "9198");
+        map_ports.put("LabStaff", "9199");
+        map_ports.put("IMS", "9200");
+        map_ports.put("radiologist", "9201");
+        map_ports.put("CMS", "9202");
+        map_ports.put("analytics", "9203");
 
 
         return map_ports;

@@ -101,7 +101,7 @@ public class RequestsService implements RequestsServiceInterface {
         for(Requests r: req) {
             long id = r.getId();
             UserDetails u = userInfo(id);
-            RequestsRecord rec = new RequestsRecord(u.getFirstName(), r.getRole(), r.getDateOfRequest());
+            RequestsRecord rec = new RequestsRecord(r.getId(), u.getFirstName(), r.getRole(), r.getDateOfRequest());
             reqs.add(rec);
         }
         return reqs;
@@ -133,7 +133,6 @@ public class RequestsService implements RequestsServiceInterface {
 
 
     public String acceptSignUp(String authorizationHeader, Long req_id, Long aId) {
-
         String jwtToken = "";
 
         // Checking if the Authorization header is present and not empty
