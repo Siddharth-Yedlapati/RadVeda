@@ -8,7 +8,7 @@ import "./AdminReviewSignup.css";
 
 const AdminReviewSignup = () => {
   const navigate = useNavigate();
-
+  const [id, setID] = useState(0)
   if(getAuthToken() !== null && getAuthToken() !== "null")
   {
     request(
@@ -17,7 +17,7 @@ const AdminReviewSignup = () => {
       {},
       true
       ).then(response => {
-        
+        setID(response.data.id)
       }).catch(error => {
         navigate("/admin-login-page");
       })
@@ -28,7 +28,7 @@ const AdminReviewSignup = () => {
   }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
-  
+  const [signupDetails, setSignupDetails] = useState([])
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -41,6 +41,70 @@ const AdminReviewSignup = () => {
   const onFrameContainer8Click = useCallback(() => {
     navigate("/admin-dashboard");
   }, [navigate]);
+
+  let doS = []
+  useEffect(() => {
+
+    request("GET", `http://localhost:9197/${id}/getRequests/SIGNUP`, {}, true)
+      .then(reqResponse => {
+        const reqId = reqResponse.data.id;
+        const dateOfSignup = reqResponse.data.dateOfRequest
+        doS.push(dateOfSignup);
+        return request("GET", `http://localhost:9197/userInfo/${reqId}`, {}, true);
+      })
+      .then(userResponse => { 
+        const userInfo = userResponse.data;
+        console.log(userInfo);
+        setSignupDetails(userInfo);
+      })
+      
+      .catch(error => {
+        var errormsg = error.response.data.error;
+        if(!(errormsg === "No tests found for the given ID")){
+          alert(error.response.data.error)
+        }
+      });
+  }, []);
+
+  const handleAccept = () => {
+    console.log("Accept")
+  }
+
+  const handleDecline = () => {
+    console.log("Decline")
+  }
+
+  const renderPatientsTable = () => {
+    return (
+      <table className = "patients-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Date of Signup</th>
+            <th>Actions</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody className="tableBody">
+        {signupDetails.map((detail, index) => (
+            <tr key={detail.id}>
+              <td>{detail.name}</td>
+              <td>{doS[index]}</td>
+              <td>
+              {/* Buttons for Accept and Decline */}
+                <button onClick={() => handleAccept(detail)}>Accept</button>
+                <button onClick={() => handleDecline(detail)}>Decline</button>
+              </td>
+              {/* <td>{patDetail.dateOfRequest}</td> */}
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
 
   return (
     <>
@@ -63,6 +127,15 @@ const AdminReviewSignup = () => {
         <img className="need-help-icon41" alt="" src="/need-help.svg" />
         <div className="admin-review-signup-inner" />
         <div className="admin-review-signup-child1" />
+
+        <div className="my-patients-list-parent">
+          <b className="my-patients-list">SignUp Requests</b>
+          <div className="frame-child-125" >
+          {renderPatientsTable()}
+          </div>
+        </div>
+
+
         <div className="frame-parent44">
           <div className="frame-child364" />
           <div className="sign-up-requests-group">
