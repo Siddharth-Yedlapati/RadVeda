@@ -9,10 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,10 +27,28 @@ public class EncryptionService {
     private KeyPair doctor;
     private final EncryptionRepository encryptionRepository;
 
+    public Map<String, String> getMap_ports() {
+        Map<String, String> map_ports = new HashMap<>();
+        map_ports.put("9191", "UMS");
+//        map_ports.put("TMS", "9192");
+//        map_ports.put("NMS", "9193");
+        map_ports.put("9194", "doctor");
+//        map_ports.put("Collab", "9195");
+//        map_ports.put("SuperAdmin", "9196");
+//        map_ports.put("Admin", "9197");
+//        map_ports.put("Patient", "9198");
+//        map_ports.put("LabStaff", "9199");
+//        map_ports.put("IMS", "9200");
+//        map_ports.put("Radiologist", "9201");
+//        map_ports.put("CMS", "9202");
+//        map_ports.put("Analytics", "9203");
+
+
+        return map_ports;
+    }
+
     @Scheduled(fixedDelay = 2*60*1000)
     public void generateKeyPair() {
-
-        System.out.println("h");
 
         try {
             KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
@@ -62,6 +84,7 @@ public class EncryptionService {
             Optional<SharedKeys> sharedKeysRec = encryptionRepository.findByServiceName(service);
             SharedKeys sharedKeys = new SharedKeys();
             if(sharedKeysRec.isPresent()) sharedKeys = sharedKeysRec.get();
+            else sharedKeys.setServiceName(service);
 
             sharedKeys.setSharedKey(sharedKey);
             encryptionRepository.save(sharedKeys);
@@ -77,6 +100,68 @@ public class EncryptionService {
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] decryptedData = cipher.doFinal(encryptedData);
         return new String(decryptedData);
+    }
+
+    public String encryptMessage(String message, String service) throws Exception {
+
+        Optional<SharedKeys> sharedKeysRec = encryptionRepository.findByServiceName(service);
+        SharedKeys sharedKeys = new SharedKeys();
+        if(sharedKeysRec.isPresent()) sharedKeys = sharedKeysRec.get();
+        else throw new Exception("fail");
+
+        String sharedKey = sharedKeys.getSharedKey();
+        sharedKey = padKey(sharedKey);
+
+        SecretKeySpec secretKeySpec = new SecretKeySpec(sharedKey.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+        byte[] encryptedBytes = cipher.doFinal(message.getBytes());
+        return Base64.getEncoder().encodeToString(encryptedBytes);
+    }
+
+    public String decryptMessage(String message, String service) throws Exception {
+
+        Optional<SharedKeys> sharedKeysRec = encryptionRepository.findByServiceName(service);
+        SharedKeys sharedKeys = new SharedKeys();
+        if(sharedKeysRec.isPresent()) sharedKeys = sharedKeysRec.get();
+        else throw new Exception("fail");
+
+        String sharedKey = sharedKeys.getSharedKey();
+        sharedKey = padKey(sharedKey);
+
+        SecretKeySpec secretKeySpec = new SecretKeySpec(sharedKey.getBytes(), "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+        byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(message));
+        return new String(decryptedBytes);
+    }
+
+    public static String padKey(String key) {
+        int keyLength = key.length();
+        if (keyLength < 16) {
+            // Pad the key to make it 16 bytes (128 bits)
+            StringBuilder paddedKey = new StringBuilder(key);
+            while (paddedKey.length() < 16) {
+                paddedKey.append('0');
+            }
+            return paddedKey.toString();
+        } else if (keyLength < 24) {
+            // Pad the key to make it 24 bytes (192 bits)
+            StringBuilder paddedKey = new StringBuilder(key);
+            while (paddedKey.length() < 24) {
+                paddedKey.append('0');
+            }
+            return paddedKey.toString();
+        } else if (keyLength < 32) {
+            // Pad the key to make it 32 bytes (256 bits)
+            StringBuilder paddedKey = new StringBuilder(key);
+            while (paddedKey.length() < 32) {
+                paddedKey.append('0');
+            }
+            return paddedKey.toString();
+        }
+        // Key length is already valid
+        return key;
     }
 
 

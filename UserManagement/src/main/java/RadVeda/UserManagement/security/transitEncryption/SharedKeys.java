@@ -10,10 +10,8 @@ import lombok.Setter;
 public class SharedKeys {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
-
     private String serviceName;
+
     private String sharedKey;
 
 }

@@ -16,14 +16,14 @@ public class AdminLabStaffServiceController {
     private final AdminLabStaffService adminLabStaffService;
 
     /* Call from Test Management Service after adding a new test*/
-    @CrossOrigin(origins = "http://localhost:9192")
-    @PostMapping("/addLabStaff")
-    public String addLabStaffforAdmin(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
-                                 @RequestBody AdminLabStaffRequest adminLabStaffRequest,
-                                 final HttpServletRequest request)  throws UnauthorizedUserException {
-        adminLabStaffService.addLabStaffforAdmin(adminLabStaffRequest);
-        return "LabStaff successfully added";
-    }
+//    @CrossOrigin(origins = "http://localhost:9192")
+//    @PostMapping("/addLabStaff")
+//    public String addLabStaffforAdmin(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+//                                 @RequestBody AdminLabStaffRequest adminLabStaffRequest,
+//                                 final HttpServletRequest request)  throws UnauthorizedUserException {
+//        adminLabStaffService.addLabStaffforAdmin(adminLabStaffRequest);
+//        return "LabStaff successfully added";
+//    }
 
     @CrossOrigin(origins = "http://localhost:9192")
     @DeleteMapping("/{labstaffId}/deleteLabStaff")

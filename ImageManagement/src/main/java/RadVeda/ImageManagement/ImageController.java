@@ -1,6 +1,11 @@
 package RadVeda.ImageManagement;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import RadVeda.ImageManagement.transitEncryption.EncryptionManager;
+import RadVeda.ImageManagement.transitEncryption.EncryptionRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,11 +33,23 @@ import java.util.Optional;
 @RequestMapping("/images")
 public class ImageController {
     private final ImageService ImageService;
+    private final EncryptionRepository encryptionRepository;
 
     //Get and Post for Original Images
-    @GetMapping("/{testID}/getImageOriginal")
-    public List<Image> getImages(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID)
+    @GetMapping("/{testIDStr}/getImageOriginal")
+    public List<Image> getImages(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                                 @PathVariable String testIDStr, @PathVariable String service)
             throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
+
+        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
+        long testID;
+
+        try {
+            testID = Long.parseLong(encryptionManager.decryptMessage(testIDStr));
+        }
+        catch (Exception e) {
+            return new ArrayList<>();
+        }
         
         User currentuser = ImageService.authenticate(authorizationHeader);
 
@@ -49,8 +66,21 @@ public class ImageController {
     }
 
     @PostMapping("/addOriginalImage")
-    public String uploadImgOriginal(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody ImageRequest imgRequest,
+    public String uploadImgOriginal(@RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+                                    @RequestBody String imgRequestStr, @PathVariable String service,
             final HttpServletRequest request) throws UnauthorisedUserException{
+
+        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
+        ImageRequest imgRequest;
+        ObjectMapper objectmapper = new ObjectMapper();
+
+        try {
+            imgRequestStr = encryptionManager.decryptMessage(imgRequestStr);
+            imgRequest = objectmapper.readValue(imgRequestStr, ImageRequest.class);
+        }
+        catch (Exception e) {
+            return "Fail\n"+e.getMessage();
+        }
 
         User currentuser = ImageService.authenticate(authorizationHeader);
 
@@ -63,9 +93,20 @@ public class ImageController {
         return "Success!! Image has been uploaded";
     }
 
-    @DeleteMapping("/{testID}/deleteOriginalImage")
-    public String deleteImgOriginal(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID,
+    @DeleteMapping("/{testIDStr}/deleteOriginalImage")
+    public String deleteImgOriginal(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String testIDStr,
+            @PathVariable String service,
             final HttpServletRequest request) throws UnauthorisedUserException{
+
+        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
+        long testID;
+
+        try {
+            testID = Long.parseLong(encryptionManager.decryptMessage(testIDStr));
+        }
+        catch (Exception e) {
+            return "Fail\n"+e.getMessage();
+        }
 
         User currentuser = ImageService.authenticate(authorizationHeader);
 
@@ -79,10 +120,21 @@ public class ImageController {
     }
 
     //Get and Post for annotated images
-    @GetMapping("/{testID}/{radID}/getImageAnnotated")
-    public List<ImageAnnotated> getImagesAnnotated(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID, @PathVariable Long radID)
+    @GetMapping("/{testIDStr}/{radIDStr}/getImageAnnotated")
+    public List<ImageAnnotated> getImagesAnnotated(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String testIDStr,
+                                                   @PathVariable String radIDStr, @PathVariable String service)
             throws InvalidInputFormatException, UserNotFoundException, UnauthorisedUserException {
-        
+
+        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
+        long testID, radID;
+
+        try {
+            testID = Long.parseLong(encryptionManager.decryptMessage(testIDStr));
+            radID = Long.parseLong(encryptionManager.decryptMessage(radIDStr));
+        }
+        catch (Exception e) {
+            return new ArrayList<>();
+        }
         User currentuser = ImageService.authenticate(authorizationHeader);
 
         if(currentuser == null)
@@ -98,8 +150,21 @@ public class ImageController {
     }
 
     @PostMapping("/addAnnotatedImage")
-    public String uploadImgAnnotated(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody ImageRequestAnnotated imgRequestAnnotated,
+    public String uploadImgAnnotated(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody String imgRequestAnnotatedStr,
+            @PathVariable String  service,
             final HttpServletRequest request) throws UnauthorisedUserException{
+
+        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
+        ImageRequestAnnotated imgRequestAnnotated;
+        ObjectMapper objectmapper = new ObjectMapper();
+
+        try {
+            imgRequestAnnotatedStr = encryptionManager.decryptMessage(imgRequestAnnotatedStr);
+            imgRequestAnnotated = objectmapper.readValue(imgRequestAnnotatedStr, ImageRequestAnnotated.class);
+        }
+        catch (Exception e) {
+            return "Fail\n"+e.getMessage();
+        }
 
         User currentuser = ImageService.authenticate(authorizationHeader);
 
@@ -112,9 +177,22 @@ public class ImageController {
         return "Success!! Annotated Image has been uploaded";
     }
 
-    @DeleteMapping("/{testID}/{radID}/deleteAnnotatedImage")
-    public String deleteImgAnnotated(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable Long testID, @PathVariable Long radID,
-            final HttpServletRequest request) throws UnauthorisedUserException{
+
+
+    @DeleteMapping("/{testIDStr}/{radIDStr}/deleteAnnotatedImage")
+    public String deleteImgAnnotated(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String testIDStr,
+    @PathVariable String radIDStr, @PathVariable String service) throws UnauthorisedUserException{
+
+        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
+        long testID, radID;
+
+        try {
+            testID = Long.parseLong(encryptionManager.decryptMessage(testIDStr));
+            radID = Long.parseLong(encryptionManager.decryptMessage(radIDStr));
+        }
+        catch (Exception e) {
+            return "Fail\n"+e.getMessage();
+        }
 
         User currentuser = ImageService.authenticate(authorizationHeader);
 

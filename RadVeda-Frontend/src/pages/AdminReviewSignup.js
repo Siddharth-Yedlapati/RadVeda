@@ -8,27 +8,29 @@ import "./AdminReviewSignup.css";
 
 const AdminReviewSignup = () => {
   const navigate = useNavigate();
-
-  if(getAuthToken() !== null && getAuthToken() !== "null")
-  {
-    request(
-      "GET",
-      "/admins/profile",
-      {},
-      true
-      ).then(response => {
-        
-      }).catch(error => {
-        navigate("/admin-login-page");
-      })
-  }
-  else
-  {
-    useEffect(() => {navigate("/admin-login-page");}) 
-  }
+  const [adminId, setAdminId] = useState(-1);
+  // if(getAuthToken() !== null && getAuthToken() !== "null")
+  // {
+  //   request(
+  //     "GET",
+  //     "/admins/profile",
+  //     {},
+  //     true
+  //     ).then(response => {
+  //       console.log(response.data)
+  //       setID(response.data.id)
+  //     }).catch(error => {
+  //       navigate("/admin-login-page");
+  //     })
+  // }
+  // else
+  // {
+  //   useEffect(() => {navigate("/admin-login-page");}) 
+  // }
 
   const [isNPUserOptionsOpen, setNPUserOptionsOpen] = useState(false);
-  
+  const [signupDetails, setSignupDetails] = useState([]);
+  // const [reqId, setReqId] = useState(0);
 
   const openNPUserOptions = useCallback(() => {
     setNPUserOptionsOpen(true);
@@ -41,6 +43,105 @@ const AdminReviewSignup = () => {
   const onFrameContainer8Click = useCallback(() => {
     navigate("/admin-dashboard");
   }, [navigate]);
+
+  let doS = []
+  useEffect(() => {
+
+  
+    if(getAuthToken() !== null && getAuthToken() !== "null")
+    {
+      request ("GET", "http://localhost:9191/admins/profile", {}, true).
+    then(patResponse => {
+      const adminId1 = patResponse.data.id;
+      setAdminId(adminId);
+      console.log(adminId1);
+      return request("GET", `http://localhost:9197/requests/${adminId}/getRequests/SIGNUP`, {}, true)
+    })
+    .then(userDetails => {
+      console.log(userDetails)
+      setSignupDetails(userDetails);
+      console.log(signupDetails)
+    })
+    .catch(error => {
+      console.log(error)
+      var errormsg = error.response.data.error;
+      if(!(errormsg === "No tests found for the given ID")){
+        alert(error.response.data.error)
+      }
+    });
+    }
+    else
+    {
+      useEffect(() => {navigate("/admin-login-page");}) 
+    }
+
+
+    // request("GET", `http://localhost:9197/requests/1/getRequests/SIGNUP`, {}, true)
+    //   .then(reqResponse => {
+
+    //     const reqId = reqResponse.data.id;
+    //     const dateOfSignup = reqResponse.data.dateOfRequest
+    //     console.log(reqResponse);
+    //     doS.push(dateOfSignup);
+    //     return request("GET", `http://localhost:9197/requests/userInfo/${reqId}`, {}, true);
+    //   })
+    //   .then(userResponse => { 
+    //     const userInfo = userResponse.data;
+    //     console.log(userInfo);
+    //     setSignupDetails(userInfo);
+    //   })
+      
+    //   .catch(error => {
+    //     var errormsg = error.response.data.error;
+    //     if(!(errormsg === "No tests found for the given ID")){
+    //       alert(error.response.data.error)
+    //     }
+    //   });
+
+
+  }, []);
+
+  const handleAccept = () => {
+    console.log("Accept")
+  }
+
+  const handleDecline = () => {
+    console.log("Decline")
+  }
+
+  const renderPatientsTable = () => {
+    console.log(signupDetails);
+    return (
+      <table className = "patients-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Date of Signup</th>
+            <th>Actions</th>
+            {/* Add more table headers as needed */}
+          </tr>
+        </thead>
+        <tbody className="tableBody">
+        {signupDetails.map((detail) => (
+            <tr>
+              <td>{detail.firstName}</td>
+              <td>{detail.role}</td>
+              <td>{detail.dateOfRequest}</td>
+              <td>
+              {/* Buttons for Accept and Decline */}
+                <button onClick={() => handleAccept(detail)}>Accept</button>
+                <button onClick={() => handleDecline(detail)}>Decline</button>
+              </td>
+              {/* <td>{patDetail.dateOfRequest}</td> */}
+              {/* Add more table cells as needed */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
 
   return (
     <>
@@ -63,7 +164,17 @@ const AdminReviewSignup = () => {
         <img className="need-help-icon41" alt="" src="/need-help.svg" />
         <div className="admin-review-signup-inner" />
         <div className="admin-review-signup-child1" />
-        <div className="frame-parent44">
+
+        <div className="my-patients-list-parent">
+          <b className="my-patients-list">SignUp Requests</b>
+          <div className="frame-child-125" >
+          {renderPatientsTable()}
+          </div>
+        </div>
+
+        
+
+        {/* <div className="frame-parent44">
           <div className="frame-child364" />
           <div className="sign-up-requests-group">
             <b className="sign-up-requests-container1">
@@ -220,7 +331,8 @@ const AdminReviewSignup = () => {
           <div className="view-wrapper40">
             <div className="view42">Back</div>
           </div>
-        </div>
+        </div> */}
+
       </div>
       {isNPUserOptionsOpen && (
         <PortalPopup

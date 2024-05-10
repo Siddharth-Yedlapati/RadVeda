@@ -125,7 +125,7 @@ const PatientSignup2 = () => {
     if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
         age--;
     }
-
+    console.log("marital status", maritalStatus)
     localStorage.setItem('DOB', dateOfBirth)
     localStorage.setItem('gender', gender)
     localStorage.setItem('ethnicity', ethnicity)

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 public interface AdminRadServiceInterface {
 
-    AdminRad addRadforAdmin(AdminRadRequest request);
+    String addRadForAdmin(Long radId, Long adminId);
     void deleteRecord(Long id);
     List<Long> getRadsOfAdmin(Long adminID);
     Optional<AdminRad> getRads(Long radId);

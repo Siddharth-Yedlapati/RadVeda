@@ -196,7 +196,7 @@ public class DoctorService implements DoctorServiceInterface {
 
     @Override
     public void deleteTest(Long testID){
-        doctortestsrepository.deleteTest(EncryptionUtility.encrypt(testID));
+//        doctortestsrepository.deleteTest(EncryptionUtility.encrypt(testID));
         return;
     }
 
@@ -210,6 +210,7 @@ public class DoctorService implements DoctorServiceInterface {
         return consulteddoctortestsrepository.getConsultedDoctors(EncryptionUtility.encrypt(testID));
     }
 
+
     @Override
     public String getNotes(Long testID){
         DoctorTests test = doctortestsrepository.gettestbyid(EncryptionUtility.encrypt(testID)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
@@ -221,4 +222,5 @@ public class DoctorService implements DoctorServiceInterface {
         DoctorTests test = doctortestsrepository.gettestbyid(EncryptionUtility.encrypt(testID)).orElseThrow(() -> new EntityNotFoundException("Test not found"));
         return test.getReport();
     }
+
 }

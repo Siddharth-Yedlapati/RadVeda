@@ -2,6 +2,7 @@ package RadVeda.Doctor;
 
 import java.util.List;
 
+import RadVeda.Doctor.transitEncryption.EncryptionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,6 +37,18 @@ import RadVeda.Doctor.ReportRequest;
 @RequestMapping("/doctor")
 public class DoctorController {
     private final DoctorService doctorService;
+    private final EncryptionService encryptionService;
+
+    @PostMapping("{service}/dummy/{data}")
+    public void Dummy(@PathVariable String service, @PathVariable String data, final HttpServletRequest request) {
+        try {
+            String res = encryptionService.decryptMessage(data, service);
+            System.out.println(res);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @CrossOrigin(origins = "http://localhost:9191")
     @PostMapping("/addDoctor")
