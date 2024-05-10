@@ -2007,9 +2007,7 @@ const SuDashboard = () => {
             <b className="super-admin1"> Super Admin1</b>
           </div>
           <div className="group-frame">
-            <div className="notifications-wrapper">
-              <div className="review-account-modification">Notifications</div>
-            </div>
+            
           </div>
           <div className="group-wrapper1" onClick={onFrameContainer12Click}>
             <div className="notifications-wrapper">
@@ -2023,9 +2021,7 @@ const SuDashboard = () => {
           </div>
         </div>
         <div className="su-dashboard-child2" />
-        <div className="admin-john-doe">
-          Admin John Doe, registered today 2:39 pm
-        </div>
+        
         <div className="su-dashboard-child3" />
         <div className="su-dashboard-child4" />
         <img className="line-icon" alt="" />
@@ -2033,13 +2029,7 @@ const SuDashboard = () => {
         <img className="su-dashboard-child6" alt="" />
         <img className="su-dashboard-child7" alt="" />
         <div className="su-dashboard-child8" />
-        <div className="statistics">Statistics</div>
-        <div className="patients-online-555">patients online: 555</div>
-        <div className="patients-enrolled-today">
-          patients Enrolled Today: 297
-        </div>
-        <div className="total-patients-2587">Total Patients: 2587</div>
-        <div className="doctors-onboard-857">Doctors Onboard: 857</div>
+        
       
       
         <div className="requests-piechart-container">
