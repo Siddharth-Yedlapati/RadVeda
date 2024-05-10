@@ -44,35 +44,17 @@ const AdminReviewSignup = () => {
     navigate("/admin-dashboard");
   }, [navigate]);
 
-  let doS = []
   useEffect(() => {
-
-  
-    if(getAuthToken() !== null && getAuthToken() !== "null")
-    {
-      request ("GET", "http://localhost:9191/admins/profile", {}, true).
-    then(patResponse => {
-      const adminId1 = patResponse.data.id;
-      setAdminId(adminId);
-      console.log(adminId1);
-      return request("GET", `http://localhost:9197/requests/${adminId}/getRequests/SIGNUP`, {}, true)
-    })
-    .then(userDetails => {
-      console.log(userDetails)
-      setSignupDetails(userDetails);
-      console.log(signupDetails)
-    })
-    .catch(error => {
-      console.log(error)
-      var errormsg = error.response.data.error;
-      if(!(errormsg === "No tests found for the given ID")){
-        alert(error.response.data.error)
-      }
-    });
-    }
-    else
-    {
-      useEffect(() => {navigate("/admin-login-page");}) 
+    if (getAuthToken() !== null && getAuthToken() !== "null") {
+      request("GET", "http://localhost:9191/admins/profile", {}, true).then(patResponse => {
+        const adminId1 = patResponse.data.id;
+        setAdminId(adminId);
+        console.log(adminId1);
+      })
+    } else {
+      useEffect(() => {
+        navigate("/admin-login-page");
+      })
     }
 
 
@@ -101,16 +83,40 @@ const AdminReviewSignup = () => {
 
   }, []);
 
-  const handleAccept = () => {
-    console.log("Accept")
+  useEffect(() => {
+    request ("GET", "http://localhost:9191/admins/profile", {}, true).
+    then(patResponse => {
+      const patId = patResponse.data.id;
+      setAdminId(patId);
+      return request("GET", `http://localhost:9197/requests/${patId}/getRequests/SIGNUP`, {}, true)
+    })
+        .then(testResponse => {
+          const testDetails = testResponse.data;
+          setSignupDetails(testDetails);
+        })
+        .catch(error => {
+          console.log(error)
+          var errormsg = error.response.data.error;
+          if(!(errormsg === "No tests found for the given ID")){
+            alert(error.response.data.error)
+          }
+        });
+  })
+
+  const handleAccept = (id) => {
+    console.log(adminId);
+    console.log(id);
+    request("GET", `http://localhost:9197/requests/${adminId}/accept/${id}`, {}, true).
+    then(response => {
+      console.log(response)
+    })
   }
 
-  const handleDecline = () => {
-    console.log("Decline")
+  const handleDecline = (id) => {
+    request("GET", `http://localhost:9197/requests/${adminId}/decline/${id}`, {}, true)
   }
 
   const renderPatientsTable = () => {
-    console.log(signupDetails);
     return (
       <table className = "patients-table">
         <thead>
@@ -118,7 +124,6 @@ const AdminReviewSignup = () => {
             <th>Name</th>
             <th>Role</th>
             <th>Date of Signup</th>
-            <th>Actions</th>
             {/* Add more table headers as needed */}
           </tr>
         </thead>
@@ -127,10 +132,11 @@ const AdminReviewSignup = () => {
             <tr>
               <td>{detail.firstName}</td>
               <td>{detail.role}</td>
-              <td>{detail.dateOfRequest}</td>
+              <td>{detail.dateOfRequest.substring(0, 10)}</td>
               <td>
-              {/* Buttons for Accept and Decline */}
-                <button onClick={() => handleAccept(detail)}>Accept</button>
+                <button onClick={() => handleAccept(detail.id)}>Accept</button>
+              </td>
+              <td>
                 <button onClick={() => handleDecline(detail)}>Decline</button>
               </td>
               {/* <td>{patDetail.dateOfRequest}</td> */}
