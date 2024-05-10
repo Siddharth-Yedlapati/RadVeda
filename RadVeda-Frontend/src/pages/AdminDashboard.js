@@ -18,7 +18,6 @@ const AdminDashboard = () => {
       {},
       true
       ).then(response => {
-        console.log("ID",response.data.id)
         setID(response.data.id);
       }).catch(error => {
         navigate("/admin-login-page");
@@ -1605,13 +1604,10 @@ const AdminDashboard = () => {
         <div className="admin-dashboard-child" />
         <div className="admin-dashboard-inner" onClick={onFrameContainerClick}>
           <div className="review-signup-requests-container">
-            <div className="view-doctors">{`review signup requests `}</div>
+            <div className="view-doctors">Review Signup Requests</div>
           </div>
         </div>
-        <div
-          className="admin-dashboard-inner1"
-          onClick={onFrameContainer1Click}
-        >
+        <div className="admin-dashboard-inner1" onClick={onFrameContainer1Click}>
           <div className="review-account-deletion-reques-container">
             <div className="view-doctors">Review Account Deletion Requests</div>
           </div>

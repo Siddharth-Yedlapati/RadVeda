@@ -51,11 +51,11 @@ public class EncryptionService {
         map_ports.put("UMS", "9191");
 //        map_ports.put("TMS", "9192");
 //        map_ports.put("NMS", "9193");
-//        map_ports.put("doctor", "9194");
+        map_ports.put("doctor", "9194");
 //        map_ports.put("collaboration", "9195");
 //        map_ports.put("superAdmin", "9196");
-//        map_ports.put("admin", "9197");
-        map_ports.put("patient", "9198");
+        map_ports.put("admin", "9197");
+//        map_ports.put("patient", "9198");
 //        map_ports.put("LabStaff", "9199");
 //        map_ports.put("IMS", "9200");
 //        map_ports.put("radiologist", "9201");
@@ -87,6 +87,7 @@ public class EncryptionService {
 
         try {
             if (!servicePublicKeys.containsKey(serviceName)) {
+                System.out.println(serviceName);
                 X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
                 KeyFactory keyFactory = KeyFactory.getInstance("RSA");
                 PublicKey pKey =  keyFactory.generatePublic(keySpec);
@@ -104,7 +105,7 @@ public class EncryptionService {
 
         List<String> services = List.copyOf(servicePublicKeys.keySet());
 
-        if(services.size() <= 1) {
+        if(services.size() > 1) {
 
             List<List<String>> pairs = getPairs(services);
 
@@ -132,7 +133,7 @@ public class EncryptionService {
 
                 HttpEntity<byte[]> requestEntity = new HttpEntity<>(encryptedKey, headers);
 
-                ResponseEntity<String> res  = restTemplate.exchange("http://localhost:"+getMap_ports().get(service.toLowerCase())+"/encryptor/sharedKey/UMS", HttpMethod.POST, requestEntity, String.class);
+                ResponseEntity<String> res  = restTemplate.exchange("http://localhost:"+getMap_ports().get(service)+"/encryptor/sharedKey/UMS", HttpMethod.POST, requestEntity, String.class);
                 if(!res.getBody().equalsIgnoreCase("success")) {
                     return;
                 }
@@ -168,12 +169,12 @@ public class EncryptionService {
         HttpEntity<byte[]> requestEntity1 = new HttpEntity<>(encryptedKeyS1, headers);
         HttpEntity<byte[]> requestEntity2 = new HttpEntity<>(encryptedKeyS2, headers);
 
-        ResponseEntity<String> res1 = restTemplate.exchange("http://localhost:"+getMap_ports().get(service1.toLowerCase())+"/encryptor/sharedKey/"+service2, HttpMethod.POST, requestEntity1, String.class);
+        ResponseEntity<String> res1 = restTemplate.exchange("http://localhost:"+getMap_ports().get(service1)+"/encryptor/sharedKey/"+service2, HttpMethod.POST, requestEntity1, String.class);
         if(res1.getBody()!=null && res1.getBody().equalsIgnoreCase("success")) {
             System.out.println(res1);
         }
 
-        ResponseEntity<String> res2 = restTemplate.exchange("http://localhost:"+getMap_ports().get(service2.toLowerCase())+"/encryptor/sharedKey/"+service1, HttpMethod.POST, requestEntity2, String.class);
+        ResponseEntity<String> res2 = restTemplate.exchange("http://localhost:"+getMap_ports().get(service2)+"/encryptor/sharedKey/"+service1, HttpMethod.POST, requestEntity2, String.class);
         if(res2.getBody()!=null && res2.getBody().equalsIgnoreCase("success")) {
             System.out.println(res2);
         }
