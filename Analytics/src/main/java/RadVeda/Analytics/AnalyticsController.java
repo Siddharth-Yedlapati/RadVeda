@@ -15,27 +15,15 @@ import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/analytics/{service}")
+@RequestMapping("/analytics")
 public class AnalyticsController {
     private final AnalyticsService analyticsService;
     private final EncryptionRepository encryptionRepository;
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/incrementRequestsStatistics")
-    public String incrementRequestsStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody String requestStr,
-                                              @PathVariable String service)
+    public String incrementRequestsStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody RequestsStatisticsRequest request)
     {
-        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
-        RequestsStatisticsRequest request;
-        ObjectMapper objectmapper = new ObjectMapper();
-
-        try {
-            requestStr = encryptionManager.decryptMessage(requestStr);
-            request = objectmapper.readValue(requestStr, RequestsStatisticsRequest.class);
-        }
-        catch (Exception e) {
-            return "Fail\n"+e.getMessage();
-        }
 
         analyticsService.updateAnalyticsDatabase();
 
@@ -101,20 +89,8 @@ public class AnalyticsController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/decrementRequestsStatistics")
-    public String decrementRequestsStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody String requestStr,
-                                              @PathVariable String service)
+    public String decrementRequestsStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody RequestsStatisticsRequest request)
     {
-        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
-        RequestsStatisticsRequest request;
-        ObjectMapper objectmapper = new ObjectMapper();
-
-        try {
-            requestStr = encryptionManager.decryptMessage(requestStr);
-            request = objectmapper.readValue(requestStr, RequestsStatisticsRequest.class);
-        }
-        catch (Exception e) {
-            return "Fail\n"+e.getMessage();
-        }
 
         analyticsService.updateAnalyticsDatabase();
 
@@ -175,22 +151,10 @@ public class AnalyticsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getRequestsStatistics/{temporalScope}")
-    public Long getRequestsStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody String requestStr,
-                                      @PathVariable String temporalScope, @PathVariable String service)
+    @PostMapping("/getRequestsStatistics/{temporalScope}")
+    public Long getRequestsStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody RequestsStatisticsRequest request,
+                                      @PathVariable String temporalScope)
     {
-        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
-        RequestsStatisticsRequest request;
-        ObjectMapper objectmapper = new ObjectMapper();
-
-        try {
-            requestStr = encryptionManager.decryptMessage(requestStr);
-            request = objectmapper.readValue(requestStr, RequestsStatisticsRequest.class);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return 0L;
-        }
 
         analyticsService.updateAnalyticsDatabase();
 
@@ -249,20 +213,8 @@ public class AnalyticsController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/incrementAccountStatistics")
-    public String incrementAccountStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody String requestStr,
-                                             @PathVariable String service)
+    public String incrementAccountStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody AccountStatisticsRequest request)
     {
-        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
-        AccountStatisticsRequest request;
-        ObjectMapper objectmapper = new ObjectMapper();
-
-        try {
-            requestStr = encryptionManager.decryptMessage(requestStr);
-            request = objectmapper.readValue(requestStr, AccountStatisticsRequest.class);
-        }
-        catch (Exception e) {
-            return "Fail\n"+e.getMessage();
-        }
 
         analyticsService.updateAnalyticsDatabase();
 
@@ -342,20 +294,8 @@ public class AnalyticsController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/decrementAccountStatistics")
-    public String decrementAccountStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody String requestStr,
-                                             @PathVariable String service)
+    public String decrementAccountStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody AccountStatisticsRequest request)
     {
-        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
-        AccountStatisticsRequest request;
-        ObjectMapper objectmapper = new ObjectMapper();
-
-        try {
-            requestStr = encryptionManager.decryptMessage(requestStr);
-            request = objectmapper.readValue(requestStr, AccountStatisticsRequest.class);
-        }
-        catch (Exception e) {
-            return "Fail\n"+e.getMessage();
-        }
 
         analyticsService.updateAnalyticsDatabase();
 
@@ -433,21 +373,10 @@ public class AnalyticsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getAccountStatistics/{temporalScope}")
-    public Long getAccountStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody String requestStr,
-                                     @PathVariable String temporalScope, @PathVariable String service)
+    @PostMapping("/getAccountStatistics/{temporalScope}")
+    public Long getAccountStatistics(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @RequestBody AccountStatisticsRequest request,
+                                     @PathVariable String temporalScope)
     {
-        EncryptionManager encryptionManager = new EncryptionManager(service, encryptionRepository);
-        AccountStatisticsRequest request;
-        ObjectMapper objectmapper = new ObjectMapper();
-
-        try {
-            requestStr = encryptionManager.decryptMessage(requestStr);
-            request = objectmapper.readValue(requestStr, AccountStatisticsRequest.class);
-        }
-        catch (Exception e) {
-            return 0L;
-        }
 
         analyticsService.updateAnalyticsDatabase();
 

@@ -63,7 +63,7 @@ const LabStaffTestPending = () => {
           "POST",
           "http://localhost:9192/tests/updateTestStatus", 
           {
-            "testID": localStorage.get("currentTestID"),
+            "testID": localStorage.getItem("currentTestID"),
             "PatientStatus": "Pending For Review By Radiologist",
             "DoctorStatus": "Pending For Review By Radiologist",
             "RadiologistStatus": "Pending for Review",
