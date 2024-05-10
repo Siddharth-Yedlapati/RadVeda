@@ -10,7 +10,7 @@ public interface RequestsServiceInterface {
 
     UserDetails userInfo(Long Id);
 
-    List<Requests> getRequest(Long adminId, String type);
+    List<RequestsRecord> getRequest(Long adminId, String type);
 
     String accept(String authHeader, Long Id, Long aId);
     String decline(String authHeader, Long Id, Long aId);

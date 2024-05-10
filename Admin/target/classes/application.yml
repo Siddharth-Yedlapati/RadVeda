@@ -2,9 +2,9 @@ server:
   port: 9197
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/AdminDB
+    url: jdbc:mysql://localhost:4000/AdminDB
     username: root
-    password: riddhi1509
+    password: mqpass
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
